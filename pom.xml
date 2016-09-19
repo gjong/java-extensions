@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jongsoft.lang</groupId>
+    <artifactId>language</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Jong-Soft Java Language Extensions</name>
+    <url>https://bitbucket.org/jongsoftdev/language-extension/overview</url>
+    <description>Java Language Extensions</description>
+
+    <developers>
+        <developer>
+            <id>gjong</id>
+            <organization>Jong Soft</organization>
+            <roles>
+                <role>
+                    developer
+                </role>
+            </roles>
+            <url>http://www.jong-soft.com</url>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Jong Soft</name>
+        <url>http://www.jong-soft.com</url>
+    </organization>
+
+    <!--
+    ###########################################################
+    ##                                                        #
+    ##  Below are all the settings for this project           #
+    ##  and its children                                      #
+    ##                                                        #
+    ###########################################################
+    -->
+
+    <issueManagement>
+        <system>Bitbucket</system>
+        <url>https://bitbucket.org/jongsoftdev/language-extension/issues?status=new&amp;status=open</url>
+    </issueManagement>
+
+    <scm>
+        <url>https://bitbucket.org/jongsoftdev/language-extension/src</url>
+        <connection>scm:git:git://bitbucket.org:jongsoftdev/language-extension.git</connection>
+        <developerConnection>scm:git:git@bitbucket.org:jongsoftdev/language-extension.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.test.skip>false</maven.test.skip>
+
+        <javadoc.version>2.10.3</javadoc.version>
+        <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+    </properties>
+
+    <modules>
+        <module>language-commons</module>
+        <module>language-functional</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.7.6.201602180812</version>
+                    <configuration>
+                        <destFile>${sonar.jacoco.reportPath}</destFile>
+                        <append>true</append>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>pre-unit-test</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                            <configuration>
+                                <destFile>${sonar.jacoco.reportPath}</destFile>
+                                <propertyName>jacoco.unit</propertyName>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>post-unit-test</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>merge</goal>
+                                <goal>report</goal>
+                            </goals>
+                            <configuration>
+                                <dataFile>${sonar.jacoco.reportPath}</dataFile>
+                                <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                    <configuration>
+                        <argLine>${jacoco.unit}</argLine>
+                        <skipTests>${maven.test.skip}</skipTests>
+                        <excludes>
+                            <exclude>**/IT*.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${javadoc.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                            <configuration>
+                                <additionalparam>-Xdoclint:none</additionalparam>
+                                <show>public</show>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release-profile</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>sonatype</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.3</version>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.5.3</version>
+                        <configuration>
+                            <autoVersionSubmodules>true</autoVersionSubmodules>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-scm-plugin</artifactId>
+                        <version>1.9.4</version>
+                        <configuration />
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
