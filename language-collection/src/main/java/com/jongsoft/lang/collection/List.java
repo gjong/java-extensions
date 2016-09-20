@@ -25,8 +25,47 @@ package com.jongsoft.lang.collection;
 
 import com.jongsoft.lang.Streamable;
 
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 public interface List<T> extends Iterable<T>, Streamable<T> {
 
+    /**
+     * Add an element to the end of the contents of the current list and return the result in a new {@link List} instance
+     *
+     * @param value     the value to append to the list
+     * @return          the new list with the value appended
+     */
+    default List<T> add(T value) {
+        return insert(size(), value);
+    }
+
     List<T> insert(int index, T value);
+
+    /**
+     * Provides the amount of entries present in the list
+     *
+     * @return 0 if empty, otherwise the amount of entries
+     */
+    int size();
+
+    /**
+     * Get the element at the location of <code>index</code>
+     *
+     * @param index     the index of the element in the list to get
+     * @return          the element at the provided index
+     * @throws IndexOutOfBoundsException    in case the index provided is greater then the {@link #size()} - 1.
+     */
+    T get(int index) throws IndexOutOfBoundsException;
+
+    @Override
+    default Stream<T> stream() {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), Spliterator.CONCURRENT), false);
+    }
+
+    List<T> filter(Predicate<T> predicate);
 
 }

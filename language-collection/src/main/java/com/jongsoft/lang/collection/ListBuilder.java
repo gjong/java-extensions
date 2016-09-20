@@ -23,7 +23,6 @@
  */
 package com.jongsoft.lang.collection;
 
-
 import com.jongsoft.lang.Builder;
 
 import java.util.stream.Stream;

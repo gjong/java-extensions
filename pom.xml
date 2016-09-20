@@ -80,6 +80,7 @@
 
     <modules>
         <module>language-commons</module>
+        <module>language-collection</module>
         <module>language-functional</module>
     </modules>
 
