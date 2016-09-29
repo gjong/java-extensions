@@ -25,6 +25,7 @@ package com.jongsoft.lang.collection;
 
 import com.jongsoft.lang.Streamable;
 
+import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Predicate;
@@ -44,6 +45,23 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
     }
 
     List<T> insert(int index, T value);
+
+    /**
+     * Attempts to look in the list if a value is present or not. This method will use the {@link Object#equals(Object)}
+     * to determine equality.
+     *
+     * @param lookFor   the object to look for in the list
+     * @return          <code>true</code> if the object exists in the list
+     */
+    default boolean contains(Object lookFor) {
+        Iterator<T> iterator = iterator();
+        while (iterator.hasNext()) {
+            if ((lookFor == null && iterator.next() == null) || (lookFor != null &&lookFor.equals(iterator.next()))) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Provides the amount of entries present in the list

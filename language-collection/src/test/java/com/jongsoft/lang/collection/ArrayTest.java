@@ -5,9 +5,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -104,5 +102,17 @@ public class ArrayTest {
 
         assertThat(integers.size(), equalTo(1));
         assertThat(integers.get(0), equalTo(5));
+    }
+
+    @Test
+    public void containsNull() {
+        assertThat(Array.of(1,2,3,4,5,null).contains(null), equalTo(true));
+        assertThat(Array.of(1,2,3,4,5).contains(null), equalTo(false));
+    }
+
+    @Test
+    public void contains5() {
+        assertThat(Array.of(1,2,3,4,5,null).contains(5), equalTo(true));
+        assertThat(Array.of(1,2,3,4).contains(5), equalTo(false));
     }
 }

@@ -1,6 +1,5 @@
 package com.jongsoft.lang.control;
 
-import com.jongsoft.lang.Runner;
 import com.jongsoft.lang.core.None;
 
 import java.util.Objects;
@@ -33,16 +32,6 @@ class OptionalNone<T> extends None<T> implements Optional<T> {
     @Override
     public Optional<T> filter(Predicate<T> predicate) {
         return Optional.empty();
-    }
-
-    @Override
-    public <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {
-        ifNotPresent(exceptionSupplier);
-    }
-
-    @Override
-    public void elseRun(Runner runner) {
-        runner.run();
     }
 
     @Override

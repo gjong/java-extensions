@@ -111,7 +111,7 @@ public class OptionalTest {
         
         Optional.ofNullable(null)
                 .map(v1 -> {Assert.fail("Should not map"); return "failed";})
-                .elseThrow(() -> new Exception("Not present"));
+                .getOrThrow(() -> new Exception("Not present"));
     }
 
     @Test
