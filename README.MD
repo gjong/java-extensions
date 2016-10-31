@@ -1,4 +1,8 @@
 # Jong Soft: Java Language Extensions
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jongsoft.lang/language/badge.svg)]
+
+With Java 8 a great new introduction was made to support functional programming. Unfortunately true functional programming was not
+yet supported.
 
 ## Module structure
 The Jong Soft language extensions is build up out of several Maven modules that can be included independent of each other.

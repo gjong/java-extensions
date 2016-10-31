@@ -80,6 +80,14 @@ public class ArrayTest {
     }
 
     @Test
+    public void removeIntAt2() {
+        List<Integer> removed = Array.of(1, 2, 3, 4, 5).remove(2);
+
+        assertThat(removed.size(), equalTo(4));
+        assertThat(removed.contains(2), equalTo(false));
+    }
+
+    @Test
     public void filterInt5() {
         List<Integer> noFives = Array.of(1, 5, 34, 4, 5, 23, 4, 5).filter(i -> 5 != i);
 

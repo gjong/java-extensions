@@ -47,6 +47,14 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
     List<T> insert(int index, T value);
 
     /**
+     * Removes an element from the list and returns a new instance of the list.
+     *
+     * @param index     the index of the element to be removed
+     * @return          the new instance of the list without the element at the provided index
+     */
+    List<T> remove(int index);
+
+    /**
      * Attempts to look in the list if a value is present or not. This method will use the {@link Object#equals(Object)}
      * to determine equality.
      *

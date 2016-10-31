@@ -51,6 +51,14 @@ public class Array<T> implements List<T> {
         return create(newDelegate);
     }
 
+    @Override
+    public List<T> remove(int index) {
+        T[] newDelegate = (T[]) new Object[delegate.length - 1];
+        System.arraycopy(delegate, 0, newDelegate, 0, index - 1);
+        System.arraycopy(delegate, index, newDelegate, index - 1, delegate.length - index);
+        return create(newDelegate);
+    }
+
     public static <T> Collector<T, ArrayList<T>, Array<T>> collector() {
         final BinaryOperator<ArrayList<T>> combiner = (left, right) -> {
             left.addAll(right);
