@@ -4,7 +4,7 @@
 
     <groupId>com.jongsoft.lang</groupId>
     <artifactId>language</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Jong-Soft Java Language Extensions</name>
@@ -73,6 +73,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.test.skip>false</maven.test.skip>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <javadoc.version>2.10.3</javadoc.version>
         <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
@@ -80,6 +81,7 @@
 
     <modules>
         <module>language-commons</module>
+        <module>language-collection</module>
         <module>language-functional</module>
     </modules>
 
@@ -158,6 +160,21 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>

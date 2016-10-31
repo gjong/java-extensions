@@ -1,15 +1,10 @@
 package com.jongsoft.lang.collection;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 import java.util.stream.Collector;
-import java.util.stream.Stream;
 
+import static java.lang.String.format;
 import static java.util.Arrays.copyOf;
 
 public class Array<T> implements List<T> {
@@ -23,30 +18,54 @@ public class Array<T> implements List<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return null;
+    public int size() {
+        return delegate.length;
     }
 
     @Override
-    public Stream<T> stream() {
-        return null;
+    public T get(int index) throws IndexOutOfBoundsException {
+        if (index >= delegate.length || index < 0) {
+            throw new IndexOutOfBoundsException(format("%s is not in the bounds of 0 and %s", index, delegate.length));
+        }
+        return delegate[index];
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return Collections.unmodifiableList(Arrays.asList(delegate)).iterator();
+    }
+
+    @Override
+    public List<T> filter(Predicate<T> predicate) {
+        return stream()
+                .filter(predicate)
+                .collect(collector());
     }
 
     @Override
     public List<T> insert(int index, T value) {
+        T[] newDelegate = (T[]) new Object[delegate.length + 1];
+        System.arraycopy(delegate, 0, newDelegate, 0, index);
+        newDelegate[index] = value;
+        System.arraycopy(delegate, index, newDelegate, index + 1, delegate.length - index);
+        return create(newDelegate);
+    }
 
-        return null;
+    @Override
+    public List<T> remove(int index) {
+        T[] newDelegate = (T[]) new Object[delegate.length - 1];
+        System.arraycopy(delegate, 0, newDelegate, 0, index - 1);
+        System.arraycopy(delegate, index, newDelegate, index - 1, delegate.length - index);
+        return create(newDelegate);
     }
 
     public static <T> Collector<T, ArrayList<T>, Array<T>> collector() {
-        final Supplier<ArrayList<T>> supplier = ArrayList::new;
-        final BiConsumer<ArrayList<T>, T> accumulator = ArrayList::add;
         final BinaryOperator<ArrayList<T>> combiner = (left, right) -> {
             left.addAll(right);
             return left;
         };
-        final Function<ArrayList<T>, Array<T>> finisher = Array::ofAll;
-        return Collector.of(supplier, accumulator, combiner, finisher);
+
+        return Collector.of(ArrayList::new, ArrayList::add, combiner, Array::ofAll);
     }
 
     //------------------------------------------------------------------

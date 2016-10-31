@@ -33,7 +33,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public interface Optional<T> extends Value<T>, Mappable<T>, Filterable<T>, OrElse {
+public interface Optional<T> extends Value<T>, Mappable<T>, Filterable<T> {
     
     @Override
     <U> Optional<U> map(Function<T, U> mapper);

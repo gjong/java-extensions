@@ -7,8 +7,8 @@
         <version>0.0.2-SNAPSHOT</version>
     </parent>
     
-    <artifactId>functional</artifactId>
-    <name>Jong Soft: language functional</name>
+    <artifactId>collections</artifactId>
+    <name>Jong Soft: language collections</name>
     <packaging>jar</packaging>
     
     <properties>
@@ -26,14 +26,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <artifactId>commons</artifactId>
-            <groupId>com.jongsoft.lang</groupId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
     
     <reporting>
         <plugins>
@@ -57,5 +49,13 @@
                 </reportSets>
             </plugin>
         </plugins>
-    </reporting>    
+    </reporting>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jongsoft.lang</groupId>
+            <artifactId>commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

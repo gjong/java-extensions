@@ -23,10 +23,25 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.Streamable;
+import com.jongsoft.lang.Builder;
 
-public interface List<T> extends Iterable<T>, Streamable<T> {
+import java.util.stream.Stream;
 
-    List<T> insert(int index, T value);
+public class ListBuilder<T> {
+    private List<Builder<T>> builders = Array.empty();
+
+    public ListBuilder<T> append(Builder<T> builder) {
+        builders.insert(0, builder);
+        return this;
+    }
+
+    public List<T> toList() {
+        return toStream().collect(Array.collector());
+    }
+
+    public Stream<T> toStream() {
+        return builders.stream()
+                .map(Builder::build);
+    }
 
 }
