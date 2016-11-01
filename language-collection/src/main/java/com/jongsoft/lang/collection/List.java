@@ -47,12 +47,38 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
     List<T> insert(int index, T value);
 
     /**
+     * Find the index for the provided element, will return <code>-1</code> if the element
+     * is not present in the list.
+     *
+     * @param lookFor   the element to look for
+     * @return  the index of the element, or <code>-1</code> if none found
+     */
+    int indexOf(Object lookFor);
+
+    /**
      * Removes an element from the list and returns a new instance of the list.
      *
      * @param index     the index of the element to be removed
      * @return          the new instance of the list without the element at the provided index
+     * @throws IndexOutOfBoundsException    in case the index is not between the 0 and list size
      */
     List<T> remove(int index);
+
+    /**
+     * Removes the first element found matching the provided value. The match is done based upon the
+     * {@link java.util.Objects#equals(Object, Object)} call.
+     *
+     * @param value the element to be removed
+     * @return the current list if the element is not present, otherwise a new list instance without the element in it.
+     */
+    default List<T> remove(T value) {
+        int idx = indexOf(value);
+        if (idx > -1) {
+            return remove(idx);
+        }
+
+        return this;
+    }
 
     /**
      * Attempts to look in the list if a value is present or not. This method will use the {@link Object#equals(Object)}
@@ -77,6 +103,15 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
      * @return 0 if empty, otherwise the amount of entries
      */
     int size();
+
+    /**
+     * Convenience method to see if the current list is empty or not.
+     *
+     * @return true if the list contains elements, otherwise false
+     */
+    default boolean isEmpty() {
+        return size() > 0;
+    }
 
     /**
      * Get the element at the location of <code>index</code>

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
@@ -84,7 +85,26 @@ public class ArrayTest {
         List<Integer> removed = Array.of(1, 2, 3, 4, 5).remove(2);
 
         assertThat(removed.size(), equalTo(4));
-        assertThat(removed.contains(2), equalTo(false));
+        assertThat(removed.contains(3), equalTo(false));
+    }
+
+    @Test
+    public void removeByElement() {
+        List<String> original = Array.of("test", "string", "one");
+        List<String> afterRemove = original.remove("string");
+
+        assertThat(original, not(equalTo(afterRemove)));
+        assertThat(original.size(), equalTo(3));
+        assertThat(afterRemove.size(), equalTo(2));
+        assertThat(afterRemove.contains("string"), equalTo(false));
+    }
+
+    @Test
+    public void removeIntAt6OutOfBounds() {
+        thrown.expect(IndexOutOfBoundsException.class);
+        thrown.expectMessage(equalTo("6 is not in the bounds of 0 and 5"));
+
+        Array.of(1, 2, 3, 4, 5).remove(6);
     }
 
     @Test
@@ -122,5 +142,11 @@ public class ArrayTest {
     public void contains5() {
         assertThat(Array.of(1,2,3,4,5,null).contains(5), equalTo(true));
         assertThat(Array.of(1,2,3,4).contains(5), equalTo(false));
+    }
+
+    @Test
+    public void indexOf5() {
+        assertThat(Array.of(1,2,3,4,5,null).indexOf(5), equalTo(4));
+        assertThat(Array.of(1,2,3,4).indexOf(5), equalTo(-1));
     }
 }
