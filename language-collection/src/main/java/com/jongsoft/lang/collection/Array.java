@@ -24,9 +24,7 @@ public class Array<T> implements List<T> {
 
     @Override
     public T get(int index) throws IndexOutOfBoundsException {
-        if (index >= delegate.length || index < 0) {
-            throw new IndexOutOfBoundsException(format("%s is not in the bounds of 0 and %s", index, delegate.length));
-        }
+        validateOutOfBounds(index);
         return delegate[index];
     }
 
@@ -52,10 +50,24 @@ public class Array<T> implements List<T> {
     }
 
     @Override
+    public int indexOf(Object lookFor) {
+        for (int i = 0; i < size(); i++) {
+            if (Objects.equals(delegate[i], lookFor)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    @Override
     public List<T> remove(int index) {
+        validateOutOfBounds(index);
         T[] newDelegate = (T[]) new Object[delegate.length - 1];
-        System.arraycopy(delegate, 0, newDelegate, 0, index - 1);
-        System.arraycopy(delegate, index, newDelegate, index - 1, delegate.length - index);
+
+        System.arraycopy(delegate, 0, newDelegate, 0, index);
+        System.arraycopy(delegate, index  + 1, newDelegate, index, delegate.length - index - 1);
+
         return create(newDelegate);
     }
 
@@ -66,6 +78,12 @@ public class Array<T> implements List<T> {
         };
 
         return Collector.of(ArrayList::new, ArrayList::add, combiner, Array::ofAll);
+    }
+
+    private void validateOutOfBounds(int index) {
+        if (index >= delegate.length || index < 0) {
+            throw new IndexOutOfBoundsException(format("%s is not in the bounds of 0 and %s", index, delegate.length));
+        }
     }
 
     //------------------------------------------------------------------
