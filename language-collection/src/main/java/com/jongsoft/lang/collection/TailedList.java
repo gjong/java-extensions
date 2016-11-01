@@ -29,9 +29,10 @@ public class TailedList<T> implements List<T> {
 
     @Override
     public int indexOf(Object lookFor) {
-        for (TailedList<T> list = this; !list.isEmpty(); list = list.tail) {
+        int index = 0;
+        for (TailedList<T> list = this; !list.isEmpty(); list = list.tail, index++) {
             if (Objects.equals(list.element, lookFor)) {
-                return list.size();
+                return index;
             }
         }
         return -1;
