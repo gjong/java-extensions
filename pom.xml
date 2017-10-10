@@ -76,7 +76,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <javadoc.version>2.10.3</javadoc.version>
-        <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
     <modules>
@@ -113,7 +113,6 @@
                             </goals>
                             <configuration>
                                 <destFile>${sonar.jacoco.reportPath}</destFile>
-                                <propertyName>jacoco.unit</propertyName>
                             </configuration>
                         </execution>
                         <execution>
@@ -134,13 +133,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.19.1</version>
-                    <configuration>
-                        <argLine>${jacoco.unit}</argLine>
-                        <skipTests>${maven.test.skip}</skipTests>
-                        <excludes>
-                            <exclude>**/IT*.java</exclude>
-                        </excludes>
-                    </configuration>
                 </plugin>
 
                 <plugin>

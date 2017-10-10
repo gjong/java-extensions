@@ -1,8 +1,9 @@
 package com.jongsoft.lang.collection;
 
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 
 import static java.lang.String.format;
 
@@ -62,14 +63,6 @@ public class TailedList<T> implements List<T> {
         return reversed.reverse();
     }
 
-    private TailedList<T> reverse() {
-        TailedList<T> corrected = (TailedList<T>) TailedList.EMPTY;
-        for (int i = 0; i < size(); i++) {
-            corrected = new TailedList<>(get(i), corrected);
-        }
-        return corrected;
-    }
-
     @Override
     public List<T> filter(Predicate<T> predicate) {
         return null;
@@ -89,12 +82,54 @@ public class TailedList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new IteratorImpl<>(this);
+    }
+
+    public static <T> Collector<T, ArrayList<T>, TailedList<T>> collector() {
+        final BinaryOperator<ArrayList<T>> combiner = (left, right) -> {
+            left.addAll(right);
+            return left;
+        };
+
+        return Collector.of(ArrayList::new, ArrayList::add, combiner, TailedList::ofAll);
     }
 
     private void validateIndexOutOfBounds(int index) {
         if (index >= size()) {
             throw new IndexOutOfBoundsException(format("%s is not in the bounds of 0 and %s", index, size()));
+        }
+    }
+
+    private TailedList<T> reverse() {
+        TailedList<T> corrected = (TailedList<T>) TailedList.EMPTY;
+        for (int i = 0; i < size(); i++) {
+            corrected = new TailedList<>(get(i), corrected);
+        }
+        return corrected;
+    }
+
+    class IteratorImpl<T> implements Iterator<T> {
+
+        private TailedList<T> position;
+
+        private IteratorImpl(TailedList<T> position) {
+            this.position = position;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !position.isEmpty();
+        }
+
+        @Override
+        public T next() {
+            if (position.isEmpty()) {
+                throw new NoSuchElementException("No next element available in the iterator");
+            }
+
+            T element = position.element;
+            position = position.tail;
+            return element;
         }
     }
 
@@ -108,6 +143,15 @@ public class TailedList<T> implements List<T> {
     public static <T> TailedList<T> of(T...elements) {
         TailedList<T> reversed = (TailedList<T>) TailedList.EMPTY;
         for (T element : elements) {
+            reversed = new TailedList<>(element, reversed);
+        }
+
+        return reversed.reverse();
+    }
+
+    public static <T> TailedList<T> ofAll(Iterable<T> iterable) {
+        TailedList<T> reversed = (TailedList<T>) TailedList.EMPTY;
+        for (T element : iterable) {
             reversed = new TailedList<>(element, reversed);
         }
 

@@ -25,6 +25,7 @@ package com.jongsoft.lang.core;
 
 import com.jongsoft.lang.Runner;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -37,7 +38,7 @@ import java.util.stream.StreamSupport;
  *
  * @param <T>   the type of object being wrapped
  */
-public interface Value<T> extends Iterable<T> {
+public interface Value<T> extends Iterable<T>, Serializable {
     
     /**
      * Return the contents <code>T</code> of the wrapped value.

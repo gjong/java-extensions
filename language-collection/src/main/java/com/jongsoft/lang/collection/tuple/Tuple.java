@@ -1,5 +1,7 @@
 package com.jongsoft.lang.collection.tuple;
 
+import com.jongsoft.lang.collection.List;
+
 public interface Tuple {
 
     interface Pair<X, Y> extends Tuple {
@@ -26,5 +28,12 @@ public interface Tuple {
             return new QuadrupletImpl<>(first, second, third, fourth);
         }
     }
+
+    /**
+     * Build an immutable {@link List} of all elements present in the {@link Tuple}.
+     *
+     * @return  the immutable {@link List} of the elements
+     */
+    List toList();
 
 }

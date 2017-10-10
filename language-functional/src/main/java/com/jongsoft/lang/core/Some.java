@@ -33,7 +33,7 @@ public class Some<T> implements Value<T> {
 
     private static final long serialVersionUID = 1L;
     
-    private final T value;
+    private final transient T value;
 
     protected Some(T value) {
         this.value = value;
