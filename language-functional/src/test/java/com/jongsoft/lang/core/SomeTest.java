@@ -1,5 +1,6 @@
 package com.jongsoft.lang.core;
 
+import com.jongsoft.lang.common.core.Value;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

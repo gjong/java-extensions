@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.core;
+package com.jongsoft.lang.common.core;
 
-import com.jongsoft.lang.Runner;
+import com.jongsoft.lang.common.Runner;
 
 import java.io.Serializable;
 import java.util.NoSuchElementException;

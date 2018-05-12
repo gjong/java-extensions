@@ -1,5 +1,6 @@
-package com.jongsoft.lang.control;
+package com.jongsoft.lang.control.impl;
 
+import com.jongsoft.lang.control.Optional;
 import com.jongsoft.lang.core.None;
 
 import java.util.Objects;
@@ -7,9 +8,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-class OptionalNone<T> extends None<T> implements Optional<T> {
+public class OptionalNone<T> extends None<T> implements Optional<T> {
 
-    protected static final OptionalNone<?> NONE = new OptionalNone<>();
+    public static final OptionalNone<?> NONE = new OptionalNone<>();
 
     private static final long serialVersionUID = 1L;
 

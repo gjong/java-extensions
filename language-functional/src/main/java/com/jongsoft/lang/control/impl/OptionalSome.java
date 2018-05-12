@@ -21,8 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.control;
+package com.jongsoft.lang.control.impl;
 
+import com.jongsoft.lang.control.Optional;
 import com.jongsoft.lang.core.Some;
 
 import java.util.Objects;
@@ -30,7 +31,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-class OptionalSome<T> extends Some<T> implements Optional<T> {
+public class OptionalSome<T> extends Some<T> implements Optional<T> {
 
     private static final long serialVersionUID = 1L;
 

@@ -21,8 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.core;
+package com.jongsoft.lang.common;
 
-interface OrElseNotEmpty extends OrElse {
-    OrElse INSTANCE = new OrElseNotEmpty(){};
+import java.util.stream.Stream;
+
+public interface Streamable<T> {
+    Stream<T> stream();
 }

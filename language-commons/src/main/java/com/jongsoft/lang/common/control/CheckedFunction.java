@@ -1,4 +1,4 @@
-package com.jongsoft.lang.control;
+package com.jongsoft.lang.common.control;
 
 @FunctionalInterface
 public interface CheckedFunction<U,T> {

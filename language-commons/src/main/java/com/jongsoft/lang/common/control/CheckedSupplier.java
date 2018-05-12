@@ -21,10 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang;
+package com.jongsoft.lang.common.control;
 
-import java.util.stream.Stream;
-
-public interface Streamable<T> {
-    Stream<T> stream();
+@FunctionalInterface
+public interface CheckedSupplier<T> {
+    T get() throws Throwable;
 }

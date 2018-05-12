@@ -7,6 +7,13 @@ import java.util.stream.Collector;
 
 import static java.lang.String.format;
 
+/**
+ * A {@link TailedList} is an {@link List} implementation where each entry in the list points to the next
+ * entry in the list.
+ *
+ * @param <T> the type of elements contained within the {@link TailedList}
+ * @see <a href="https://en.wikipedia.org/wiki/Linked_list">Linked list documentation</a>
+ */
 public class TailedList<T> implements List<T> {
     private static TailedList<?> EMPTY = new TailedList<>(null, null);
 
@@ -136,10 +143,24 @@ public class TailedList<T> implements List<T> {
     //------------------------------------------------------------------
     //-- Static supporting methods
 
+    /**
+     * Create a new {@link TailedList} containing exactly one entry being the provided element.
+     *
+     * @param element the element to wrap in a {@link TailedList}
+     * @param <T>     the type of the element
+     * @return        the {@link TailedList} containing the provided element
+     */
     public static <T> TailedList<T> of(T element) {
         return TailedList.of((T[]) new Object[]{element});
     }
 
+    /**
+     * Create a new {@link TailedList} containing all the elements provided in the order they were provided.
+     *
+     * @param elements  the elements to wrap in a {@link TailedList}
+     * @param <T>       the type of the elements
+     * @return          the {@link TailedList} containing the provided elements
+     */
     public static <T> TailedList<T> of(T...elements) {
         TailedList<T> reversed = (TailedList<T>) TailedList.EMPTY;
         for (T element : elements) {
@@ -149,6 +170,13 @@ public class TailedList<T> implements List<T> {
         return reversed.reverse();
     }
 
+    /**
+     * Create a new {@link TailedList} containing all the elements provided in the order they were provided.
+     *
+     * @param iterable  the elements to wrap in a {@link TailedList}
+     * @param <T>       the type of the elements
+     * @return          the {@link TailedList} containing the provided elements
+     */
     public static <T> TailedList<T> ofAll(Iterable<T> iterable) {
         TailedList<T> reversed = (TailedList<T>) TailedList.EMPTY;
         for (T element : iterable) {

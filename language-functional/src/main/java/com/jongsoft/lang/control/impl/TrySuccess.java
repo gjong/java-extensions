@@ -21,9 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.control;
+package com.jongsoft.lang.control.impl;
 
-@FunctionalInterface
-public interface CheckedConsumer<T> {
-    void accept(T value) throws Throwable;
+import com.jongsoft.lang.control.Try;
+import com.jongsoft.lang.core.Some;
+
+public class TrySuccess<T> extends Some<T> implements Try<T> {
+
+    public TrySuccess(T value) {
+        super(value);
+    }
+
+    @Override
+    public boolean isFailure() {
+        return false;
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return true;
+    }
+
+    @Override
+    public Throwable getCause() {
+        throw new UnsupportedOperationException("Cannot call getCause when Try is successful");
+    }
+
 }

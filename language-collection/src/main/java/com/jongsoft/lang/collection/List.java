@@ -23,7 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.Streamable;
+import com.jongsoft.lang.common.Streamable;
 
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -44,6 +44,13 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
         return insert(size(), value);
     }
 
+    /**
+     * Add an element to the list at the provided index, shifting all elements after the index one.
+     *
+     * @param index the index at which to insert the element
+     * @param value the element to insert
+     * @return      the updated list with the inserted element
+     */
     List<T> insert(int index, T value);
 
     /**
@@ -127,6 +134,12 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), Spliterator.CONCURRENT), false);
     }
 
+    /**
+     * Filter the list contents with the provided predicate. Only returning those elements that match the predicate.
+     *
+     * @param predicate the predicate to use in the filter operation
+     * @return          the filtered list
+     */
     List<T> filter(Predicate<T> predicate);
 
 }

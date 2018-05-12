@@ -21,25 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.core;
+package com.jongsoft.lang.common;
 
-import com.jongsoft.lang.Runner;
-
-import java.util.function.Supplier;
-
-public interface OrElse {
-    
-    default void elseRun(Runner runner) {}
-    default <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {}
-
-    //----------------------------------------------------------------------------------------------
-    //-- All static helper methods to instantiate the OrElse class
-    
-    static OrElse empty() {
-        return OrElseEmpty.INSTANCE;
-    }
-    
-    static OrElse notEmpty() {
-        return OrElseNotEmpty.INSTANCE;
-    }
+@FunctionalInterface
+public interface Runner {
+    void run();
 }

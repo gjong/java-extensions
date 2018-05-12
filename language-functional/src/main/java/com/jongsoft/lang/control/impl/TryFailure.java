@@ -21,23 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.core;
+package com.jongsoft.lang.control.impl;
 
-import com.jongsoft.lang.Runner;
+import com.jongsoft.lang.control.Try;
+import com.jongsoft.lang.core.None;
+import com.jongsoft.lang.exception.NonFatalException;
 
-import java.util.function.Supplier;
+import java.util.Objects;
 
-interface OrElseEmpty extends OrElse {
-    OrElse INSTANCE = new OrElseEmpty() {};
+public class TryFailure<T> extends None<T> implements Try<T> {
 
-    @Override
-    default void elseRun(Runner runner) {
-        runner.run();
+    private final NonFatalException cause;
+
+    public TryFailure(Throwable exception) {
+        Objects.requireNonNull(exception, "attempted to create failure without valid exception");
+        cause = NonFatalException.of(exception);
     }
 
     @Override
-    default <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {
-        throw exceptionSupplier.get();
+    public T get() {
+        throw cause;
     }
 
+    @Override
+    public boolean isFailure() {
+        return true;
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return false;
+    }
+
+    @Override
+    public Throwable getCause() {
+        return cause.getCause();
+    }
+    
 }

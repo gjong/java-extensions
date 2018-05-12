@@ -21,9 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang;
+package com.jongsoft.lang.common.core;
 
-@FunctionalInterface
-public interface Runner {
-    void run();
+import java.util.function.Predicate;
+
+public interface Filterable<T> {
+
+    /**
+     * Filter the contents of this with the supplied predicate.
+     *
+     * @param predicate the predicate to apply to the contents of this
+     * @return
+     * @throws NullPointerException in case the predicate is null
+     */
+    Value<T> filter(Predicate<T> predicate);
+
 }
