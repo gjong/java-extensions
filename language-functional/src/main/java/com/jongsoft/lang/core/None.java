@@ -62,7 +62,7 @@ public class None<T> implements Value<T> {
     }
 
     @Override
-    public <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) throws X {
+    public <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier, "Supplier of exceptions cannot be null");
         return OrElse.empty();
     }

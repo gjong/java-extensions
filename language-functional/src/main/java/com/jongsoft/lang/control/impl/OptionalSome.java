@@ -45,7 +45,7 @@ public class OptionalSome<T> extends Some<T> implements Optional<T> {
     }
 
     @Override
-    public <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) throws X {
+    public <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier, "Exception supplier cannot be null");
         return super.get();
     }
