@@ -70,8 +70,8 @@
     </distributionManagement>
 
     <properties>
-        <maven.compiler.source>1.10</maven.compiler.source>
-        <maven.compiler.target>1.10</maven.compiler.target>
+        <maven.compiler.source>1.9</maven.compiler.source>
+        <maven.compiler.target>1.9</maven.compiler.target>
         <maven.test.skip>false</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -101,7 +101,7 @@
                     <version>3.7.0</version>
                     <configuration>
                         <fork>true</fork>
-                        <release>10</release>
+                        <release>9</release>
                         <showWarnings>true</showWarnings>
                         <showDeprecation>true</showDeprecation>
                     </configuration>
