@@ -23,7 +23,13 @@
  */
 package com.jongsoft.lang.control;
 
-import com.jongsoft.lang.core.Value;
+import com.jongsoft.lang.common.control.CheckedConsumer;
+import com.jongsoft.lang.common.control.CheckedFunction;
+import com.jongsoft.lang.common.control.CheckedRunner;
+import com.jongsoft.lang.common.control.CheckedSupplier;
+import com.jongsoft.lang.control.impl.TryFailure;
+import com.jongsoft.lang.control.impl.TrySuccess;
+import com.jongsoft.lang.common.core.Value;
 
 import java.util.Objects;
 import java.util.function.Consumer;

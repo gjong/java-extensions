@@ -15,4 +15,9 @@ class AbstractTuple implements Tuple {
         return elements.get(index);
     }
 
+    @Override
+    public List toList() {
+        return elements;
+    }
+
 }

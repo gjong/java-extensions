@@ -21,9 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.control;
+package com.jongsoft.lang.common.control;
 
-@FunctionalInterface
-public interface CheckedSupplier<T> {
-    T get() throws Throwable;
+public interface CheckedRunner {
+    void run() throws Throwable;
 }

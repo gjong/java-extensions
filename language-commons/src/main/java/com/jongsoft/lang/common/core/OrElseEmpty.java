@@ -21,9 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.control;
+package com.jongsoft.lang.common.core;
 
-@FunctionalInterface
-public interface CheckedConsumer<T> {
-    void accept(T value) throws Throwable;
+import com.jongsoft.lang.common.Runner;
+
+import java.util.function.Supplier;
+
+interface OrElseEmpty extends OrElse {
+    OrElse INSTANCE = new OrElseEmpty() {};
+
+    @Override
+    default void elseRun(Runner runner) {
+        runner.run();
+    }
+
+    @Override
+    default <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {
+        throw exceptionSupplier.get();
+    }
+
 }

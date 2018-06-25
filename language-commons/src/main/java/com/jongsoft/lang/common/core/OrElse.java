@@ -21,40 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.control;
+package com.jongsoft.lang.common.core;
 
-import com.jongsoft.lang.core.None;
-import com.jongsoft.lang.exception.NonFatalException;
+import com.jongsoft.lang.common.Runner;
 
-import java.util.Objects;
+import java.util.function.Supplier;
 
-class TryFailure<T> extends None<T> implements Try<T> {
+public interface OrElse {
+    
+    default void elseRun(Runner runner) {}
+    default <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {}
 
-    private final NonFatalException cause;
-
-    TryFailure(Throwable exception) {
-        Objects.requireNonNull(exception, "attempted to create failure without valid exception");
-        cause = NonFatalException.of(exception);
-    }
-
-    @Override
-    public T get() {
-        throw cause;
-    }
-
-    @Override
-    public boolean isFailure() {
-        return true;
-    }
-
-    @Override
-    public boolean isSuccess() {
-        return false;
-    }
-
-    @Override
-    public Throwable getCause() {
-        return cause.getCause();
+    //----------------------------------------------------------------------------------------------
+    //-- All static helper methods to instantiate the OrElse class
+    
+    static OrElse empty() {
+        return OrElseEmpty.INSTANCE;
     }
     
+    static OrElse notEmpty() {
+        return OrElseNotEmpty.INSTANCE;
+    }
 }

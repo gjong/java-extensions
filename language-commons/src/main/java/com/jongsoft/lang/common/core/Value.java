@@ -21,10 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.core;
+package com.jongsoft.lang.common.core;
 
-import com.jongsoft.lang.Runner;
+import com.jongsoft.lang.common.Runner;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -37,7 +38,7 @@ import java.util.stream.StreamSupport;
  *
  * @param <T>   the type of object being wrapped
  */
-public interface Value<T> extends Iterable<T> {
+public interface Value<T> extends Iterable<T>, Serializable {
     
     /**
      * Return the contents <code>T</code> of the wrapped value.

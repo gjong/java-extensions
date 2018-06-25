@@ -6,6 +6,8 @@
 With Java 8 a great new introduction was made to support functional programming. Unfortunately true functional programming was not
 yet supported.
 
+Now fully supports the Java modules introduced in Java 9.
+
 ## Module structure
 The Jong Soft language extensions is build up out of several Maven modules that can be included independent of each other.
 Each module expands part of the default Java 8 library.
@@ -24,25 +26,36 @@ To include this module use the Maven dependency below:
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>commons</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
     </dependency>
 
 ### Language Collections
+
+The collections module consists out of the following immutable list implementations:
+
+* `Array`, a wrapping entity around an primitive array
+* `TailedList`, a linked list structure
+* `Tuple`, a tuple implementation to store 2 or more entities
 
 To include this module use the Maven dependency below:
 
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>collections</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
     </dependency>
 
 ### Language Functional
+
+The functional model includes the following implementations:
+
+* `Optional`, a purely functionally version of the Optional introduced in Java 8
+* `Try`, a functional implementation to wrap exception handling
 
 To include this module use the Maven dependency below:
 
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>functional</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
     </dependency>

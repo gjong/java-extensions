@@ -23,6 +23,9 @@
  */
 package com.jongsoft.lang.core;
 
+import com.jongsoft.lang.common.core.OrElse;
+import com.jongsoft.lang.common.core.Value;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -59,7 +62,7 @@ public class None<T> implements Value<T> {
     }
 
     @Override
-    public <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) throws X {
+    public <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier, "Supplier of exceptions cannot be null");
         return OrElse.empty();
     }

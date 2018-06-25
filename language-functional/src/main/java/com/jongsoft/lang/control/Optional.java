@@ -23,10 +23,11 @@
  */
 package com.jongsoft.lang.control;
 
-import com.jongsoft.lang.core.Filterable;
-import com.jongsoft.lang.core.Mappable;
-import com.jongsoft.lang.core.OrElse;
-import com.jongsoft.lang.core.Value;
+import com.jongsoft.lang.control.impl.OptionalNone;
+import com.jongsoft.lang.control.impl.OptionalSome;
+import com.jongsoft.lang.common.core.Filterable;
+import com.jongsoft.lang.common.core.Mappable;
+import com.jongsoft.lang.common.core.Value;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -93,7 +94,7 @@ public interface Optional<T> extends Value<T>, Mappable<T>, Filterable<T> {
     @SuppressWarnings("unchecked")
     static <T> Optional<T> ofNullable(T value) {
         return value != null 
-                ? new OptionalSome<>(value) 
+                ? new OptionalSome<>(value)
                 : (Optional<T>) OptionalNone.NONE;
     }
     

@@ -21,19 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.core;
+package com.jongsoft.lang.control.impl;
 
-import java.util.function.Predicate;
+import com.jongsoft.lang.control.Try;
+import com.jongsoft.lang.core.None;
+import com.jongsoft.lang.exception.NonFatalException;
 
-public interface Filterable<T> {
+import java.util.Objects;
 
-    /**
-     * Filter the contents of this with the supplied predicate.
-     *
-     * @param predicate the predicate to apply to the contents of this
-     * @return
-     * @throws NullPointerException in case the predicate is null
-     */
-    Value<T> filter(Predicate<T> predicate);
+public class TryFailure<T> extends None<T> implements Try<T> {
 
+    private final NonFatalException cause;
+
+    public TryFailure(Throwable exception) {
+        Objects.requireNonNull(exception, "attempted to create failure without valid exception");
+        cause = NonFatalException.of(exception);
+    }
+
+    @Override
+    public T get() {
+        throw cause;
+    }
+
+    @Override
+    public boolean isFailure() {
+        return true;
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return false;
+    }
+
+    @Override
+    public Throwable getCause() {
+        return cause.getCause();
+    }
+    
 }

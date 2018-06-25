@@ -21,23 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.core;
+package com.jongsoft.lang.common.core;
 
-import com.jongsoft.lang.Runner;
+import java.util.function.Predicate;
 
-import java.util.function.Supplier;
+public interface Filterable<T> {
 
-interface OrElseEmpty extends OrElse {
-    OrElse INSTANCE = new OrElseEmpty() {};
-
-    @Override
-    default void elseRun(Runner runner) {
-        runner.run();
-    }
-
-    @Override
-    default <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {
-        throw exceptionSupplier.get();
-    }
+    /**
+     * Filter the contents of this with the supplied predicate.
+     *
+     * @param predicate the predicate to apply to the contents of this
+     * @return
+     * @throws NullPointerException in case the predicate is null
+     */
+    Value<T> filter(Predicate<T> predicate);
 
 }

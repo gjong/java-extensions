@@ -23,7 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.Builder;
+import com.jongsoft.lang.common.Builder;
 
 import java.util.stream.Stream;
 
@@ -35,6 +35,11 @@ public class ListBuilder<T> {
         return this;
     }
 
+    /**
+     * Create a list of all builders that where added. See {@link #toStream()} for the specifics of the implementation.
+     *
+     * @return returns a list of the elements after the {@link Builder#build()} is called for each element.
+     */
     public List<T> toList() {
         return toStream().collect(Array.collector());
     }

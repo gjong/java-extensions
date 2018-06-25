@@ -70,13 +70,12 @@
     </distributionManagement>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.9</maven.compiler.source>
+        <maven.compiler.target>1.9</maven.compiler.target>
         <maven.test.skip>false</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <javadoc.version>2.10.3</javadoc.version>
-        <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
     <modules>
@@ -89,7 +88,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -98,9 +97,26 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.7.0</version>
+                    <configuration>
+                        <fork>true</fork>
+                        <release>9</release>
+                        <showWarnings>true</showWarnings>
+                        <showDeprecation>true</showDeprecation>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.ow2.asm</groupId>
+                            <artifactId>asm</artifactId>
+                            <version>6.1.1</version> <!-- Use newer version of ASM -->
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.6.201602180812</version>
+                    <version>0.8.1</version>
                     <configuration>
                         <destFile>${sonar.jacoco.reportPath}</destFile>
                         <append>true</append>
@@ -113,7 +129,6 @@
                             </goals>
                             <configuration>
                                 <destFile>${sonar.jacoco.reportPath}</destFile>
-                                <propertyName>jacoco.unit</propertyName>
                             </configuration>
                         </execution>
                         <execution>
@@ -133,26 +148,21 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19.1</version>
-                    <configuration>
-                        <argLine>${jacoco.unit}</argLine>
-                        <skipTests>${maven.test.skip}</skipTests>
-                        <excludes>
-                            <exclude>**/IT*.java</exclude>
-                        </excludes>
-                    </configuration>
                 </plugin>
 
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${javadoc.version}</version>
+                    <version>3.0.1</version>
+                    <configuration>
+                        <failOnWarnings>false</failOnWarnings>
+                        <failOnError>false</failOnError>
+                    </configuration>
                     <executions>
                         <execution>
                             <goals>
                                 <goal>jar</goal>
                             </goals>
                             <configuration>
-                                <additionalparam>-Xdoclint:none</additionalparam>
                                 <show>public</show>
                             </configuration>
                         </execution>
@@ -163,16 +173,24 @@
 
         <plugins>
             <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <repoToken>${repoKey}</repoToken>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                        <version>2.2.3</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -192,6 +210,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>sonatype</serverId>
@@ -203,10 +222,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.3</version>
-                        <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

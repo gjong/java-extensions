@@ -21,48 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.control;
+package com.jongsoft.lang.control.impl;
 
+import com.jongsoft.lang.control.Try;
 import com.jongsoft.lang.core.Some;
 
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+public class TrySuccess<T> extends Some<T> implements Try<T> {
 
-class OptionalSome<T> extends Some<T> implements Optional<T> {
-
-    private static final long serialVersionUID = 1L;
-
-    public OptionalSome(T value) {
+    public TrySuccess(T value) {
         super(value);
     }
 
     @Override
-    public T getOrSupply(Supplier<T> supplier) {
-        return super.get();
+    public boolean isFailure() {
+        return false;
     }
 
     @Override
-    public <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) throws X {
-        Objects.requireNonNull(exceptionSupplier, "Exception supplier cannot be null");
-        return super.get();
+    public boolean isSuccess() {
+        return true;
     }
 
     @Override
-    public <U> Optional<U> map(Function<T, U> mapper) {
-        Objects.requireNonNull(mapper, "Mapping function cannot be null");
-        return Optional.ofNullable(mapper.apply(get()));
+    public Throwable getCause() {
+        throw new UnsupportedOperationException("Cannot call getCause when Try is successful");
     }
 
-    @Override
-    public Optional<T> filter(Predicate<T> predicate) {
-        Objects.requireNonNull(predicate, "Predicate may not be null");
-        return this.all(predicate) ? this : Optional.empty();
-    }
-
-    @Override
-    public String toString() {
-        return "Optional<Some>: " + super.toString();
-    }
 }

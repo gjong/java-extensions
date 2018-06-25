@@ -21,8 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.core;
+package com.jongsoft.lang.common.core;
 
-interface OrElseNotEmpty extends OrElse {
-    OrElse INSTANCE = new OrElseNotEmpty(){};
+import java.util.NoSuchElementException;
+import java.util.function.Function;
+
+public interface Mappable<T> {
+
+    /**
+     * Convert one object to another type of object. Where the mapping function can be supplied with the <code>mapper</code>
+     * argument.
+     * <p>
+     * This can throw a {@link NoSuchElementException} if no value is present.
+     *
+     * @param <U>       the type of object expected as a result
+     * @param mapper    the mapping functionality
+     * @return          the mapped object
+     */
+    <U> Value<U> map(Function<T, U> mapper);
+
 }
