@@ -1,15 +1,15 @@
 package com.jongsoft.lang.core;
 
-import com.jongsoft.lang.common.core.Value;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+import static org.junit.rules.ExpectedException.*;
 
 import java.util.function.Supplier;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.rules.ExpectedException.none;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import com.jongsoft.lang.common.core.Value;
 
 public class SomeTest {
 
@@ -78,5 +78,12 @@ public class SomeTest {
         myText.ifNotPresent((Supplier<Exception>) Exception::new);
 
         assertThat(ifNotPresent.toString(), equalTo(""));
+    }
+
+    @Test
+    public void validateToString() {
+        final Value<String> myString = Some.some("My String");
+
+        assertThat(myString.toString(), equalTo("My String"));
     }
 }

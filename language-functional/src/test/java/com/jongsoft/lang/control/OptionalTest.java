@@ -23,14 +23,14 @@
  */
 package com.jongsoft.lang.control;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+import static org.junit.rules.ExpectedException.*;
+
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.rules.ExpectedException.none;
 
 public class OptionalTest {
 
@@ -143,5 +143,52 @@ public class OptionalTest {
         thrown.expect(Exception.class);
         String message = Optional.<String>ofNullable(null)
                 .getOrThrow(Exception::new);
+    }
+
+    @Test
+    public void map() {
+        Optional<Integer> stringLength = Optional.ofNullable("My String")
+               .map(String::length);
+
+        assertThat(stringLength.get(), equalTo(9));
+    }
+
+    @Test
+    public void filterSelf() {
+        Optional<String> afterFilter = Optional.ofNullable("String")
+                .filter(s -> s.equalsIgnoreCase("string"));
+
+        assertThat(afterFilter.isPresent(), equalTo(true));
+        assertThat(afterFilter.get(), equalTo("String"));
+    }
+
+    @Test
+    public void filterNoResult() {
+        Optional<String> afterFilter = Optional.ofNullable("String")
+                .filter(s -> s.length() == 3);
+
+        assertThat(afterFilter.isPresent(), equalTo(false));
+    }
+
+    @Test
+    public void filterNone() {
+        Optional<String> afterFilter = Optional.<String> ofNullable(null)
+                .filter(s -> s.length() == 3);
+
+        assertThat(afterFilter.isPresent(), equalTo(false));
+    }
+    
+    @Test
+    public void toStringSome() {
+        String toString = Optional.ofNullable("String").toString();
+
+        assertThat(toString, equalTo("Optional<Some>: String"));
+    }
+
+    @Test
+    public void toStringNull() {
+        String toString = Optional.ofNullable(null).toString();
+
+        assertThat(toString, equalTo("Optional<Empty>: None"));
     }
 }

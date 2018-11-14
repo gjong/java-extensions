@@ -1,14 +1,14 @@
 package com.jongsoft.lang.core;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+import static org.junit.rules.ExpectedException.*;
 
 import java.util.NoSuchElementException;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.rules.ExpectedException.none;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class NoneTest {
 
@@ -61,5 +61,15 @@ public class NoneTest {
 
         None.none()
             .ifNotPresent(() -> new Exception("Not present"));
+    }
+
+    @Test
+    public void tostring() {
+        assertThat(None.none().toString(), equalTo("None"));
+    }
+
+    @Test
+    public void iterator() {
+        assertThat(None.none().iterator().hasNext(), equalTo(false));
     }
 }
