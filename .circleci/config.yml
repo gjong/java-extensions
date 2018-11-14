@@ -36,7 +36,7 @@ jobs:
     # run tests!
     - run: mvn -B package jacoco:report coveralls:report -DrepoKey=$coverageKey
 
-    - run: mkdir -p $CIRCLE_TEST_REPORTS/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - run: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
 
     - store_test_results:
-        path: $CIRCLE_TEST_REPORTS/junit/
+        path: target/junit/
