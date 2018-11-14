@@ -135,7 +135,7 @@
                             <id>post-unit-test</id>
                             <phase>test</phase>
                             <goals>
-                                <goal>merge</goal>
+                                <!--<goal>merge</goal>-->
                                 <goal>report</goal>
                             </goals>
                             <configuration>
