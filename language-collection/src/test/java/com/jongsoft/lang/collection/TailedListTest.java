@@ -1,12 +1,15 @@
 package com.jongsoft.lang.collection;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+import static org.junit.rules.ExpectedException.*;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.rules.ExpectedException.none;
 
 public class TailedListTest {
 
@@ -55,4 +58,54 @@ public class TailedListTest {
         thrown.expect(IndexOutOfBoundsException.class);
         TailedList.of("first", "second", "third").get(3);
     }
+
+    @Test
+    public void remove() {
+        final List<String> result = TailedList.of("first", "second", "third")
+                                              .remove(1);
+
+        assertThat(result.size(), equalTo(2));
+        assertThat(result.get(0), equalTo("first"));
+        assertThat(result.get(1), equalTo("third"));
+    }
+
+    @Test
+    public void removeOutOfBounds() {
+        thrown.expect(IndexOutOfBoundsException.class);
+        final List<String> result = TailedList.of("first", "second", "third")
+                                              .remove(3);
+    }
+
+    @Test
+    public void iterator() {
+        final Iterator<String> listIterator = TailedList.of("first", "second", "third")
+                                                        .iterator();
+
+        assertThat(listIterator.hasNext(), equalTo(true));
+        assertThat(listIterator.next(), equalTo("first"));
+        assertThat(listIterator.hasNext(), equalTo(true));
+        assertThat(listIterator.next(), equalTo("second"));
+        assertThat(listIterator.hasNext(), equalTo(true));
+        assertThat(listIterator.next(), equalTo("third"));
+        assertThat(listIterator.hasNext(), equalTo(false));
+    }
+
+    @Test
+    public void iteratorOutOfBounds() {
+        thrown.expect(NoSuchElementException.class);
+        thrown.expectMessage(equalTo("No next element available in the iterator"));
+
+        final Iterator<String> first = TailedList.of("first").iterator();
+        first.next();
+        first.next();
+    }
+
+    @Test
+    public void ofAll() {
+        final TailedList<String> ofAll = TailedList.ofAll(TailedList.of("one", "two"));
+
+        assertThat(ofAll.get(0), equalTo("one"));
+        assertThat(ofAll.get(1), equalTo("two"));
+    }
+
 }

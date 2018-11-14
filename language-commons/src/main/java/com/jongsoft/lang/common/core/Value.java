@@ -23,8 +23,6 @@
  */
 package com.jongsoft.lang.common.core;
 
-import com.jongsoft.lang.common.Runner;
-
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -34,7 +32,11 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import com.jongsoft.lang.common.Runner;
+
 /**
+ * The Value interface represents a simple wrapped value. This interface can contain exactly one entity inside, or None in case of an empty
+ * value.
  *
  * @param <T>   the type of object being wrapped
  */

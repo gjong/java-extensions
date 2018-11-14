@@ -25,6 +25,18 @@ package com.jongsoft.lang.common;
 
 import java.util.stream.Stream;
 
+/**
+ * This interface indicates that the class implements the {@link #stream()} method. Allowing access to the Java 8 streaming API.
+ *
+ * @param <T> the type of entities that are contained in the {@link Stream}.
+ */
 public interface Streamable<T> {
+
+    /**
+     * Creates a {@link Stream} to access the entities of type T contained within this {@link Streamable} class.
+     *
+     * @return the {@link Stream} entity.
+     */
     Stream<T> stream();
+
 }

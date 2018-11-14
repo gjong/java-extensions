@@ -31,6 +31,11 @@ package com.jongsoft.lang.common;
  */
 public interface Builder<T> {
 
+    /**
+     * Build the entity this builder represents.
+     *
+     * @return the entity that this builder contains
+     */
     T build();
 
 }
