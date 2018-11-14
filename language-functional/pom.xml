@@ -36,7 +36,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${javadoc.version}</version>
                 <configuration>
                     <additionalparam>-Xdoclint:none</additionalparam>
                     <show>public</show>
