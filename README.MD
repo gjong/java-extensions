@@ -1,6 +1,6 @@
 # Jong Soft: Java Language Extensions
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jongsoft.lang/language/badge.svg)
-[![CircleCI](https://circleci.com/bb/jongsoftdev/language-extension.svg?style=svg)](https://circleci.com/bb/jongsoftdev/language-extension)
+[![CircleCI](https://circleci.com/bb/jongsoftdev/language-extension/tree/master.svg?style=svg)](https://circleci.com/bb/jongsoftdev/language-extension/tree/master)
 [![Coverage Status](https://coveralls.io/repos/bitbucket/jongsoftdev/language-extension/badge.svg?branch=master)](https://coveralls.io/bitbucket/jongsoftdev/language-extension?branch=master)
 
 With Java 8 a great new introduction was made to support functional programming. Unfortunately true functional programming was not
