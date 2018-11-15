@@ -23,13 +23,24 @@
  */
 package com.jongsoft.lang.collection;
 
-import java.util.*;
-import java.util.function.*;
+import static java.lang.String.*;
+import static java.util.Arrays.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 
-import static java.lang.String.format;
-import static java.util.Arrays.copyOf;
-
+/**
+ * The {@link Array} implementation of the {@link List} interface provides access to an immutable array. This means all mutable operators
+ * will return a new instance rather then modifying the current one.
+ *
+ * @param <T>   the element type contained in the array
+ */
 public class Array<T> implements List<T> {
 
     private static final Array<?> EMPTY = new Array<>(new Object[0]);
@@ -118,10 +129,23 @@ public class Array<T> implements List<T> {
                 : new Array<>(array);
     }
 
+    /**
+     * Creates an empty array.
+     *
+     * @param <T>   the type for the empty array
+     * @return      the empty array list
+     */
     public static <T> Array<T> empty() {
         return (Array<T>) EMPTY;
     }
 
+    /**
+     * Creates an {@link Array} containing exactly one element, being the one passed to this call.
+     *
+     * @param element   the element to add to the new array
+     * @param <T>       the type of the element
+     * @return          the new array list
+     */
     public static <T> Array<T> of(T element) {
         return create((T[]) new Object[]{element});
     }
@@ -140,6 +164,13 @@ public class Array<T> implements List<T> {
         return create(copyOf(elements, elements.length));
     }
 
+    /**
+     * Creates a new {@link Array} with all the elements contained in the {@link Iterable}.
+     *
+     * @param elements  the elements that should be in the new array
+     * @param <T>       the type of the elements
+     * @return          the new array
+     */
     public static <T> Array<T> ofAll(Iterable<? extends T> elements) {
         return elements instanceof Array
                 ? (Array<T>) elements

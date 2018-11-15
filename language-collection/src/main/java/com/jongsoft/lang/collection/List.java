@@ -23,14 +23,14 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.common.Streamable;
-
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import com.jongsoft.lang.common.Streamable;
 
 public interface List<T> extends Iterable<T>, Streamable<T> {
 
@@ -94,10 +94,10 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
      * @param lookFor   the object to look for in the list
      * @return          <code>true</code> if the object exists in the list
      */
-    default boolean contains(Object lookFor) {
+    default boolean contains(T lookFor) {
         Iterator<T> iterator = iterator();
         while (iterator.hasNext()) {
-            if ((lookFor == null && iterator.next() == null) || (lookFor != null &&lookFor.equals(iterator.next()))) {
+            if ((lookFor == null && iterator.next() == null) || (lookFor != null && lookFor.equals(iterator.next()))) {
                 return true;
             }
         }
