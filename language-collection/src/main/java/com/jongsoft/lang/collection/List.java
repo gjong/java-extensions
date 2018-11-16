@@ -45,6 +45,14 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
     }
 
     /**
+     * Add all elements to this list.
+     *
+     * @param values    the elements to be added
+     * @return          the new list containing a union between this and the values
+     */
+    List<T> addAll(Iterable<T> values);
+
+    /**
      * Add an element to the list at the provided index, shifting all elements after the index one.
      *
      * @param index the index at which to insert the element

@@ -57,6 +57,11 @@ public class TailedList<T> implements List<T> {
     }
 
     @Override
+    public List<T> addAll(final Iterable<T> values) {
+        return null;
+    }
+
+    @Override
     public List<T> insert(int index, T value) {
         return null;
     }

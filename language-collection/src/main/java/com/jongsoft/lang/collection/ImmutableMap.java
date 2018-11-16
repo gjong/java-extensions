@@ -66,6 +66,14 @@ public interface ImmutableMap<K, T> extends Streamable<ImmutableMap.Entry<K, T>>
     ImmutableMap<K, T> put(K key, T value);
 
     /**
+     * Removes any element with the corresponding key from the map.
+     *
+     * @param key   the key indicating what needs to be removed
+     * @return      a new instance without the entry with the key
+     */
+    ImmutableMap<K, T> remove(K key);
+
+    /**
      * Returns true if this {@link ImmutableMap} contains the key provided.
      *
      * @param key   the key to look for

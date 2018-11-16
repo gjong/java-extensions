@@ -22,7 +22,21 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     @Override
     public ImmutableMap<K, T> put(final K key, final T value) {
         Objects.requireNonNull(key, "A null value is not allowed for the key in a map");
-        return new ImmutableHashMap<>(delegate.add(new HashMapEntry<>(key, value)));
+
+        final HashMapEntry<K, T> entry = new HashMapEntry<>(key, value);
+
+        final List<Entry<K, T>> afterRemove = delegate.remove(entry);
+        return new ImmutableHashMap<>(afterRemove.add(entry));
+    }
+
+    @Override
+    public ImmutableMap<K, T> remove(final K key) {
+        int indexOf = delegate.indexOf(new HashMapEntry<>(key, null));
+        if (indexOf > -1) {
+            return new ImmutableHashMap<>(delegate.remove(indexOf));
+        }
+
+        return this;
     }
 
     @Override

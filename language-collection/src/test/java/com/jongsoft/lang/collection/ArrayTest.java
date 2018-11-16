@@ -1,16 +1,15 @@
 package com.jongsoft.lang.collection;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+import static org.junit.rules.ExpectedException.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-import static org.junit.rules.ExpectedException.none;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class ArrayTest {
 
@@ -78,6 +77,15 @@ public class ArrayTest {
         assertThat(add.size(), equalTo(2));
         assertThat(add.get(0), equalTo(5));
         assertThat(add.get(1), equalTo(6));
+    }
+    
+    @Test
+    public void addAll() {
+        List<Integer> values = Array.of(1, 2, 3)
+                .addAll(Arrays.asList(4, 5, 6));
+
+        assertThat(values.size(), equalTo(6));
+        assertThat(values, hasItems(1, 2, 3, 4, 5, 6));
     }
 
     @Test

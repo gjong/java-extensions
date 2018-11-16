@@ -75,6 +75,15 @@ public class Array<T> implements List<T> {
     }
 
     @Override
+    public List<T> addAll(final Iterable<T> values) {
+        T[] toBeAdded = toArray(values);
+        T[] newDelegate = (T[]) new Object[delegate.length + toBeAdded.length];
+        System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
+        System.arraycopy(toBeAdded, 0, newDelegate, delegate.length, toBeAdded.length);
+        return create(newDelegate);
+    }
+
+    @Override
     public List<T> insert(int index, T value) {
         T[] newDelegate = (T[]) new Object[delegate.length + 1];
         System.arraycopy(delegate, 0, newDelegate, 0, index);
