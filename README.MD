@@ -26,7 +26,7 @@ To include this module use the Maven dependency below:
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>commons</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </dependency>
 
 ### Language Collections
@@ -36,13 +36,14 @@ The collections module consists out of the following immutable list implementati
 * `Array`, a wrapping entity around an primitive array
 * `TailedList`, a linked list structure
 * `Tuple`, a tuple implementation to store 2 or more entities
+* `ImmutableHashMap`, a map implementation
 
 To include this module use the Maven dependency below:
 
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>collections</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </dependency>
 
 ### Language Functional
@@ -57,5 +58,5 @@ To include this module use the Maven dependency below:
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>functional</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </dependency>
