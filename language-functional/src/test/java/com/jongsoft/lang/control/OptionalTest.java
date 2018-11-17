@@ -79,7 +79,7 @@ public class OptionalTest {
     public void ifPresentWithValue() {
         StringBuilder response = new StringBuilder();
         Optional.ofNullable("Good")
-                .ifPresent(a -> response.append(a))
+                .ifPresent(response::append)
                 .elseRun(() -> response.append("Bad"));
 
         assertThat(response.toString(), equalTo("Good"));
