@@ -76,6 +76,7 @@
         <maven.test.skip>false</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <javadoc.version>3.0.1</javadoc.version>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
@@ -153,7 +154,7 @@
 
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>${javadoc.version}</version>
                     <configuration>
                         <failOnWarnings>false</failOnWarnings>
                         <failOnError>false</failOnError>
@@ -223,6 +224,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${javadoc.version}</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

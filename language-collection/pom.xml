@@ -28,6 +28,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadoc.version}</version>
                 <configuration>
                     <show>public</show>
                 </configuration>
