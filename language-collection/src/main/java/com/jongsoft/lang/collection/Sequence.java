@@ -23,24 +23,20 @@
  */
 package com.jongsoft.lang.collection;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
-import com.jongsoft.lang.common.Streamable;
+import com.jongsoft.lang.common.core.Value;
 
-public interface List<T> extends Iterable<T>, Streamable<T> {
+public interface Sequence<T> extends Iterable<T>, Value<T> {
 
     /**
-     * Add an element to the end of the contents of the current list and return the result in a new {@link List} instance
+     * Add an element to the end of the contents of the current list and return the result in a new {@link Sequence} instance
      *
      * @param value     the value to append to the list
      * @return          the new list with the value appended
      */
-    default List<T> add(T value) {
+    default Sequence<T> add(T value) {
         return insert(size(), value);
     }
 
@@ -50,7 +46,7 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
      * @param values    the elements to be added
      * @return          the new list containing a union between this and the values
      */
-    List<T> addAll(Iterable<T> values);
+    Sequence<T> addAll(Iterable<T> values);
 
     /**
      * Add an element to the list at the provided index, shifting all elements after the index one.
@@ -59,7 +55,7 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
      * @param value the element to insert
      * @return      the updated list with the inserted element
      */
-    List<T> insert(int index, T value);
+    Sequence<T> insert(int index, T value);
 
     /**
      * Find the index for the provided element, will return <code>-1</code> if the element
@@ -77,7 +73,7 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
      * @return          the new instance of the list without the element at the provided index
      * @throws IndexOutOfBoundsException    in case the index is not between the 0 and list size
      */
-    List<T> remove(int index);
+    Sequence<T> remove(int index);
 
     /**
      * Removes the first element found matching the provided value. The match is done based upon the
@@ -86,30 +82,13 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
      * @param value the element to be removed
      * @return the current list if the element is not present, otherwise a new list instance without the element in it.
      */
-    default List<T> remove(T value) {
+    default Sequence<T> remove(T value) {
         int idx = indexOf(value);
         if (idx > -1) {
             return remove(idx);
         }
 
         return this;
-    }
-
-    /**
-     * Attempts to look in the list if a value is present or not. This method will use the {@link Object#equals(Object)}
-     * to determine equality.
-     *
-     * @param lookFor   the object to look for in the list
-     * @return          <code>true</code> if the object exists in the list
-     */
-    default boolean contains(T lookFor) {
-        Iterator<T> iterator = iterator();
-        while (iterator.hasNext()) {
-            if ((lookFor == null && iterator.next() == null) || (lookFor != null && lookFor.equals(iterator.next()))) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -128,6 +107,11 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
         return size() > 0;
     }
 
+    @Override
+    default T get() {
+        return get(0);
+    }
+
     /**
      * Get the element at the location of <code>index</code>
      *
@@ -137,17 +121,15 @@ public interface List<T> extends Iterable<T>, Streamable<T> {
      */
     T get(int index) throws IndexOutOfBoundsException;
 
-    @Override
-    default Stream<T> stream() {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), Spliterator.CONCURRENT), false);
-    }
-
     /**
      * Filter the list contents with the provided predicate. Only returning those elements that match the predicate.
      *
      * @param predicate the predicate to use in the filter operation
      * @return          the filtered list
      */
-    List<T> filter(Predicate<T> predicate);
+    Sequence<T> filter(Predicate<T> predicate);
+
+    @Override
+    <U> Sequence<U> map(Function<T, U> mapper);
 
 }

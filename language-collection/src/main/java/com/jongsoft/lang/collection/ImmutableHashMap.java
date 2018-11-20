@@ -13,9 +13,9 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
 
     private static final ImmutableHashMap<?, ?> EMPTY = new ImmutableHashMap(Array.empty());
 
-    private List<ImmutableHashMap.Entry<K, T>> delegate;
+    private Sequence<Entry<K, T>> delegate;
 
-    private ImmutableHashMap(List<ImmutableHashMap.Entry<K, T>> delegate) {
+    private ImmutableHashMap(Sequence<Entry<K, T>> delegate) {
         this.delegate = delegate;
     }
 
@@ -25,7 +25,7 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
 
         final HashMapEntry<K, T> entry = new HashMapEntry<>(key, value);
 
-        final List<Entry<K, T>> afterRemove = delegate.remove(entry);
+        final Sequence<Entry<K, T>> afterRemove = delegate.remove(entry);
         return new ImmutableHashMap<>(afterRemove.add(entry));
     }
 

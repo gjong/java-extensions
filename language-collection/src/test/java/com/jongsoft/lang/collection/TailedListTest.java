@@ -37,7 +37,7 @@ public class TailedListTest {
 
     @Test
     public void indexOfString() {
-        List<String> list = TailedList.of("my", "string", "two");
+        Sequence<String> list = TailedList.of("my", "string", "two");
         assertThat(list.indexOf("string"), equalTo(1));
         assertThat(list.indexOf("two"), equalTo(2));
         assertThat(list.indexOf("my"), equalTo(0));
@@ -46,7 +46,7 @@ public class TailedListTest {
 
     @Test
     public void getString() {
-        List<String> list = TailedList.of("first", "second", "third");
+        Sequence<String> list = TailedList.of("first", "second", "third");
 
         assertThat(list.get(0), equalTo("first"));
         assertThat(list.get(1), equalTo("second"));
@@ -61,8 +61,8 @@ public class TailedListTest {
 
     @Test
     public void remove() {
-        final List<String> result = TailedList.of("first", "second", "third")
-                                              .remove(1);
+        final Sequence<String> result = TailedList.of("first", "second", "third")
+                                                  .remove(1);
 
         assertThat(result.size(), equalTo(2));
         assertThat(result.get(0), equalTo("first"));
@@ -72,8 +72,8 @@ public class TailedListTest {
     @Test
     public void removeOutOfBounds() {
         thrown.expect(IndexOutOfBoundsException.class);
-        final List<String> result = TailedList.of("first", "second", "third")
-                                              .remove(3);
+        final Sequence<String> result = TailedList.of("first", "second", "third")
+                                                  .remove(3);
     }
 
     @Test
@@ -106,6 +106,16 @@ public class TailedListTest {
 
         assertThat(ofAll.get(0), equalTo("one"));
         assertThat(ofAll.get(1), equalTo("two"));
+    }
+    
+    @Test
+    public void map() {
+        TailedList<Integer> mapped = TailedList.of("one", "three")
+                .map(String::length);
+
+        assertThat(mapped.size(), equalTo(2));
+        assertThat(mapped.get(0), equalTo(3));
+        assertThat(mapped.get(1), equalTo(5));
     }
 
 }

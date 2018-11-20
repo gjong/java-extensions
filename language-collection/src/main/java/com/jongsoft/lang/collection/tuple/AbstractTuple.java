@@ -24,11 +24,11 @@
 package com.jongsoft.lang.collection.tuple;
 
 import com.jongsoft.lang.collection.Array;
-import com.jongsoft.lang.collection.List;
+import com.jongsoft.lang.collection.Sequence;
 
 class AbstractTuple implements Tuple {
 
-    private List elements;
+    private Sequence elements;
 
     AbstractTuple(Object...elements) {
         this.elements = Array.of(elements);
@@ -39,7 +39,7 @@ class AbstractTuple implements Tuple {
     }
 
     @Override
-    public List toList() {
+    public Sequence toList() {
         return elements;
     }
 

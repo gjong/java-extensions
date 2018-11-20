@@ -21,7 +21,6 @@ public class TryTest {
     public void trySupply() {
         Try<String> test = Try.supply(() -> "test");
 
-        assertThat(test.isPresent(), equalTo(true));
         assertThat(test.isSuccess(), equalTo(true));
         assertThat(test.isFailure(), equalTo(false));
         assertThat(test.get(), equalTo("test"));
@@ -41,7 +40,6 @@ public class TryTest {
                 .and(tst -> response.append(tst));
 
         assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isPresent(), equalTo(true));
         assertThat(test.isSuccess(), equalTo(true));
         assertThat(test.isFailure(), equalTo(false));
     }
@@ -75,7 +73,6 @@ public class TryTest {
             throw new UnsupportedOperationException();
         });
 
-        assertThat(test.isPresent(), equalTo(false));
         assertThat(test.isSuccess(), equalTo(false));
         assertThat(test.isFailure(), equalTo(true));
         assertThat(test.getCause(), instanceOf(UnsupportedOperationException.class));
@@ -91,7 +88,6 @@ public class TryTest {
         });
 
         assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isPresent(), equalTo(true));
         assertThat(test.isSuccess(), equalTo(true));
         assertThat(test.isFailure(), equalTo(false));
     }
@@ -115,7 +111,6 @@ public class TryTest {
         });
 
         assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isPresent(), equalTo(true));
         assertThat(test.isSuccess(), equalTo(true));
         assertThat(test.isFailure(), equalTo(false));
     }
@@ -130,7 +125,6 @@ public class TryTest {
         });
 
         assertThat(response.toString(), equalTo("test two"));
-        assertThat(test.isPresent(), equalTo(true));
         assertThat(test.isSuccess(), equalTo(true));
         assertThat(test.isFailure(), equalTo(false));
     }
@@ -145,7 +139,6 @@ public class TryTest {
         });
 
         assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isPresent(), equalTo(false));
         assertThat(test.isSuccess(), equalTo(false));
         assertThat(test.isFailure(), equalTo(true));
         assertThat(test.getCause(), instanceOf(UnsupportedOperationException.class));
@@ -162,7 +155,6 @@ public class TryTest {
         });
 
         assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isPresent(), equalTo(false));
         assertThat(test.isSuccess(), equalTo(false));
         assertThat(test.isFailure(), equalTo(true));
         assertThat(test.getCause(), instanceOf(NullPointerException.class));
@@ -175,7 +167,6 @@ public class TryTest {
             throw new UnsupportedOperationException("Not implemented");
         });
 
-        assertThat(test.isPresent(), equalTo(false));
         assertThat(test.isSuccess(), equalTo(false));
         assertThat(test.isFailure(), equalTo(true));
         assertThat(test.getCause(), instanceOf(UnsupportedOperationException.class));

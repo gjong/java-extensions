@@ -23,11 +23,12 @@
  */
 package com.jongsoft.lang.control.impl;
 
+import java.util.Objects;
+import java.util.function.Function;
+
 import com.jongsoft.lang.control.Try;
 import com.jongsoft.lang.core.None;
 import com.jongsoft.lang.exception.NonFatalException;
-
-import java.util.Objects;
 
 public class TryFailure<T> extends None<T> implements Try<T> {
 
@@ -57,5 +58,9 @@ public class TryFailure<T> extends None<T> implements Try<T> {
     public Throwable getCause() {
         return cause.getCause();
     }
-    
+
+    @Override
+    public <U> Try<U> map(final Function<T, U> mapper) {
+        return Try.super.map(mapper);
+    }
 }

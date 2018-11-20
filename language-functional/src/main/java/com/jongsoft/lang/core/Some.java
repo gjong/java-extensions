@@ -23,16 +23,17 @@
  */
 package com.jongsoft.lang.core;
 
-import com.jongsoft.lang.common.core.OrElse;
-import com.jongsoft.lang.common.core.Value;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Some<T> implements Value<T> {
+import com.jongsoft.lang.common.core.OrElse;
+import com.jongsoft.lang.common.core.Presence;
+
+public class Some<T> implements Presence<T> {
 
     private static final long serialVersionUID = 1L;
     
@@ -71,6 +72,13 @@ public class Some<T> implements Value<T> {
     }
 
     @Override
+    public <U> Presence<U> map(final Function<T, U> mapper) {
+        Objects.requireNonNull(mapper, "The mapper cannot be null");
+
+        return some(mapper.apply(value));
+    }
+
+    @Override
     public String toString() {
         return Objects.toString(value);
     }
@@ -78,7 +86,7 @@ public class Some<T> implements Value<T> {
     //----------------------------------------------------------------------------------------------
     //-- All static helper methods to instantiate the Some class
     
-    public static <T> Value<T> some(T value) {
+    public static <T> Presence<T> some(T value) {
         return new Some<>(value);
     }
 }

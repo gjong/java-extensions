@@ -27,27 +27,26 @@ import static java.lang.String.*;
 import static java.util.Arrays.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
 /**
- * The {@link Array} implementation of the {@link List} interface provides access to an immutable array. This means all mutable operators
+ * The {@link Array} implementation of the {@link Sequence} interface provides access to an immutable array. This means all mutable operators
  * will return a new instance rather then modifying the current one.
  *
  * @param <T>   the element type contained in the array
  */
-public class Array<T> implements List<T> {
+public class Array<T> implements Sequence<T> {
 
     private static final Array<?> EMPTY = new Array<>(new Object[0]);
 
-    private final T[] delegate;
+    private final Object[] delegate;
 
-    private Array(T[] delegate) {
+    private Array(Object[] delegate) {
         this.delegate = delegate;
     }
 
@@ -57,35 +56,61 @@ public class Array<T> implements List<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T get(int index) throws IndexOutOfBoundsException {
         validateOutOfBounds(index);
-        return delegate[index];
+        return (T) delegate[index];
     }
 
     @Override
     public Iterator<T> iterator() {
-        return Collections.unmodifiableList(Arrays.asList(delegate)).iterator();
+        return new Iterator<>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < delegate.length;
+            }
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public T next() {
+                return (T) delegate[index++];
+            }
+        };
     }
 
     @Override
-    public List<T> filter(Predicate<T> predicate) {
+    public Array<T> filter(Predicate<T> predicate) {
         return stream()
                 .filter(predicate)
                 .collect(collector());
     }
 
     @Override
-    public List<T> addAll(final Iterable<T> values) {
-        T[] toBeAdded = toArray(values);
-        T[] newDelegate = (T[]) new Object[delegate.length + toBeAdded.length];
+    public <U> Array<U> map(final Function<T, U> mapper) {
+        Objects.requireNonNull(mapper, "The mapper cannot be null for this operation.");
+
+        Object[] mapped = new Object[delegate.length];
+        for (int i = 0; i < size(); i++) {
+            mapped[i] = mapper.apply(get(i));
+        }
+
+        return create(mapped);
+    }
+
+    @Override
+    public Array<T> addAll(final Iterable<T> values) {
+        Object[] toBeAdded = toArray(values);
+        Object[] newDelegate = new Object[delegate.length + toBeAdded.length];
         System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
         System.arraycopy(toBeAdded, 0, newDelegate, delegate.length, toBeAdded.length);
         return create(newDelegate);
     }
 
     @Override
-    public List<T> insert(int index, T value) {
-        T[] newDelegate = (T[]) new Object[delegate.length + 1];
+    public Array<T> insert(int index, T value) {
+        Object[] newDelegate = new Object[delegate.length + 1];
         System.arraycopy(delegate, 0, newDelegate, 0, index);
         newDelegate[index] = value;
         System.arraycopy(delegate, index, newDelegate, index + 1, delegate.length - index);
@@ -104,9 +129,9 @@ public class Array<T> implements List<T> {
     }
 
     @Override
-    public List<T> remove(int index) {
+    public Array<T> remove(int index) {
         validateOutOfBounds(index);
-        T[] newDelegate = (T[]) new Object[delegate.length - 1];
+        Object[] newDelegate = new Object[delegate.length - 1];
 
         System.arraycopy(delegate, 0, newDelegate, 0, index);
         System.arraycopy(delegate, index  + 1, newDelegate, index, delegate.length - index - 1);
@@ -132,9 +157,9 @@ public class Array<T> implements List<T> {
     //------------------------------------------------------------------
     //-- Static supporting methods
 
-    private static <T> Array<T> create(T[] array) {
+    private static <T> Array<T> create(Object[] array) {
         return array.length == 0
-                ? (Array<T>) EMPTY
+                ? empty()
                 : new Array<>(array);
     }
 
@@ -156,7 +181,7 @@ public class Array<T> implements List<T> {
      * @return          the new array list
      */
     public static <T> Array<T> of(T element) {
-        return create((T[]) new Object[]{element});
+        return create(new Object[]{element});
     }
 
     /**

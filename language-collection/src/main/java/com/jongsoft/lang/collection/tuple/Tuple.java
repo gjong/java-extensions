@@ -23,7 +23,7 @@
  */
 package com.jongsoft.lang.collection.tuple;
 
-import com.jongsoft.lang.collection.List;
+import com.jongsoft.lang.collection.Sequence;
 
 public interface Tuple {
 
@@ -53,10 +53,10 @@ public interface Tuple {
     }
 
     /**
-     * Build an immutable {@link List} of all elements present in the {@link Tuple}.
+     * Build an immutable {@link Sequence} of all elements present in the {@link Tuple}.
      *
-     * @return  the immutable {@link List} of the elements
+     * @return  the immutable {@link Sequence} of the elements
      */
-    List toList();
+    Sequence toList();
 
 }

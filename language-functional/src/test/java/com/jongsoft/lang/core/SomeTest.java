@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import com.jongsoft.lang.common.core.Presence;
 import com.jongsoft.lang.common.core.Value;
 
 public class SomeTest {
@@ -39,14 +40,14 @@ public class SomeTest {
 
     @Test
     public void isPresentWithString() {
-        Value<String> myText = Some.some("MyText");
+        Presence<String> myText = Some.some("MyText");
 
         assertThat(myText.isPresent(), equalTo(true));
     }
 
     @Test
     public void ifPresentWithString() {
-        Value<String> myText = Some.some("MyText");
+        Presence<String> myText = Some.some("MyText");
 
         StringBuilder ifPresent = new StringBuilder();
         myText
@@ -71,7 +72,7 @@ public class SomeTest {
 
     @Test
     public void ifNotPresentWithString() throws Exception {
-        Value<String> myText = Some.some("MyText");
+        Presence<String> myText = Some.some("MyText");
 
         StringBuilder ifNotPresent = new StringBuilder();
         myText.ifNotPresent(() -> ifNotPresent.append("Bad"));

@@ -23,17 +23,18 @@
  */
 package com.jongsoft.lang.core;
 
-import com.jongsoft.lang.common.core.OrElse;
-import com.jongsoft.lang.common.core.Value;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class None<T> implements Value<T> {
+import com.jongsoft.lang.common.core.OrElse;
+import com.jongsoft.lang.common.core.Presence;
+
+public class None<T> implements Presence<T> {
     private static final long serialVersionUID = 1L;
     
     private static final None<?> NONE = new None<>();
@@ -68,6 +69,11 @@ public class None<T> implements Value<T> {
     }
 
     @Override
+    public <U> Presence<U> map(final Function<T, U> mapper) {
+        return none();
+    }
+
+    @Override
     public String toString() {
         return "None";
     }
@@ -76,7 +82,7 @@ public class None<T> implements Value<T> {
     //-- All static helper methods to instantiate the None class
     
     @SuppressWarnings("unchecked")
-    public static <T> Value<T> none() {
+    public static <T> Presence<T> none() {
         return (None<T>) NONE;
     }
 

@@ -23,6 +23,8 @@
  */
 package com.jongsoft.lang.control.impl;
 
+import java.util.function.Function;
+
 import com.jongsoft.lang.control.Try;
 import com.jongsoft.lang.core.Some;
 
@@ -47,4 +49,8 @@ public class TrySuccess<T> extends Some<T> implements Try<T> {
         throw new UnsupportedOperationException("Cannot call getCause when Try is successful");
     }
 
+    @Override
+    public <U> Try<U> map(final Function<T, U> mapper) {
+        return Try.super.map(mapper);
+    }
 }

@@ -28,7 +28,7 @@ import com.jongsoft.lang.common.Builder;
 import java.util.stream.Stream;
 
 public class ListBuilder<T> {
-    private List<Builder<T>> builders = Array.empty();
+    private Sequence<Builder<T>> builders = Array.empty();
 
     public ListBuilder<T> append(Builder<T> builder) {
         builders.insert(0, builder);
@@ -40,7 +40,7 @@ public class ListBuilder<T> {
      *
      * @return returns a list of the elements after the {@link Builder#build()} is called for each element.
      */
-    public List<T> toList() {
+    public Sequence<T> toList() {
         return toStream().collect(Array.collector());
     }
 

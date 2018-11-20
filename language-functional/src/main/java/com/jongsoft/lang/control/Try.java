@@ -23,18 +23,18 @@
  */
 package com.jongsoft.lang.control;
 
-import com.jongsoft.lang.common.control.CheckedConsumer;
-import com.jongsoft.lang.common.control.CheckedFunction;
-import com.jongsoft.lang.common.control.CheckedRunner;
-import com.jongsoft.lang.common.control.CheckedSupplier;
-import com.jongsoft.lang.control.impl.TryFailure;
-import com.jongsoft.lang.control.impl.TrySuccess;
-import com.jongsoft.lang.common.core.Value;
-
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-public interface Try<T> extends Value<T> {
+import com.jongsoft.lang.common.control.CheckedConsumer;
+import com.jongsoft.lang.common.control.CheckedRunner;
+import com.jongsoft.lang.common.control.CheckedSupplier;
+import com.jongsoft.lang.common.core.Presence;
+import com.jongsoft.lang.control.impl.TryFailure;
+import com.jongsoft.lang.control.impl.TrySuccess;
+
+public interface Try<T> extends Presence<T> {
 
     /**
      * Attempt to execute code that will return an entity, but may also result into an exception.
@@ -179,7 +179,7 @@ public interface Try<T> extends Value<T> {
         return this;
     }
 
-    default <U> Try<U> map(CheckedFunction<U, T> mapper) {
+    default <U> Try<U> map(Function<T, U> mapper) {
         Objects.requireNonNull(mapper, "Mapper cannot be null");
         if (!isFailure()) {
             try {

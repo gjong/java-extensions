@@ -23,18 +23,18 @@
  */
 package com.jongsoft.lang.control;
 
-import com.jongsoft.lang.control.impl.OptionalNone;
-import com.jongsoft.lang.control.impl.OptionalSome;
-import com.jongsoft.lang.common.core.Filterable;
-import com.jongsoft.lang.common.core.Mappable;
-import com.jongsoft.lang.common.core.Value;
-
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public interface Optional<T> extends Value<T>, Mappable<T>, Filterable<T> {
+import com.jongsoft.lang.common.core.Filterable;
+import com.jongsoft.lang.common.core.Presence;
+import com.jongsoft.lang.common.core.Value;
+import com.jongsoft.lang.control.impl.OptionalNone;
+import com.jongsoft.lang.control.impl.OptionalSome;
+
+public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
     
     @Override
     <U> Optional<U> map(Function<T, U> mapper);

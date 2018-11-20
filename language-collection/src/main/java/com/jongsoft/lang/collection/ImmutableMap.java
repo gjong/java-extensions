@@ -25,7 +25,7 @@ package com.jongsoft.lang.collection;
 
 import java.util.stream.Stream;
 
-import com.jongsoft.lang.common.Streamable;
+import com.jongsoft.lang.common.core.Streamable;
 
 /**
  * This class represents a map implementation that is immutable. This means all operations that would change its contents result into a

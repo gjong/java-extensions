@@ -30,17 +30,18 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
 /**
- * A {@link TailedList} is an {@link List} implementation where each entry in the list points to the next
+ * A {@link TailedList} is an {@link Sequence} implementation where each entry in the list points to the next
  * entry in the list.
  *
  * @param <T> the type of elements contained within the {@link TailedList}
  * @see <a href="https://en.wikipedia.org/wiki/Linked_list">Linked list documentation</a>
  */
-public class TailedList<T> implements List<T> {
+public class TailedList<T> implements Sequence<T> {
     private static TailedList<?> EMPTY = new TailedList<>(null, null);
 
     private final T element;
@@ -57,12 +58,12 @@ public class TailedList<T> implements List<T> {
     }
 
     @Override
-    public List<T> addAll(final Iterable<T> values) {
+    public Sequence<T> addAll(final Iterable<T> values) {
         return null;
     }
 
     @Override
-    public List<T> insert(int index, T value) {
+    public Sequence<T> insert(int index, T value) {
         return null;
     }
 
@@ -88,10 +89,10 @@ public class TailedList<T> implements List<T> {
     }
 
     @Override
-    public List<T> remove(int index) {
+    public TailedList<T> remove(int index) {
         validateIndexOutOfBounds(index);
 
-        TailedList<T> reversed = (TailedList<T>) TailedList.EMPTY;
+        TailedList<T> reversed = empty();
         for (TailedList<T> newTail = this; !newTail.isEmpty(); newTail = newTail.tail, index--) {
             if (index != 0) {
                 reversed = reversed.add(newTail.element);
@@ -102,8 +103,17 @@ public class TailedList<T> implements List<T> {
     }
 
     @Override
-    public List<T> filter(Predicate<T> predicate) {
+    public TailedList<T> filter(Predicate<T> predicate) {
         return null;
+    }
+
+    @Override
+    public <U> TailedList<U> map(final Function<T, U> mapper) {
+        TailedList<U> mappedTail = empty();
+        for (TailedList<T> processing = this; !processing.isEmpty(); processing = processing.tail) {
+            mappedTail = new TailedList<>(mapper.apply(processing.element), mappedTail);
+        }
+        return mappedTail.reverse();
     }
 
     @Override
@@ -139,7 +149,7 @@ public class TailedList<T> implements List<T> {
     }
 
     private TailedList<T> reverse() {
-        TailedList<T> corrected = (TailedList<T>) TailedList.EMPTY;
+        TailedList<T> corrected = empty();
         for (int i = 0; i < size(); i++) {
             corrected = new TailedList<>(get(i), corrected);
         }
@@ -173,6 +183,17 @@ public class TailedList<T> implements List<T> {
 
     //------------------------------------------------------------------
     //-- Static supporting methods
+
+    /**
+     * Creates a new empty TailedList.
+     *
+     * @param <T>   the type of the list
+     * @return      the created list
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> TailedList<T> empty() {
+        return (TailedList<T>) EMPTY;
+    }
 
     /**
      * Create a new {@link TailedList} containing exactly one entry being the provided element.

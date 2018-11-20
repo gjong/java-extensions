@@ -41,7 +41,7 @@ public class ArrayTest {
     
     @Test
     public void insertAt0Int() {
-        List<Integer> insert = Array.of(5).insert(0, 2);
+        Sequence<Integer> insert = Array.of(5).insert(0, 2);
 
         assertThat(insert.size(), equalTo(2));
         assertThat(insert.get(0), equalTo(2));
@@ -50,7 +50,7 @@ public class ArrayTest {
 
     @Test
     public void insertAt1Int() {
-        List<Integer> insert = Array.of(5).insert(1, 2);
+        Sequence<Integer> insert = Array.of(5).insert(1, 2);
 
         assertThat(insert.size(), equalTo(2));
         assertThat(insert.get(0), equalTo(5));
@@ -59,7 +59,7 @@ public class ArrayTest {
 
     @Test
     public void insertAt2Int() {
-        List<Integer> insert = Array.of(1,2,3,4,5).insert(2, 12);
+        Sequence<Integer> insert = Array.of(1, 2, 3, 4, 5).insert(2, 12);
 
         assertThat(insert.size(), equalTo(6));
         assertThat(insert.get(0), equalTo(1));
@@ -71,7 +71,7 @@ public class ArrayTest {
     @Test
     public void addInt() {
         Array<Integer> source = Array.of(5);
-        List<Integer> add = source.add(6);
+        Sequence<Integer> add = source.add(6);
 
         assertThat(source.size(), equalTo(1));
         assertThat(add.size(), equalTo(2));
@@ -81,8 +81,8 @@ public class ArrayTest {
     
     @Test
     public void addAll() {
-        List<Integer> values = Array.of(1, 2, 3)
-                .addAll(Arrays.asList(4, 5, 6));
+        Sequence<Integer> values = Array.of(1, 2, 3)
+                                        .addAll(Arrays.asList(4, 5, 6));
 
         assertThat(values.size(), equalTo(6));
         assertThat(values, hasItems(1, 2, 3, 4, 5, 6));
@@ -90,7 +90,7 @@ public class ArrayTest {
 
     @Test
     public void removeIntAt2() {
-        List<Integer> removed = Array.of(1, 2, 3, 4, 5).remove(2);
+        Sequence<Integer> removed = Array.of(1, 2, 3, 4, 5).remove(2);
 
         assertThat(removed.size(), equalTo(4));
         assertThat(removed.contains(3), equalTo(false));
@@ -98,8 +98,8 @@ public class ArrayTest {
 
     @Test
     public void removeByElement() {
-        List<String> original = Array.of("test", "string", "one");
-        List<String> afterRemove = original.remove("string");
+        Sequence<String> original = Array.of("test", "string", "one");
+        Sequence<String> afterRemove = original.remove("string");
 
         assertThat(original, not(equalTo(afterRemove)));
         assertThat(original.size(), equalTo(3));
@@ -117,7 +117,7 @@ public class ArrayTest {
 
     @Test
     public void filterInt5() {
-        List<Integer> noFives = Array.of(1, 5, 34, 4, 5, 23, 4, 5).filter(i -> 5 != i);
+        Sequence<Integer> noFives = Array.of(1, 5, 34, 4, 5, 23, 4, 5).filter(i -> 5 != i);
 
         assertThat(noFives.size(), equalTo(5));
         assertThat(noFives.get(0), equalTo(1));
@@ -157,4 +157,14 @@ public class ArrayTest {
         assertThat(Array.of(1,2,3,4,5,null).indexOf(5), equalTo(4));
         assertThat(Array.of(1,2,3,4).indexOf(5), equalTo(-1));
     }
+    
+    @Test
+    public void map() {
+        Array<Integer> mapped = Array.of("test", "two")
+                .map(String::length);
+
+        assertThat(mapped.size(), equalTo(2));
+        assertThat(mapped, hasItems(4, 3));
+    }
+
 }
