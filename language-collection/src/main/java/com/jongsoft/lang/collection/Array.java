@@ -28,6 +28,7 @@ import static java.util.Arrays.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -75,6 +76,10 @@ public class Array<T> implements Sequence<T> {
             @Override
             @SuppressWarnings("unchecked")
             public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("No more elements in collection");
+                }
+
                 return (T) delegate[index++];
             }
         };

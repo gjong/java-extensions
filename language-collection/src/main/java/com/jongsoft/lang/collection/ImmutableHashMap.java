@@ -123,5 +123,10 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
 
             return false;
         }
+
+        @Override
+        public int hashCode() {
+            return key.hashCode();
+        }
     }
 }
