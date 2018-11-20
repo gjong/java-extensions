@@ -58,12 +58,17 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public Sequence<T> addAll(final Iterable<T> values) {
-        return null;
+    public TailedList<T> addAll(final Iterable<T> values) {
+        TailedList<T> tail = reverse();
+        for (T value : values) {
+            tail = new TailedList<>(value, tail);
+        }
+
+        return tail.reverse();
     }
 
     @Override
-    public Sequence<T> insert(int index, T value) {
+    public TailedList<T> insert(int index, T value) {
         return null;
     }
 
@@ -104,7 +109,16 @@ public class TailedList<T> implements Sequence<T> {
 
     @Override
     public TailedList<T> filter(Predicate<T> predicate) {
-        return null;
+        Objects.requireNonNull(predicate, "The predicate may not be null");
+
+        TailedList<T> filtered = empty();
+        for (T value : reverse()) {
+            if (predicate.test(value)) {
+                filtered = new TailedList<>(value, filtered);
+            }
+        }
+
+        return filtered;
     }
 
     @Override

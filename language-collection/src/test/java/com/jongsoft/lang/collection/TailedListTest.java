@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.junit.rules.ExpectedException.*;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -27,12 +28,24 @@ public class TailedListTest {
 
     @Test
     public void ofMultipleAdd() {
-        TailedList<String> list = (TailedList<String>) TailedList.of("my", "test").add("added");
+        TailedList<String> list = TailedList.of("my", "test")
+                .add("added");
 
         assertThat(list.size(), equalTo(3));
         assertThat(list.get(0), equalTo("my"));
         assertThat(list.get(1), equalTo("test"));
         assertThat(list.get(2), equalTo("added"));
+    }
+
+    @Test
+    public void addAll() {
+        TailedList<String> added = TailedList.of("one")
+                .addAll(Arrays.asList("two", "three"));
+
+        assertThat(added.size(), equalTo(3));
+        assertThat(added.get(0), equalTo("one"));
+        assertThat(added.get(1), equalTo("two"));
+        assertThat(added.get(2), equalTo("three"));
     }
 
     @Test
@@ -62,7 +75,7 @@ public class TailedListTest {
     @Test
     public void remove() {
         final Sequence<String> result = TailedList.of("first", "second", "third")
-                                                  .remove(1);
+                .remove(1);
 
         assertThat(result.size(), equalTo(2));
         assertThat(result.get(0), equalTo("first"));
@@ -73,13 +86,23 @@ public class TailedListTest {
     public void removeOutOfBounds() {
         thrown.expect(IndexOutOfBoundsException.class);
         final Sequence<String> result = TailedList.of("first", "second", "third")
-                                                  .remove(3);
+                .remove(3);
+    }
+    
+    @Test
+    public void filterString() {
+        TailedList<String> filterResult = TailedList.of("one", "two", "three")
+                .filter(str -> str.length() == 3);
+
+        assertThat(filterResult.size(), equalTo(2));
+        assertThat(filterResult.get(0), equalTo("one"));
+        assertThat(filterResult.get(1), equalTo("two"));
     }
 
     @Test
     public void iterator() {
         final Iterator<String> listIterator = TailedList.of("first", "second", "third")
-                                                        .iterator();
+                .iterator();
 
         assertThat(listIterator.hasNext(), equalTo(true));
         assertThat(listIterator.next(), equalTo("first"));
@@ -107,7 +130,7 @@ public class TailedListTest {
         assertThat(ofAll.get(0), equalTo("one"));
         assertThat(ofAll.get(1), equalTo("two"));
     }
-    
+
     @Test
     public void map() {
         TailedList<Integer> mapped = TailedList.of("one", "three")
