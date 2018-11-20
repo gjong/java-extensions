@@ -2,6 +2,7 @@
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jongsoft.lang/language/badge.svg)
 [![CircleCI](https://circleci.com/bb/jongsoftdev/language-extension/tree/master.svg?style=svg)](https://circleci.com/bb/jongsoftdev/language-extension/tree/master)
 [![Coverage Status](https://coveralls.io/repos/bitbucket/jongsoftdev/language-extension/badge.svg?branch=master)](https://coveralls.io/bitbucket/jongsoftdev/language-extension?branch=master)
+[![SonarCloud Quality](https://sonarcloud.io/api/project_badges/measure?project=com.jongsoft.lang%3Alanguage&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.jongsoft.lang%3Alanguage)
 
 With Java 8 a great new introduction was made to support functional programming. Unfortunately true functional programming was not
 yet supported.

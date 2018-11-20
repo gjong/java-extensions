@@ -34,7 +34,7 @@ jobs:
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
     # run tests!
-    - run: mvn -B package jacoco:report coveralls:report -DrepoKey=$coverageKey javadoc:javadoc javadoc:aggregate
+    - run: mvn -B package jacoco:report coveralls:report -DrepoKey=$coverageKey
 
     # Run sonar analysis
     - run: mvn -P sonar -Dsonar.login=$sonarKey
