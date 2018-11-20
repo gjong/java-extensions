@@ -199,6 +199,16 @@
 
     <profiles>
         <profile>
+            <id>sonar</id>
+            <properties>
+                <sonar.host.url>https://sonarcloud.io/</sonar.host.url>
+                <sonar.organization>jongsoft</sonar.organization>
+            </properties>
+            <build>
+                <defaultGoal>sonar:sonar</defaultGoal>
+            </build>
+        </profile>
+        <profile>
             <id>release-profile</id>
             <activation>
                 <property>
