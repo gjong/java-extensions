@@ -58,7 +58,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public T get(int index) throws IndexOutOfBoundsException {
+    public T get(int index) {
         validateOutOfBounds(index);
         return (T) delegate[index];
     }

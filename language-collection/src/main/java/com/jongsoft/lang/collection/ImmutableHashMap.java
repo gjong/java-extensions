@@ -11,6 +11,7 @@ import java.util.stream.Stream;
  */
 public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
 
+    @SuppressWarnings("unchecked")
     private static final ImmutableHashMap<?, ?> EMPTY = new ImmutableHashMap(Array.empty());
 
     private Sequence<Entry<K, T>> delegate;
@@ -88,6 +89,7 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
      * @param <T>   the type of the balue
      * @return      the new empty map
      */
+    @SuppressWarnings("unchecked")
     public static <K, T> ImmutableMap<K, T> create() {
         return (ImmutableMap<K, T>) EMPTY;
     }

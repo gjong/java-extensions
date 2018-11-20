@@ -42,9 +42,9 @@ import java.util.stream.Collector;
  * @see <a href="https://en.wikipedia.org/wiki/Linked_list">Linked list documentation</a>
  */
 public class TailedList<T> implements Sequence<T> {
-    private static TailedList<?> EMPTY = new TailedList<>(null, null);
+    private static final TailedList<?> EMPTY = new TailedList<>(null, null);
 
-    private final T element;
+    private final Object element;
     private final TailedList<T> tail;
 
     private TailedList(T element, TailedList<T> tail) {
@@ -59,12 +59,12 @@ public class TailedList<T> implements Sequence<T> {
 
     @Override
     public TailedList<T> addAll(final Iterable<T> values) {
-        TailedList<T> tail = reverse();
+        TailedList<T> reversed = reverse();
         for (T value : values) {
-            tail = new TailedList<>(value, tail);
+            reversed = new TailedList<>(value, reversed);
         }
 
-        return tail.reverse();
+        return reversed.reverse();
     }
 
     @Override
@@ -84,13 +84,14 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public T get(int index) throws IndexOutOfBoundsException {
+    @SuppressWarnings("unchecked")
+    public T get(int index) {
         validateIndexOutOfBounds(index);
 
         int loopIdx = 0;
         TailedList<T> computed;
         for (computed = this; loopIdx < index; computed = computed.tail, loopIdx++);
-        return computed.element;
+        return (T) computed.element;
     }
 
     @Override
@@ -100,7 +101,7 @@ public class TailedList<T> implements Sequence<T> {
         TailedList<T> reversed = empty();
         for (TailedList<T> newTail = this; !newTail.isEmpty(); newTail = newTail.tail, index--) {
             if (index != 0) {
-                reversed = reversed.add(newTail.element);
+                reversed = reversed.add(newTail.get());
             }
         }
 
@@ -125,7 +126,7 @@ public class TailedList<T> implements Sequence<T> {
     public <U> TailedList<U> map(final Function<T, U> mapper) {
         TailedList<U> mappedTail = empty();
         for (TailedList<T> processing = this; !processing.isEmpty(); processing = processing.tail) {
-            mappedTail = new TailedList<>(mapper.apply(processing.element), mappedTail);
+            mappedTail = new TailedList<>(mapper.apply(processing.get()), mappedTail);
         }
         return mappedTail.reverse();
     }
@@ -189,9 +190,9 @@ public class TailedList<T> implements Sequence<T> {
                 throw new NoSuchElementException("No next element available in the iterator");
             }
 
-            T element = position.element;
+            T value = position.get();
             position = position.tail;
-            return element;
+            return value;
         }
     }
 

@@ -6,6 +6,7 @@ import static org.junit.rules.ExpectedException.*;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +19,10 @@ public class ArrayTest {
 
     @Test
     public void empty() {
+        thrown.expect(NoSuchElementException.class);
         Array empty = Array.empty();
+
+        empty.iterator().next();
 
         assertThat(empty.size(), equalTo(0));
         assertThat(empty.iterator().hasNext(), equalTo(false));
