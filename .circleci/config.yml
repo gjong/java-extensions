@@ -33,7 +33,7 @@ jobs:
         - ~/.m2
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
-    # run tests!
+    # package and test application
     - run: mvn -B package jacoco:report coveralls:report -DrepoKey=$coverageKey
 
     # Run sonar analysis
@@ -44,6 +44,6 @@ jobs:
     - store_test_results:
         path: target/junit/
 
-#    - store_artifacts:
-#        path: target/site
-#        dest: site
+    - store_artifacts:
+        path: target/site
+        dest: site
