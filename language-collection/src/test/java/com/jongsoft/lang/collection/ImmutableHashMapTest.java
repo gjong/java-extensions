@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
+import com.jongsoft.lang.collection.tuple.Tuple;
+
 public class ImmutableHashMapTest {
 
     @Test
@@ -30,14 +32,14 @@ public class ImmutableHashMapTest {
     }
 
     @Test
-    public void contains() {
+    public void containsValue() {
         ImmutableMap<String, String> subject = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three");
 
-        assertThat(subject.contains("one"), equalTo(false));
-        assertThat(subject.contains("two"), equalTo(true));
-        assertThat(subject.contains("three"), equalTo(true));
+        assertThat(subject.containsValue("one"), equalTo(false));
+        assertThat(subject.containsValue("two"), equalTo(true));
+        assertThat(subject.containsValue("three"), equalTo(true));
     }
 
     @Test
@@ -74,17 +76,17 @@ public class ImmutableHashMapTest {
 
     @Test
     public void stream() {
-        List<ImmutableMap.Entry<String, String>> collected = ImmutableHashMap.<String, String>create()
+        List<Tuple.Pair<String, String>> collected = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three")
                 .stream()
                 .collect(Collectors.toList());
 
         assertThat(collected.size(), equalTo(2));
-        assertThat(collected.get(0).key(), equalTo("one"));
-        assertThat(collected.get(0).value(), equalTo("two"));
-        assertThat(collected.get(1).key(), equalTo("two"));
-        assertThat(collected.get(1).value(), equalTo("three"));
+        assertThat(collected.get(0).getFirst(), equalTo("one"));
+        assertThat(collected.get(0).getSecond(), equalTo("two"));
+        assertThat(collected.get(1).getFirst(), equalTo("two"));
+        assertThat(collected.get(1).getSecond(), equalTo("three"));
     }
 
     @Test

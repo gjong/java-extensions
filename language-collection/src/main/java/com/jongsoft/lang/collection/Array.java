@@ -27,13 +27,13 @@ import static java.lang.String.*;
 import static java.util.Arrays.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
+
+import com.jongsoft.lang.collection.support.AbstractIterator;
 
 /**
  * The {@link Array} implementation of the {@link Sequence} interface provides access to an immutable array. This means all mutable operators
@@ -65,7 +65,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<>() {
+        return new AbstractIterator<>() {
             private int index = 0;
 
             @Override
@@ -75,11 +75,7 @@ public class Array<T> implements Sequence<T> {
 
             @Override
             @SuppressWarnings("unchecked")
-            public T next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException("No more elements in collection");
-                }
-
+            public T getNext() {
                 return (T) delegate[index++];
             }
         };
@@ -123,9 +119,9 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public int indexOf(Object lookFor) {
+    public int firstIndexOf(final Predicate<T> predicate) {
         for (int i = 0; i < size(); i++) {
-            if (Objects.equals(delegate[i], lookFor)) {
+            if (predicate.test(get(i))) {
                 return i;
             }
         }

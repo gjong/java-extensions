@@ -50,7 +50,7 @@
     <dependencies>
         <dependency>
             <groupId>com.jongsoft.lang</groupId>
-            <artifactId>commons</artifactId>
+            <artifactId>functional</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

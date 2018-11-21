@@ -1,7 +1,11 @@
 package com.jongsoft.lang.collection;
 
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
+
+import com.jongsoft.lang.collection.tuple.Tuple;
 
 /**
  * The {@link ImmutableHashMap} allows for storing basic key, value pair based data.
@@ -14,9 +18,9 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     @SuppressWarnings("unchecked")
     private static final ImmutableHashMap<?, ?> EMPTY = new ImmutableHashMap(Array.empty());
 
-    private Sequence<Entry<K, T>> delegate;
+    private Sequence<Tuple.Pair<K, T>> delegate;
 
-    private ImmutableHashMap(Sequence<Entry<K, T>> delegate) {
+    private ImmutableHashMap(Sequence<Tuple.Pair<K, T>> delegate) {
         this.delegate = delegate;
     }
 
@@ -24,15 +28,20 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     public ImmutableMap<K, T> put(final K key, final T value) {
         Objects.requireNonNull(key, "A null value is not allowed for the key in a map");
 
-        final HashMapEntry<K, T> entry = new HashMapEntry<>(key, value);
+        Sequence<Tuple.Pair<K, T>> afterRemove = delegate;
+        int existingEntry = delegate.firstIndexOf(e -> Objects.equals(e.getFirst(), key));
+        if (existingEntry > -1) {
+            afterRemove = delegate.remove(existingEntry);
+        }
 
-        final Sequence<Entry<K, T>> afterRemove = delegate.remove(entry);
-        return new ImmutableHashMap<>(afterRemove.add(entry));
+        return new ImmutableHashMap<>(afterRemove.add(Tuple.Pair.of(key, value)));
     }
 
     @Override
     public ImmutableMap<K, T> remove(final K key) {
-        int indexOf = delegate.indexOf(new HashMapEntry<>(key, null));
+        Objects.requireNonNull(key, "A null value is not allowed for the key in a map");
+
+        int indexOf = delegate.firstIndexOf(e -> Objects.equals(e.getFirst(), key));
         if (indexOf > -1) {
             return new ImmutableHashMap<>(delegate.remove(indexOf));
         }
@@ -41,9 +50,9 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     }
 
     @Override
-    public boolean contains(final T value) {
+    public boolean containsValue(final T value) {
         for (int i = 0; i < delegate.size(); i++) {
-            if (Objects.equals(delegate.get(i).value(), value)) {
+            if (Objects.equals(delegate.get(i).getSecond(), value)) {
                 return true;
             }
         }
@@ -54,24 +63,43 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     @Override
     public T get(final K key) {
         for (int i = 0; i < delegate.size(); i++) {
-            if (Objects.equals(delegate.get(i).key(), key)) {
-                return delegate.get(i).value();
+            if (Objects.equals(delegate.get(i).getFirst(), key)) {
+                return delegate.get(i).getSecond();
             }
         }
 
         return null;
-
     }
 
     @Override
-    public Stream<ImmutableMap.Entry<K, T>> stream() {
+    public Tuple.Pair<K, T> get() {
+        return delegate.get();
+    }
+
+    @Override
+    public ImmutableHashMap<K, T> filter(final Predicate<Tuple.Pair<K, T>> predicate) {
+        return null;
+    }
+
+    @Override
+    public <U> Collection<U> map(final Function<Tuple.Pair<K, T>, U> mapper) {
+        return null;
+    }
+
+    @Override
+    public Stream<Tuple.Pair<K, T>> stream() {
         return delegate.stream();
     }
 
     @Override
     public Stream<T> valueStream() {
         return delegate.stream()
-                .map(Entry::value);
+                .map(Tuple.Pair::getSecond);
+    }
+
+    @Override
+    public Iterator<Tuple.Pair<K, T>> iterator() {
+        return delegate.iterator();
     }
 
     @Override
@@ -94,41 +122,4 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
         return (ImmutableMap<K, T>) EMPTY;
     }
 
-    //------------------------------------------------------------------
-    //-- Support class
-
-    private class HashMapEntry<K, T> implements ImmutableMap.Entry<K, T> {
-
-        private final K key;
-        private final T value;
-
-        private HashMapEntry(final K key, final T value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public K key() {
-            return key;
-        }
-
-        @Override
-        public T value() {
-            return value;
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (obj instanceof HashMapEntry) {
-                return Objects.equals(key, ((HashMapEntry) obj).key);
-            }
-
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return key.hashCode();
-        }
-    }
 }

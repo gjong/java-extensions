@@ -25,7 +25,7 @@ package com.jongsoft.lang.collection;
 
 import java.util.stream.Stream;
 
-import com.jongsoft.lang.common.core.Streamable;
+import com.jongsoft.lang.collection.tuple.Tuple;
 
 /**
  * This class represents a map implementation that is immutable. This means all operations that would change its contents result into a
@@ -34,25 +34,7 @@ import com.jongsoft.lang.common.core.Streamable;
  * @param <K>   the type for the key
  * @param <T>   the type for the values
  */
-public interface ImmutableMap<K, T> extends Streamable<ImmutableMap.Entry<K, T>> {
-
-    interface Entry<K, T> {
-
-        /**
-         * Get the key of the entry.
-         *
-         * @return  the key
-         */
-        K key();
-
-        /**
-         * Get the value contained in the entry.
-         *
-         * @return  the value
-         */
-        T value();
-
-    }
+public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
 
     /**
      * Add a new entry to the {@link ImmutableMap}.
@@ -89,7 +71,7 @@ public interface ImmutableMap<K, T> extends Streamable<ImmutableMap.Entry<K, T>>
      * @param value the value to look for
      * @return      if the value is found or not
      */
-    boolean contains(T value);
+    boolean containsValue(T value);
 
     /**
      * Get the value from the {@link ImmutableMap} with the corresponding key. If the key is not contained in this instance then
@@ -106,12 +88,5 @@ public interface ImmutableMap<K, T> extends Streamable<ImmutableMap.Entry<K, T>>
      * @return      the stream with all the values
      */
     Stream<T> valueStream();
-
-    /**
-     * Get the amount of elements stored in the {@link ImmutableMap}
-     *
-     * @return      the amount of elements contained in the map
-     */
-    int size();
 
 }

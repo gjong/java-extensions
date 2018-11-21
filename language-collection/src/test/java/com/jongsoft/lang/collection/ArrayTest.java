@@ -12,6 +12,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.jongsoft.lang.control.Optional;
+
 public class ArrayTest {
 
     @Rule
@@ -169,6 +171,18 @@ public class ArrayTest {
 
         assertThat(mapped.size(), equalTo(2));
         assertThat(mapped, hasItems(4, 3));
+    }
+
+    @Test
+    public void findLast() {
+        final Array<Integer> array = Array.of(1, 2, 3, 4, 5);
+
+        Optional<Integer> lastFound = array.iterator().findLast(i -> i % 2 == 0);
+        assertThat(lastFound.isPresent(), equalTo(true));
+        assertThat(lastFound.get(), equalTo(4));
+
+        Optional<Integer> lastNotFound = array.iterator().findLast(i -> i % 9 == 0);
+        assertThat(lastNotFound.isPresent(), equalTo(false));
     }
 
 }

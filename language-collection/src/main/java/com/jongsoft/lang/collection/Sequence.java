@@ -23,12 +23,11 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.jongsoft.lang.common.core.Value;
-
-public interface Sequence<T> extends Iterable<T>, Value<T> {
+public interface Sequence<T> extends Collection<T> {
 
     /**
      * Add an element to the end of the contents of the current list and return the result in a new {@link Sequence} instance
@@ -64,7 +63,18 @@ public interface Sequence<T> extends Iterable<T>, Value<T> {
      * @param lookFor   the element to look for
      * @return  the index of the element, or <code>-1</code> if none found
      */
-    int indexOf(Object lookFor);
+    default int indexOf(Object lookFor) {
+        return firstIndexOf(e -> Objects.equals(lookFor, e));
+    }
+
+    /**
+     * Search the collections for the first element matching the provided {@link Predicate} and return the index
+     * position of that element.
+     *
+     * @param predicate the predicate to match
+     * @return  index of the found element, -1 if none found
+     */
+    int firstIndexOf(Predicate<T> predicate);
 
     /**
      * Removes an element from the list and returns a new instance of the list.
@@ -92,13 +102,6 @@ public interface Sequence<T> extends Iterable<T>, Value<T> {
     }
 
     /**
-     * Provides the amount of entries present in the list
-     *
-     * @return 0 if empty, otherwise the amount of entries
-     */
-    int size();
-
-    /**
      * Convenience method to see if the current list is empty or not.
      *
      * @return true if the list contains elements, otherwise false
@@ -121,12 +124,7 @@ public interface Sequence<T> extends Iterable<T>, Value<T> {
      */
     T get(int index) throws IndexOutOfBoundsException;
 
-    /**
-     * Filter the list contents with the provided predicate. Only returning those elements that match the predicate.
-     *
-     * @param predicate the predicate to use in the filter operation
-     * @return          the filtered list
-     */
+    @Override
     Sequence<T> filter(Predicate<T> predicate);
 
     @Override

@@ -26,13 +26,13 @@ package com.jongsoft.lang.collection;
 import static java.lang.String.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
+
+import com.jongsoft.lang.collection.support.AbstractIterator;
 
 /**
  * A {@link TailedList} is an {@link Sequence} implementation where each entry in the list points to the next
@@ -73,10 +73,10 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public int indexOf(Object lookFor) {
+    public int firstIndexOf(final Predicate<T> predicate) {
         int index = 0;
         for (TailedList<T> list = this; !list.isEmpty(); list = list.tail, index++) {
-            if (Objects.equals(list.element, lookFor)) {
+            if (predicate.test(list.get())) {
                 return index;
             }
         }
@@ -171,7 +171,7 @@ public class TailedList<T> implements Sequence<T> {
         return corrected;
     }
 
-    class IteratorImpl<T> implements Iterator<T> {
+    class IteratorImpl<T> extends AbstractIterator<T> {
 
         private TailedList<T> position;
 
@@ -185,15 +185,12 @@ public class TailedList<T> implements Sequence<T> {
         }
 
         @Override
-        public T next() {
-            if (position.isEmpty()) {
-                throw new NoSuchElementException("No next element available in the iterator");
-            }
-
+        public T getNext() {
             T value = position.get();
             position = position.tail;
             return value;
         }
+
     }
 
     //------------------------------------------------------------------
