@@ -20,7 +20,7 @@ jobs:
           - v1-dependencies-
       - run:
           name: Build dependency list
-          command: mvn install -DskipTests dependency:go-offline
+          command: mvn -B install -DskipTests dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
@@ -67,7 +67,12 @@ jobs:
           - v1-dependencies-
       - run:
           name: Performing analysis
-          command: mvn install sonar:sonar -Dsonar.login=$sonarKey
+          command: mvn -B -Psonar -Dsonar.login=$sonarKey
+      - run:
+          name: Preparing test reports
+          command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
+      - store_test_results:
+          path: target/junit/
 
   release-dryrun:
     # verify that the software is release-able on the master branch
