@@ -101,15 +101,6 @@ public interface Sequence<T> extends Collection<T> {
         return this;
     }
 
-    /**
-     * Convenience method to see if the current list is empty or not.
-     *
-     * @return true if the list contains elements, otherwise false
-     */
-    default boolean isEmpty() {
-        return size() > 0;
-    }
-
     @Override
     default T get() {
         return get(0);

@@ -33,8 +33,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
-import com.jongsoft.lang.collection.support.AbstractIterator;
-
 /**
  * The {@link Array} implementation of the {@link Sequence} interface provides access to an immutable array. This means all mutable operators
  * will return a new instance rather then modifying the current one.
@@ -64,21 +62,9 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Iterator<T> iterator() {
-        return new AbstractIterator<>() {
-            private int index = 0;
-
-            @Override
-            public boolean hasNext() {
-                return index < delegate.length;
-            }
-
-            @Override
-            @SuppressWarnings("unchecked")
-            public T getNext() {
-                return (T) delegate[index++];
-            }
-        };
+        return Iterator.of((T[]) delegate);
     }
 
     @Override
@@ -170,6 +156,7 @@ public class Array<T> implements Sequence<T> {
      * @param <T>   the type for the empty array
      * @return      the empty array list
      */
+    @SuppressWarnings("unchecked")
     public static <T> Array<T> empty() {
         return (Array<T>) EMPTY;
     }
@@ -206,12 +193,14 @@ public class Array<T> implements Sequence<T> {
      * @param <T>       the type of the elements
      * @return          the new array
      */
+    @SuppressWarnings("unchecked")
     public static <T> Array<T> ofAll(Iterable<? extends T> elements) {
         return elements instanceof Array
                 ? (Array<T>) elements
                 : create(toArray(elements));
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> T[] toArray(Iterable<T> elements) {
         if (elements instanceof java.util.List) {
             final java.util.List<T> list = (java.util.List<T>) elements;

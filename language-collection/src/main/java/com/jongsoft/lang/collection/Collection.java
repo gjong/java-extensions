@@ -24,6 +24,15 @@ public interface Collection<T> extends Iterable<T>, Value<T> {
     int size();
 
     /**
+     * Convenience method to see if the current list is empty or not.
+     *
+     * @return true if the list contains elements, otherwise false
+     */
+    default boolean isEmpty() {
+        return size() > 0;
+    }
+
+    /**
      * Find the first match in the Iterator using the provided {@link Predicate}.
      *
      * @param predicate the predicate to use
