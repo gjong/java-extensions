@@ -101,7 +101,7 @@ workflows:
             branches:
               only: master
     jobs:
+      - dependency-build
       - release-dryrun:
           requires:
             - dependency-build
-            - build-software
