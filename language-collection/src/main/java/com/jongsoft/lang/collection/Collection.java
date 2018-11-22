@@ -40,7 +40,7 @@ public interface Collection<T> extends Iterable<T>, Value<T> {
      * @throws NullPointerException in case that the predicate is null
      */
     default Optional<T> findFirst(Predicate<T> predicate) {
-        return iterator().findFirst(predicate);
+        return iterator().first(predicate);
     }
 
     /**
@@ -51,7 +51,7 @@ public interface Collection<T> extends Iterable<T>, Value<T> {
      * @throws NullPointerException in case that the predicate is null
      */
     default Optional<T> findLast(Predicate<T> predicate) {
-        return iterator().findLast(predicate);
+        return iterator().last(predicate);
     }
 
     @Override

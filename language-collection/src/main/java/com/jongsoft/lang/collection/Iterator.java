@@ -76,7 +76,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
      * @return          the last match found
      * @throws NullPointerException in case that the predicate is null
      */
-    default Optional<T> findLast(Predicate<T> predicate) {
+    default Optional<T> last(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "The predicate may not be null");
 
         T lastMatch = null;
@@ -97,7 +97,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
      * @return          the first match found
      * @throws NullPointerException in case that the predicate is null
      */
-    default Optional<T> findFirst(Predicate<T> predicate) {
+    default Optional<T> first(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "The predicate may not be null");
 
         while (hasNext()) {
@@ -140,7 +140,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
      * @param <T>       the type of the elements
      * @return          the new iterator
      */
-    static <T> Iterator<T> of(T...elements) {
+    static <T> Iterator<T> of(final T...elements) {
         return new AbstractIterator<>() {
             private int index = 0;
 
@@ -163,7 +163,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
      * @param <T>       the type of the iterator
      * @return the new iterator containing all elements of all iterators
      */
-    static <T> Iterator<T> concat(Iterator<T>...iterators) {
+    static <T> Iterator<T> concat(final Iterator<T>...iterators) {
         return new AbstractIterator<>() {
             private int index = 0;
 

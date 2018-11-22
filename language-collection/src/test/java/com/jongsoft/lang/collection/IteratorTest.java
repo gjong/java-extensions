@@ -20,8 +20,8 @@ public class IteratorTest {
     public void ofInteger() {
         final Iterator<Integer> numbers = Iterator.of(1, 2, 3, 4, 5);
 
-        final Optional<Integer> firstMatch = numbers.findFirst(i -> i % 2 == 0);
-        final Optional<Integer> lastMatch = numbers.findLast(i -> i % 2 == 0);
+        final Optional<Integer> firstMatch = numbers.first(i -> i % 2 == 0);
+        final Optional<Integer> lastMatch = numbers.last(i -> i % 2 == 0);
 
         assertThat(firstMatch.isPresent(), equalTo(true));
         assertThat(firstMatch.get(), equalTo(2));
