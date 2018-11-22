@@ -33,6 +33,12 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx1024m
     steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
       - run:
           name: Build project
           command: mvn -B package coveralls:report -DrepoKey=$coverageKey
@@ -49,9 +55,15 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx1024m
     steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
       - run:
           name: Performing analysis
-          command: mvn sonar:sonar -Dsonar.login=$sonarKey
+          command: mvn install sonar:sonar -Dsonar.login=$sonarKey
 
   release-dryrun:
     # verify that the software is release-able on the master branch
@@ -60,6 +72,12 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx1024m
     steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
       - run:
           name: Performing a dry run release
           command: mvn release:prepare -DdryRun=true -P release-profile -s settings.xml
@@ -68,6 +86,12 @@ jobs:
     executor: docker-build
     working_directory: ~/repo
     steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
       - run:
           name: Setup the PGP key
           command: |
@@ -85,10 +109,12 @@ workflows:
       - build-software:
           requires:
             - dependency-build
+          filters:
+            branches:
+              ignore: master
       - analysis:
           requires:
             - dependency-build
-            - build-software
           filters:
             branches:
               only: master
