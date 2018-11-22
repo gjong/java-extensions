@@ -23,8 +23,12 @@ jobs:
           command: mvn install -DskipTests dependency:go-offline
       - save_cache:
           paths:
-          - ~/.m2
+            - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
+      - save_cache:
+          paths:
+            - ~/repo
+          key: v1-codecheckout
 
   build-software:
     # Build the application including the code coverage reports
@@ -33,12 +37,12 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx1024m
     steps:
-      - checkout
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+          - v1-codecheckout
       - run:
           name: Build project
           command: mvn -B package coveralls:report -DrepoKey=$coverageKey
@@ -55,12 +59,12 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx1024m
     steps:
-      - checkout
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+          - v1-codecheckout
       - run:
           name: Performing analysis
           command: mvn install sonar:sonar -Dsonar.login=$sonarKey
@@ -72,12 +76,12 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx1024m
     steps:
-      - checkout
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+          - v1-codecheckout
       - run:
           name: Performing a dry run release
           command: mvn release:prepare -DdryRun=true -P release-profile -s settings.xml
@@ -86,12 +90,12 @@ jobs:
     executor: docker-build
     working_directory: ~/repo
     steps:
-      - checkout
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+          - v1-codecheckout
       - run:
           name: Setup the PGP key
           command: |
