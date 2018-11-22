@@ -24,9 +24,11 @@
 package com.jongsoft.lang.collection;
 
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.jongsoft.lang.collection.support.AbstractIterator;
+import com.jongsoft.lang.common.core.Value;
 import com.jongsoft.lang.control.Optional;
 
 /**
@@ -35,7 +37,37 @@ import com.jongsoft.lang.control.Optional;
  *
  * @param <T>   the type contained in the iterator
  */
-public interface Iterator<T> extends java.util.Iterator<T> {
+public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
+
+    @Override
+    default T get() {
+        return next();
+    }
+
+    @Override
+    default java.util.Iterator<T> iterator() {
+        return this;
+    }
+
+    @Override
+    default <U> Iterator<U> map(Function<T, U> mapper) {
+        if (hasNext()) {
+            Iterator<T> pointer = this;
+            return new AbstractIterator<>() {
+                @Override
+                protected U getNext() {
+                    return mapper.apply(pointer.next());
+                }
+
+                @Override
+                public boolean hasNext() {
+                    return pointer.hasNext();
+                }
+            };
+        }
+
+        return empty();
+    }
 
     /**
      * Find the last match in the Iterator using the provided {@link Predicate}.
@@ -82,6 +114,26 @@ public interface Iterator<T> extends java.util.Iterator<T> {
     //-- Static supporting methods
 
     /**
+     * Create an empty Iterator.
+     *
+     * @param <T>   the entity type
+     * @return      a new empty iterator
+     */
+    static <T> Iterator<T> empty() {
+        return new AbstractIterator<T>() {
+            @Override
+            protected T getNext() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+        };
+    }
+
+    /**
      * Creates a Iterator that contains all the provided elements.
      *
      * @param elements  the elements to wrap in an iterator
@@ -104,6 +156,13 @@ public interface Iterator<T> extends java.util.Iterator<T> {
         };
     }
 
+    /**
+     * Combine multiple iterator instances into one big iterator.
+     *
+     * @param iterators the iterators to be combined
+     * @param <T>       the type of the iterator
+     * @return the new iterator containing all elements of all iterators
+     */
     static <T> Iterator<T> concat(Iterator<T>...iterators) {
         return new AbstractIterator<>() {
             private int index = 0;

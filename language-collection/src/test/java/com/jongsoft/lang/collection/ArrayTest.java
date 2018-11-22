@@ -174,7 +174,7 @@ public class ArrayTest {
     }
 
     @Test
-    public void findLast() {
+    public void findLastFirst() {
         final Array<Integer> array = Array.of(1, 2, 3, 4, 5);
 
         Optional<Integer> lastFound = array.iterator().findLast(i -> i % 2 == 0);
@@ -183,6 +183,10 @@ public class ArrayTest {
 
         Optional<Integer> lastNotFound = array.iterator().findLast(i -> i % 9 == 0);
         assertThat(lastNotFound.isPresent(), equalTo(false));
+
+        Optional<Integer> firstFound = array.iterator().findFirst(i -> i % 2 == 0);
+        assertThat(firstFound.isPresent(), equalTo(true));
+        assertThat(firstFound.get(), equalTo(2));
     }
 
 }
