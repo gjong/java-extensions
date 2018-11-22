@@ -39,10 +39,10 @@ jobs:
     steps:
       - restore_cache:
           keys:
+          - v1-codecheckout
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-          - v1-codecheckout
       - run:
           name: Build project
           command: mvn -B package coveralls:report -DrepoKey=$coverageKey
@@ -61,10 +61,10 @@ jobs:
     steps:
       - restore_cache:
           keys:
+          - v1-codecheckout
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-          - v1-codecheckout
       - run:
           name: Performing analysis
           command: mvn install sonar:sonar -Dsonar.login=$sonarKey
@@ -78,10 +78,10 @@ jobs:
     steps:
       - restore_cache:
           keys:
+          - v1-codecheckout
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-          - v1-codecheckout
       - run:
           name: Performing a dry run release
           command: mvn release:prepare -DdryRun=true -P release-profile -s settings.xml
@@ -92,10 +92,10 @@ jobs:
     steps:
       - restore_cache:
           keys:
+          - v1-codecheckout
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-          - v1-codecheckout
       - run:
           name: Setup the PGP key
           command: |
