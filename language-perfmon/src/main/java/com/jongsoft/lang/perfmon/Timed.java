@@ -14,9 +14,11 @@ public @interface Timed {
     String name();
 
     /**
-     * The process to which this timed entry belongs to. This can be used to group several timed
-     * entries by a logical process.
-     * <p/>
+     * <p>
+     *  The process to which this timed entry belongs to. This can be used to group several timed
+     *  entries by a logical process.
+     * </p>
+     *
      * <b>Default: </b> "None"
      *
      * @return  the process name

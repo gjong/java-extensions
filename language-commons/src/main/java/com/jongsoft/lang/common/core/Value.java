@@ -51,7 +51,7 @@ public interface Value<T> extends Iterable<T>, Streamable<T>, Mappable<T>, Seria
     /**
      * Create a stream of the value.
      *
-     * @return
+     * @return the stream containing the value
      */
     @Override
     default Stream<T> stream() {

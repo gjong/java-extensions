@@ -77,6 +77,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <javadoc.version>3.0.1</javadoc.version>
+        <jacoco.version>0.8.2</jacoco.version>
+        <asm.version>7.0</asm.version>
+
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
@@ -112,7 +115,7 @@
                         <dependency>
                             <groupId>org.ow2.asm</groupId>
                             <artifactId>asm</artifactId>
-                            <version>7.0</version> <!-- Use newer version of ASM -->
+                            <version>${asm.version}</version> <!-- Use newer version of ASM -->
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -120,7 +123,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.2</version>
+                    <version>${jacoco.version}</version>
                     <configuration>
                         <destFile>${sonar.jacoco.reportPath}</destFile>
                         <append>true</append>
@@ -139,7 +142,6 @@
                             <id>post-unit-test</id>
                             <phase>test</phase>
                             <goals>
-                                <!--<goal>merge</goal>-->
                                 <goal>report</goal>
                             </goals>
                             <configuration>
@@ -147,16 +149,14 @@
                                 <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
                             </configuration>
                         </execution>
+                        <execution>
+                            <id>jacoco-aggregate</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>report-aggregate</goal>
+                            </goals>
+                        </execution>
                     </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <argLine>
-                            --illegal-access=permit
-                        </argLine>
-                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -169,21 +169,29 @@
                     </configuration>
                     <executions>
                         <execution>
+                            <phase>prepare-package</phase>
                             <goals>
                                 <goal>javadoc</goal>
                                 <goal>jar</goal>
-                                <goal>aggregate</goal>
                             </goals>
                             <configuration>
                                 <show>public</show>
                             </configuration>
+                        </execution>
+                        <execution>
+                            <id>javadoc-aggregate</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>aggregate</goal>
+                                <goal>aggregate-jar</goal>
+                            </goals>
                         </execution>
                     </executions>
                     <dependencies>
                         <dependency>
                             <groupId>org.ow2.asm</groupId>
                             <artifactId>asm</artifactId>
-                            <version>7.0</version> <!-- Use newer version of ASM -->
+                            <version>${asm.version}</version> <!-- Use newer version of ASM -->
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -191,35 +199,13 @@
         </pluginManagement>
 
         <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-toolchains-plugin</artifactId>-->
-                <!--<version>1.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>toolchain</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<toolchains>-->
-                        <!--<jdk>-->
-                            <!--<version>${java.version}</version>-->
-                            <!--<vendor>oracle</vendor>-->
-                        <!--</jdk>-->
-                    <!--</toolchains>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
 
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
 
             <plugin>
@@ -256,6 +242,11 @@
                             <show>public</show>
                         </configuration>
                         <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <reports>
                             <report>aggregate</report>
                         </reports>
                     </reportSet>
@@ -264,6 +255,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -284,6 +276,33 @@
             </properties>
             <build>
                 <defaultGoal>sonar:sonar</defaultGoal>
+            </build>
+        </profile>
+        <profile>
+            <id>toolchain</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>toolchain</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <toolchains>
+                                <jdk>
+                                    <version>${java.version}</version>
+                                    <vendor>oracle</vendor>
+                                </jdk>
+                            </toolchains>
+                        </configuration>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
         <profile>

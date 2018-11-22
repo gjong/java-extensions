@@ -31,7 +31,7 @@ public interface Filterable<T> {
      * Filter the contents of this with the supplied predicate.
      *
      * @param predicate the predicate to apply to the contents of this
-     * @return
+     * @return the filtered value
      * @throws NullPointerException in case the predicate is null
      */
     Value<T> filter(Predicate<T> predicate);

@@ -25,8 +25,9 @@ package com.jongsoft.lang.common;
 
 /**
  * The {@link Runner} interface allows for the user to instantiate a lambda expression that takes no parameters and return nothing.
- * <br/><br/>
- * This can be used in conjunction with the functional implementation of this library.
+ * <p>
+ *   This can be used in conjunction with the functional implementation of this library.
+ * </p>
  */
 @FunctionalInterface
 public interface Runner {

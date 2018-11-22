@@ -95,7 +95,7 @@ public interface Try<T> extends Presence<T> {
     /**
      * Return the cause of the failure. If the {@link #isSuccess()} is true this call will cause an exception.
      * 
-     * @return 
+     * @return get the root cause for a failure
      */
     Throwable getCause();
 
@@ -112,6 +112,14 @@ public interface Try<T> extends Presence<T> {
         return andTry(consumer::accept);
     }
 
+    /**
+     * Execute the runnable with a try and catch around it. This is a convenience operation for {@link #andTry(CheckedRunner)}.
+     *
+     * @see #andTry(CheckedRunner)
+     * @param runner the runner to execute
+     * @return a {@link Try} with {@link #isSuccess()} is true in case of no issues, otherwise a {@link Try} with
+     *         {@link #isFailure()} is true.
+     */
     default Try<T> and(Runnable runner) {
         Objects.requireNonNull(runner, "Runner cannot be null");
         return andTry(runner::run);
@@ -122,10 +130,10 @@ public interface Try<T> extends Presence<T> {
      * consumer and return the try containing the failure.
      * <p>
      * This method exists for chaining checked functions, like:
-     * <p>
+     * </p>
      * <pre>
      *      Try.of( () -&gt; "my success")
-     *         .andTry( str -> System.out.println(str));
+     *         .andTry( str -&gt; System.out.println(str));
      * </pre>
      *
      * @param consumer the checked consumer to consume the value contained within
@@ -155,14 +163,14 @@ public interface Try<T> extends Presence<T> {
      * <p>
      * This method allows for chaining multiple logical execution blocks that need to run sequential as long as there
      * are no exceptions.
-     * <p>
+     * </p>
      * <pre>
-     *     Try.of( () -> -&gt; System.out.println("first") )
+     *     Try.of( () -&gt; System.out.println("first") )
      *         .andTry( () -&gt; System.out.println("second"));
      * </pre>
      *
      * @param runner    the part of code that should be executed, wrapped in a {@link CheckedRunner}
-     * @returna {@link Try} with {@link #isSuccess()} is true in case of no issues, otherwise a {@link Try} with
+     * @return {@link Try} with {@link #isSuccess()} is true in case of no issues, otherwise a {@link Try} with
      *         {@link #isFailure()} is true.
      *
      * @throws NullPointerException in case the <code>runner</code> is null
