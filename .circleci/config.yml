@@ -31,6 +31,31 @@ jobs:
           key: v1-codecheckout
 
   build-software:
+    executor: docker-builder
+    working_directory: ~/repo
+    environment:
+      MAVEN_OPTS: -Xmx1024m
+    steps:
+      - restore_cache:
+          keys:
+          - v1-codecheckout
+          - v1-dependencies-{{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run:
+          name: Build software
+          run: mvn -B clean install
+      - run:
+          name: Preparing test reports
+          command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
+      - store_test_results:
+          path: target/junit/
+      - save_cache:
+          paths:
+          - ~/repo
+          key: v1-codecheckout-{{ checksum "pom.xml" }}
+
+  publish-coverage:
     # Build the application including the code coverage reports
     executor: docker-builder
     working_directory: ~/repo
@@ -39,20 +64,15 @@ jobs:
     steps:
       - restore_cache:
           keys:
-          - v1-codecheckout
+          - v1-codecheckout-{{ checksum "pom.xml" }}
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run:
           name: Build project
-          command: mvn -B package coveralls:report -DrepoKey=$coverageKey
-      - run:
-          name: Preparing test reports
-          command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
-      - store_test_results:
-          path: target/junit/
+          command: mvn -B coveralls:report -DrepoKey=$coverageKey
 
-  analysis:
+  publish-analysis:
     # analysis will perform the SonarQube quality analysis
     executor: docker-builder
     working_directory: ~/repo
@@ -61,18 +81,13 @@ jobs:
     steps:
       - restore_cache:
           keys:
-          - v1-codecheckout
+          - v1-codecheckout-{{ checksum "pom.xml" }}
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run:
           name: Performing analysis
-          command: mvn -B -Psonar install sonar:sonar -Dsonar.login=$sonarKey
-      - run:
-          name: Preparing test reports
-          command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
-      - store_test_results:
-          path: target/junit/
+          command: mvn -B -Psonar -Dsonar.login=$sonarKey
 
   release-dryrun:
     # verify that the software is release-able on the master branch
@@ -118,10 +133,10 @@ workflows:
       - build-software:
           requires:
             - dependency-build
-          filters:
-            branches:
-              ignore: master
-      - analysis:
+      - publish-coverage:
+          requires:
+            - dependency-build
+      - publish-analysis:
           requires:
             - dependency-build
           filters:
