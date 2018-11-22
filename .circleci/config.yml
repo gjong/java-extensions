@@ -54,7 +54,7 @@ jobs:
       - save_cache:
           paths:
           - ~/repo
-          key: v1-codecheckout-{{ checksum "pom.xml" }}
+          key: v1-codecheckout-build
 
   publish-coverage:
     # Publish the code coverage report to coverals
@@ -65,7 +65,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-          - v1-codecheckout-{{ checksum "pom.xml" }}
+          - v1-codecheckout-build
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
@@ -82,7 +82,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-          - v1-codecheckout-{{ checksum "pom.xml" }}
+          - v1-codecheckout-build
           - v1-dependencies-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
