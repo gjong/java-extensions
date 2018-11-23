@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import java.util.stream.Stream;
  * This interface indicates that the class implements the {@link #stream()} method. Allowing access to the Java 8 streaming API.
  *
  * @param <T> the type of entities that are contained in the {@link Stream}.
+ * @since 0.0.1
  */
 public interface Streamable<T> {
 

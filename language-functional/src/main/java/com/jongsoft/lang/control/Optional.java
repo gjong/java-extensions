@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -49,6 +49,7 @@ import com.jongsoft.lang.control.impl.OptionalSome;
  * </pre>
  *
  * @param <T> the type of entity contained in the Optional
+ * @since 0.0.1
  */
 public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
     

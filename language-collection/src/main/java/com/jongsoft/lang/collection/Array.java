@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@ import java.util.stream.Collector;
  * will return a new instance rather then modifying the current one.
  *
  * @param <T>   the element type contained in the array
+ * @since 0.0.2
  */
 public class Array<T> implements Sequence<T> {
 

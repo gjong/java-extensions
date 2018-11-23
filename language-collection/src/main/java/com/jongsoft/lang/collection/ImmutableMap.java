@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@ import com.jongsoft.lang.collection.tuple.Tuple;
  *
  * @param <K>   the type for the key
  * @param <T>   the type for the values
+ * @since 0.0.3
  */
 public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
 

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,8 @@ import com.jongsoft.lang.common.Runner;
  *      .ifPresent(System.out::println)
  *      .elseThrow(() -> new NullPointerException("No value present"))
  * </pre>
+ *
+ * @since 0.0.1
  */
 public interface OrElse {
 

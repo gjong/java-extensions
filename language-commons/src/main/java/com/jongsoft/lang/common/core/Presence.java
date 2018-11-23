@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,7 @@ import com.jongsoft.lang.common.Runner;
  * </p>
  *
  * @param <T>   the type of the entity wrapped
+ * @since 0.0.3
  */
 public interface Presence<T> extends Value<T> {
 

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,15 @@ import com.jongsoft.lang.common.core.Presence;
 import com.jongsoft.lang.control.impl.TryFailure;
 import com.jongsoft.lang.control.impl.TrySuccess;
 
+/**
+ * The try interface allows for easier and more functional coding around exception handling. This interface allows for
+ * conditionally running a operation chain. The chain will continue to be executed for as long as there is no exception.
+ * As soon as an exception occurs the chain will be short-circuited and the resulting Try will contain an {@link #isFailure()}
+ * and the underlying {@link #getCause()}.
+ *
+ * @param <T>   the type of entity contained
+ * @since 0.0.2
+ */
 public interface Try<T> extends Presence<T> {
 
     /**

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,7 @@ import com.jongsoft.lang.control.Optional;
  * inside it.
  *
  * @param <T>   the type contained in the iterator
+ * @since 0.0.3
  */
 public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
 
