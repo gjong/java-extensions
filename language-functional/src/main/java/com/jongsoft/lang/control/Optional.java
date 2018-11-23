@@ -34,6 +34,22 @@ import com.jongsoft.lang.common.core.Value;
 import com.jongsoft.lang.control.impl.OptionalNone;
 import com.jongsoft.lang.control.impl.OptionalSome;
 
+/**
+ * The Optional provides a functional way to detect <code>null</code> values without null reference checks or complicated
+ * logic throughout the code base.
+ * <p>
+ *     Usage of this Optional is advices as a return type rather then using <code>null</code> as it moves away the change
+ *     of potential {@link NullPointerException} in the code calling the operation.
+ * </p>
+ * <pre>
+ *     // Sample usage of the Optional
+ *     Optional.ofNullable("one")
+ *          .ifPresent(System.out::println)
+ *          .orElse(() -> System.out.println("No value is present");
+ * </pre>
+ *
+ * @param <T> the type of entity contained in the Optional
+ */
 public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
     
     @Override
