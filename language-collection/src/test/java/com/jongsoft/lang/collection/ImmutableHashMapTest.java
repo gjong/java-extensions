@@ -100,4 +100,26 @@ public class ImmutableHashMapTest {
         assertThat(collected.size(), equalTo(2));
         assertThat(collected, hasItems("two", "three"));
     }
+
+    @Test
+    public void map() {
+        Collection<String> collected = ImmutableHashMap.<String, String>create()
+                .put("one", "two")
+                .put("two", "three")
+                .map(Tuple.Pair::getSecond);
+
+        assertThat(collected.size(), equalTo(2));
+        assertThat(collected, hasItems("two", "three"));
+    }
+
+    @Test
+    public void filter() {
+        final ImmutableMap<String, String> result = ImmutableHashMap.<String, String>create()
+                .put("one", "two")
+                .put("two", "three")
+                .filter(p -> p.getSecond().length() == 3);
+
+        assertThat(result.size(), equalTo(1));
+        assertThat(result.get("one"), equalTo("two"));
+    }
 }

@@ -51,7 +51,7 @@ public interface Try<T> extends Presence<T> {
         Objects.requireNonNull(supplier, "Supplier cannot be null");
         try {
             return new TrySuccess<>(supplier.get());
-        } catch (Throwable exception) {
+        } catch (Exception exception) {
             return new TryFailure<>(exception);
         }
     }
@@ -71,7 +71,7 @@ public interface Try<T> extends Presence<T> {
         Objects.requireNonNull(runner, "Runner cannot be null");
         try {
             runner.run();
-        } catch (Throwable exception) {
+        } catch (Exception exception) {
             return new TryFailure<>(exception);
         }
 
@@ -148,7 +148,7 @@ public interface Try<T> extends Presence<T> {
         if (!isFailure()) {
             try {
                 consumer.accept(get());
-            } catch (Throwable th) {
+            } catch (Exception th) {
                 return new TryFailure<>(th);
             }
         }
@@ -180,7 +180,7 @@ public interface Try<T> extends Presence<T> {
         if (!isFailure()) {
             try {
                 runner.run();
-            } catch (Throwable th) {
+            } catch (Exception th) {
                 return new TryFailure<>(th);
             }
         }
@@ -192,7 +192,7 @@ public interface Try<T> extends Presence<T> {
         if (!isFailure()) {
             try {
                 return new TrySuccess<>(mapper.apply(get()));
-            } catch (Throwable th) {
+            } catch (Exception th) {
                 return new TryFailure<>(th);
             }
         }

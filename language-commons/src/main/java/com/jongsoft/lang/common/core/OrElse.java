@@ -23,9 +23,9 @@
  */
 package com.jongsoft.lang.common.core;
 
-import com.jongsoft.lang.common.Runner;
-
 import java.util.function.Supplier;
+
+import com.jongsoft.lang.common.Runner;
 
 public interface OrElse {
     
@@ -36,10 +36,10 @@ public interface OrElse {
     //-- All static helper methods to instantiate the OrElse class
     
     static OrElse empty() {
-        return OrElseEmpty.INSTANCE;
+        return Constants.OR_ELSE_EMPTY;
     }
     
     static OrElse notEmpty() {
-        return OrElseNotEmpty.INSTANCE;
+        return Constants.OR_ELSE_NOT_EMTPY;
     }
 }

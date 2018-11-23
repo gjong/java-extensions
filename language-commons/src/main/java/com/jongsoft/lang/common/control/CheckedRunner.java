@@ -24,5 +24,5 @@
 package com.jongsoft.lang.common.control;
 
 public interface CheckedRunner {
-    void run() throws Throwable;
+    void run() throws Exception;
 }

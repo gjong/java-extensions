@@ -25,5 +25,5 @@ package com.jongsoft.lang.common.control;
 
 @FunctionalInterface
 public interface CheckedConsumer<T> {
-    void accept(T value) throws Throwable;
+    void accept(T value) throws Exception;
 }

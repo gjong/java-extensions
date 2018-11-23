@@ -25,5 +25,5 @@ package com.jongsoft.lang.common.control;
 
 @FunctionalInterface
 public interface CheckedSupplier<T> {
-    T get() throws Throwable;
+    T get() throws Exception;
 }

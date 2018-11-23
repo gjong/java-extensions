@@ -95,7 +95,7 @@ public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
     static <T> Optional<T> ofNullable(T value) {
         return value != null 
                 ? new OptionalSome<>(value)
-                : (Optional<T>) OptionalNone.NONE;
+                : (Optional<T>) OptionalNone.INSTANCE;
     }
     
     /**
@@ -106,7 +106,7 @@ public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
      */
     @SuppressWarnings("unchecked")
     static <T> Optional<T> empty() {
-        return (Optional<T>) OptionalNone.NONE;
+        return (Optional<T>) OptionalNone.INSTANCE;
     }
 
 }

@@ -87,7 +87,7 @@
         <module>language-commons</module>
         <module>language-collection</module>
         <module>language-functional</module>
-        <module>language-perfmon</module>
+        <!--<module>language-perfmon</module>-->
     </modules>
 
     <dependencies>

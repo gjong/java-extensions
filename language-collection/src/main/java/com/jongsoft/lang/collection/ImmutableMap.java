@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import com.jongsoft.lang.collection.tuple.Tuple;
@@ -88,5 +89,8 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
      * @return      the stream with all the values
      */
     Stream<T> valueStream();
+
+    @Override
+    ImmutableMap<K, T> filter(Predicate<Tuple.Pair<K, T>> predicate);
 
 }

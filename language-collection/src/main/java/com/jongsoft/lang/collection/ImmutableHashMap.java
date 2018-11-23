@@ -78,12 +78,12 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
 
     @Override
     public ImmutableHashMap<K, T> filter(final Predicate<Tuple.Pair<K, T>> predicate) {
-        return null;
+        return new ImmutableHashMap<>(delegate.filter(predicate));
     }
 
     @Override
     public <U> Collection<U> map(final Function<Tuple.Pair<K, T>, U> mapper) {
-        return null;
+        return delegate.map(mapper);
     }
 
     @Override

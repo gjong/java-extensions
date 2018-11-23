@@ -113,7 +113,7 @@ public interface Sequence<T> extends Collection<T> {
      * @return          the element at the provided index
      * @throws IndexOutOfBoundsException    in case the index provided is greater then the {@link #size()} - 1.
      */
-    T get(int index) throws IndexOutOfBoundsException;
+    T get(int index);
 
     @Override
     Sequence<T> filter(Predicate<T> predicate);
