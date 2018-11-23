@@ -129,7 +129,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
      * @return the primitive array
      */
     @SuppressWarnings("unchecked")
-    default T[] toNativeArray() {
+    default Object[] toNativeArray() {
         int size = 0;
         while (hasNext()) {
             next();
@@ -142,7 +142,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
             clone[i] = next();
         }
 
-        return (T[]) clone;
+        return clone;
     }
 
     //------------------------------------------------------------------
@@ -198,6 +198,27 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
             @Override
             public boolean hasNext() {
                 return index < elements.length;
+            }
+        };
+    }
+
+    static <T> Iterator<T> of(final Iterable<T> iterable) {
+        return new AbstractIterator<>() {
+            java.util.Iterator<T> original = iterable.iterator();
+
+            @Override
+            public boolean hasNext() {
+                return original.hasNext();
+            }
+
+            @Override
+            public void reset() {
+                original = iterable.iterator();
+            }
+
+            @Override
+            protected T getNext() {
+                return original.next();
             }
         };
     }

@@ -44,8 +44,15 @@ public class HashSet<T> implements Set<T> {
     }
 
     @Override
-    public Sequence<T> remove(final int index) {
-        return null;
+    @SuppressWarnings("Duplicates")
+    public HashSet<T> remove(final int index) {
+        validateOutOfBounds(index);
+        Object[] clone = new Object[delegate.length - 1];
+
+        System.arraycopy(delegate, 0, clone, 0, index);
+        System.arraycopy(delegate, index  + 1, clone, index, delegate.length - index - 1);
+
+        return new HashSet<>(clone);
     }
 
     @Override
@@ -67,12 +74,12 @@ public class HashSet<T> implements Set<T> {
     public <U> Set<U> map(final Function<T, U> mapper) {
         Objects.requireNonNull(mapper, "The mapper cannot be null for this operation.");
 
-        Object[] mapped = new Object[delegate.length];
+        Set<U> mappedSet = empty();
         for (int i = 0; i < size(); i++) {
-            mapped[i] = mapper.apply(get(i));
+            mappedSet = mappedSet.add(mapper.apply(get(i)));
         }
 
-        return new HashSet<>(mapped);
+        return mappedSet;
     }
 
     @Override
@@ -99,13 +106,14 @@ public class HashSet<T> implements Set<T> {
         }
     }
 
-    public static <T> Collector<T, List<T>, HashSet<T>> collector() {
-        final BinaryOperator<List<T>> combiner = (left, right) -> {
+    @SuppressWarnings("Duplicates")
+    public static <T> Collector<T, ArrayList<T>, HashSet<T>> collector() {
+        final BinaryOperator<ArrayList<T>> combiner = (left, right) -> {
             left.addAll(right);
             return left;
         };
 
-        return Collector.of(ArrayList::new, List::add, combiner, HashSet::of);
+        return Collector.of(ArrayList::new, ArrayList::add, combiner, HashSet::of);
     }
 
     //------------------------------------------------------------------

@@ -51,7 +51,7 @@ public interface Set<T> extends Collection<T> {
      * @return          the new instance of the list without the element at the provided index
      * @throws IndexOutOfBoundsException    in case the index is not between the 0 and list size
      */
-    Sequence<T> remove(int index);
+    Set<T> remove(int index);
 
     @Override
     default T get() {

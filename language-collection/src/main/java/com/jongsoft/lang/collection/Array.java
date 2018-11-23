@@ -118,6 +118,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public Array<T> remove(int index) {
         validateOutOfBounds(index);
         Object[] newDelegate = new Object[delegate.length - 1];
@@ -128,6 +129,7 @@ public class Array<T> implements Sequence<T> {
         return create(newDelegate);
     }
 
+    @SuppressWarnings("Duplicates")
     public static <T> Collector<T, ArrayList<T>, Array<T>> collector() {
         final BinaryOperator<ArrayList<T>> combiner = (left, right) -> {
             left.addAll(right);

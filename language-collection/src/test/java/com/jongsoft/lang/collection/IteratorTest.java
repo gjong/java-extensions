@@ -70,8 +70,7 @@ public class IteratorTest {
 
     @Test
     public void toNativeArray() {
-        String[] strings = Iterator.of("one", "two")
-                .toNativeArray();
+        Object[] strings = Iterator.of("one", "two").toNativeArray();
 
         assertThat(strings.length, equalTo(2));
         assertThat(strings[0], equalTo("one"));
