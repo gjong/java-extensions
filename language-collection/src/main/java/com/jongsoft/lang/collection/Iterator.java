@@ -44,6 +44,11 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
         return next();
     }
 
+    /**
+     * Move the iterator back to the first element in the sequence.
+     */
+    void reset();
+
     @Override
     default java.util.Iterator<T> iterator() {
         return this;
@@ -54,6 +59,12 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
         if (hasNext()) {
             Iterator<T> pointer = this;
             return new AbstractIterator<>() {
+
+                @Override
+                public void reset() {
+                    pointer.reset();
+                }
+
                 @Override
                 protected U getNext() {
                     return mapper.apply(pointer.next());
@@ -70,7 +81,8 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
     }
 
     /**
-     * Find the last match in the Iterator using the provided {@link Predicate}.
+     * Find the last match in the Iterator using the provided {@link Predicate}. Note that his is a destructive operation which moves the
+     * cursor forward to the end.
      *
      * @param predicate the predicate to use
      * @return          the last match found
@@ -91,7 +103,8 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
     }
 
     /**
-     * Find the first match in the Iterator using the provided {@link Predicate}.
+     * Find the first match in the Iterator using the provided {@link Predicate}. Note that this is a destructive operation which moves the
+     * cursor in the iterator forward until the first match is found.
      *
      * @param predicate the predicate to use
      * @return          the first match found
@@ -110,6 +123,28 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
         return Optional.empty();
     }
 
+    /**
+     * Create a primitive array of the elements contained within the iterator.
+     *
+     * @return the primitive array
+     */
+    @SuppressWarnings("unchecked")
+    default T[] toNativeArray() {
+        int size = 0;
+        while (hasNext()) {
+            next();
+            size++;
+        }
+        reset();
+
+        Object[] clone = new Object[size];
+        for (int i = 0; hasNext(); i++) {
+            clone[i] = next();
+        }
+
+        return (T[]) clone;
+    }
+
     //------------------------------------------------------------------
     //-- Static supporting methods
 
@@ -121,6 +156,12 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
      */
     static <T> Iterator<T> empty() {
         return new AbstractIterator<T>() {
+
+            @Override
+            public void reset() {
+                // do nothing, an empty iterator cannot reset
+            }
+
             @Override
             protected T getNext() {
                 throw new UnsupportedOperationException();
@@ -145,6 +186,11 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
             private int index = 0;
 
             @Override
+            public void reset() {
+                index = 0;
+            }
+
+            @Override
             protected T getNext() {
                 return elements[index++];
             }
@@ -166,6 +212,14 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
     static <T> Iterator<T> concat(final Iterator<T>...iterators) {
         return new AbstractIterator<>() {
             private int index = 0;
+
+            @Override
+            public void reset() {
+                for (Iterator it : iterators) {
+                    it.reset();
+                }
+                index = 0;
+            }
 
             @Override
             protected T getNext() {

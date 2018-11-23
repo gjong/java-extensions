@@ -173,10 +173,17 @@ public class TailedList<T> implements Sequence<T> {
 
     class IteratorImpl<T> extends AbstractIterator<T> {
 
+        private TailedList<T> start;
         private TailedList<T> position;
 
         private IteratorImpl(TailedList<T> position) {
+            this.start = position;
             this.position = position;
+        }
+
+        @Override
+        public void reset() {
+            position = start;
         }
 
         @Override

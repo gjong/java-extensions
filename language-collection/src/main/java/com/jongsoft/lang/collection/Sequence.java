@@ -27,6 +27,12 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+/**
+ * Sequence implementations will be an ordered {@link Collection}. These collections allow for adding duplicate entries but all entries
+ * will always be returned in the order that they were added.
+ *
+ * @param <T>   the entity type of the sequence
+ */
 public interface Sequence<T> extends Collection<T> {
 
     /**

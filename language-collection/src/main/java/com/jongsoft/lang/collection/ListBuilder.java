@@ -23,15 +23,15 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.common.Builder;
-
 import java.util.stream.Stream;
+
+import com.jongsoft.lang.common.Builder;
 
 public class ListBuilder<T> {
     private Sequence<Builder<T>> builders = Array.empty();
 
     public ListBuilder<T> append(Builder<T> builder) {
-        builders.insert(0, builder);
+        builders.add(builder);
         return this;
     }
 
@@ -40,7 +40,7 @@ public class ListBuilder<T> {
      *
      * @return returns a list of the elements after the {@link Builder#build()} is called for each element.
      */
-    public Sequence<T> toList() {
+    public Collection<T> toList() {
         return toStream().collect(Array.collector());
     }
 

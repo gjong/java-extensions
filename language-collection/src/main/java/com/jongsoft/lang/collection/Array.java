@@ -75,6 +75,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public <U> Array<U> map(final Function<T, U> mapper) {
         Objects.requireNonNull(mapper, "The mapper cannot be null for this operation.");
 
@@ -105,6 +106,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public int firstIndexOf(final Predicate<T> predicate) {
         for (int i = 0; i < size(); i++) {
             if (predicate.test(get(i))) {

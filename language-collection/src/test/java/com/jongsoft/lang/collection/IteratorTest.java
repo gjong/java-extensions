@@ -67,4 +67,14 @@ public class IteratorTest {
         assertThat(mapped.next(), equalTo(4));
         assertThat(mapped.hasNext(), equalTo(false));
     }
+
+    @Test
+    public void toNativeArray() {
+        String[] strings = Iterator.of("one", "two")
+                .toNativeArray();
+
+        assertThat(strings.length, equalTo(2));
+        assertThat(strings[0], equalTo("one"));
+        assertThat(strings[1], equalTo("two"));
+    }
 }
