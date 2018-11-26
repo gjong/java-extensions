@@ -23,15 +23,15 @@
  */
 package com.jongsoft.lang.collection;
 
-import static java.lang.String.*;
-import static java.util.Arrays.*;
-
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
+
+import static java.lang.String.format;
+import static java.util.Arrays.copyOf;
 
 /**
  * The {@link Array} implementation of the {@link Sequence} interface provides access to an immutable array. This means all mutable operators
@@ -128,6 +128,16 @@ public class Array<T> implements Sequence<T> {
         System.arraycopy(delegate, index  + 1, newDelegate, index, delegate.length - index - 1);
 
         return create(newDelegate);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public java.util.List<T> toJava() {
+        java.util.List<T> result = new java.util.ArrayList<>(delegate.length);
+        for (Object o : delegate) {
+            result.add((T) o);
+        }
+        return result;
     }
 
     @SuppressWarnings("Duplicates")

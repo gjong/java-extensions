@@ -127,4 +127,6 @@ public interface Sequence<T> extends Collection<T> {
     @Override
     <U> Sequence<U> map(Function<T, U> mapper);
 
+    @Override
+    java.util.List<T> toJava();
 }

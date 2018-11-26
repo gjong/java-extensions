@@ -82,4 +82,11 @@ public interface Collection<T> extends Iterable<T>, Value<T> {
 
     @Override
     Iterator<T> iterator();
+
+    /**
+     * Transform this collection into one supported natively in Java.
+     *
+     * @return the native java collection
+     */
+    java.util.Collection<T> toJava();
 }

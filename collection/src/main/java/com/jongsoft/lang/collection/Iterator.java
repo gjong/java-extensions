@@ -40,6 +40,12 @@ import com.jongsoft.lang.control.Optional;
  */
 public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
 
+    /**
+     * This operation is a convenience method for the {@link #next()}.
+     *
+     * @return the next value in the iterator
+     * @see #next()
+     */
     @Override
     default T get() {
         return next();

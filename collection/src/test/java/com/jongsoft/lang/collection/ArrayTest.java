@@ -4,9 +4,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.junit.rules.ExpectedException.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -188,6 +186,16 @@ public class ArrayTest {
         Optional<Integer> firstFound = array.iterator().first(i -> i % 2 == 0);
         assertThat(firstFound.isPresent(), equalTo(true));
         assertThat(firstFound.get(), equalTo(2));
+    }
+
+    @Test
+    public void toJava() {
+        List<Integer> integers = Array.of(1, 2, 3, 4)
+                .toJava();
+
+        assertThat(integers, instanceOf(ArrayList.class));
+        assertThat(integers.size(), equalTo(4));
+        assertThat(integers, hasItems(1, 2, 3, 4));
     }
 
 }

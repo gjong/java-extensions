@@ -26,6 +26,7 @@ package com.jongsoft.lang.collection;
 import static java.lang.String.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -147,6 +148,13 @@ public class TailedList<T> implements Sequence<T> {
     @Override
     public Iterator<T> iterator() {
         return new IteratorImpl<>(this);
+    }
+
+    @Override
+    public List<T> toJava() {
+        java.util.List<T> result = new java.util.ArrayList<>(size());
+        forEach(result::add);
+        return result;
     }
 
     public static <T> Collector<T, ArrayList<T>, TailedList<T>> collector() {
