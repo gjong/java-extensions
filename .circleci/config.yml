@@ -31,15 +31,20 @@ jobs:
       - run:
           name: Build software
           command: mvn -B clean package javadoc:javadoc javadoc:aggregate
-      - store_artifacts:
-          path: target/site/apidocs
-          destination: javadoc
-      - run:
-          name: Report code coverage
-          command: mvn -B -Pcoveralls -DrepoKey=$coverageKey
-      - run:
-          name: Performing analysis
-          command: mvn -B -Psonar -Dsonar.login=$sonarKey
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - collection
+            - common
+            - functional
+            - target
+            - pom.xml
+#      - run:
+#          name: Report code coverage
+#          command: mvn -B -Pcoveralls -DrepoKey=$coverageKey
+#      - run:
+#          name: Performing analysis
+#          command: mvn -B -Psonar -Dsonar.login=$sonarKey
       - run:
           name: Preparing test reports
           command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
@@ -50,10 +55,8 @@ jobs:
     executor: docker-azure
     working_directory: ~/repo
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+      - atach_workspace:
+          at: ~/repo
       - run:
           name: Setting up maven
           command: |
@@ -105,6 +108,12 @@ workflows:
   commit-build:
     jobs:
       - build-software
+      - publish-javadoc:
+          requires:
+            - build-software
+          filters:
+            branches:
+              only: master
   release-dry-run:
     triggers:
       - schedule:
