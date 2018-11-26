@@ -108,7 +108,7 @@ jobs:
           command: |
             az storage blob upload-batch \
                 --source target/site/apidocs \
-                --destination '$web' \
+                --destination $azureBlob \
                 --destination-path java/language \
                 --connection-string $azureDocString
 
