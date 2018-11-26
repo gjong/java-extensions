@@ -111,6 +111,7 @@ public class ArrayTest {
         assertThat(original.size(), equalTo(3));
         assertThat(afterRemove.size(), equalTo(2));
         assertThat(afterRemove.contains("string"), equalTo(false));
+        assertThat(original.remove("four"), equalTo(original));
     }
 
     @Test

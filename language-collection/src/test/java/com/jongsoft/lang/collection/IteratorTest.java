@@ -38,6 +38,14 @@ public class IteratorTest {
         assertThat(numbers.hasNext(), equalTo(true));
         assertThat(numbers.next(), equalTo(2));
         assertThat(numbers.hasNext(), equalTo(false));
+
+        // reset test
+        numbers.reset();
+        assertThat(numbers.hasNext(), equalTo(true));
+        assertThat(numbers.next(), equalTo(1));
+        assertThat(numbers.hasNext(), equalTo(true));
+        assertThat(numbers.next(), equalTo(2));
+        assertThat(numbers.hasNext(), equalTo(false));
     }
 
     @Test
@@ -75,5 +83,13 @@ public class IteratorTest {
         assertThat(strings.length, equalTo(2));
         assertThat(strings[0], equalTo("one"));
         assertThat(strings[1], equalTo("two"));
+    }
+    
+    @Test
+    public void firstNoElements() {
+        final Optional<Object> match = Iterator.empty()
+                .first(s -> true);
+
+        assertThat(match.isPresent(), equalTo(false));
     }
 }

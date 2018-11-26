@@ -61,6 +61,7 @@ public class ImmutableHashMapTest {
         assertThat(subject.size(), equalTo(1));
         assertThat(subject.get("two"), equalTo("three"));
         assertThat(subject.containsKey("one"), equalTo(false));
+        assertThat(subject.remove("none"), equalTo(subject));
     }
 
     @Test
@@ -72,6 +73,16 @@ public class ImmutableHashMapTest {
 
         assertThat(subject.size(), equalTo(2));
         assertThat(subject.get("one"), equalTo("five"));
+    }
+
+    @Test
+    public void get() {
+        ImmutableMap<String, String> subject = ImmutableHashMap.<String, String>create()
+                .put("one", "two")
+                .put("two", "three");
+
+        assertThat(subject.get().getFirst(), equalTo("one"));
+        assertThat(subject.get("one"), equalTo("two"));
     }
 
     @Test
@@ -121,5 +132,17 @@ public class ImmutableHashMapTest {
 
         assertThat(result.size(), equalTo(1));
         assertThat(result.get("one"), equalTo("two"));
+    }
+
+    @Test
+    public void iterator() {
+        Iterator<Tuple.Pair<String, String>> stringIt = ImmutableHashMap.<String, String>create()
+                .put("one", "two")
+                .put("two", "three")
+                .iterator();
+
+        assertThat(stringIt.next().getSecond(), equalTo("two"));
+        assertThat(stringIt.next().getSecond(), equalTo("three"));
+        assertThat(stringIt.hasNext(), equalTo(false));
     }
 }

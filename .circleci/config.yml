@@ -105,7 +105,7 @@ jobs:
           - v1-dependencies-
       - run:
           name: Performing a dry run release
-          command: mvn release:prepare -DdryRun=true -P release-profile -s settings.xml
+          command: mvn -B release:prepare -DdryRun=true -P release-profile -s settings.xml
 
   release:
     executor: docker-build
