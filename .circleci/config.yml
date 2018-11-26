@@ -58,15 +58,10 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
-          name: Setting up maven
-          command: |
-            apt-get install maven
-            mvn javadoc:javadoc javadoc:aggregate
-      - run:
           name: Publishing documentation Azure
           command: |
             az storage blob upload-batch \
-                --source ~/repo/target/apidocs \
+                --source ~/repo/target/site/apidocs \
                 --destination $azureBlob \
                 --destination-path java/language/snapshot \
                 --connection-string $azureDocString
