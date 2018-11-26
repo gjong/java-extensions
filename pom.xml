@@ -282,6 +282,12 @@
             </build>
         </profile>
         <profile>
+            <id>coveralls</id>
+            <build>
+                <defaultGoal>coveralls:report</defaultGoal>
+            </build>
+        </profile>
+        <profile>
             <id>toolchain</id>
             <build>
                 <plugins>

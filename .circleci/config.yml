@@ -50,48 +50,21 @@ jobs:
           name: Build software
           command: mvn -B clean package javadoc:javadoc javadoc:aggregate
       - run:
+          name: Build project
+          command: mvn -B -Pcoveralls -DrepoKey=$coverageKey
+      - run:
+          name: Performing analysis
+          command: mvn -B -Psonar -Dsonar.login=$sonarKey
+
+      - store_artifacts:
+          path: target/apidocs
+          destination: javadoc
+
+      - run:
           name: Preparing test reports
           command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
       - store_test_results:
           path: target/junit/
-      - save_cache:
-          paths:
-          - ~/repo
-          key: v1-codecheckout-build
-
-  publish-coverage:
-    # Publish the code coverage report to coverals
-    executor: docker-builder
-    working_directory: ~/repo
-    environment:
-      MAVEN_OPTS: -Xmx1024m
-    steps:
-      - restore_cache:
-          keys:
-          - v1-codecheckout-build
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run:
-          name: Build project
-          command: mvn -B coveralls:report -DrepoKey=$coverageKey
-
-  publish-analysis:
-    # analysis will perform the SonarQube quality analysis
-    executor: docker-builder
-    working_directory: ~/repo
-    environment:
-      MAVEN_OPTS: -Xmx1024m
-    steps:
-      - restore_cache:
-          keys:
-          - v1-codecheckout-build
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run:
-          name: Performing analysis
-          command: mvn -B -Psonar -Dsonar.login=$sonarKey
 
   publish-javadoc:
     executor: docker-azure
@@ -153,24 +126,6 @@ workflows:
       - build-software:
           requires:
             - dependency-build
-      - publish-coverage:
-          requires:
-            - dependency-build
-            - build-software
-      - publish-analysis:
-          requires:
-            - dependency-build
-            - build-software
-          filters:
-            branches:
-              only: master
-      - publish-javadoc:
-          requires:
-            - dependency-build
-            - build-software
-          filters:
-            branches:
-              only: master
   release-dry-run:
     triggers:
       - schedule:
