@@ -99,7 +99,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - v1-codecheckout-build
+;            - v1-codecheckout-build
             - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
@@ -108,7 +108,7 @@ jobs:
           command: |
             az storage blob upload-batch \
                 --source target/site/apidocs \
-                --destination $web \
+                --destination '$web' \
                 --destination-path java/language \
                 --connection-string $azureDocString
 
