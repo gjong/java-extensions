@@ -34,14 +34,8 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths:
-            - collection
-            - common
-            - functional
             - target
-            - pom.xml
-#      - run:
-#          name: Report code coverage
-#          command: mvn -B -Pcoveralls -DrepoKey=$coverageKey
+            - ./*/target
 #      - run:
 #          name: Performing analysis
 #          command: mvn -B -Psonar -Dsonar.login=$sonarKey
@@ -55,6 +49,7 @@ jobs:
     executor: docker-builder
     working_directory: ~/repo
     steps:
+      - checkout
       - attach_workspace:
           at: ~/repo
       - run:
