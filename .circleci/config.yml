@@ -8,31 +8,6 @@ executors:
       - image: microsoft/azure-cli
 
 jobs:
-  dependency-build:
-    # Prepare the build environment
-    executor: docker-builder
-    working_directory: ~/repo
-    environment:
-      MAVEN_OPTS: -Xmx512m
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run:
-          name: Build dependency list
-          command: mvn -B install -DskipTests dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
-      - save_cache:
-          paths:
-            - ~/repo
-          key: v1-codecheckout
-
   build-software:
     # Build the application
     executor: docker-builder
@@ -40,13 +15,20 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx1024m
     steps:
+      - checkout
       - restore_cache:
           keys:
-          - v1-codecheckout
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
       - run:
+          name: Build dependency list
+          command: mvn -B install -DskipTests dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+       - run:
           name: Build software
           command: mvn -B clean package javadoc:javadoc javadoc:aggregate
       - run:
@@ -55,11 +37,9 @@ jobs:
       - run:
           name: Performing analysis
           command: mvn -B -Psonar -Dsonar.login=$sonarKey
-
       - store_artifacts:
           path: target/apidocs
           destination: javadoc
-
       - run:
           name: Preparing test reports
           command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
@@ -70,9 +50,15 @@ jobs:
     executor: docker-azure
     working_directory: ~/repo
     steps:
+      - checkout
       - restore_cache:
           keys:
-            - v1-codecheckout-build
+            - v1-dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Setting up maven
+          command: |
+            apt-get install maven
+            mvn javadoc:javadoc javadoc:aggregate
       - run:
           name: Publishing documentation Azure
           command: |
@@ -89,12 +75,10 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx1024m
     steps:
+      - checkout
       - restore_cache:
           keys:
-          - v1-codecheckout
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "pom.xml" }}
       - run:
           name: Performing a dry run release
           command: mvn -B release:prepare -DdryRun=true -P release-profile -s settings.xml
@@ -103,12 +87,10 @@ jobs:
     executor: docker-build
     working_directory: ~/repo
     steps:
+      - checkout
       - restore_cache:
           keys:
-          - v1-codecheckout
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "pom.xml" }}
       - run:
           name: Setup the PGP key
           command: |
@@ -122,10 +104,7 @@ workflows:
   version: 2
   commit-build:
     jobs:
-      - dependency-build
-      - build-software:
-          requires:
-            - dependency-build
+      build-software:
   release-dry-run:
     triggers:
       - schedule:
@@ -134,7 +113,4 @@ workflows:
             branches:
               only: master
     jobs:
-      - dependency-build
-      - release-dryrun:
-          requires:
-            - dependency-build
+      - release-dryrun
