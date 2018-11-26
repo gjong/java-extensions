@@ -28,7 +28,7 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-       - run:
+      - run:
           name: Build software
           command: mvn -B clean package javadoc:javadoc javadoc:aggregate
       - run:
@@ -104,7 +104,7 @@ workflows:
   version: 2
   commit-build:
     jobs:
-      build-software:
+      - build-software
   release-dry-run:
     triggers:
       - schedule:
