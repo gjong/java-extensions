@@ -55,7 +55,7 @@ jobs:
     executor: docker-azure
     working_directory: ~/repo
     steps:
-      - atach_workspace:
+      - attach_workspace:
           at: ~/repo
       - run:
           name: Setting up maven
