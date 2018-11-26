@@ -31,15 +31,15 @@ jobs:
       - run:
           name: Build software
           command: mvn -B clean package javadoc:javadoc javadoc:aggregate
+      - store_artifacts:
+          path: target/site/apidocs
+          destination: javadoc
       - run:
-          name: Build project
+          name: Report code coverage
           command: mvn -B -Pcoveralls -DrepoKey=$coverageKey
       - run:
           name: Performing analysis
           command: mvn -B -Psonar -Dsonar.login=$sonarKey
-      - store_artifacts:
-          path: target/apidocs
-          destination: javadoc
       - run:
           name: Preparing test reports
           command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
