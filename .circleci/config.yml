@@ -19,7 +19,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run:
           name: Build dependency list
@@ -36,9 +35,6 @@ jobs:
           paths:
             - target
             - ./*/target
-#      - run:
-#          name: Performing analysis
-#          command: mvn -B -Psonar -Dsonar.login=$sonarKey
       - run:
           name: Preparing test reports
           command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
@@ -55,6 +51,17 @@ jobs:
       - run:
           name: Report code coverage
           command: mvn -B -Pcoveralls -DrepoKey=$coverageKey
+
+  publish-sonar:
+    executor: docker-builder
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Performing analysis
+          command: mvn -B -Psonar -Dsonar.login=$sonarKey
 
   publish-javadoc:
     executor: docker-azure
@@ -101,7 +108,7 @@ jobs:
             gpg --import private-key.gpg
       - run:
           name: Perform release
-          command: mvn -V -B -s settings.xml -P release-profile install deploy
+          command: mvn -V -B -s settings.xml -P release-profile release:prepare release:perform
 
 workflows:
   version: 2
@@ -112,6 +119,12 @@ workflows:
           requires:
             - build-software
       - publish-javadoc:
+          requires:
+            - build-software
+          filters:
+            branches:
+              only: master
+      - publish-sonar:
           requires:
             - build-software
           filters:
