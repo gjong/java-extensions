@@ -57,6 +57,19 @@ public class TryTest {
     }
 
     @Test
+    public void trySupplyAndConsumeExceptionRecover() {
+        Try<String> result = Try.supply(() -> "test")
+                .and(tst -> {
+                    throw new UnsupportedOperationException("big boobo");
+                })
+                .recover(x -> "auto");
+
+        assertThat(result.isFailure(), equalTo(false));
+        assertThat(result.get(), equalTo("auto"));
+    }
+
+
+    @Test
     public void trySupplyAndConsumeNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("Consumer cannot be null");

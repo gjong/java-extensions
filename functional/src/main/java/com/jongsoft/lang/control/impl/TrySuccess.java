@@ -45,6 +45,11 @@ public class TrySuccess<T> extends Some<T> implements Try<T> {
     }
 
     @Override
+    public <X extends Throwable> Try<T> recover(Function<X, T> recoverMethod) {
+        return this;
+    }
+
+    @Override
     public Throwable getCause() {
         throw new UnsupportedOperationException("Cannot call getCause when Try is successful");
     }

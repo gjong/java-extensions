@@ -35,10 +35,21 @@ import com.jongsoft.lang.control.impl.TryFailure;
 import com.jongsoft.lang.control.impl.TrySuccess;
 
 /**
- * The try interface allows for easier and more functional coding around exception handling. This interface allows for
- * conditionally running a operation chain. The chain will continue to be executed for as long as there is no exception.
- * As soon as an exception occurs the chain will be short-circuited and the resulting Try will contain an {@link #isFailure()}
- * and the underlying {@link #getCause()}.
+ * <p>
+ *     The try interface allows for easier and more functional coding around exception handling. This interface allows for
+ *     conditionally running a operation chain. The chain will continue to be executed for as long as there is no exception.
+ *     As soon as an exception occurs the chain will be short-circuited and the resulting Try will contain an {@link #isFailure()}
+ *     and the underlying {@link #getCause()}.
+ * </p>
+ * <p>
+ *     The Try can be used like the example below, to either recover from an exception or gracefully catch one.
+ * </p>
+ * <pre>
+ *     String result = Try&lt;String&gt;.supply(() -> {
+ *         throw new Exception("not supported");
+ *        }).recover(x -> "recovered")
+ *        .get();
+ * </pre>
  *
  * @param <T>   the type of entity contained
  * @since 0.0.2
@@ -107,6 +118,8 @@ public interface Try<T> extends Presence<T> {
      * @return get the root cause for a failure
      */
     Throwable getCause();
+
+    <X extends Throwable> Try<T> recover(Function<X, T> recoverMethod);
 
     /**
      * Convenience method for checked consumer call.

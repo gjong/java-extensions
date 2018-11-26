@@ -40,6 +40,13 @@ public class TryFailure<T> extends None<T> implements Try<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public <X extends Throwable> Try<T> recover(Function<X, T> recoverMethod) {
+        Objects.requireNonNull(recoverMethod, "The recover method cannot be null");
+        return Try.supply(() -> recoverMethod.apply((X) cause.getCause()));
+    }
+
+    @Override
     public T get() {
         throw cause;
     }
