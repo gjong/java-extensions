@@ -107,9 +107,9 @@ jobs:
           name: Publishing documentation Azure
           command: |
             az storage blob upload-batch \
-                --source target/site/apidocs \
+                --source ~/repo/target/apidocs \
                 --destination $azureBlob \
-                --destination-path java/language \
+                --destination-path java/language/snapshot \
                 --connection-string $azureDocString
 
   release-dryrun:
