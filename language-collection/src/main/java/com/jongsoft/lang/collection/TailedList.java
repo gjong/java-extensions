@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,7 @@ import com.jongsoft.lang.collection.support.AbstractIterator;
  *
  * @param <T> the type of elements contained within the {@link TailedList}
  * @see <a href="https://en.wikipedia.org/wiki/Linked_list">Linked list documentation</a>
+ * @since 0.0.1
  */
 public class TailedList<T> implements Sequence<T> {
     private static final TailedList<?> EMPTY = new TailedList<>(null, null);
@@ -173,10 +174,17 @@ public class TailedList<T> implements Sequence<T> {
 
     class IteratorImpl<T> extends AbstractIterator<T> {
 
+        private TailedList<T> start;
         private TailedList<T> position;
 
         private IteratorImpl(TailedList<T> position) {
+            this.start = position;
             this.position = position;
+        }
+
+        @Override
+        public void reset() {
+            position = start;
         }
 
         @Override

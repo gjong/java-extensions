@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,5 +25,5 @@ package com.jongsoft.lang.common.control;
 
 @FunctionalInterface
 public interface CheckedConsumer<T> {
-    void accept(T value) throws Throwable;
+    void accept(T value) throws Exception;
 }

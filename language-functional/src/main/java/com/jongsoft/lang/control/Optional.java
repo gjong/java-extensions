@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,23 @@ import com.jongsoft.lang.common.core.Value;
 import com.jongsoft.lang.control.impl.OptionalNone;
 import com.jongsoft.lang.control.impl.OptionalSome;
 
+/**
+ * The Optional provides a functional way to detect <code>null</code> values without null reference checks or complicated
+ * logic throughout the code base.
+ * <p>
+ *     Usage of this Optional is advices as a return type rather then using <code>null</code> as it moves away the change
+ *     of potential {@link NullPointerException} in the code calling the operation.
+ * </p>
+ * <pre>
+ *     // Sample usage of the Optional
+ *     Optional.ofNullable("one")
+ *          .ifPresent(System.out::println)
+ *          .orElse(() -> System.out.println("No value is present");
+ * </pre>
+ *
+ * @param <T> the type of entity contained in the Optional
+ * @since 0.0.1
+ */
 public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
     
     @Override
@@ -95,7 +112,7 @@ public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
     static <T> Optional<T> ofNullable(T value) {
         return value != null 
                 ? new OptionalSome<>(value)
-                : (Optional<T>) OptionalNone.NONE;
+                : (Optional<T>) OptionalNone.INSTANCE;
     }
     
     /**
@@ -106,7 +123,7 @@ public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
      */
     @SuppressWarnings("unchecked")
     static <T> Optional<T> empty() {
-        return (Optional<T>) OptionalNone.NONE;
+        return (Optional<T>) OptionalNone.INSTANCE;
     }
 
 }

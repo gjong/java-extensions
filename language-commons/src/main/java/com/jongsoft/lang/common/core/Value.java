@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@ import java.util.stream.StreamSupport;
  * value.
  *
  * @param <T>   the type of object being wrapped
+ * @since 0.0.1
  */
 public interface Value<T> extends Iterable<T>, Streamable<T>, Mappable<T>, Serializable {
     

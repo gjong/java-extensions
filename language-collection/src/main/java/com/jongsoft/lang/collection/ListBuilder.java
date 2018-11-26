@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,15 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.common.Builder;
-
 import java.util.stream.Stream;
+
+import com.jongsoft.lang.common.Builder;
 
 public class ListBuilder<T> {
     private Sequence<Builder<T>> builders = Array.empty();
 
     public ListBuilder<T> append(Builder<T> builder) {
-        builders.insert(0, builder);
+        builders.add(builder);
         return this;
     }
 
@@ -40,7 +40,7 @@ public class ListBuilder<T> {
      *
      * @return returns a list of the elements after the {@link Builder#build()} is called for each element.
      */
-    public Sequence<T> toList() {
+    public Collection<T> toList() {
         return toStream().collect(Array.collector());
     }
 

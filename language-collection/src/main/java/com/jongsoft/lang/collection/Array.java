@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,13 +33,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
-import com.jongsoft.lang.collection.support.AbstractIterator;
-
 /**
  * The {@link Array} implementation of the {@link Sequence} interface provides access to an immutable array. This means all mutable operators
  * will return a new instance rather then modifying the current one.
  *
  * @param <T>   the element type contained in the array
+ * @since 0.0.2
  */
 public class Array<T> implements Sequence<T> {
 
@@ -64,21 +63,9 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Iterator<T> iterator() {
-        return new AbstractIterator<>() {
-            private int index = 0;
-
-            @Override
-            public boolean hasNext() {
-                return index < delegate.length;
-            }
-
-            @Override
-            @SuppressWarnings("unchecked")
-            public T getNext() {
-                return (T) delegate[index++];
-            }
-        };
+        return Iterator.of((T[]) delegate);
     }
 
     @Override
@@ -89,6 +76,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public <U> Array<U> map(final Function<T, U> mapper) {
         Objects.requireNonNull(mapper, "The mapper cannot be null for this operation.");
 
@@ -119,6 +107,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public int firstIndexOf(final Predicate<T> predicate) {
         for (int i = 0; i < size(); i++) {
             if (predicate.test(get(i))) {
@@ -130,6 +119,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public Array<T> remove(int index) {
         validateOutOfBounds(index);
         Object[] newDelegate = new Object[delegate.length - 1];
@@ -140,6 +130,7 @@ public class Array<T> implements Sequence<T> {
         return create(newDelegate);
     }
 
+    @SuppressWarnings("Duplicates")
     public static <T> Collector<T, ArrayList<T>, Array<T>> collector() {
         final BinaryOperator<ArrayList<T>> combiner = (left, right) -> {
             left.addAll(right);
@@ -170,6 +161,7 @@ public class Array<T> implements Sequence<T> {
      * @param <T>   the type for the empty array
      * @return      the empty array list
      */
+    @SuppressWarnings("unchecked")
     public static <T> Array<T> empty() {
         return (Array<T>) EMPTY;
     }
@@ -206,12 +198,14 @@ public class Array<T> implements Sequence<T> {
      * @param <T>       the type of the elements
      * @return          the new array
      */
+    @SuppressWarnings("unchecked")
     public static <T> Array<T> ofAll(Iterable<? extends T> elements) {
         return elements instanceof Array
                 ? (Array<T>) elements
                 : create(toArray(elements));
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> T[] toArray(Iterable<T> elements) {
         if (elements instanceof java.util.List) {
             final java.util.List<T> list = (java.util.List<T>) elements;

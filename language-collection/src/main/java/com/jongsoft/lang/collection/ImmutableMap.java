@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import com.jongsoft.lang.collection.tuple.Tuple;
@@ -33,6 +34,7 @@ import com.jongsoft.lang.collection.tuple.Tuple;
  *
  * @param <K>   the type for the key
  * @param <T>   the type for the values
+ * @since 0.0.3
  */
 public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
 
@@ -88,5 +90,8 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
      * @return      the stream with all the values
      */
     Stream<T> valueStream();
+
+    @Override
+    ImmutableMap<K, T> filter(Predicate<Tuple.Pair<K, T>> predicate);
 
 }

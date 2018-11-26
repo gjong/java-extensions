@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Jong Soft.
+ * Copyright 2016-2018 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ import com.jongsoft.lang.common.core.Presence;
 public class None<T> implements Presence<T> {
     private static final long serialVersionUID = 1L;
     
-    private static final None<?> NONE = new None<>();
+    private static final None<?> INSTANCE = new None<>();
 
     protected None() {
     }
@@ -83,7 +83,7 @@ public class None<T> implements Presence<T> {
     
     @SuppressWarnings("unchecked")
     public static <T> Presence<T> none() {
-        return (None<T>) NONE;
+        return (None<T>) INSTANCE;
     }
 
 }

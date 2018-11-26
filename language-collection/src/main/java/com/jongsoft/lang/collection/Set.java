@@ -28,39 +28,25 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * Sequence implementations will be an ordered {@link Collection}. These collections allow for adding duplicate entries but all entries
- * will always be returned in the order that they were added.
+ * The sets are implementeations of {@link Collection} that guarantee uniqueness in the collection. This will prevent duplicate entries.
+ * How this is done varies pending the implementation. Currently the following implementations are supported:
+ * <ul>
+ *     <li>{@link HashSet}, an implementation that uses the entities hash</li>
+ * </ul>
  *
- * @param <T>   the entity type of the sequence
+ * @param <T>   the entity type contained in the set
+ * @since 0.0.3
  */
-public interface Sequence<T> extends Collection<T> {
+public interface Set<T> extends Collection<T> {
 
     /**
-     * Add an element to the end of the contents of the current list and return the result in a new {@link Sequence} instance
+     * Add an element to the end of the contents of the current list and return the result in a new {@link Set} instance. This
+     * operation will return the current instance if the entity added is already contained in the Set.
      *
      * @param value     the value to append to the list
      * @return          the new list with the value appended
      */
-    default Sequence<T> add(T value) {
-        return insert(size(), value);
-    }
-
-    /**
-     * Add all elements to this list.
-     *
-     * @param values    the elements to be added
-     * @return          the new list containing a union between this and the values
-     */
-    Sequence<T> addAll(Iterable<T> values);
-
-    /**
-     * Add an element to the list at the provided index, shifting all elements after the index one.
-     *
-     * @param index the index at which to insert the element
-     * @param value the element to insert
-     * @return      the updated list with the inserted element
-     */
-    Sequence<T> insert(int index, T value);
+    Set<T> add(T value);
 
     /**
      * Find the index for the provided element, will return <code>-1</code> if the element
@@ -89,23 +75,7 @@ public interface Sequence<T> extends Collection<T> {
      * @return          the new instance of the list without the element at the provided index
      * @throws IndexOutOfBoundsException    in case the index is not between the 0 and list size
      */
-    Sequence<T> remove(int index);
-
-    /**
-     * Removes the first element found matching the provided value. The match is done based upon the
-     * {@link java.util.Objects#equals(Object, Object)} call.
-     *
-     * @param value the element to be removed
-     * @return the current list if the element is not present, otherwise a new list instance without the element in it.
-     */
-    default Sequence<T> remove(T value) {
-        int idx = indexOf(value);
-        if (idx > -1) {
-            return remove(idx);
-        }
-
-        return this;
-    }
+    Set<T> remove(int index);
 
     @Override
     default T get() {
@@ -122,9 +92,9 @@ public interface Sequence<T> extends Collection<T> {
     T get(int index);
 
     @Override
-    Sequence<T> filter(Predicate<T> predicate);
+    Set<T> filter(Predicate<T> predicate);
 
     @Override
-    <U> Sequence<U> map(Function<T, U> mapper);
+    <U> Set<U> map(Function<T, U> mapper);
 
 }
