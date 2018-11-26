@@ -90,6 +90,29 @@ jobs:
           name: Performing analysis
           command: mvn -B -Psonar -Dsonar.login=$sonarKey
 
+  publish-javadoc:
+    executor: docker-builder
+    working_directory: ~/repo
+    steps:
+      - restore_cache:
+          keys:
+            - v1-codecheckout-build
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: Installing Azure CLI
+          command: |
+            echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main"
+            sudo tee /etc/apt/sources.list.d/azure-cli.list
+            curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+            sudo apt-get install apt-transport-https
+            sudo apt-get update && sudo apt-get install azure-cli
+      - run:
+          name: Publishing documentation Azure
+          command: |
+            az storage blob upload-batch --source target/site/apidocs --destination $azureBlob/java/language/snapshot --connection-string $azureDocString
+
   release-dryrun:
     # verify that the software is release-able on the master branch
     executor: docker-builder
@@ -145,6 +168,13 @@ workflows:
           filters:
             branches:
               only: master
+      - publish-javadoc:
+        requires:
+          - dependency-build
+          - build-software
+        filters:
+          branches:
+            only: master
   release-dry-run:
     triggers:
       - schedule:
