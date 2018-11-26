@@ -111,7 +111,11 @@ jobs:
       - run:
           name: Publishing documentation Azure
           command: |
-            az storage blob upload-batch --source target/site/apidocs --destination $azureBlob/java/language/snapshot --connection-string $azureDocString
+            az storage blob upload-batch \
+                --source target/site/apidocs \
+                --destination $web \
+                --destination-path java/language \
+                --connection-string $azureDocString
 
   release-dryrun:
     # verify that the software is release-able on the master branch
@@ -169,12 +173,12 @@ workflows:
             branches:
               only: master
       - publish-javadoc:
-        requires:
-          - dependency-build
-          - build-software
-        filters:
-          branches:
-            only: master
+          requires:
+            - dependency-build
+            - build-software
+          filters:
+            branches:
+              only: master
   release-dry-run:
     triggers:
       - schedule:
