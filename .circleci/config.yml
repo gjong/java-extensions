@@ -99,7 +99,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-;            - v1-codecheckout-build
+            - v1-codecheckout-build
             - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
