@@ -3,6 +3,9 @@ executors:
   docker-builder:
     docker:
       - image: circleci/openjdk:11-jdk
+  docker-azure:
+    docker:
+      - image: microsoft/azure-cli
 
 jobs:
   dependency-build:
@@ -91,7 +94,7 @@ jobs:
           command: mvn -B -Psonar -Dsonar.login=$sonarKey
 
   publish-javadoc:
-    executor: docker-builder
+    executor: docker-azure
     working_directory: ~/repo
     steps:
       - restore_cache:
@@ -100,14 +103,6 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run:
-          name: Installing Azure CLI
-          command: |
-            echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main" | \
-              sudo tee /etc/apt/sources.list.d/azure-cli.list
-            curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-            sudo apt-get install apt-transport-https
-            sudo apt-get update && sudo apt-get install azure-cli
       - run:
           name: Publishing documentation Azure
           command: |
