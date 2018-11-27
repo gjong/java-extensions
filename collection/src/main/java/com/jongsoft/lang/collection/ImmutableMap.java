@@ -94,4 +94,10 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
     @Override
     ImmutableMap<K, T> filter(Predicate<Tuple.Pair<K, T>> predicate);
 
+    /**
+     * Convert the map to a regular Java map type.
+     *
+     * @return  the new java map
+     */
+    java.util.Map<K, T> toJava();
 }

@@ -78,6 +78,7 @@ public class ArrayTest {
         Sequence<Integer> add = source.add(6);
 
         assertThat(source.size(), equalTo(1));
+        assertThat(source.isEmpty(), equalTo(false));
         assertThat(add.size(), equalTo(2));
         assertThat(add.get(0), equalTo(5));
         assertThat(add.get(1), equalTo(6));

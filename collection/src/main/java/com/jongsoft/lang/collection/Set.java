@@ -97,4 +97,11 @@ public interface Set<T> extends Collection<T> {
     @Override
     <U> Set<U> map(Function<T, U> mapper);
 
+    /**
+     * Transform this collection into one supported natively in Java.
+     *
+     * @return the native java collection
+     */
+    java.util.Set<T> toJava();
+
 }

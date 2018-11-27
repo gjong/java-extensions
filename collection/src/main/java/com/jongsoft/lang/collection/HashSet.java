@@ -26,7 +26,6 @@ package com.jongsoft.lang.collection;
 import static java.lang.String.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -121,6 +120,16 @@ public class HashSet<T> implements Set<T> {
         Objects.requireNonNull(element, "A set cannot contain a null value");
         int entityHash = element.hashCode();
         return exists(e -> e.hashCode() == entityHash);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public java.util.Set<T> toJava() {
+        java.util.Set<T> result = new java.util.HashSet<>(delegate.length);
+        for (Object o : delegate) {
+            result.add((T) o);
+        }
+        return result;
     }
 
     private void validateOutOfBounds(int index) {

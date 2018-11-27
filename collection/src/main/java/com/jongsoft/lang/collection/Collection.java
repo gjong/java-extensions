@@ -52,7 +52,7 @@ public interface Collection<T> extends Iterable<T>, Value<T> {
      * @return true if the list contains elements, otherwise false
      */
     default boolean isEmpty() {
-        return size() > 0;
+        return size() == 0;
     }
 
     /**
@@ -83,10 +83,4 @@ public interface Collection<T> extends Iterable<T>, Value<T> {
     @Override
     Iterator<T> iterator();
 
-    /**
-     * Transform this collection into one supported natively in Java.
-     *
-     * @return the native java collection
-     */
-    java.util.Collection<T> toJava();
 }

@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
@@ -144,5 +145,17 @@ public class ImmutableHashMapTest {
         assertThat(stringIt.next().getSecond(), equalTo("two"));
         assertThat(stringIt.next().getSecond(), equalTo("three"));
         assertThat(stringIt.hasNext(), equalTo(false));
+    }
+
+    @Test
+    public void toJava() {
+        Map<String, String> result = ImmutableHashMap.<String, String>create()
+                .put("one", "two")
+                .put("two", "three")
+                .toJava();
+
+        assertThat(result.size(), equalTo(2));
+        assertThat(result.get("one"), equalTo("two"));
+        assertThat(result.get("two"), equalTo("three"));
     }
 }

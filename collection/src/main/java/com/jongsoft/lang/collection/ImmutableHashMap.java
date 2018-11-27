@@ -130,6 +130,13 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
         return delegate.size();
     }
 
+    @Override
+    public java.util.Map<K, T> toJava() {
+        java.util.Map<K, T> result = new java.util.HashMap<>(delegate.size());
+        delegate.forEach(entry -> result.put(entry.getFirst(), entry.getSecond()));
+        return result;
+    }
+
     //------------------------------------------------------------------
     //-- Static supporting methods
 
