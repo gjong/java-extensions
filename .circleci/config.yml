@@ -94,7 +94,7 @@ jobs:
           command: mvn -B release:prepare -DdryRun=true -P release-profile -s settings.xml
 
   release:
-    executor: docker-build
+    executor: docker-builder
     working_directory: ~/repo
     steps:
       - checkout
