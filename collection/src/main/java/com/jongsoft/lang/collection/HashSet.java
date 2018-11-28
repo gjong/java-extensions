@@ -27,6 +27,7 @@ import static java.lang.String.*;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -120,6 +121,12 @@ public class HashSet<T> implements Set<T> {
         Objects.requireNonNull(element, "A set cannot contain a null value");
         int entityHash = element.hashCode();
         return exists(e -> e.hashCode() == entityHash);
+    }
+
+    @Override
+    public <U> U foldRight(final U start, final BiFunction<? super T, ? super U, ? extends U> combiner) {
+        Objects.requireNonNull(combiner, "combiner is null");
+        return foldLeft(start, (x , y) -> combiner.apply(y, x));
     }
 
     @Override

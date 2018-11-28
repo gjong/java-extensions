@@ -93,4 +93,20 @@ public class HashSetTest {
         assertThat(lengths.size(), equalTo(2));
         assertThat(lengths, hasItems(3, 5));
     }
+
+    @Test
+    public void fold() {
+        String folded = HashSet.of("a", "b", "a", "c").fold("!", (xs, y) -> xs + y);
+        String leftFolded = HashSet.of("a", "b", "a", "c").foldLeft("!", (xs, y) -> xs + y);
+
+        assertThat(folded, equalTo("!abc"));
+        assertThat(leftFolded, equalTo("!abc"));
+    }
+
+    @Test
+    public void rightFold() {
+        String folded = HashSet.of("a", "b", "a", "c").foldRight("!", (xs, y) -> xs + y);
+
+        assertThat(folded, equalTo("cba!"));
+    }
 }

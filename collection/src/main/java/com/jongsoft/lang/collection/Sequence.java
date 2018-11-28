@@ -24,6 +24,7 @@
 package com.jongsoft.lang.collection;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -120,6 +121,19 @@ public interface Sequence<T> extends Collection<T> {
      * @throws IndexOutOfBoundsException    in case the index provided is greater then the {@link #size()} - 1.
      */
     T get(int index);
+
+    /**
+     * Reverse the order of the elements in the sequence.
+     *
+     * @return the reversed sequence
+     */
+    Sequence<T> reverse();
+
+    @Override
+    default <U> U foldRight(U start, BiFunction<? super T, ? super U, ? extends U> combiner) {
+        Objects.requireNonNull(combiner, "combiner is null");
+        return foldLeft(start, (y, x) -> combiner.apply(x, y));
+    }
 
     @Override
     Sequence<T> filter(Predicate<T> predicate);

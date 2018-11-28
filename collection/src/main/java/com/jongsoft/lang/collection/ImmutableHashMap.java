@@ -24,6 +24,7 @@
 package com.jongsoft.lang.collection;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -128,6 +129,11 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     @Override
     public int size() {
         return delegate.size();
+    }
+
+    @Override
+    public <U> U foldRight(final U start, final BiFunction<? super Tuple.Pair<K, T>, ? super U, ? extends U> combiner) {
+        throw new IllegalStateException("not yet implemented");
     }
 
     @Override

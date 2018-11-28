@@ -172,7 +172,8 @@ public class TailedList<T> implements Sequence<T> {
         }
     }
 
-    private TailedList<T> reverse() {
+    @Override
+    public TailedList<T> reverse() {
         TailedList<T> corrected = empty();
         for (int i = 0; i < size(); i++) {
             corrected = new TailedList<>(get(i), corrected);

@@ -23,13 +23,15 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.jongsoft.lang.common.core.Value;
 import com.jongsoft.lang.control.Optional;
 
-public interface Collection<T> extends Iterable<T>, Value<T> {
+public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
 
     /**
      * Filter the list contents with the provided predicate. Only returning those elements that match the predicate.
@@ -62,7 +64,7 @@ public interface Collection<T> extends Iterable<T>, Value<T> {
      * @return          the first match found
      * @throws NullPointerException in case that the predicate is null
      */
-    default Optional<T> findFirst(Predicate<T> predicate) {
+    default Optional<T> first(Predicate<T> predicate) {
         return iterator().first(predicate);
     }
 
@@ -73,10 +75,50 @@ public interface Collection<T> extends Iterable<T>, Value<T> {
      * @return          the last match found
      * @throws NullPointerException in case that the predicate is null
      */
-    default Optional<T> findLast(Predicate<T> predicate) {
+    default Optional<T> last(Predicate<T> predicate) {
         return iterator().last(predicate);
     }
 
+    /**
+     * Checks if all elements in the provided iterable are contained in this collection.
+     * <p>
+     *   This is a convenience method that uses the {@link #contains(Object)} to verify existence.
+     * </p>
+     *
+     * @param elements  the elements that should be present
+     * @return          true if all elements are present, false otherwise
+     * @see #contains(Object)
+     */
+    default boolean containsAll(Iterable<? extends T> elements) {
+        Objects.requireNonNull(elements, "elements is null");
+        for (T element : elements) {
+            if (!contains(element)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    default <U> U foldLeft(U start, BiFunction<? super U, ? super T, ? extends U> combiner) {
+        Objects.requireNonNull(combiner, "combiner is null");
+        U x = start;
+        for (T y : this) {
+            x = combiner.apply(x, y);
+        }
+
+        return x;
+    }
+
+    /**
+     * Convert the contenst of the collection using the provided mapping function. A new collection containing the converted entities will
+     * be returned.
+     *
+     * @param mapper    the mapping functionality
+     * @param <U>       the target entity type
+     * @return          a new collection containing the mapped entities
+     */
     @Override
     <U> Collection<U> map(Function<T, U> mapper);
 

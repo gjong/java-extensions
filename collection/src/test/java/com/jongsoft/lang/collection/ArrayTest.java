@@ -159,6 +159,22 @@ public class ArrayTest {
     }
 
     @Test
+    public void containsAll() {
+        assertThat(Array.of(1, 2, 3, 4).containsAll(Array.of(2, 3)), equalTo(true));
+    }
+
+    @Test
+    public void fold() {
+        assertThat(Array.of("t", "e", "s", "t").fold("!", (x, y) -> x + y), equalTo("!test"));
+        assertThat(Array.of("t", "e", "s", "t").foldLeft("!", (x, y) -> x + y), equalTo("!test"));
+    }
+
+    @Test
+    public void foldRight() {
+        assertThat(Array.of("t", "e", "s", "t").foldRight("!", (x, y) -> x + y), equalTo("tset!"));
+    }
+
+    @Test
     public void indexOf5() {
         assertThat(Array.of(1,2,3,4,5,null).indexOf(5), equalTo(4));
         assertThat(Array.of(1,2,3,4).indexOf(5), equalTo(-1));
@@ -187,6 +203,16 @@ public class ArrayTest {
         Optional<Integer> firstFound = array.iterator().first(i -> i % 2 == 0);
         assertThat(firstFound.isPresent(), equalTo(true));
         assertThat(firstFound.get(), equalTo(2));
+    }
+
+    @Test
+    public void reverse() {
+        final Array<Integer> result = Array.of(1, 2, 3).reverse();
+
+        assertThat(result.size(), equalTo(3));
+        assertThat(result.get(0), equalTo(3));
+        assertThat(result.get(1), equalTo(2));
+        assertThat(result.get(2), equalTo(1));
     }
 
     @Test
