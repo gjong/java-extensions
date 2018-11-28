@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Jong Soft: Java Language Extension</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css">
+    <link rel="stylesheet"
+          href="bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+        }
+
+        code.highlight {
+            background: transparent;
+        }
+
+        .navbar, .about {
+            background: #007bff75;
+        }
+
+        .usage {
+            background: #ffc1073b;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top navbar-light text-white">
+    <span class="navbar-brand" href="#"></span>
+    <button class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mr-2">
+            <li class="nav-item">
+                <a href="#about" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+                <a href="#features" class="nav-link">Features</a>
+            </li>
+            <li class="nav-item">
+                <a href="#usage" class="nav-link">Usage</a>
+            </li>
+            <li class="nav-item">
+                <a href="#contribute" class="nav-link">Contribute</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="block px-5 jumbotron-fluid about text-white py-5">
+    <a name="about"></a>
+    <h1 class="display-4">Java Language Extensions</h1>
+    <p class="lead">
+        A functional oriented library that helps reduce the code clutter and increase readability. It will help in promoting the usage
+        of immutable entities and programming style.
+    </p>
+    <div class="m-3 text-center">
+        <img src="https://maven-badges.herokuapp.com/maven-central/com.jongsoft.lang/language/badge.svg" alt="Latest version">
+        <img src="https://circleci.com/bb/jongsoftdev/language-extension/tree/master.svg?style=svg" alt="Build status">
+        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.jongsoft.lang%3Alanguage&metric=alert_status"
+             alt="Sonar quality">
+    </div>
+    <hr class="my-4"/>
+    <div id="mainFeatures" class="carousel slide px-5 py-3 container " data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <p class="font-weight-bold">
+                    Functional way to create and manipulate collections
+                </p>
+                <code class="java highlight px-4">
+                    Array&lt;String&gt; valueList = Array.of("first", "second", "third") <br/>
+                    &nbsp;&nbsp;.add("fourth") <br/>
+                    &nbsp;&nbsp;.remove("first") <br/>
+                    &nbsp;&nbsp;.filter(s -&gt; s.length > 5);
+                </code>
+            </div>
+            <div class="carousel-item">
+                <p class="font-weight-bold">
+                    Use the Try to delegate exception recovery
+                </p>
+                <code class="java highlight px-4">
+                    String message = Try&lt;String&gt.supply(this::mayThrowException) <br/>
+                    &nbsp;&nbsp;.recover(x -> "default text") <br/>
+                    &nbsp;&nbsp;.get();
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a name="features"></a>
+
+<div class="block p-5 usage">
+    <a name="usage"></a>
+    <h4>Using the modules in your project</h4>
+    <p>
+        Including the language extensions in your project can be done by adding maven dependencies to your existing project. The project is
+        split in several modules that can be included pending on your needs.
+    </p>
+
+    <h5>Functional module</h5>
+    <p>
+        The functional library includes control based interfaces that help structure code better and improver readability. This includes
+        classes
+        like:
+    </p>
+    <ul>
+        <li>Optional, used as a pure functional implementation of the Java Optional</li>
+        <li>Try, for better exception handling</li>
+    </ul>
+    <strong>Maven</strong>
+    <code class="highlight xml py-0 my-0 px-4">
+        &lt;dependency&gt;<br/>
+        &nbsp;&nbsp;&lt;groupId&gt;com.com.jongsoft.lang&lt;/groupId&gt;<br/>
+        &nbsp;&nbsp;&lt;artifactId&gt;functional&lt;/artifactId&gt;<br/>
+        &nbsp;&nbsp;&lt;version&gt;0.0.3&lt;/version&gt;<br/>
+        &lt;/dependency&gt;
+    </code>
+    <strong>Gradle</strong>
+    <code class="highlight xml py-0 my-0 px-4">
+        compile 'com.jongsoft.lang:functional:0.0.3'
+    </code>
+    <p></p>
+    <h5>Collection module</h5>
+    <p>
+        The collection module contains a set of immutable implementations of Collection, Set and Sequence.
+    </p>
+    <code class="highlight xml xml py-0 px-4">
+        &lt;dependency&gt;<br/>
+        &nbsp;&nbsp;&lt;groupId&gt;com.com.jongsoft.lang&lt;/groupId&gt;<br/>
+        &nbsp;&nbsp;&lt;artifactId&gt;collection&lt;/artifactId&gt;<br/>
+        &nbsp;&nbsp;&lt;version&gt;0.0.3&lt;/version&gt;<br/>
+        &lt;/dependency&gt;
+    </code>
+    <code class="highlight xml py-0 my-0 px-4">
+        compile 'com.jongsoft.lang:collection:0.0.3'
+    </code>
+</div>
+
+<a name="contribute"></a>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script>
+    $('.carousel').carousel();
+    hljs.configure({useBR: true});
+    $('code.highlight').each(function (i, block) {
+        hljs.highlightBlock(block);
+    });
+</script>
+</body>
+</html>
