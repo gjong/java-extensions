@@ -29,7 +29,7 @@ public class TailedListTest {
     @Test
     public void ofMultipleAdd() {
         TailedList<String> list = TailedList.of("my", "test")
-                .add("added");
+                .append("added");
 
         assertThat(list.size(), equalTo(3));
         assertThat(list.get(0), equalTo("my"));
@@ -40,7 +40,7 @@ public class TailedListTest {
     @Test
     public void addAll() {
         TailedList<String> added = TailedList.of("one")
-                .addAll(Arrays.asList("two", "three"));
+                .appendAll(Arrays.asList("two", "three"));
 
         assertThat(added.size(), equalTo(3));
         assertThat(added.get(0), equalTo("one"));

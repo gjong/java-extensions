@@ -28,7 +28,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * The sets are implementeations of {@link Collection} that guarantee uniqueness in the collection. This will prevent duplicate entries.
+ * The sets are implementations of {@link Collection} that guarantee uniqueness in the collection. This will prevent duplicate entries.
  * How this is done varies pending the implementation. Currently the following implementations are supported:
  * <ul>
  *     <li>{@link HashSet}, an implementation that uses the entities hash</li>

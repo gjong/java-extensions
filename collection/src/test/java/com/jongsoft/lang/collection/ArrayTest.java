@@ -73,9 +73,9 @@ public class ArrayTest {
     }
 
     @Test
-    public void addInt() {
+    public void append() {
         Array<Integer> source = Array.of(5);
-        Sequence<Integer> add = source.add(6);
+        Sequence<Integer> add = source.append(6);
 
         assertThat(source.size(), equalTo(1));
         assertThat(source.isEmpty(), equalTo(false));
@@ -83,11 +83,22 @@ public class ArrayTest {
         assertThat(add.get(0), equalTo(5));
         assertThat(add.get(1), equalTo(6));
     }
+
+    @Test
+    public void prepend() {
+        Sequence<Integer> result = Array.of(2, 3, 4).prepend(1);
+
+        assertThat(result.size(), equalTo(4));
+        assertThat(result.get(0), equalTo(1));
+        assertThat(result.get(1), equalTo(2));
+        assertThat(result.get(2), equalTo(3));
+        assertThat(result.get(3), equalTo(4));
+    }
     
     @Test
     public void addAll() {
         Sequence<Integer> values = Array.of(1, 2, 3)
-                                        .addAll(Arrays.asList(4, 5, 6));
+                .appendAll(Arrays.asList(4, 5, 6));
 
         assertThat(values.size(), equalTo(6));
         assertThat(values, hasItems(1, 2, 3, 4, 5, 6));

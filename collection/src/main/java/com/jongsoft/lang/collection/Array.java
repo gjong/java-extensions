@@ -89,7 +89,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public Array<T> addAll(final Iterable<T> values) {
+    public Array<T> appendAll(final Iterable<T> values) {
         Object[] toBeAdded = toArray(values);
         Object[] newDelegate = new Object[delegate.length + toBeAdded.length];
         System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
@@ -108,7 +108,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public int firstIndexOf(final Predicate<T> predicate) {
+    public int firstIndexWhere(final Predicate<T> predicate) {
         for (int i = 0; i < size(); i++) {
             if (predicate.test(get(i))) {
                 return i;

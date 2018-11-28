@@ -53,19 +53,19 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
         Objects.requireNonNull(key, "A null value is not allowed for the key in a map");
 
         Sequence<Tuple.Pair<K, T>> afterRemove = delegate;
-        int existingEntry = delegate.firstIndexOf(e -> Objects.equals(e.getFirst(), key));
+        int existingEntry = delegate.firstIndexWhere(e -> Objects.equals(e.getFirst(), key));
         if (existingEntry > -1) {
             afterRemove = delegate.remove(existingEntry);
         }
 
-        return new ImmutableHashMap<>(afterRemove.add(Tuple.Pair.of(key, value)));
+        return new ImmutableHashMap<>(afterRemove.append(Tuple.Pair.of(key, value)));
     }
 
     @Override
     public ImmutableMap<K, T> remove(final K key) {
         Objects.requireNonNull(key, "A null value is not allowed for the key in a map");
 
-        int indexOf = delegate.firstIndexOf(e -> Objects.equals(e.getFirst(), key));
+        int indexOf = delegate.firstIndexWhere(e -> Objects.equals(e.getFirst(), key));
         if (indexOf > -1) {
             return new ImmutableHashMap<>(delegate.remove(indexOf));
         }

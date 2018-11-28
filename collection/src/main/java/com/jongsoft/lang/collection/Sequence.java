@@ -37,22 +37,42 @@ import java.util.function.Predicate;
 public interface Sequence<T> extends Collection<T> {
 
     /**
-     * Add an element to the end of the contents of the current list and return the result in a new {@link Sequence} instance
+     * Add an element to the end of the sequence and return the newly created instance.
+     *
+     * <pre>{@code
+     *    // will result in a sequence with 2, 3, 4, 1
+     *    Sequence(2, 3, 4).append(1)
+     * }</pre>
      *
      * @param value     the value to append to the list
      * @return          the new list with the value appended
      */
-    default Sequence<T> add(T value) {
+    default Sequence<T> append(T value) {
         return insert(size(), value);
     }
 
     /**
-     * Add all elements to this list.
+     * Add an element to the begin of the sequence and return the new instance with the element.
+     *
+     * <pre>{@code
+     *    // will result in a sequence with 1, 2, 3, 4
+     *    Sequence(2, 3, 4).prepend(1)
+     * }</pre>
+     *
+     * @param value     the value to be added
+     * @return          the new list with the value appended
+     */
+    default Sequence<T> prepend(T value) {
+        return insert(0, value);
+    }
+
+    /**
+     * Add all elements to the end of the current sequence, returning a new sequence.
      *
      * @param values    the elements to be added
      * @return          the new list containing a union between this and the values
      */
-    Sequence<T> addAll(Iterable<T> values);
+    Sequence<T> appendAll(Iterable<T> values);
 
     /**
      * Add an element to the list at the provided index, shifting all elements after the index one.
@@ -71,7 +91,7 @@ public interface Sequence<T> extends Collection<T> {
      * @return  the index of the element, or <code>-1</code> if none found
      */
     default int indexOf(Object lookFor) {
-        return firstIndexOf(e -> Objects.equals(lookFor, e));
+        return firstIndexWhere(e -> Objects.equals(lookFor, e));
     }
 
     /**
@@ -81,7 +101,7 @@ public interface Sequence<T> extends Collection<T> {
      * @param predicate the predicate to match
      * @return  index of the found element, -1 if none found
      */
-    int firstIndexOf(Predicate<T> predicate);
+    int firstIndexWhere(Predicate<T> predicate);
 
     /**
      * Removes an element from the list and returns a new instance of the list.

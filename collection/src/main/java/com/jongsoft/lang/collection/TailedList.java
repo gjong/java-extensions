@@ -55,12 +55,12 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public TailedList<T> add(T value) {
+    public TailedList<T> append(T value) {
         return new TailedList<>(value, reverse()).reverse();
     }
 
     @Override
-    public TailedList<T> addAll(final Iterable<T> values) {
+    public TailedList<T> appendAll(final Iterable<T> values) {
         TailedList<T> reversed = reverse();
         for (T value : values) {
             reversed = new TailedList<>(value, reversed);
@@ -75,7 +75,7 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public int firstIndexOf(final Predicate<T> predicate) {
+    public int firstIndexWhere(final Predicate<T> predicate) {
         int index = 0;
         for (TailedList<T> list = this; !list.isEmpty(); list = list.tail, index++) {
             if (predicate.test(list.get())) {
@@ -103,7 +103,7 @@ public class TailedList<T> implements Sequence<T> {
         TailedList<T> reversed = empty();
         for (TailedList<T> newTail = this; !newTail.isEmpty(); newTail = newTail.tail, index--) {
             if (index != 0) {
-                reversed = reversed.add(newTail.get());
+                reversed = reversed.append(newTail.get());
             }
         }
 
