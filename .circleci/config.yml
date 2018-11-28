@@ -11,6 +11,7 @@ jobs:
   build-software:
     # Build the application
     executor: docker-builder
+    context: snapshot-context
     working_directory: ~/repo
     environment:
       MAVEN_OPTS: -Xmx1024m
@@ -36,6 +37,11 @@ jobs:
             - target
             - ./*/target
       - run:
+          name: Obtain release version
+          command: |
+            export rawV=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
+            export releaseVersion="${rawV//[A-Z\-]/}"
+      - run:
           name: Preparing test reports
           command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
       - store_test_results:
@@ -43,6 +49,7 @@ jobs:
 
   publish-coverage:
     executor: docker-builder
+    context: snapshot-context
     working_directory: ~/repo
     steps:
       - checkout
@@ -54,6 +61,7 @@ jobs:
 
   publish-sonar:
     executor: docker-builder
+    context: snapshot-context
     working_directory: ~/repo
     steps:
       - checkout
@@ -65,6 +73,7 @@ jobs:
 
   publish-javadoc:
     executor: docker-azure
+    context: snapshot-context
     working_directory: ~/repo
     steps:
       - attach_workspace:
@@ -72,6 +81,7 @@ jobs:
       - run:
           name: Publishing documentation Azure
           command: |
+            echo "Releasing: $releaseVersion"
             az storage blob upload-batch \
                 --source ~/repo/target/site/apidocs \
                 --destination $azureBlob \
@@ -95,6 +105,7 @@ jobs:
 
   release:
     executor: docker-build
+    context: release-context
     working_directory: ~/repo
     steps:
       - checkout
@@ -107,8 +118,42 @@ jobs:
             openssl aes-256-cbc -pass pass:$openSslPwd -in private-key.gpg.enc -out private-key.gpg -d
             gpg --import private-key.gpg
       - run:
+          name: Obtain release version
+          command: |
+            export rawV=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
+            export releaseVersion="${rawV//[A-Z\-]/}"
+      - run:
           name: Perform release
           command: mvn -V -B -s settings.xml -P release-profile release:prepare release:perform
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - target
+            - promo-site
+
+  release-javadoc:
+    executor: docker-azure
+    context: release-context
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Publish promo site
+          command: |
+            az storage blob upload-batch \
+                --source ~/repo/promo-site \
+                --destination $azureBlob \
+                --destination-path project/language-extension \
+                --connection-string $azureDocString
+      - run:
+          name: Publishing JavaDoc Azure
+          command: |
+            az storage blob upload-batch \
+                --source ~/repo/target/site/apidocs \
+                --destination $azureBlob \
+                --destination-path java/language/$releaseVersion \
+                --connection-string $azureDocString
 
 workflows:
   version: 2

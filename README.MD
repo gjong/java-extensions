@@ -19,6 +19,7 @@ for all the other modules. Like:
 
 * `Builder`, a base to create immutable entities through the builder pattern
 * `Value`, base interface for all entities within the extension framework
+* `Streamable`, an interface indicating the class can stream its contents
 * `Runner`, a variation of the `Runnable` interface
 * `CheckedConsumer`, `CheckedFunction`, `CheckedRunner`, `CheckedSupplier`
 
@@ -26,7 +27,7 @@ To include this module use the Maven dependency below:
 
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
-        <artifactId>commons</artifactId>
+        <artifactId>common</artifactId>
         <version>0.0.3-SNAPSHOT</version>
     </dependency>
 
@@ -36,6 +37,7 @@ The collections module consists out of the following immutable list implementati
 
 * `Array`, a wrapping entity around an primitive array
 * `TailedList`, a linked list structure
+* `HashSet`, an implementation of a collection with unique entries based on the hash code
 * `Tuple`, a tuple implementation to store 2 or more entities
 * `ImmutableHashMap`, a map implementation
 
@@ -43,7 +45,7 @@ To include this module use the Maven dependency below:
 
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
-        <artifactId>collections</artifactId>
+        <artifactId>collection</artifactId>
         <version>0.0.3-SNAPSHOT</version>
     </dependency>
 

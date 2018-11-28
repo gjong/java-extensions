@@ -119,6 +119,26 @@ public interface Try<T> extends Presence<T> {
      */
     Throwable getCause();
 
+    /**
+     * <p>
+     *    Set a fallback operation to be executed when the primary operation fails.
+     * </p>
+     * <pre>
+     *     List&lt;String&gt; safeGet = Try.supply(myDatabase::getRecords)
+     *          .recover(x -> Collections.emptyList())
+     *          .get();
+     * </pre>
+     * <p>
+     *   In the sample above a call is made to a database repository, which can fail with various exceptions. In case
+     *   the call fails then the logic in the recover operation is executed instead. The result of this logic will be
+     *   returned to the caller. In the case of the example the caller will get an empty list when the database call
+     *   fails.
+     * </p>
+     *
+     * @param recoverMethod the operation that will be executed when the primary operation fails
+     * @param <X>           the type of exception thrown by the primary operation
+     * @return              the result of the recoverMethod operation
+     */
     <X extends Throwable> Try<T> recover(Function<X, T> recoverMethod);
 
     /**
