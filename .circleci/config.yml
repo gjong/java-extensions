@@ -30,16 +30,16 @@ jobs:
       - run:
           name: Build software
           command: mvn -B clean package javadoc:javadoc javadoc:aggregate
+      - run:
+          name: Obtain release version
+          command: |
+            export rawV=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
+            echo "${rawV//[A-Z\-]/}" > target/version.file
       - persist_to_workspace:
           root: ~/repo
           paths:
             - target
             - ./*/target
-      - run:
-          name: Obtain release version
-          command: |
-            export rawV=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
-            export releaseVersion="${rawV//[A-Z\-]/}"
       - run:
           name: Preparing test reports
           command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
@@ -75,9 +75,11 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
+          name: Determine version
+          command: cat ~/repo/target/version.file
+      - run:
           name: Publishing documentation Azure
           command: |
-            echo "Releasing: $releaseVersion"
             az storage blob upload-batch \
                 --source ~/repo/target/site/apidocs \
                 --destination $azureBlob \
@@ -154,20 +156,16 @@ workflows:
   commit-build:
     jobs:
       - build-software:
-          context: snapshot-context
       - publish-coverage:
-          context: snapshot-context
           requires:
             - build-software
       - publish-javadoc:
-          context: snapshot-context
           requires:
             - build-software
           filters:
             branches:
               only: master
       - publish-sonar:
-          context: snapshot-context
           requires:
             - build-software
           filters:
