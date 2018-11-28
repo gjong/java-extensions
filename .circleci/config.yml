@@ -11,7 +11,6 @@ jobs:
   build-software:
     # Build the application
     executor: docker-builder
-    context: snapshot-context
     working_directory: ~/repo
     environment:
       MAVEN_OPTS: -Xmx1024m
@@ -49,7 +48,6 @@ jobs:
 
   publish-coverage:
     executor: docker-builder
-    context: snapshot-context
     working_directory: ~/repo
     steps:
       - checkout
@@ -61,7 +59,6 @@ jobs:
 
   publish-sonar:
     executor: docker-builder
-    context: snapshot-context
     working_directory: ~/repo
     steps:
       - checkout
@@ -73,7 +70,6 @@ jobs:
 
   publish-javadoc:
     executor: docker-azure
-    context: snapshot-context
     working_directory: ~/repo
     steps:
       - attach_workspace:
@@ -105,7 +101,6 @@ jobs:
 
   release:
     executor: docker-build
-    context: release-context
     working_directory: ~/repo
     steps:
       - checkout
@@ -133,7 +128,6 @@ jobs:
 
   release-javadoc:
     executor: docker-azure
-    context: release-context
     working_directory: ~/repo
     steps:
       - attach_workspace:
@@ -159,17 +153,21 @@ workflows:
   version: 2
   commit-build:
     jobs:
-      - build-software
+      - build-software:
+          context: snapshot-context
       - publish-coverage:
+          context: snapshot-context
           requires:
             - build-software
       - publish-javadoc:
+          context: snapshot-context
           requires:
             - build-software
           filters:
             branches:
               only: master
       - publish-sonar:
+          context: snapshot-context
           requires:
             - build-software
           filters:
