@@ -180,10 +180,10 @@ workflows:
       - release:
           filters:
             branches:
-              only: release/*
+              only: ^release/.*
       - release-javadoc:
           requires:
             - release
           filters:
             branches:
-              only: release/*
+              only: ^release/.*
