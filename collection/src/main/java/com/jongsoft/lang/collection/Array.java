@@ -27,6 +27,7 @@ import static java.lang.String.*;
 import static java.util.Arrays.*;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -60,6 +61,20 @@ public class Array<T> implements Sequence<T> {
     public T get(int index) {
         validateOutOfBounds(index);
         return (T) delegate[index];
+    }
+
+    @Override
+    @SuppressWarnings("Duplicates")
+    public Array<T> tail() {
+        if (size() == 0) {
+            throw new NoSuchElementException("Cannot call tail on empty collection");
+        } else if (size() == 1) {
+            return empty();
+        }
+
+        Object[] tail = new Object[delegate.length - 1];
+        System.arraycopy(delegate, 1, tail, 0, delegate.length - 1);
+        return create(tail);
     }
 
     @Override
@@ -223,6 +238,17 @@ public class Array<T> implements Sequence<T> {
         return elements instanceof Array
                 ? (Array<T>) elements
                 : create(toArray(elements));
+    }
+
+    /**
+     * Create a new {@link Array} containing all the elements in the {@code iterator}.
+     *
+     * @param iterator  the iterator to copy into the array
+     * @param <T>       the type of the elements
+     * @return          the newly created array
+     */
+    public static <T> Array<T> ofAll(Iterator<T> iterator) {
+        return create(iterator.toNativeArray());
     }
 
     @SuppressWarnings("unchecked")

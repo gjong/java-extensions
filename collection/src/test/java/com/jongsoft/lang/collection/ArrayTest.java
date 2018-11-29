@@ -29,6 +29,30 @@ public class ArrayTest {
     }
 
     @Test
+    public void headNoElement() {
+        thrown.expect(NoSuchElementException.class);
+        Array.empty().head();
+    }
+
+    @Test
+    public void head() {
+        Integer head = Array.of(1, 2).head();
+        assertThat(head, equalTo(1));
+    }
+
+    @Test
+    public void tailNoElements() {
+        thrown.expect(NoSuchElementException.class);
+        Array.empty().tail();
+    }
+
+    @Test
+    public void tail() {
+        assertThat(Array.of(1).tail().isEmpty(), equalTo(true));
+        assertThat(Array.of(1, 2).tail().head(), equalTo(2));
+    }
+
+    @Test
     public void singleInt() {
         Array<Integer> ints = Array.of(5);
 
@@ -183,6 +207,15 @@ public class ArrayTest {
     @Test
     public void foldRight() {
         assertThat(Array.of("t", "e", "s", "t").foldRight("!", (x, y) -> x + y), equalTo("tset!"));
+    }
+
+    @Test
+    public void reduceLeft() {
+        String reduce = Array.of("t", "e", "s", "t").reduce((x ,y) -> x + y);
+        String reduceLeft = Array.of("t", "e", "s", "t").reduceLeft((x ,y) -> x + y);
+
+        assertThat(reduce, equalTo("test"));
+        assertThat(reduceLeft, equalTo("test"));
     }
 
     @Test

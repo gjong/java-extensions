@@ -23,8 +23,8 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -128,11 +128,6 @@ public interface Sequence<T> extends Collection<T> {
         return this;
     }
 
-    @Override
-    default T get() {
-        return get(0);
-    }
-
     /**
      * Get the element at the location of <code>index</code>
      *
@@ -142,6 +137,18 @@ public interface Sequence<T> extends Collection<T> {
      */
     T get(int index);
 
+    @Override
+    default T head() {
+        if (size() > 0) {
+            return get(0);
+        }
+
+        throw new NoSuchElementException("Cannot get head on empty collection");
+    }
+
+    @Override
+    Sequence<T> tail();
+
     /**
      * Reverse the order of the elements in the sequence.
      *
@@ -149,13 +156,7 @@ public interface Sequence<T> extends Collection<T> {
      */
     Sequence<T> reverse();
 
-    @Override
-    default <U> U foldRight(U start, BiFunction<? super T, ? super U, ? extends U> combiner) {
-        Objects.requireNonNull(combiner, "combiner is null");
-        return foldLeft(start, (y, x) -> combiner.apply(x, y));
-    }
-
-    @Override
+   @Override
     Sequence<T> filter(Predicate<T> predicate);
 
     @Override

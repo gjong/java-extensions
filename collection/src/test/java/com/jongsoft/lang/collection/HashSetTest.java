@@ -2,7 +2,9 @@ package com.jongsoft.lang.collection;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import static org.junit.rules.ExpectedException.none;
+import static org.junit.rules.ExpectedException.*;
+
+import java.util.NoSuchElementException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -65,6 +67,30 @@ public class HashSetTest {
 
         HashSet.of("one").get(1);
         HashSet.of("one").get(-1);
+    }
+
+    @Test
+    public void headNoElement() {
+        thrown.expect(NoSuchElementException.class);
+        HashSet.empty().head();
+    }
+
+    @Test
+    public void head() {
+        Integer head = HashSet.of(1, 2).head();
+        assertThat(head, equalTo(1));
+    }
+
+    @Test
+    public void tailNoElements() {
+        thrown.expect(NoSuchElementException.class);
+        HashSet.empty().tail();
+    }
+
+    @Test
+    public void tail() {
+        assertThat(HashSet.of(1).tail().isEmpty(), equalTo(true));
+        assertThat(HashSet.of(1, 1, 2).tail().head(), equalTo(2));
     }
 
     @Test

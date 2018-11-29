@@ -84,6 +84,9 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
      */
     T get(K key);
 
+    @Override
+    ImmutableMap<K, T> tail();
+
     /**
      * Build a stream of the values contained within this {@link ImmutableMap}.
      *

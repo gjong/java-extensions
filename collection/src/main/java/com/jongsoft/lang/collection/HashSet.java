@@ -26,6 +26,7 @@ package com.jongsoft.lang.collection;
 import static java.lang.String.*;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
@@ -83,6 +84,20 @@ public class HashSet<T> implements Set<T> {
     public T get(final int index) {
         validateOutOfBounds(index);
         return (T) delegate[index];
+    }
+
+    @Override
+    @SuppressWarnings("Duplicates")
+    public HashSet<T> tail() {
+        if (size() == 0) {
+            throw new NoSuchElementException("Cannot call tail on empty collection");
+        } else if (size() == 1) {
+            return empty();
+        }
+
+        Object[] tail = new Object[delegate.length - 1];
+        System.arraycopy(delegate, 1, tail, 0, delegate.length - 1);
+        return new HashSet<>(tail);
     }
 
     @Override

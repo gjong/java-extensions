@@ -42,6 +42,7 @@ public interface Foldable<T> {
      * @param start      the start value for the fold operation
      * @param combiner   the operation used to combine elements
      * @return           the folded value
+     *
      * @see #foldLeft(Object, BiFunction)
      * @throws NullPointerException if {@code combiner} is null
      */
@@ -61,8 +62,9 @@ public interface Foldable<T> {
      *
      * @param start      the start value for the fold operation
      * @param combiner   the operation used to combine elements
-     * @param <U>
+     * @param <U>        the type of value returned
      * @return           the folded value
+     *
      * @throws NullPointerException if {@code combiner} is null
      */
     <U> U foldLeft(U start, BiFunction<? super U, ? super T, ? extends U> combiner);
@@ -80,8 +82,33 @@ public interface Foldable<T> {
      * @param combiner   the operation used to combine elements
      * @param <U>        the targeted type of combination method
      * @return           the folded value
+     *
      * @throws NullPointerException if {@code combiner} is null
      */
     <U> U foldRight(U start, BiFunction<? super T, ? super U, ? extends U> combiner);
+
+    /**
+     * Reduce the collection from the left, starting with the first element in the collection and successively calling the {@code reducer
+     * } until there are no more elements.
+     *
+     * @param reducer   the operation to use to reduce the elements to one value
+     * @return          the reduced value
+     *
+     * @throws NullPointerException if {@code reducer} is null
+     */
+    default T reduce(BiFunction<? super T, ? super T, ? extends T> reducer) {
+        return reduceLeft(reducer);
+    }
+
+    /**
+     * Reduce the collection from the left, starting with the first element in the collection and successively calling the {@code reducer
+     * } until there are no more elements.
+     *
+     * @param reducer   the operation to use to reduce the elements to one value
+     * @return          the reduced value
+     *
+     * @throws NullPointerException if {@code reducer} is null
+     */
+    T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer);
 
 }

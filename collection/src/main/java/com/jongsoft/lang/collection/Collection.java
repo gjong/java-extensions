@@ -103,12 +103,19 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     @Override
     default <U> U foldLeft(U start, BiFunction<? super U, ? super T, ? extends U> combiner) {
         Objects.requireNonNull(combiner, "combiner is null");
-        U x = start;
-        for (T y : this) {
-            x = combiner.apply(x, y);
-        }
+        return iterator().foldLeft(start, combiner);
+    }
 
-        return x;
+    @Override
+    default <U> U foldRight(U start, BiFunction<? super T, ? super U, ? extends U> combiner) {
+        Objects.requireNonNull(combiner, "combiner is null");
+        return iterator().foldRight(start, combiner);
+    }
+
+    @Override
+    default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
+        Objects.requireNonNull(reducer, "reducer is null");
+        return iterator().reduceLeft(reducer);
     }
 
     /**
@@ -125,4 +132,29 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     @Override
     Iterator<T> iterator();
 
+    /**
+     * Fetch the head of the collection and return it. If the collection does not contain any elements then {@code null} will be returned.
+     *
+     * @return          returns the first element in the collection
+     */
+    @Override
+    default T get() {
+        return head();
+    }
+
+    /**
+     * Returns the first element of a non empty collection
+     *
+     * @return the first element
+     * @throws java.util.NoSuchElementException if the collection is {@code #isEmpty}
+     */
+    T head();
+
+    /**
+     * Return a collection containing all elements except the {@linkplain #head()}.
+     *
+     * @return a collection containing the tail
+     * @throws java.util.NoSuchElementException if the collection is {@code #isEmpty}
+     */
+    Collection<T> tail();
 }

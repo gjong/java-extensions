@@ -71,7 +71,19 @@ public class TailedList<T> implements Sequence<T> {
 
     @Override
     public TailedList<T> insert(int index, T value) {
-        return null;
+        validateIndexOutOfBounds(index);
+
+        TailedList<T> tail = this;
+        for (int i = 0; i < index; i++) {
+            tail = tail.tail;
+        }
+
+        tail = new TailedList<>(value, tail);
+        for (int i = index - 1; i >= 0; i--) {
+            tail = new TailedList<>(get(i), tail);
+        }
+
+        return tail;
     }
 
     @Override
@@ -94,6 +106,11 @@ public class TailedList<T> implements Sequence<T> {
         TailedList<T> computed;
         for (computed = this; loopIdx < index; computed = computed.tail, loopIdx++);
         return (T) computed.element;
+    }
+
+    @Override
+    public TailedList<T> tail() {
+        return tail;
     }
 
     @Override
@@ -243,12 +260,7 @@ public class TailedList<T> implements Sequence<T> {
      * @return          the {@link TailedList} containing the provided elements
      */
     public static <T> TailedList<T> of(T...elements) {
-        TailedList<T> reversed = (TailedList<T>) TailedList.EMPTY;
-        for (T element : elements) {
-            reversed = new TailedList<>(element, reversed);
-        }
-
-        return reversed.reverse();
+        return ofAll(Iterator.of(elements));
     }
 
     /**

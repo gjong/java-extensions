@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -78,9 +79,16 @@ public interface Set<T> extends Collection<T> {
     Set<T> remove(int index);
 
     @Override
-    default T get() {
-        return get(0);
+    default T head() {
+        if (size() > 0) {
+            return get(0);
+        }
+
+        throw new NoSuchElementException("Cannot get head on empty collection");
     }
+
+    @Override
+    Set<T> tail();
 
     /**
      * Get the element at the location of <code>index</code>

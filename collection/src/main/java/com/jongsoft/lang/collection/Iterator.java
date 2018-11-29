@@ -24,6 +24,7 @@
 package com.jongsoft.lang.collection;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -38,7 +39,7 @@ import com.jongsoft.lang.control.Optional;
  * @param <T>   the type contained in the iterator
  * @since 0.0.3
  */
-public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
+public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T> {
 
     /**
      * This operation is a convenience method for the {@link #next()}.
@@ -128,6 +129,28 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T> {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    default <U> U foldLeft(U start, BiFunction<? super U, ? super T, ? extends U> combiner) {
+        Objects.requireNonNull(combiner, "combiner is null");
+        U x = start;
+        for (T y : this) {
+            x = combiner.apply(x, y);
+        }
+
+        return x;
+    }
+
+    @Override
+    default <U> U foldRight(U start, BiFunction<? super T, ? super U, ? extends U> combiner) {
+        return foldLeft(start, (y, x) -> combiner.apply(x, y));
+    }
+
+    @Override
+    default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
+        Array<T> array = Array.ofAll(this);
+        return array.tail().foldLeft(array.head(), reducer);
     }
 
     /**

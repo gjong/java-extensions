@@ -96,8 +96,13 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     }
 
     @Override
-    public Tuple.Pair<K, T> get() {
-        return delegate.get();
+    public Tuple.Pair<K, T> head() {
+        return delegate.head();
+    }
+
+    @Override
+    public ImmutableMap<K, T> tail() {
+        return new ImmutableHashMap<>(delegate.tail());
     }
 
     @Override

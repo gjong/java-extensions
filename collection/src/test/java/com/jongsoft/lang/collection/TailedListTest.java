@@ -18,6 +18,19 @@ public class TailedListTest {
     public ExpectedException thrown = none();
 
     @Test
+    public void insert() {
+        TailedList<String> result = TailedList.of("my", "test")
+                .insert(1, "first")
+                .insert(2, "auto");
+
+        assertThat(result.size(), equalTo(4));
+        assertThat(result.get(0), equalTo("my"));
+        assertThat(result.get(1), equalTo("first"));
+        assertThat(result.get(2), equalTo("auto"));
+        assertThat(result.get(3), equalTo("test"));
+    }
+
+    @Test
     public void ofMultiple() {
         TailedList<String> list = TailedList.of("my", "test");
 
