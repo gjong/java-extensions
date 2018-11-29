@@ -31,6 +31,11 @@ import java.util.function.Predicate;
 import com.jongsoft.lang.common.core.Value;
 import com.jongsoft.lang.control.Optional;
 
+/**
+ * The collection interface enables basic operations that allow access to the elements.
+ *
+ * @param <T> the type of the elements
+ */
 public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
 
     /**
@@ -58,7 +63,13 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     }
 
     /**
-     * Find the first match in the Iterator using the provided {@link Predicate}.
+     * Find the first match in the elements using the provided {@link Predicate}.
+     * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be {@link Optional#empty()}.
+     * <p><strong>Example:</strong></p>
+     *
+     * <pre>{@code // the result will be an Optional with the value 2
+     *    int firstMatch = Collection(1, 2, 3, 4)
+     *          .first(i -> i % 2 == 0);}</pre>
      *
      * @param predicate the predicate to use
      * @return          the first match found
@@ -70,6 +81,11 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
 
     /**
      * Find the last match in the Iterator using the provided {@link Predicate}.
+     * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be {@link Optional#empty()}.
+     *
+     * <pre>{@code // the result will be an Optional with the value 4
+     *    int firstMatch = Collection(1, 2, 3, 4)
+     *          .last(i -> i % 2 == 0);}</pre>
      *
      * @param predicate the predicate to use
      * @return          the last match found
@@ -119,8 +135,9 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     }
 
     /**
-     * Convert the contenst of the collection using the provided mapping function. A new collection containing the converted entities will
-     * be returned.
+     * Convert the elements of the collection using the provided mapping function.
+     *
+     * This operation will not mutate the current collection but return a new one instead.
      *
      * @param mapper    the mapping functionality
      * @param <U>       the target entity type
@@ -133,9 +150,19 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     Iterator<T> iterator();
 
     /**
-     * Fetch the head of the collection and return it. If the collection does not contain any elements then {@code null} will be returned.
+     * Fetch the head of the collection and return it.
+     * The following operations will all return the same value for a non empty collection.
      *
-     * @return          returns the first element in the collection
+     * <pre>{@code   Collection(0, 1).get();
+     *   Collection(0, 1).head();
+     * }</pre>
+     *
+     * The caller must verify the collection is not empty using either {@linkplain #size()} or {@linkplain #isEmpty()} to prevent a
+     * {@code NoSuchElementException} to be thrown.
+     *
+     * @return the first element in the collection
+     * @see #head()
+     * @throws java.util.NoSuchElementException when there are no elements
      */
     @Override
     default T get() {
@@ -143,15 +170,25 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     }
 
     /**
-     * Returns the first element of a non empty collection
+     * Fetch the head of the collection and return it.
+     * The following operations will all return the same value for a non empty collection.
      *
-     * @return the first element
+     * <pre>{@code   Collection(0, 1).get();
+     *   Collection(0, 1).head();
+     * }</pre>
+     *
+     * The caller must verify the collection is not empty using either {@linkplain #size()} or {@linkplain #isEmpty()} to prevent a
+     * {@code NoSuchElementException} to be thrown.
+     *
+     * @return the first element in the collection
      * @throws java.util.NoSuchElementException if the collection is {@code #isEmpty}
      */
     T head();
 
     /**
-     * Return a collection containing all elements except the {@linkplain #head()}.
+     * Build a new collection with all elements except for the {@linkplain #head() head}.
+     * If there is only one element present then an empty collection will be returned. If the operation is called on an empty collection an
+     * {@code NoSuchElementException} will be thrown.
      *
      * @return a collection containing the tail
      * @throws java.util.NoSuchElementException if the collection is {@code #isEmpty}

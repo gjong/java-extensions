@@ -27,7 +27,14 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 
 /**
- * Interface for entities that support fold operations.
+ * <p>
+ *   In functional programming, fold (also termed reduce, accumulate, aggregate, compress, or inject) refers to a family of higher-order
+ *   functions that analyze a recursive data structure and through use of a given combining operation, recombine the results of recursively
+ *   processing its constituent parts, building up a return value.
+ * </p>
+ * <p>
+ *   This interface indicates that the implementation supports the folding operations.
+ * </p>
  *
  * @param <T>   the type of the component
  * @see <a href="https://en.wikipedia.org/wiki/Fold_(higher-order_function)">Fold operation explained</a>
@@ -54,9 +61,10 @@ public interface Foldable<T> {
     /**
      * Folds the elements from the left, starting with the {@code start} value and combining the result by successively calling the
      * {@code combiner} operation.
-     *
-     * <pre>{@code
-     *    // result "!test"
+     * <p>
+     *   <strong>Example:</strong>
+     * </p>
+     * <pre>{@code // result "!test"
      *    Array("t", "e", "s", "t").foldLeft("!",  (x, y) -> x + y)
      * }</pre>
      *
@@ -72,9 +80,10 @@ public interface Foldable<T> {
     /**
      * Folds the elements from the right, starting with the {@code start} value and combining the result by successively calling the
      * {@code combiner}.
-     *
-     * <pre>{@code
-     *    // result "tset!"
+     * <p>
+     *   <strong>Example:</strong>
+     * </p>
+     * <pre>{@code // result "tset!"
      *    Array("t", "e", "s", "t").foldRight("!",  (x, y) -> x + y)
      * }</pre>
      *
@@ -88,25 +97,35 @@ public interface Foldable<T> {
     <U> U foldRight(U start, BiFunction<? super T, ? super U, ? extends U> combiner);
 
     /**
-     * Reduce the collection from the left, starting with the first element in the collection and successively calling the {@code reducer
-     * } until there are no more elements.
+     * Convenience method for {@code reduceLeft}.
      *
-     * @param reducer   the operation to use to reduce the elements to one value
-     * @return          the reduced value
-     *
-     * @throws NullPointerException if {@code reducer} is null
+     * @see #reduceLeft(BiFunction)
      */
     default T reduce(BiFunction<? super T, ? super T, ? extends T> reducer) {
         return reduceLeft(reducer);
     }
 
     /**
-     * Reduce the collection from the left, starting with the first element in the collection and successively calling the {@code reducer
-     * } until there are no more elements.
+     * <p>
+     *   Reduce the collection from the left, starting with the first element in the collection and successively calling the {@code reducer
+     *   } until there are no more elements.
+     * </p>
+     * <p>
+     *   <strong>Example:</strong>
+     * </p>
+     * <pre>{@code // result "test"
+     *    Array("t", "e", "s", "t").reduceLeft((x, y) -> x + y)
+     * }</pre>
+     *
+     * <p>
+     *     This operation is similar to the {@linkplain #foldLeft(Object, BiFunction)} where the first element is the head of the
+     *     elements.
+     * </p>
      *
      * @param reducer   the operation to use to reduce the elements to one value
      * @return          the reduced value
      *
+     * @see #foldLeft(Object, BiFunction)
      * @throws NullPointerException if {@code reducer} is null
      */
     T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer);

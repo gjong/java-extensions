@@ -29,8 +29,28 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * Sequence implementations will be an ordered {@link Collection}. These collections allow for adding duplicate entries but all entries
- * will always be returned in the order that they were added.
+ * Sequences are ordered collections of elements.
+ * These collections allow for appending duplicate entries, but all entries will always be returned in the order that they were added or
+ * inserted.
+ *
+ * <table>
+ *     <caption><strong>Mutable operations</strong></caption>
+ *     <thead>
+ *         <tr><td>Operation</td><td>Description</td></tr>
+ *     </thead>
+ *     <tbody>
+ *         <tr><td>{@linkplain #append(Object)}</td><td>Add element to end of the sequence</td></tr>
+ *         <tr><td>{@linkplain #appendAll(Iterable)}</td><td>Add elements to end of the sequence</td></tr>
+ *         <tr><td>{@linkplain #prepend(Object)}</td><td>Add elements to start of the sequence</td></tr>
+ *         <tr><td>{@linkplain #insert(int, Object)}</td><td>Add an element to the indicated place</td></tr>
+ *         <tr><td>{@linkplain #remove(Object)}</td><td>Remove the element</td></tr>
+ *         <tr><td>{@linkplain #remove(int)}</td><td>Remove the element at the indicated place</td></tr>
+ *     </tbody>
+ * </table>
+ *
+ * <p>
+ *     <strong>Note:</strong> all operation that alter the contents of the sequence will return a new instance.
+ * </p>
  *
  * @param <T>   the entity type of the sequence
  */
@@ -156,7 +176,7 @@ public interface Sequence<T> extends Collection<T> {
      */
     Sequence<T> reverse();
 
-   @Override
+    @Override
     Sequence<T> filter(Predicate<T> predicate);
 
     @Override
