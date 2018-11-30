@@ -114,7 +114,7 @@ jobs:
             echo "${rawV//[A-Z\-]/}" >> ~/repo/target/version.file
       - run:
           name: Perform release
-          command: mvn -V -B -s settings.xml -P release-profile release:prepare release:perform
+          command: mvn -V -B -s settings.xml -P release-profile release:prepare release:perform -Darguments="-Dmaven.javadoc.skip=true"
       - persist_to_workspace:
           root: ~/repo
           paths:
