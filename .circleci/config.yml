@@ -104,7 +104,7 @@ jobs:
       - run:
           name: Setup the PGP key
           command: |
-            openssl aes-256-cbc -pass pass:$openSslPwd -in private-key.gpg.enc -out private-key.gpg -d
+            openssl aes-256-cbc -pass pass:$openSslPwd -md md5 -in private-key.gpg.enc -out private-key.gpg -d
             gpg --import private-key.gpg
       - run:
           name: Obtain release version
