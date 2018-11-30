@@ -83,7 +83,7 @@
         <maven.test.skip>false</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <javadoc.version>3.0.1</javadoc.version>
+        <javadoc.version>3.0.2-SNAPSHOT</javadoc.version>
         <jacoco.version>0.8.2</jacoco.version>
         <asm.version>7.0</asm.version>
 

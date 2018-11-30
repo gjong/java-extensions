@@ -119,8 +119,7 @@ jobs:
             GPG_TTY=$(tty)
             git config --global user.email "release-agent@jong-soft.com"
             git config --global user.name "Release Agent"
-            mvn -V -B -s settings.xml -P release-profile release:prepare release:perform \
-                -Darguments="-Dmaven.javadoc.skip=true" \
+            mvn -V -B -s settings.xml -P release-profile release:prepare release:perform
       - persist_to_workspace:
           root: ~/repo
           paths:
