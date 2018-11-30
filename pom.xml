@@ -342,6 +342,14 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                    <keyname>${env.gpgKey}</keyname>
+                                    <passphrase>${env.gpgPassword}</passphrase>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

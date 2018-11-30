@@ -104,8 +104,9 @@ jobs:
       - run:
           name: Setup the PGP key
           command: |
-            openssl aes-256-cbc -pass pass:$openSslPwd -md md5 -in private-key.gpg.enc -out private-key.gpg -d
-            gpg --batch --import private-key.gpg
+            openssl aes-256-cbc -pass pass:$openSslPwd -md md5 -in private-key.gpg.enc -out signing-key -d
+            gpg --batch --import signing-key
+            shred signing-key
       - run:
           name: Obtain release version
           command: |
@@ -114,7 +115,9 @@ jobs:
             echo "${rawV//[A-Z\-]/}" >> ~/repo/target/version.file
       - run:
           name: Perform release
-          command: mvn -V -B -s settings.xml -P release-profile release:prepare release:perform -Darguments="-Dmaven.javadoc.skip=true"
+          command: |
+            GPG_TTY=$(tty)
+            mvn -V -B -s settings.xml -P release-profile release:prepare release:perform -Darguments="-Dmaven.javadoc.skip=true"
       - persist_to_workspace:
           root: ~/repo
           paths:
