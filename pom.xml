@@ -360,6 +360,7 @@
                         <version>2.5.3</version>
                         <configuration>
                             <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <scmCommentPrefix>[ci ignore] [release]]</scmCommentPrefix>
                         </configuration>
                     </plugin>
 
