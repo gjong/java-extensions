@@ -110,7 +110,7 @@ jobs:
           name: Obtain release version
           command: |
             export rawV=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
-            echo "${rawV//[A-Z\-]/}" > target/version.file
+            echo "${rawV//[A-Z\-]/}" >> ~/repo/target/version.file
       - run:
           name: Perform release
           command: mvn -V -B -s settings.xml -P release-profile release:prepare release:perform
