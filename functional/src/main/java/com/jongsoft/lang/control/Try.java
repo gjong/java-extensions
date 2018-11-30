@@ -45,9 +45,9 @@ import com.jongsoft.lang.control.impl.TrySuccess;
  *     The Try can be used like the example below, to either recover from an exception or gracefully catch one.
  * </p>
  * <pre>
- *     String result = Try&lt;String&gt;.supply(() -> {
+ *     String result = Try&lt;String&gt;.supply(() -&gt; {
  *         throw new Exception("not supported");
- *        }).recover(x -> "recovered")
+ *        }).recover(x -&gt; "recovered")
  *        .get();
  * </pre>
  *
@@ -125,7 +125,7 @@ public interface Try<T> extends Presence<T> {
      * </p>
      * <pre>
      *     List&lt;String&gt; safeGet = Try.supply(myDatabase::getRecords)
-     *          .recover(x -> Collections.emptyList())
+     *          .recover(x -&gt; Collections.emptyList())
      *          .get();
      * </pre>
      * <p>

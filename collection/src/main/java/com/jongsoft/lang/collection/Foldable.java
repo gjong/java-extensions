@@ -99,6 +99,8 @@ public interface Foldable<T> {
     /**
      * Convenience method for {@code reduceLeft}.
      *
+     * @param reducer   the operation to use to reduce the elements to one value
+     * @return          the reduced value
      * @see #reduceLeft(BiFunction)
      */
     default T reduce(BiFunction<? super T, ? super T, ? extends T> reducer) {

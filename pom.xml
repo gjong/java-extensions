@@ -4,7 +4,7 @@
 
     <groupId>com.jongsoft.lang</groupId>
     <artifactId>language</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Jong-Soft Java Language Extensions</name>
@@ -83,7 +83,7 @@
         <maven.test.skip>false</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <javadoc.version>3.0.2-SNAPSHOT</javadoc.version>
+        <javadoc.version>3.0.1</javadoc.version>
         <jacoco.version>0.8.2</jacoco.version>
         <asm.version>7.0</asm.version>
 
@@ -342,6 +342,14 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                    <keyname>${env.gpgKey}</keyname>
+                                    <passphrase>${env.gpgPassword}</passphrase>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -352,6 +360,7 @@
                         <version>2.5.3</version>
                         <configuration>
                             <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <scmCommentPrefix>[ci skip] [release]</scmCommentPrefix>
                         </configuration>
                     </plugin>
 
