@@ -25,6 +25,15 @@ public class HashSetTest {
         assertThat(strings.size(), equalTo(2));
         assertThat(strings, hasItems("one", "two"));
     }
+    
+    @Test
+    public void toJava() {
+        final java.util.Set<Integer> ints = HashSet.of(1, 2, 3, 4)
+                .toJava();        
+
+        assertThat(ints.size(), equalTo(4));
+        assertThat(ints, hasItems(1, 2, 3, 4));
+    }
 
     @Test
     public void indexOf() {

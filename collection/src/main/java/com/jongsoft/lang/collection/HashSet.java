@@ -24,7 +24,6 @@
 package com.jongsoft.lang.collection;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;

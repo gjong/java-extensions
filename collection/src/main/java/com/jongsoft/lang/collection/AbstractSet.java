@@ -1,5 +1,7 @@
 package com.jongsoft.lang.collection;
 
+import static java.lang.String.*;
+
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -7,8 +9,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
-
-import static java.lang.String.format;
 
 abstract class AbstractSet<T> implements Set<T> {
 
