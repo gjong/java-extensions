@@ -47,6 +47,15 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     Collection<T> filter(Predicate<T> predicate);
 
     /**
+     * Return a list that removes all elements that match the {@code predicate} provided.
+     *
+     * @param predicate the predicate to use
+     * @return          the elements that do not match the {@code predicate}
+     * @throws NullPointerException in case {@code predicate} is null
+     */
+    Collection<T> reject(Predicate<T> predicate);
+
+    /**
      * Get the amount of elements contained in the collection.
      *
      * @return 0 if empty, otherwise the amount of entries
@@ -114,6 +123,18 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
         }
 
         return true;
+    }
+
+    /**
+     * Count all elements that match the provided predicate.
+     *
+     * @param predicate the predicate that must be true
+     * @return          the amount of elements matching the predicate
+     * @throws NullPointerException in case {@code predicate} is null
+     */
+    default int count(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate, "predicate is null");
+        return foldLeft(0, (count, element) -> predicate.test(element) ? count + 1 : count);
     }
 
     @Override

@@ -103,6 +103,12 @@ public interface Set<T> extends Collection<T> {
     Set<T> filter(Predicate<T> predicate);
 
     @Override
+    default Set<T> reject(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate, "predicate is null");
+        return filter(predicate.negate());
+    }
+
+    @Override
     <U> Set<U> map(Function<T, U> mapper);
 
     /**

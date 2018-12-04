@@ -158,13 +158,23 @@ public class ArrayTest {
 
     @Test
     public void filterInt5() {
-        Sequence<Integer> noFives = Array.of(1, 5, 34, 4, 5, 23, 4, 5).filter(i -> 5 != i);
+        Sequence<Integer> noFives = Array.of(1, 5, 34, 4, 5, 23, 4, 5)
+                .filter(i -> 5 != i);
 
         assertThat(noFives.size(), equalTo(5));
         assertThat(noFives.get(0), equalTo(1));
         assertThat(noFives.get(1), equalTo(34));
         assertThat(noFives.get(2), equalTo(4));
         assertThat(noFives.get(3), equalTo(23));
+    }
+    
+    @Test
+    public void reject() {
+        Sequence<Integer> noFives = Array.of(1, 2, 3, 4, 5)
+                .reject(i -> i % 2 == 0);
+
+        assertThat(noFives.size(), equalTo(3));
+        assertThat(noFives, hasItems(1, 3, 5));
     }
 
     @Test
@@ -175,7 +185,7 @@ public class ArrayTest {
 
     @Test
     public void ofIterable() {
-        Array<Integer> integers = Array.ofAll(() -> Collections.singleton(Integer.valueOf(5)).iterator());
+        Array<Integer> integers = Array.ofAll(() -> Collections.singleton(5).iterator());
 
         assertThat(integers.size(), equalTo(1));
         assertThat(integers.get(0), equalTo(5));
@@ -196,6 +206,13 @@ public class ArrayTest {
     @Test
     public void containsAll() {
         assertThat(Array.of(1, 2, 3, 4).containsAll(Array.of(2, 3)), equalTo(true));
+    }
+
+    @Test
+    public void count() {
+        int count = Array.of(1, 2, 3, 4)
+             .count(x -> x % 2 == 0);
+        assertThat(count, equalTo(2));
     }
 
     @Test
@@ -237,14 +254,14 @@ public class ArrayTest {
     public void findLastFirst() {
         final Array<Integer> array = Array.of(1, 2, 3, 4, 5);
 
-        Optional<Integer> lastFound = array.iterator().last(i -> i % 2 == 0);
+        Optional<Integer> lastFound = array.last(i -> i % 2 == 0);
         assertThat(lastFound.isPresent(), equalTo(true));
         assertThat(lastFound.get(), equalTo(4));
 
-        Optional<Integer> lastNotFound = array.iterator().last(i -> i % 9 == 0);
+        Optional<Integer> lastNotFound = array.last(i -> i % 9 == 0);
         assertThat(lastNotFound.isPresent(), equalTo(false));
 
-        Optional<Integer> firstFound = array.iterator().first(i -> i % 2 == 0);
+        Optional<Integer> firstFound = array.first(i -> i % 2 == 0);
         assertThat(firstFound.isPresent(), equalTo(true));
         assertThat(firstFound.get(), equalTo(2));
     }

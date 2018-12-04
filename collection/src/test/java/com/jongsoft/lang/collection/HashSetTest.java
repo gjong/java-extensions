@@ -121,6 +121,15 @@ public class HashSetTest {
     }
 
     @Test
+    public void reject() {
+        Set<Integer> noFives = HashSet.of(1, 2, 3, 4, 5)
+                .reject(i -> i % 2 == 0);
+
+        assertThat(noFives.size(), equalTo(3));
+        assertThat(noFives, hasItems(1, 3, 5));
+    }
+
+    @Test
     public void map() {
         Set<Integer> lengths = HashSet.of("one", "two", "one", "three")
                 .map(String::length);

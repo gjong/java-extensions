@@ -180,6 +180,12 @@ public interface Sequence<T> extends Collection<T> {
     Sequence<T> filter(Predicate<T> predicate);
 
     @Override
+    default Sequence<T> reject(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate, "predicate is null");
+        return filter(predicate.negate());
+    }
+
+    @Override
     <U> Sequence<U> map(Function<T, U> mapper);
 
     /**

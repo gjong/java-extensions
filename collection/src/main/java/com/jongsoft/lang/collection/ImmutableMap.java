@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -96,6 +97,12 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
 
     @Override
     ImmutableMap<K, T> filter(Predicate<Tuple.Pair<K, T>> predicate);
+
+    @Override
+    default ImmutableMap<K, T> reject(Predicate<Tuple.Pair<K, T>> predicate) {
+        Objects.requireNonNull(predicate, "predicate is null");
+        return filter(predicate.negate());
+    }
 
     /**
      * Convert the map to a regular Java map type.
