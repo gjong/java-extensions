@@ -74,7 +74,7 @@ public interface Sequence<T> extends Collection<T> {
 
     /**
      * Create a new sequence starting with all elements in this sequence and ending with the provided {@code value}.
-     * <p></p>
+     *
      * <p><strong>Example:</strong></p>
      * <pre>{@code  // will result in a sequence with 2, 3, 4, 1
      *    Sequence(2, 3, 4).append(1)
@@ -90,7 +90,7 @@ public interface Sequence<T> extends Collection<T> {
     /**
      * Create a new sequence with the provided {@code value} at position 0 and the remainder of this sequence from position 1 to
      * {@linkplain #size()} + 1.
-     * <p></p>
+     *
      * <p><strong>Example:</strong></p>
      * <pre>{@code  // will result in a sequence with 1, 2, 3, 4
      *    Sequence(2, 3, 4).prepend(1)
@@ -200,7 +200,7 @@ public interface Sequence<T> extends Collection<T> {
     /**
      * Create a new sequence with all elements of this sequence combined with the elements of the provided iterable.
      * The elements in this sequence will be added before the provided {@code iterable} in the returned sequence.
-     * <p></p>
+     *
      * <p><strong>Example:</strong></p>
      * <pre>{@code  // the example would be a Sequence(1, 2, 3, 4)
      *   Sequence result = Sequence(1, 2).union(Sequence(3, 4));
