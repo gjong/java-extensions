@@ -31,24 +31,24 @@ import com.jongsoft.lang.collection.tuple.Tuple;
 
 /**
  * This class represents a map implementation that is immutable. This means all operations that would change its contents result into a
- * new {@link ImmutableMap} being returned. The current instance is not modified.
+ * new {@link Map} being returned. The current instance is not modified.
  *
  * @param <K>   the type for the key
  * @param <T>   the type for the values
  * @since 0.0.3
  */
-public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
+public interface Map<K, T> extends Collection<Tuple.Pair<K, T>> {
 
     /**
-     * Add a new entry to the {@link ImmutableMap}.
+     * Add a new entry to the {@link Map}.
      *
      * @param key   the key for the entry
      * @param value the value for the entry
-     * @return      the new {@link ImmutableMap} instance with the added key, value pair
+     * @return      the new {@link Map} instance with the added key, value pair
      *
      * @throws NullPointerException in case the key is <code>null</code>
      */
-    ImmutableMap<K, T> put(K key, T value);
+    Map<K, T> put(K key, T value);
 
     /**
      * Removes any element with the corresponding key from the map.
@@ -56,10 +56,10 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
      * @param key   the key indicating what needs to be removed
      * @return      a new instance without the entry with the key
      */
-    ImmutableMap<K, T> remove(K key);
+    Map<K, T> remove(K key);
 
     /**
-     * Returns true if this {@link ImmutableMap} contains the key provided.
+     * Returns true if this {@link Map} contains the key provided.
      *
      * @param key   the key to look for
      * @return      true if found, otherwise false
@@ -69,7 +69,7 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
     }
 
     /**
-     * Verify if the presented value is contained within the {@link ImmutableMap} value set.
+     * Verify if the presented value is contained within the {@link Map} value set.
      *
      * @param value the value to look for
      * @return      if the value is found or not
@@ -77,7 +77,7 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
     boolean containsValue(T value);
 
     /**
-     * Get the value from the {@link ImmutableMap} with the corresponding key. If the key is not contained in this instance then
+     * Get the value from the {@link Map} with the corresponding key. If the key is not contained in this instance then
      * <code>null</code> will be returned.
      *
      * @param key   the key to obtain the value for
@@ -86,20 +86,20 @@ public interface ImmutableMap<K, T> extends Collection<Tuple.Pair<K, T>> {
     T get(K key);
 
     @Override
-    ImmutableMap<K, T> tail();
+    Map<K, T> tail();
 
     /**
-     * Build a stream of the values contained within this {@link ImmutableMap}.
+     * Build a stream of the values contained within this {@link Map}.
      *
      * @return      the stream with all the values
      */
     Stream<T> valueStream();
 
     @Override
-    ImmutableMap<K, T> filter(Predicate<Tuple.Pair<K, T>> predicate);
+    Map<K, T> filter(Predicate<Tuple.Pair<K, T>> predicate);
 
     @Override
-    default ImmutableMap<K, T> reject(Predicate<Tuple.Pair<K, T>> predicate) {
+    default Map<K, T> reject(Predicate<Tuple.Pair<K, T>> predicate) {
         Objects.requireNonNull(predicate, "predicate is null");
         return filter(predicate.negate());
     }

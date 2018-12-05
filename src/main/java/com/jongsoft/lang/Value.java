@@ -52,7 +52,7 @@ public interface Value<T> extends Iterable<T>, Streamable<T>, Mappable<T>, Seria
     /**
      * Is this instance single-valued or not.
      *
-     * @return {@code true} if single-valued, otherwhise {@code false}
+     * @return {@code true} if single-valued, otherwise {@code false}
      */
     boolean isSingleValued();
 

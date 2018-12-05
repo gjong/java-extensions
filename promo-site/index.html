@@ -91,7 +91,7 @@
                 </p>
                 <code class="java highlight px-4">
                     String message = Try&lt;String&gt.supply(this::mayThrowException) <br/>
-                    &nbsp;&nbsp;.recover(x -> "default text") <br/>
+                    &nbsp;&nbsp;.recover(x -&gt; "default text") <br/>
                     &nbsp;&nbsp;.get();
                 </code>
             </div>
@@ -109,42 +109,17 @@
         split in several modules that can be included pending on your needs.
     </p>
 
-    <h5>Functional module</h5>
-    <p>
-        The functional library includes control based interfaces that help structure code better and improver readability. This includes
-        classes
-        like:
-    </p>
-    <ul>
-        <li>Optional, used as a pure functional implementation of the Java Optional</li>
-        <li>Try, for better exception handling</li>
-    </ul>
     <strong>Maven</strong>
     <code class="highlight xml py-0 my-0 px-4">
         &lt;dependency&gt;<br/>
         &nbsp;&nbsp;&lt;groupId&gt;com.com.jongsoft.lang&lt;/groupId&gt;<br/>
-        &nbsp;&nbsp;&lt;artifactId&gt;functional&lt;/artifactId&gt;<br/>
-        &nbsp;&nbsp;&lt;version&gt;0.0.3&lt;/version&gt;<br/>
+        &nbsp;&nbsp;&lt;artifactId&gt;language&lt;/artifactId&gt;<br/>
+        &nbsp;&nbsp;&lt;version&gt;0.0.4&lt;/version&gt;<br/>
         &lt;/dependency&gt;
     </code>
     <strong>Gradle</strong>
     <code class="highlight xml py-0 my-0 px-4">
-        compile 'com.jongsoft.lang:functional:0.0.3'
-    </code>
-    <p></p>
-    <h5>Collection module</h5>
-    <p>
-        The collection module contains a set of immutable implementations of Collection, Set and Sequence.
-    </p>
-    <code class="highlight xml xml py-0 px-4">
-        &lt;dependency&gt;<br/>
-        &nbsp;&nbsp;&lt;groupId&gt;com.com.jongsoft.lang&lt;/groupId&gt;<br/>
-        &nbsp;&nbsp;&lt;artifactId&gt;collection&lt;/artifactId&gt;<br/>
-        &nbsp;&nbsp;&lt;version&gt;0.0.3&lt;/version&gt;<br/>
-        &lt;/dependency&gt;
-    </code>
-    <code class="highlight xml py-0 my-0 px-4">
-        compile 'com.jongsoft.lang:collection:0.0.3'
+        compile 'com.jongsoft.lang:language:0.0.4'
     </code>
 </div>
 

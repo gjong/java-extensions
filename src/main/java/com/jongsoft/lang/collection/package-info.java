@@ -6,7 +6,7 @@
  * <ul>
  *    <li>{@linkplain com.jongsoft.lang.collection.Sequence}, a ordered collection type</li>
  *    <li>{@linkplain com.jongsoft.lang.collection.Set}, a collection type that ensures uniqueness</li>
- *    <li>{@linkplain com.jongsoft.lang.collection.ImmutableMap}, a map implementation</li>
+ *    <li>{@linkplain com.jongsoft.lang.collection.Map}, a map implementation</li>
  *    <li>{@linkplain com.jongsoft.lang.collection.Iterator}, a custom iteration implementation</li>
  * </ul>
  * <p>

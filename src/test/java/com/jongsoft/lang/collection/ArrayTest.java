@@ -252,6 +252,20 @@ public class ArrayTest {
     }
 
     @Test
+    public void groupBy() {
+        Map<Integer, Sequence<String>> result = Array.of("one", "two", "three", "four")
+             .groupBy(String::length);
+
+        assertThat(result.size(), equalTo(3));
+        assertThat(result.get(3).size(), equalTo(2));
+        assertThat(result.get(3), hasItems("one", "two"));
+        assertThat(result.get(4).size(), equalTo(1));
+        assertThat(result.get(4), hasItems("four"));
+        assertThat(result.get(5).size(), equalTo(1));
+        assertThat(result.get(5), hasItems("three"));
+    }
+
+    @Test
     public void findLastFirst() {
         final Array<Integer> array = Array.of(1, 2, 3, 4, 5);
 

@@ -34,6 +34,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
+import com.jongsoft.lang.collection.support.Collections;
+
 /**
  * The {@link Array} implementation of the {@link Sequence} interface provides access to an immutable collection of elements.
  * This means all mutable operators will return a new instance rather then modifying the current one.
@@ -101,6 +103,11 @@ public class Array<T> implements Sequence<T> {
         }
 
         return create(mapped);
+    }
+
+    @Override
+    public <K> Map<K, Sequence<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
+        return Collections.groupBy(Array::empty, this, keyGenerator);
     }
 
     @Override

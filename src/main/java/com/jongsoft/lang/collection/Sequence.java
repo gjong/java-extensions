@@ -198,6 +198,16 @@ public interface Sequence<T> extends Collection<T> {
     <U> Sequence<U> map(Function<T, U> mapper);
 
     /**
+     * Generate a new sequence using the {@code keyGenerator}.
+     *
+     * @param keyGenerator
+     * @param <K>
+     * @return
+     * @throws NullPointerException if {@code keyGenerator} is null
+     */
+    <K> Map<K, Sequence<T>> groupBy(Function<? super T, ? extends K> keyGenerator);
+
+    /**
      * Create a new sequence with all elements of this sequence combined with the elements of the provided iterable.
      * The elements in this sequence will be added before the provided {@code iterable} in the returned sequence.
      *

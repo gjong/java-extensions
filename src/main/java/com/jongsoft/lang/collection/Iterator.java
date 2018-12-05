@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -173,10 +174,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
         reset();
 
         Object[] clone = new Object[size];
-        for (int i = 0; hasNext(); i++) {
-            clone[i] = next();
-        }
-
+        Arrays.setAll(clone, i -> next());
         return clone;
     }
 

@@ -19,7 +19,7 @@ public class TryTest {
 
     @Test
     public void trySupply() {
-        Try<String> test = Try.supply(() -> "test");
+        Try<String> test = Control.Try(() -> "test");
 
         assertThat(test.isSuccess(), equalTo(true));
         assertThat(test.isFailure(), equalTo(false));

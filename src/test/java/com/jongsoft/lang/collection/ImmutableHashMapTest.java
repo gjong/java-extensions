@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
@@ -15,14 +14,14 @@ public class ImmutableHashMapTest {
 
     @Test
     public void empty() {
-        final ImmutableMap empty = ImmutableHashMap.create();
+        final Map empty = ImmutableHashMap.create();
 
         assertThat(empty.size(), equalTo(0));
     }
 
     @Test
     public void containsKey() {
-        ImmutableMap<String, String> subject = ImmutableHashMap.<String, String>create()
+        Map<String, String> subject = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three");
 
@@ -34,7 +33,7 @@ public class ImmutableHashMapTest {
 
     @Test
     public void containsValue() {
-        ImmutableMap<String, String> subject = ImmutableHashMap.<String, String>create()
+        Map<String, String> subject = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three");
 
@@ -45,7 +44,7 @@ public class ImmutableHashMapTest {
 
     @Test
     public void size() {
-        ImmutableMap<String, String> subject = ImmutableHashMap.<String, String>create()
+        Map<String, String> subject = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three");
 
@@ -54,7 +53,7 @@ public class ImmutableHashMapTest {
 
     @Test
     public void remove() {
-        ImmutableMap<String, String> subject = ImmutableHashMap.<String, String>create()
+        Map<String, String> subject = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three")
                 .remove("one");
@@ -67,7 +66,7 @@ public class ImmutableHashMapTest {
 
     @Test
     public void putDuplicateKey() {
-        ImmutableMap<String, String> subject = ImmutableHashMap.<String, String>create()
+        Map<String, String> subject = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three")
                 .put("one", "five");
@@ -78,7 +77,7 @@ public class ImmutableHashMapTest {
 
     @Test
     public void get() {
-        ImmutableMap<String, String> subject = ImmutableHashMap.<String, String>create()
+        Map<String, String> subject = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three");
 
@@ -126,7 +125,7 @@ public class ImmutableHashMapTest {
 
     @Test
     public void filter() {
-        final ImmutableMap<String, String> result = ImmutableHashMap.<String, String>create()
+        final Map<String, String> result = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three")
                 .filter(p -> p.getSecond().length() == 3);
@@ -149,7 +148,7 @@ public class ImmutableHashMapTest {
 
     @Test
     public void toJava() {
-        Map<String, String> result = ImmutableHashMap.<String, String>create()
+        java.util.Map result = ImmutableHashMap.<String, String>create()
                 .put("one", "two")
                 .put("two", "three")
                 .toJava();

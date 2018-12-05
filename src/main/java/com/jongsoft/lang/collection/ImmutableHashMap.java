@@ -37,7 +37,7 @@ import com.jongsoft.lang.collection.tuple.Tuple;
  * @param <K>   the type of the key
  * @param <T>   the type of the value
  */
-public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
+public class ImmutableHashMap<K, T> implements Map<K, T> {
 
     @SuppressWarnings("unchecked")
     private static final ImmutableHashMap<?, ?> EMPTY = new ImmutableHashMap(Array.empty());
@@ -49,7 +49,7 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     }
 
     @Override
-    public ImmutableMap<K, T> put(final K key, final T value) {
+    public Map<K, T> put(final K key, final T value) {
         Objects.requireNonNull(key, "A null value is not allowed for the key in a map");
 
         Sequence<Tuple.Pair<K, T>> afterRemove = delegate;
@@ -62,7 +62,7 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     }
 
     @Override
-    public ImmutableMap<K, T> remove(final K key) {
+    public Map<K, T> remove(final K key) {
         Objects.requireNonNull(key, "A null value is not allowed for the key in a map");
 
         int indexOf = delegate.firstIndexWhere(e -> Objects.equals(e.getFirst(), key));
@@ -101,7 +101,7 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
     }
 
     @Override
-    public ImmutableMap<K, T> tail() {
+    public Map<K, T> tail() {
         return new ImmutableHashMap<>(delegate.tail());
     }
 
@@ -159,8 +159,8 @@ public class ImmutableHashMap<K, T> implements ImmutableMap<K, T> {
      * @return      the new empty map
      */
     @SuppressWarnings("unchecked")
-    public static <K, T> ImmutableMap<K, T> create() {
-        return (ImmutableMap<K, T>) EMPTY;
+    public static <K, T> Map<K, T> create() {
+        return (Map<K, T>) EMPTY;
     }
 
 }

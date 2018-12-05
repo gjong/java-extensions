@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.control;
 
+import static com.jongsoft.lang.control.Control.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.junit.rules.ExpectedException.*;
@@ -50,7 +51,7 @@ public class OptionalTest {
     
     @Test
     public void ofNullableWithObject() {
-        Optional<Integer> optional = Optional.ofNullable(Integer.MAX_VALUE);
+        Optional<Integer> optional = Option(Integer.MAX_VALUE);
         
         assertThat(optional.isPresent(), equalTo(true));
         assertThat(optional.get(), equalTo(Integer.MAX_VALUE));
@@ -108,7 +109,7 @@ public class OptionalTest {
     public void mapWithElseThrow() throws Exception {
         thrown.expect(Exception.class);
         thrown.expectMessage("Not present");
-        
+
         Optional.ofNullable(null)
                 .map(v1 -> {Assert.fail("Should not map"); return "failed";})
                 .getOrThrow(() -> new Exception("Not present"));

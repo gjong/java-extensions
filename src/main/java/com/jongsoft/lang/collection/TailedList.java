@@ -34,6 +34,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collector;
 
 import com.jongsoft.lang.collection.support.AbstractIterator;
+import com.jongsoft.lang.collection.support.Collections;
 
 /**
  * A {@link TailedList} is an {@link Sequence} implementation where each entry in the list points to the next
@@ -148,6 +149,11 @@ public class TailedList<T> implements Sequence<T> {
             mappedTail = new TailedList<>(mapper.apply(processing.get()), mappedTail);
         }
         return mappedTail.reverse();
+    }
+
+    @Override
+    public <K> Map<K, Sequence<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
+        return Collections.groupBy(TailedList::empty, this, keyGenerator);
     }
 
     @Override
