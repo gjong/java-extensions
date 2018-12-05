@@ -5,7 +5,7 @@
     <groupId>com.jongsoft.lang</groupId>
     <artifactId>language</artifactId>
     <version>0.0.4-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <name>Jong-Soft Java Language Extensions</name>
     <url>https://bitbucket.org/jongsoftdev/language-extension/overview</url>
@@ -83,19 +83,12 @@
         <maven.test.skip>false</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <javadoc.version>3.0.2-SNAPSHOT</javadoc.version>
+        <javadoc.version>3.0.1</javadoc.version>
         <jacoco.version>0.8.2</jacoco.version>
         <asm.version>7.0</asm.version>
 
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
-
-    <modules>
-        <module>common</module>
-        <module>functional</module>
-        <module>collection</module>
-        <!--<module>language-perfmon</module>-->
-    </modules>
 
     <dependencies>
         <dependency>
@@ -149,13 +142,6 @@
                                 <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
                             </configuration>
                         </execution>
-                        <execution>
-                            <id>jacoco-aggregate</id>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <goal>report-aggregate</goal>
-                            </goals>
-                        </execution>
                     </executions>
                 </plugin>
 
@@ -165,7 +151,7 @@
                     <configuration>
                         <quiet>true</quiet>
                         <failOnWarnings>false</failOnWarnings>
-                        <excludePackageNames>com.jongsoft.lang.control.impl:com.jongsoft.lang.collection.support:com.jongsoft.lang.core.impl</excludePackageNames>
+                        <excludePackageNames>com.jongsoft.lang.control.impl:com.jongsoft.lang.collection.support:com.jongsoft.lang.impl</excludePackageNames>
                     </configuration>
                     <executions>
                         <execution>
@@ -173,14 +159,6 @@
                             <goals>
                                 <goal>javadoc</goal>
                                 <goal>jar</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>javadoc-aggregate</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>aggregate</goal>
-                                <goal>aggregate-jar</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -241,11 +219,6 @@
                         </configuration>
                         <reports>
                             <report>javadoc</report>
-                        </reports>
-                    </reportSet>
-                    <reportSet>
-                        <reports>
-                            <report>aggregate</report>
                         </reports>
                     </reportSet>
                 </reportSets>

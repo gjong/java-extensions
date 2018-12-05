@@ -9,57 +9,29 @@ yet supported.
 
 Now fully supports the Java modules introduced in Java 9.
 
-## Module structure
-The Jong Soft language extensions is build up out of several Maven modules that can be included independent of each other.
-Each module expands part of the default Java 8 library.
-
-### Language Commons
+### Functional classes
 The commons module contains interfaces supporting a more declarative way of programming. It consists out of the needed interfaces
 for all the other modules. Like:
 
 * `Builder`, a base to create immutable entities through the builder pattern
 * `Value`, base interface for all entities within the extension framework
-* `Streamable`, an interface indicating the class can stream its contents
+* `Optional`, a purely functionally version of the Optional introduced in Java 8
+* `Try`, a functional implementation to wrap exception handling
 * `Runner`, a variation of the `Runnable` interface
 * `CheckedConsumer`, `CheckedFunction`, `CheckedRunner`, `CheckedSupplier`
 
-To include this module use the Maven dependency below:
-
-    <dependency>
-        <groupId>com.jongsoft.lang</groupId>
-        <artifactId>common</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
-    </dependency>
-
-### Language Collections
-
-The collections module consists out of the following immutable list implementations:
-
+### Collection based classes
 * `Array`, a wrapping entity around an primitive array
 * `TailedList`, a linked list structure
 * `HashSet`, an implementation of a collection with unique entries based on the hash code
 * `Tuple`, a tuple implementation to store 2 or more entities
 * `ImmutableHashMap`, a map implementation
 
+## Maven usage
 To include this module use the Maven dependency below:
 
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
-        <artifactId>collection</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
-    </dependency>
-
-### Language Functional
-
-The functional model includes the following implementations:
-
-* `Optional`, a purely functionally version of the Optional introduced in Java 8
-* `Try`, a functional implementation to wrap exception handling
-
-To include this module use the Maven dependency below:
-
-    <dependency>
-        <groupId>com.jongsoft.lang</groupId>
-        <artifactId>functional</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
+        <artifactId>language</artifactId>
+        <version>0.0.4-SNAPSHOT</version>
     </dependency>

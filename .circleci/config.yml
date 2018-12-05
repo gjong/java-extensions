@@ -34,12 +34,8 @@ jobs:
           root: ~/repo
           paths:
             - target
-            - ./*/target
-      - run:
-          name: Preparing test reports
-          command: mkdir -p target/junit/ && find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} target/junit/ \;
       - store_test_results:
-          path: target/junit/
+          path: target/surefire-reports/
 
   publish-coverage:
     executor: docker-builder
