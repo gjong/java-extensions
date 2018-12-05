@@ -56,6 +56,18 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     Collection<T> reject(Predicate<T> predicate);
 
     /**
+     * Convert the elements of the collection using the provided mapping function.
+     *
+     * This operation will not mutate the current collection but return a new one instead.
+     *
+     * @param mapper    the mapping functionality
+     * @param <U>       the target entity type
+     * @return          a new collection containing the mapped entities
+     */
+    @Override
+    <U> Collection<U> map(Function<T, U> mapper);
+
+    /**
      * Get the amount of elements contained in the collection.
      *
      * @return 0 if empty, otherwise the amount of entries
@@ -74,8 +86,8 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     /**
      * Find the first match in the elements using the provided {@link Predicate}.
      * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be {@link Optional#empty()}.
+     * <p></p>
      * <p><strong>Example:</strong></p>
-     *
      * <pre>{@code // the result will be an Optional with the value 2
      *    int firstMatch = Collection(1, 2, 3, 4)
      *          .first(i -> i % 2 == 0);}</pre>
@@ -91,7 +103,8 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
     /**
      * Find the last match in the Iterator using the provided {@link Predicate}.
      * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be {@link Optional#empty()}.
-     *
+     * <p></p>
+     * <p><strong>Example:</strong></p>
      * <pre>{@code // the result will be an Optional with the value 4
      *    int firstMatch = Collection(1, 2, 3, 4)
      *          .last(i -> i % 2 == 0);}</pre>
@@ -154,18 +167,6 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
         Objects.requireNonNull(reducer, "reducer is null");
         return iterator().reduceLeft(reducer);
     }
-
-    /**
-     * Convert the elements of the collection using the provided mapping function.
-     *
-     * This operation will not mutate the current collection but return a new one instead.
-     *
-     * @param mapper    the mapping functionality
-     * @param <U>       the target entity type
-     * @return          a new collection containing the mapped entities
-     */
-    @Override
-    <U> Collection<U> map(Function<T, U> mapper);
 
     @Override
     Iterator<T> iterator();

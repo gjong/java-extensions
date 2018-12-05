@@ -41,12 +41,11 @@ import com.jongsoft.lang.control.impl.OptionalSome;
  *     Usage of this Optional is advices as a return type rather then using <code>null</code> as it moves away the change
  *     of potential {@link NullPointerException} in the code calling the operation.
  * </p>
- * <pre>
- *     // Sample usage of the Optional
+ * <pre> {@code  // Sample usage of the Optional
  *     Optional.ofNullable("one")
  *          .ifPresent(System.out::println)
- *          .orElse(() -&gt; System.out.println("No value is present");
- * </pre>
+ *          .orElse(() -> System.out.println("No value is present");
+ * }</pre>
  *
  * @param <T> the type of entity contained in the Optional
  * @since 0.0.1

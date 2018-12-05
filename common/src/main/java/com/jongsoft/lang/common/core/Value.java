@@ -40,7 +40,7 @@ import java.util.stream.StreamSupport;
 public interface Value<T> extends Iterable<T>, Streamable<T>, Mappable<T>, Serializable {
     
     /**
-     * Return the contents <code>T</code> of the wrapped value.
+     * Return the contents {@code T} of the wrapped value.
      * <p>
      * This can throw a {@link NoSuchElementException} if no value is present.
      *

@@ -29,22 +29,38 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * Sequences are ordered collections of elements.
- * These collections allow for appending duplicate entries, but all entries will always be returned in the order that they were added or
- * inserted.
- *
+ * <p>
+ *   Sequences are ordered collections of elements.
+ *   These collections allow for appending duplicate entries, but all entries will always be returned in the order that they were added or
+ *   inserted.
+ * </p>
+ * <p></p>
  * <table>
- *     <caption><strong>Mutable operations</strong></caption>
+ *     <caption><strong>Single change operations</strong></caption>
  *     <thead>
  *         <tr><td>Operation</td><td>Description</td></tr>
  *     </thead>
  *     <tbody>
  *         <tr><td>{@linkplain #append(Object)}</td><td>Add element to end of the sequence</td></tr>
- *         <tr><td>{@linkplain #appendAll(Iterable)}</td><td>Add elements to end of the sequence</td></tr>
+ *         <tr><td>{@linkplain #union(Iterable)}</td><td>Add elements to end of the sequence</td></tr>
  *         <tr><td>{@linkplain #prepend(Object)}</td><td>Add elements to start of the sequence</td></tr>
  *         <tr><td>{@linkplain #insert(int, Object)}</td><td>Add an element to the indicated place</td></tr>
  *         <tr><td>{@linkplain #remove(Object)}</td><td>Remove the element</td></tr>
  *         <tr><td>{@linkplain #remove(int)}</td><td>Remove the element at the indicated place</td></tr>
+ *     </tbody>
+ * </table>
+ * <p></p>
+ * <table>
+ *     <caption><strong>Set operations</strong></caption>
+ *     <thead>
+ *         <tr><td>Operation</td><td>Description</td></tr>
+ *     </thead>
+ *     <tbody>
+ *         <tr><td>{@linkplain #union(Iterable)}</td><td>Combine this sequence of elements with the provided iterable</td></tr>
+ *         <tr><td>{@linkplain #reject(Predicate)}</td><td>Create a new sequence without the rejected values matching the
+ *         predicate</td></tr>
+ *         <tr><td>{@linkplain #filter(Predicate)}</td><td>Create a new sequence with values matching the predicate</td></tr>
+ *         <tr><td>{@linkplain #map(Function)}</td><td>Create a new sequence with the mapped values</td></tr>
  *     </tbody>
  * </table>
  *
@@ -57,10 +73,10 @@ import java.util.function.Predicate;
 public interface Sequence<T> extends Collection<T> {
 
     /**
-     * Add an element to the end of the sequence and return the newly created instance.
-     *
-     * <pre>{@code
-     *    // will result in a sequence with 2, 3, 4, 1
+     * Create a new sequence starting with all elements in this sequence and ending with the provided {@code value}.
+     * <p></p>
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // will result in a sequence with 2, 3, 4, 1
      *    Sequence(2, 3, 4).append(1)
      * }</pre>
      *
@@ -72,10 +88,11 @@ public interface Sequence<T> extends Collection<T> {
     }
 
     /**
-     * Add an element to the begin of the sequence and return the new instance with the element.
-     *
-     * <pre>{@code
-     *    // will result in a sequence with 1, 2, 3, 4
+     * Create a new sequence with the provided {@code value} at position 0 and the remainder of this sequence from position 1 to
+     * {@linkplain #size()} + 1.
+     * <p></p>
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // will result in a sequence with 1, 2, 3, 4
      *    Sequence(2, 3, 4).prepend(1)
      * }</pre>
      *
@@ -85,14 +102,6 @@ public interface Sequence<T> extends Collection<T> {
     default Sequence<T> prepend(T value) {
         return insert(0, value);
     }
-
-    /**
-     * Add all elements to the end of the current sequence, returning a new sequence.
-     *
-     * @param values    the elements to be added
-     * @return          the new list containing a union between this and the values
-     */
-    Sequence<T> appendAll(Iterable<T> values);
 
     /**
      * Add an element to the list at the provided index, shifting all elements after the index one.
@@ -187,6 +196,20 @@ public interface Sequence<T> extends Collection<T> {
 
     @Override
     <U> Sequence<U> map(Function<T, U> mapper);
+
+    /**
+     * Create a new sequence with all elements of this sequence combined with the elements of the provided iterable.
+     * The elements in this sequence will be added before the provided {@code iterable} in the returned sequence.
+     * <p></p>
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a Sequence(1, 2, 3, 4)
+     *   Sequence result = Sequence(1, 2).union(Sequence(3, 4));
+     * }</pre>
+     *
+     * @param iterable  the elements to be added
+     * @return          the new list containing a union between this and the iterable
+     */
+    Sequence<T> union(Iterable<T> iterable);
 
     /**
      * Transform this collection into one supported natively in Java.

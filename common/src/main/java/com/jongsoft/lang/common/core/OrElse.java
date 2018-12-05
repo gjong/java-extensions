@@ -32,13 +32,14 @@ import com.jongsoft.lang.common.Runner;
  * when an entity is or is not present in the wrapper.
  * <p>
  *     For example if the {@link Presence} has no entity contained within then the OrElse can be used to throw an exception
- *     or run alternative logic. See the example below.
+ *     or run alternative logic.
  * </p>
- * <pre>
- *     Optional.ofNullable(null)
+ * <p></p>
+ * <p><strong>Example:</strong></p>
+ * <pre>{@code  Optional.ofNullable(null)
  *      .ifPresent(System.out::println)
- *      .elseThrow(() -&gt; new NullPointerException("No value present"))
- * </pre>
+ *      .elseThrow(() -> new NullPointerException("No value present"))
+ * }</pre>
  *
  * @since 0.0.1
  */

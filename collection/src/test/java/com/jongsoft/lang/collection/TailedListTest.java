@@ -53,7 +53,7 @@ public class TailedListTest {
     @Test
     public void addAll() {
         TailedList<String> added = TailedList.of("one")
-                .appendAll(Arrays.asList("two", "three"));
+                .union(Arrays.asList("two", "three"));
 
         assertThat(added.size(), equalTo(3));
         assertThat(added.get(0), equalTo("one"));

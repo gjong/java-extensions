@@ -104,8 +104,8 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public Array<T> appendAll(final Iterable<T> values) {
-        Object[] toBeAdded = toArray(values);
+    public Array<T> union(final Iterable<T> iterable) {
+        Object[] toBeAdded = toArray(iterable);
         Object[] newDelegate = new Object[delegate.length + toBeAdded.length];
         System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
         System.arraycopy(toBeAdded, 0, newDelegate, delegate.length, toBeAdded.length);

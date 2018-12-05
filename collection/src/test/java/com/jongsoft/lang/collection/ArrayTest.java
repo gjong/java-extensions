@@ -122,7 +122,7 @@ public class ArrayTest {
     @Test
     public void addAll() {
         Sequence<Integer> values = Array.of(1, 2, 3)
-                .appendAll(Arrays.asList(4, 5, 6));
+                .union(Arrays.asList(4, 5, 6));
 
         assertThat(values.size(), equalTo(6));
         assertThat(values, hasItems(1, 2, 3, 4, 5, 6));

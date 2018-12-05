@@ -29,8 +29,8 @@ import java.util.function.Function;
 public interface Mappable<T> {
 
     /**
-     * Convert one object to another type of object. Where the mapping function can be supplied with the <code>mapper</code>
-     * argument.
+     * Convert one object to another type of object.
+     * Where the mapping function can be supplied with the {@code mapper} argument.
      * <p>
      * This can throw a {@link NoSuchElementException} if no value is present.
      *

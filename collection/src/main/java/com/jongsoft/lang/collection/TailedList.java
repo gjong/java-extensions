@@ -60,9 +60,9 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public TailedList<T> appendAll(final Iterable<T> values) {
+    public TailedList<T> union(final Iterable<T> iterable) {
         TailedList<T> reversed = reverse();
-        for (T value : values) {
+        for (T value : iterable) {
             reversed = new TailedList<>(value, reversed);
         }
 

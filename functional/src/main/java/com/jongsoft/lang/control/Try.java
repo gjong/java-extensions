@@ -44,12 +44,14 @@ import com.jongsoft.lang.control.impl.TrySuccess;
  * <p>
  *     The Try can be used like the example below, to either recover from an exception or gracefully catch one.
  * </p>
- * <pre>
- *     String result = Try&lt;String&gt;.supply(() -&gt; {
- *         throw new Exception("not supported");
- *        }).recover(x -&gt; "recovered")
+ * <p></p>
+ * <p><strong>Example:</strong></p>
+ * <pre>{@code  String result = Try<String>supply(() -> {
+ *          throw new Exception("not supported");
+ *        })
+ *        .recover(x -> "recovered")
  *        .get();
- * </pre>
+ * }</pre>
  *
  * @param <T>   the type of entity contained
  * @since 0.0.2
@@ -123,11 +125,12 @@ public interface Try<T> extends Presence<T> {
      * <p>
      *    Set a fallback operation to be executed when the primary operation fails.
      * </p>
-     * <pre>
-     *     List&lt;String&gt; safeGet = Try.supply(myDatabase::getRecords)
-     *          .recover(x -&gt; Collections.emptyList())
+     * <p></p>
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code List<String> safeGet = Try.supply(myDatabase::getRecords)
+     *          .recover(x -> Collections.emptyList())
      *          .get();
-     * </pre>
+     * }</pre>
      * <p>
      *   In the sample above a call is made to a database repository, which can fail with various exceptions. In case
      *   the call fails then the logic in the recover operation is executed instead. The result of this logic will be
@@ -173,10 +176,9 @@ public interface Try<T> extends Presence<T> {
      * <p>
      * This method exists for chaining checked functions, like:
      * </p>
-     * <pre>
-     *      Try.of( () -&gt; "my success")
-     *         .andTry( str -&gt; System.out.println(str));
-     * </pre>
+     * <pre>{@code  Try.of(() -> "my success")
+     *     .andTry( str -> System.out.println(str));
+     * }</pre>
      *
      * @param consumer the checked consumer to consume the value contained within
      *
@@ -206,10 +208,11 @@ public interface Try<T> extends Presence<T> {
      * This method allows for chaining multiple logical execution blocks that need to run sequential as long as there
      * are no exceptions.
      * </p>
-     * <pre>
-     *     Try.of( () -&gt; System.out.println("first") )
-     *         .andTry( () -&gt; System.out.println("second"));
-     * </pre>
+     * <p></p>
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  Try.of(() -> System.out.println("first") )
+     *     .andTry(() -> System.out.println("second"));
+     * }</pre>
      *
      * @param runner    the part of code that should be executed, wrapped in a {@link CheckedRunner}
      * @return {@link Try} with {@link #isSuccess()} is true in case of no issues, otherwise a {@link Try} with
