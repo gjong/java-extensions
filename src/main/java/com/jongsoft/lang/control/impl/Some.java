@@ -23,47 +23,81 @@
  */
 package com.jongsoft.lang.control.impl;
 
-import com.jongsoft.lang.control.Optional;
-import com.jongsoft.lang.impl.Some;
-
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class OptionalSome<T> extends Some<T> implements Optional<T> {
+import com.jongsoft.lang.control.Control;
+import com.jongsoft.lang.control.OrElse;
+import com.jongsoft.lang.control.Optional;
+
+public class Some<T> implements Optional<T> {
 
     private static final long serialVersionUID = 1L;
 
-    public OptionalSome(T value) {
-        super(value);
+    private final transient T value;
+
+    public Some(T value) {
+        this.value = value;
     }
 
     @Override
     public T getOrSupply(Supplier<T> supplier) {
-        return super.get();
+        return get();
+    }
+
+    @Override
+    public T get() {
+        return value;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return Collections.singletonList(value).iterator();
+    }
+
+    @Override
+    public boolean isPresent() {
+        return true;
+    }
+
+    @Override
+    public OrElse ifPresent(Consumer<T> consumer) {
+        Objects.requireNonNull(consumer, "Consumer cannot be null");
+        consumer.accept(get());
+        return Constants.OR_ELSE_NOT_EMPTY;
+    }
+
+    @Override
+    public <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) throws X {
+        Objects.requireNonNull(exceptionSupplier, "Supplier of exceptions cannot be null");
+        throw exceptionSupplier.get();
     }
 
     @Override
     public <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier, "Exception supplier cannot be null");
-        return super.get();
+        return get();
     }
 
     @Override
     public <U> Optional<U> map(Function<T, U> mapper) {
         Objects.requireNonNull(mapper, "Mapping function cannot be null");
-        return Optional.ofNullable(mapper.apply(get()));
+        return Control.Option(mapper.apply(get()));
     }
 
     @Override
     public Optional<T> filter(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "Predicate may not be null");
-        return this.all(predicate) ? this : Optional.empty();
+        return this.all(predicate) ? this : Control.Option(null);
     }
 
     @Override
     public String toString() {
-        return "Optional<Some>: " + super.toString();
+        return "Optional<Some>: " + value;
     }
 }

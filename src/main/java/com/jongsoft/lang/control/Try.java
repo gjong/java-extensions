@@ -27,7 +27,6 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import com.jongsoft.lang.Presence;
 import com.jongsoft.lang.control.impl.TryFailure;
 import com.jongsoft.lang.control.impl.TrySuccess;
 
@@ -53,7 +52,7 @@ import com.jongsoft.lang.control.impl.TrySuccess;
  * @param <T>   the type of entity contained
  * @since 0.0.2
  */
-public interface Try<T> extends Presence<T> {
+public interface Try<T> extends Optional<T> {
 
     /**
      * Attempt to execute code that will return an entity, but may also result into an exception.

@@ -29,8 +29,9 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.Value;
+import com.jongsoft.lang.collection.support.AbstractIterator;
+import com.jongsoft.lang.control.Control;
 import com.jongsoft.lang.control.Optional;
 
 /**
@@ -113,7 +114,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
             }
         }
 
-        return Optional.ofNullable(lastMatch);
+        return Control.Option(lastMatch);
     }
 
     /**
@@ -130,11 +131,11 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
         while (hasNext()) {
             final T next = next();
             if (predicate.test(next)) {
-                return Optional.ofNullable(next);
+                return Control.Option(next);
             }
         }
 
-        return Optional.empty();
+        return Control.Option(null);
     }
 
     @Override

@@ -76,8 +76,10 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
 
     /**
      * Convenience method to see if the current list is empty or not.
+     * This method will yield the same result as checking if the {@linkplain #size()} returns the value 0.
      *
      * @return true if the list contains elements, otherwise false
+     * @see #size()
      */
     default boolean isEmpty() {
         return size() == 0;
@@ -85,7 +87,7 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
 
     /**
      * Find the first match in the elements using the provided {@link Predicate}.
-     * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be {@link Optional#empty()}.
+     * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be an empty {@link Optional}.
      * <p></p>
      * <p><strong>Example:</strong></p>
      * <pre>{@code // the result will be an Optional with the value 2
@@ -102,7 +104,7 @@ public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
 
     /**
      * Find the last match in the Iterator using the provided {@link Predicate}.
-     * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be {@link Optional#empty()}.
+     * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be an empty {@link Optional}.
      * <p></p>
      * <p><strong>Example:</strong></p>
      * <pre>{@code // the result will be an Optional with the value 4

@@ -24,15 +24,14 @@
 package com.jongsoft.lang.control;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.Filterable;
-import com.jongsoft.lang.Presence;
+import com.jongsoft.lang.Runner;
 import com.jongsoft.lang.Value;
-import com.jongsoft.lang.control.impl.OptionalNone;
-import com.jongsoft.lang.control.impl.OptionalSome;
 
 /**
  * The Optional provides a functional way to detect <code>null</code> values without null reference checks or complicated
@@ -50,13 +49,73 @@ import com.jongsoft.lang.control.impl.OptionalSome;
  * @param <T> the type of entity contained in the Optional
  * @since 0.0.1
  */
-public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
+public interface Optional<T> extends Value<T>, Filterable<T> {
     
     @Override
     <U> Optional<U> map(Function<T, U> mapper);
 
     @Override
     Optional<T> filter(Predicate<T> predicate);
+
+
+    @Override
+    default boolean isSingleValued() {
+        return true;
+    }
+
+    /**
+     * Indicates if a value is present within the wrapper
+     *
+     * @return true if an element is present, otherwise false
+     */
+    boolean isPresent();
+
+    /**
+     * Process the present element wrapped within using the provided {@link java.util.function.Consumer}.
+     *
+     * @param consumer   the method that will consume the element
+     * @return           the {@link OrElse} functionality, which enables processing in case of {@link #isPresent() }
+     *                   being false.
+     */
+    OrElse ifPresent(Consumer<T> consumer);
+
+    /**
+     * Throw an exception if an element is present within. Otherwise it will return the {@link OrElse}.
+     *
+     * @param exceptionSupplier the supplier to create the exception
+     * @param <X>               the type of exception expected
+     * @return                  the {@link OrElse} in case no element is present
+     * @throws X                the exception thrown if a present element
+     */
+    <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) throws X;
+
+    /**
+     * Execute the runner method if no entity is present in this wrapped object
+     *
+     * @param runner                the code to execute if nothing is present
+     * @throws NullPointerException in case the runner is null
+     */
+    default void ifNotPresent(Runner runner) {
+        Objects.requireNonNull(runner, "Runner cannot be null");
+        if (!isPresent()) {
+            runner.run();
+        }
+    }
+
+    /**
+     * Throws an exception when no value is present in this value
+     *
+     * @param exceptionSupplier the supplier to create the exception
+     * @param <X>               the type of exception expected
+     * @throws X                the exception thrown if no present element
+     * @throws NullPointerException in case the exceptionSupplier is null
+     */
+    default <X extends Throwable> void ifNotPresent(Supplier<X> exceptionSupplier) throws X {
+        Objects.requireNonNull(exceptionSupplier, "Supplier of exceptions cannot be null");
+        if (!isPresent()) {
+            throw exceptionSupplier.get();
+        }
+    }
 
     /**
      * This method will provide the entity contained within the {@link Optional}, in case no entity
@@ -79,50 +138,4 @@ public interface Optional<T> extends Value<T>, Filterable<T>, Presence<T> {
      */
     <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) throws X;
     
-    //----------------------------------------------------------------------------------------------
-    //-- All static helper methods to instantiate the Optional class
-    
-    /**
-     * Creates a new {@link Optional} representing the provided value.
-     * <p>
-     * This method will throw an {@link NullPointerException} when the provided value is <code>null</code>.
-     *
-     * @param <T>       the type of the value
-     * @param value     the actual value
-     *
-     * @return          an {@link Optional} representing the value
-     */
-    static <T> Optional<T> of(T value) {
-        Objects.requireNonNull(value, "Value cannot be null");
-        return new OptionalSome<>(value);
-    }
-    
-    /**
-     * Creates a new {@link Optional} representing the provided value.
-     * <p>
-     * This method will allow <code>null</code> values.
-     *
-     * @param <T>       the type of the value
-     * @param value     the actual value
-     *
-     * @return          an {@link Optional} representing the value
-     */
-    @SuppressWarnings("unchecked")
-    static <T> Optional<T> ofNullable(T value) {
-        return value != null 
-                ? new OptionalSome<>(value)
-                : (Optional<T>) OptionalNone.INSTANCE;
-    }
-    
-    /**
-     * Creates a default empty {@link Optional}.
-     * 
-     * @param <T>       the type of the value
-     * @return          a default optional with a <code>null</code> value
-     */
-    @SuppressWarnings("unchecked")
-    static <T> Optional<T> empty() {
-        return (Optional<T>) OptionalNone.INSTANCE;
-    }
-
 }

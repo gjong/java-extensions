@@ -23,43 +23,28 @@
  */
 package com.jongsoft.lang.control.impl;
 
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.jongsoft.lang.control.Optional;
-import com.jongsoft.lang.impl.None;
+import com.jongsoft.lang.control.OrElse;
+import com.jongsoft.lang.Runner;
 
-public class OptionalNone<T> extends None<T> implements Optional<T> {
+/**
+ * This class contains utility methods and static classes to support the interfaces in this package.
+ */
+public final class Constants {
 
-    public static final OptionalNone<?> INSTANCE = new OptionalNone<>();
+    public static OrElse OR_ELSE_EMPTY = new OrElse() {
+        @Override
+        public void elseRun(Runner runner) {
+            runner.run();
+        }
 
-    private static final long serialVersionUID = 1L;
+        @Override
+        public <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {
+            throw exceptionSupplier.get();
+        }
+    };
 
-    @Override
-    public T getOrSupply(Supplier<T> supplier) {
-        return supplier.get();
-    }
+    public static OrElse OR_ELSE_NOT_EMPTY = new OrElse() {};
 
-    @Override
-    public <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) throws X {
-        Objects.requireNonNull(exceptionSupplier, "Exception supplier cannot be null");
-        throw exceptionSupplier.get();
-    }
-
-    @Override
-    public <U> Optional<U> map(Function<T, U> mapper) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<T> filter(Predicate<T> predicate) {
-        return Optional.empty();
-    }
-
-    @Override
-    public String toString() {
-        return "Optional<Empty>: " + super.toString();
-    }
 }

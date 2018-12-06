@@ -33,4 +33,9 @@ class TripletImpl<X, Y, Z> extends PairImpl<X, Y> implements Tuple.Triplet<X, Y,
     public Z getThird() {
         return (Z) super.element(2);
     }
+
+    @Override
+    public String toString() {
+        return "Triplet(" + getFirst() + ", " + getSecond() + ", " + getThird() + ")";
+    }
 }

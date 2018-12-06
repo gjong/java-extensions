@@ -26,7 +26,6 @@ package com.jongsoft.lang.control.impl;
 import java.util.function.Function;
 
 import com.jongsoft.lang.control.Try;
-import com.jongsoft.lang.impl.Some;
 
 public class TrySuccess<T> extends Some<T> implements Try<T> {
 

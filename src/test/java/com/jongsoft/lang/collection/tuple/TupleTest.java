@@ -13,6 +13,7 @@ public class TupleTest {
 
         assertThat(pair.getFirst(), equalTo(1));
         assertThat(pair.getSecond(), equalTo(3));
+        assertThat(pair.toString(), equalTo("Pair(1, 3)"));
     }
 
     @Test
@@ -21,15 +22,17 @@ public class TupleTest {
 
         assertThat(pair.getFirst(), equalTo(1));
         assertThat(pair.getSecond(), equalTo("test"));
+        assertThat(pair.toString(), equalTo("Pair(1, test)"));
     }
 
     @Test
     public void triplet() {
-        Tuple.Triplet<String, Float, Integer> triplet = Tuple.Triplet.of("test", new Float(2.3), 5);
+        Tuple.Triplet<String, Float, Integer> triplet = Tuple.Triplet.of("test", 2.3f, 5);
 
         assertThat(triplet.getFirst(), equalTo("test"));
         assertThat(triplet.getSecond(), equalTo(2.3f));
         assertThat(triplet.getThird(), equalTo(5));
+        assertThat(triplet.toString(), equalTo("Triplet(test, 2.3, 5)"));
     }
 
     @Test
@@ -40,5 +43,6 @@ public class TupleTest {
         assertThat(of.getSecond(), equalTo(2));
         assertThat(of.getThird(), equalTo("test"));
         assertThat(of.getFourth(), equalTo("cat"));
+        assertThat(of.toString(), equalTo("Quadruplet(1.0, 2, test, cat)"));
     }
 }

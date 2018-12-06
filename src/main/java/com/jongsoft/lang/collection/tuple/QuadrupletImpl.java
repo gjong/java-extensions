@@ -34,4 +34,9 @@ public class QuadrupletImpl<X, Y, Z, D> extends TripletImpl<X, Y, Z> implements 
         return (D) super.element(3);
     }
 
+    @Override
+    public String toString() {
+        return "Quadruplet(" + getFirst() + ", " + getSecond() + ", " + getThird() + ", " + getFourth() + ")";
+    }
+
 }

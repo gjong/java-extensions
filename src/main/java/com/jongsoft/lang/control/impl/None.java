@@ -21,72 +21,77 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.impl;
+package com.jongsoft.lang.control.impl;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.jongsoft.lang.OrElse;
-import com.jongsoft.lang.Presence;
+import com.jongsoft.lang.control.Control;
+import com.jongsoft.lang.control.OrElse;
+import com.jongsoft.lang.control.Optional;
 
-public class Some<T> implements Presence<T> {
+public class None<T> implements Optional<T> {
+
+    public static final None<?> INSTANCE = new None<>();
 
     private static final long serialVersionUID = 1L;
-    
-    private final transient T value;
-
-    protected Some(T value) {
-        this.value = value;
-    }
 
     @Override
     public T get() {
-        return value;
+        throw new NoSuchElementException("No value is present");
     }
 
     @Override
     public Iterator<T> iterator() {
-        return Collections.singletonList(value).iterator();
+        return Collections.emptyIterator();
     }
 
     @Override
     public boolean isPresent() {
-        return true;
+        return false;
     }
 
     @Override
     public OrElse ifPresent(Consumer<T> consumer) {
-        Objects.requireNonNull(consumer, "Consumer cannot be null");
-        consumer.accept(get());
-        return OrElse.notEmpty();
+        return Constants.OR_ELSE_EMPTY;
     }
 
     @Override
-    public <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) throws X {
+    public <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier, "Supplier of exceptions cannot be null");
+        return Constants.OR_ELSE_EMPTY;
+    }
+
+    @Override
+    public T getOrSupply(Supplier<T> supplier) {
+        return supplier.get();
+    }
+
+    @Override
+    public <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) throws X {
+        Objects.requireNonNull(exceptionSupplier, "Exception supplier cannot be null");
         throw exceptionSupplier.get();
     }
 
     @Override
-    public <U> Presence<U> map(final Function<T, U> mapper) {
-        Objects.requireNonNull(mapper, "The mapper cannot be null");
+    public <U> Optional<U> map(Function<T, U> mapper) {
+        return Control.Option(null);
+    }
 
-        return some(mapper.apply(value));
+    @Override
+    public Optional<T> filter(Predicate<T> predicate) {
+        return Control.Option(null);
     }
 
     @Override
     public String toString() {
-        return Objects.toString(value);
+        return "Optional<Empty>: None";
     }
 
-    //----------------------------------------------------------------------------------------------
-    //-- All static helper methods to instantiate the Some class
-    
-    public static <T> Presence<T> some(T value) {
-        return new Some<>(value);
-    }
 }

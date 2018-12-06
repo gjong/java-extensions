@@ -21,15 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang;
+package com.jongsoft.lang.control;
 
 import java.util.function.Supplier;
 
+import com.jongsoft.lang.Runner;
+
 /**
- * The OrElse interface is an extension to the {@link Presence} interface. This interface can be used to cascade behaviour
+ * The OrElse interface is an extension to the {@link com.jongsoft.lang.control.Optional} interface. This interface can be used to cascade behaviour
  * when an entity is or is not present in the wrapper.
  * <p>
- *     For example if the {@link Presence} has no entity contained within then the OrElse can be used to throw an exception
+ *     For example if the {@link com.jongsoft.lang.control.Optional} has no entity contained within then the OrElse can be used to throw an exception
  *     or run alternative logic.
  * </p>
  * <p></p>
@@ -59,14 +61,4 @@ public interface OrElse {
      */
     default <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {}
 
-    //----------------------------------------------------------------------------------------------
-    //-- All static helper methods to instantiate the OrElse class
-    
-    static OrElse empty() {
-        return Constants.OR_ELSE_EMPTY;
-    }
-    
-    static OrElse notEmpty() {
-        return Constants.OR_ELSE_NOT_EMTPY;
-    }
 }

@@ -38,4 +38,9 @@ class PairImpl<X, Y> extends AbstractTuple implements Tuple.Pair<X, Y> {
     public Y getSecond() {
         return (Y) super.element(1);
     }
+
+    @Override
+    public String toString() {
+        return "Pair(" + getFirst() + ", " + getSecond() + ")";
+    }
 }

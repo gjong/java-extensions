@@ -27,7 +27,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import com.jongsoft.lang.control.Try;
-import com.jongsoft.lang.impl.None;
 import com.jongsoft.lang.exception.NonFatalException;
 
 public class TryFailure<T> extends None<T> implements Try<T> {
