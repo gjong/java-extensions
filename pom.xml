@@ -69,13 +69,6 @@
         </repository>
     </distributionManagement>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache-snapshot</id>
-            <url>https://repository.apache.org/content/repositories/snapshots</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <properties>
         <java.version>1.11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>

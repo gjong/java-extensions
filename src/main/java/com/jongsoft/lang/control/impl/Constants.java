@@ -33,7 +33,7 @@ import com.jongsoft.lang.Runner;
  */
 public final class Constants {
 
-    public static OrElse OR_ELSE_EMPTY = new OrElse() {
+    public static final OrElse OR_ELSE_EMPTY = new OrElse() {
         @Override
         public void elseRun(Runner runner) {
             runner.run();
@@ -45,6 +45,6 @@ public final class Constants {
         }
     };
 
-    public static OrElse OR_ELSE_NOT_EMPTY = new OrElse() {};
+    public static final OrElse OR_ELSE_NOT_EMPTY = new OrElse() {};
 
 }
