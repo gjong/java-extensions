@@ -32,19 +32,19 @@ import java.util.stream.Stream;
 import com.jongsoft.lang.collection.tuple.Tuple;
 
 /**
- * The {@link ImmutableHashMap} allows for storing basic key, value pair based data.
+ * The {@link HashMap} allows for storing basic key, value pair based data.
  *
  * @param <K>   the type of the key
  * @param <T>   the type of the value
  */
-public class ImmutableHashMap<K, T> implements Map<K, T> {
+public class HashMap<K, T> implements Map<K, T> {
 
     @SuppressWarnings("unchecked")
-    private static final ImmutableHashMap<?, ?> EMPTY = new ImmutableHashMap(Array.empty());
+    private static final HashMap<?, ?> EMPTY = new HashMap(Array.empty());
 
     private Sequence<Tuple.Pair<K, T>> delegate;
 
-    private ImmutableHashMap(Sequence<Tuple.Pair<K, T>> delegate) {
+    private HashMap(Sequence<Tuple.Pair<K, T>> delegate) {
         this.delegate = delegate;
     }
 
@@ -58,7 +58,7 @@ public class ImmutableHashMap<K, T> implements Map<K, T> {
             afterRemove = delegate.remove(existingEntry);
         }
 
-        return new ImmutableHashMap<>(afterRemove.append(Tuple.Pair.of(key, value)));
+        return new HashMap<>(afterRemove.append(Tuple.Pair.of(key, value)));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ImmutableHashMap<K, T> implements Map<K, T> {
 
         int indexOf = delegate.firstIndexWhere(e -> Objects.equals(e.getFirst(), key));
         if (indexOf > -1) {
-            return new ImmutableHashMap<>(delegate.remove(indexOf));
+            return new HashMap<>(delegate.remove(indexOf));
         }
 
         return this;
@@ -102,12 +102,12 @@ public class ImmutableHashMap<K, T> implements Map<K, T> {
 
     @Override
     public Map<K, T> tail() {
-        return new ImmutableHashMap<>(delegate.tail());
+        return new HashMap<>(delegate.tail());
     }
 
     @Override
-    public ImmutableHashMap<K, T> filter(final Predicate<Tuple.Pair<K, T>> predicate) {
-        return new ImmutableHashMap<>(delegate.filter(predicate));
+    public Map<K, T> filter(final Predicate<Tuple.Pair<K, T>> predicate) {
+        return new HashMap<>(delegate.filter(predicate));
     }
 
     @Override
@@ -152,7 +152,7 @@ public class ImmutableHashMap<K, T> implements Map<K, T> {
     //-- Static supporting methods
 
     /**
-     * Create a new empty {@link ImmutableHashMap}.
+     * Create a new empty {@link HashMap}.
      *
      * @param <K>   the type of the key
      * @param <T>   the type of the balue

@@ -155,7 +155,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
 
     @Override
     default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
-        Array<T> array = Array.ofAll(this);
+        Sequence<T> array = Array.ofAll(this);
         return array.tail().foldLeft(array.head(), reducer);
     }
 

@@ -26,10 +26,11 @@ package com.jongsoft.lang.collection;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
+
+import com.jongsoft.lang.collection.support.Collections;
 
 /**
  * This class implements the {@link Set} interface and ensures uniqueness of the elements using there {@link Object#hashCode()}.
@@ -63,14 +64,9 @@ public class HashSet<T> extends AbstractSet<T> implements Set<T> {
         return foldLeft(start, (x , y) -> combiner.apply(y, x));
     }
 
-    @SuppressWarnings("Duplicates")
-    public <Y> Collector<Y, ArrayList<Y>, Set<Y>> collector() {
-        final BinaryOperator<ArrayList<Y>> combiner = (left, right) -> {
-            left.addAll(right);
-            return left;
-        };
-
-        return Collector.of(ArrayList::new, ArrayList::add, combiner, HashSet::of);
+    @Override
+    public Collector<T, ArrayList<T>, Set<T>> collector() {
+        return Collections.collector(HashSet::of);
     }
 
     @Override
@@ -93,7 +89,7 @@ public class HashSet<T> extends AbstractSet<T> implements Set<T> {
      * @return  the empty hash set
      */
     @SuppressWarnings("unchecked")
-    public static <T> HashSet<T> empty() {
+    public static <T> Set<T> empty() {
         return EMPTY;
     }
 
@@ -105,14 +101,14 @@ public class HashSet<T> extends AbstractSet<T> implements Set<T> {
      * @return  the created set
      */
     @SafeVarargs
-    public static <T> HashSet<T> of(T...elements) {
+    public static <T> Set<T> of(T...elements) {
         Set<T> newSet = empty();
 
         for (int i = 0; i < elements.length; i++) {
             newSet = newSet.add(elements[i]);
         }
 
-        return (HashSet<T>) newSet;
+        return newSet;
     }
 
     /**
@@ -124,7 +120,7 @@ public class HashSet<T> extends AbstractSet<T> implements Set<T> {
      * @throws NullPointerException if {@code iterable} is null
      */
     @SuppressWarnings("unchecked")
-    public static <T> HashSet<T> of(Iterable<? extends T> iterable) {
+    public static <T> Set<T> of(Iterable<? extends T> iterable) {
         Objects.requireNonNull(iterable, "iterable is null");
         if (iterable instanceof HashSet) {
             return (HashSet<T>) iterable;

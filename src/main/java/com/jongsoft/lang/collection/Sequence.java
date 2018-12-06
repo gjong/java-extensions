@@ -226,6 +226,6 @@ public interface Sequence<T> extends Collection<T> {
      *
      * @return the native java collection
      */
-    java.util.Collection<T> toJava();
+    java.util.List<T> toJava();
 
 }

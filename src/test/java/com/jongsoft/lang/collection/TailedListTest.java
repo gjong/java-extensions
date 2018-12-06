@@ -19,7 +19,7 @@ public class TailedListTest {
 
     @Test
     public void insert() {
-        TailedList<String> result = TailedList.of("my", "test")
+        Sequence<String> result = TailedList.of("my", "test")
                 .insert(1, "first")
                 .insert(2, "auto");
 
@@ -46,7 +46,7 @@ public class TailedListTest {
 
     @Test
     public void ofMultiple() {
-        TailedList<String> list = TailedList.of("my", "test");
+        Sequence<String> list = TailedList.of("my", "test");
 
         assertThat(list.size(), equalTo(2));
         assertThat(list.get(0), equalTo("my"));
@@ -55,7 +55,7 @@ public class TailedListTest {
 
     @Test
     public void ofMultipleAdd() {
-        TailedList<String> list = TailedList.of("my", "test")
+        Sequence<String> list = TailedList.of("my", "test")
                 .append("added");
 
         assertThat(list.size(), equalTo(3));
@@ -66,7 +66,7 @@ public class TailedListTest {
 
     @Test
     public void addAll() {
-        TailedList<String> added = TailedList.of("one")
+        Sequence<String> added = TailedList.of("one")
                 .union(Arrays.asList("two", "three"));
 
         assertThat(added.size(), equalTo(3));
@@ -118,7 +118,7 @@ public class TailedListTest {
     
     @Test
     public void filterString() {
-        TailedList<String> filterResult = TailedList.of("one", "two", "three")
+        Sequence<String> filterResult = TailedList.of("one", "two", "three")
                 .filter(str -> str.length() == 3);
 
         assertThat(filterResult.size(), equalTo(2));
@@ -152,7 +152,7 @@ public class TailedListTest {
 
     @Test
     public void ofAll() {
-        final TailedList<String> ofAll = TailedList.ofAll(TailedList.of("one", "two"));
+        final Sequence<String> ofAll = TailedList.ofAll(TailedList.of("one", "two"));
 
         assertThat(ofAll.get(0), equalTo("one"));
         assertThat(ofAll.get(1), equalTo("two"));
@@ -160,7 +160,7 @@ public class TailedListTest {
 
     @Test
     public void map() {
-        TailedList<Integer> mapped = TailedList.of("one", "three")
+        Sequence<Integer> mapped = TailedList.of("one", "three")
                 .map(String::length);
 
         assertThat(mapped.size(), equalTo(2));

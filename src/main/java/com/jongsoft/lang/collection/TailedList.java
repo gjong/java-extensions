@@ -28,7 +28,6 @@ import static java.lang.String.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
@@ -56,22 +55,22 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public TailedList<T> append(T value) {
-        return new TailedList<>(value, reverse()).reverse();
+    public Sequence<T> append(T value) {
+        return new TailedList<>(value, (TailedList<T>) reverse()).reverse();
     }
 
     @Override
-    public TailedList<T> union(final Iterable<T> iterable) {
-        TailedList<T> reversed = reverse();
+    public Sequence<T> union(final Iterable<T> iterable) {
+        Sequence<T> reversed = reverse();
         for (T value : iterable) {
-            reversed = new TailedList<>(value, reversed);
+            reversed = new TailedList<>(value, (TailedList<T>) reversed);
         }
 
         return reversed.reverse();
     }
 
     @Override
-    public TailedList<T> insert(int index, T value) {
+    public Sequence<T> insert(int index, T value) {
         validateIndexOutOfBounds(index);
 
         TailedList<T> tail = this;
@@ -110,15 +109,15 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public TailedList<T> tail() {
+    public Sequence<T> tail() {
         return tail;
     }
 
     @Override
-    public TailedList<T> remove(int index) {
+    public Sequence<T> remove(int index) {
         validateIndexOutOfBounds(index);
 
-        TailedList<T> reversed = empty();
+        Sequence<T> reversed = empty();
         for (TailedList<T> newTail = this; !newTail.isEmpty(); newTail = newTail.tail, index--) {
             if (index != 0) {
                 reversed = reversed.append(newTail.get());
@@ -129,13 +128,13 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public TailedList<T> filter(Predicate<T> predicate) {
+    public Sequence<T> filter(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "The predicate may not be null");
 
-        TailedList<T> filtered = empty();
+        Sequence<T> filtered = empty();
         for (T value : reverse()) {
             if (predicate.test(value)) {
-                filtered = new TailedList<>(value, filtered);
+                filtered = new TailedList<>(value, (TailedList<T>) filtered);
             }
         }
 
@@ -143,10 +142,10 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public <U> TailedList<U> map(final Function<T, U> mapper) {
-        TailedList<U> mappedTail = empty();
+    public <U> Sequence<U> map(final Function<T, U> mapper) {
+        Sequence<U> mappedTail = empty();
         for (TailedList<T> processing = this; !processing.isEmpty(); processing = processing.tail) {
-            mappedTail = new TailedList<>(mapper.apply(processing.get()), mappedTail);
+            mappedTail = new TailedList<>(mapper.apply(processing.get()), (TailedList<U>) mappedTail);
         }
         return mappedTail.reverse();
     }
@@ -180,13 +179,8 @@ public class TailedList<T> implements Sequence<T> {
         return result;
     }
 
-    public static <T> Collector<T, ArrayList<T>, TailedList<T>> collector() {
-        final BinaryOperator<ArrayList<T>> combiner = (left, right) -> {
-            left.addAll(right);
-            return left;
-        };
-
-        return Collector.of(ArrayList::new, ArrayList::add, combiner, TailedList::ofAll);
+    public static <T> Collector<T, ArrayList<T>, Sequence<T>> collector() {
+        return Collections.collector(TailedList::ofAll);
     }
 
     private void validateIndexOutOfBounds(int index) {
@@ -196,10 +190,10 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public TailedList<T> reverse() {
-        TailedList<T> corrected = empty();
+    public Sequence<T> reverse() {
+        Sequence<T> corrected = empty();
         for (int i = 0; i < size(); i++) {
-            corrected = new TailedList<>(get(i), corrected);
+            corrected = new TailedList<>(get(i), (TailedList<T>) corrected);
         }
         return corrected;
     }
@@ -243,7 +237,7 @@ public class TailedList<T> implements Sequence<T> {
      * @return      the created list
      */
     @SuppressWarnings("unchecked")
-    public static <T> TailedList<T> empty() {
+    public static <T> Sequence<T> empty() {
         return (TailedList<T>) EMPTY;
     }
 
@@ -254,7 +248,7 @@ public class TailedList<T> implements Sequence<T> {
      * @param <T>     the type of the element
      * @return        the {@link TailedList} containing the provided element
      */
-    public static <T> TailedList<T> of(T element) {
+    public static <T> Sequence<T> of(T element) {
         return TailedList.of((T[]) new Object[]{element});
     }
 
@@ -266,7 +260,7 @@ public class TailedList<T> implements Sequence<T> {
      * @return          the {@link TailedList} containing the provided elements
      */
     @SafeVarargs
-    public static <T> TailedList<T> of(T...elements) {
+    public static <T> Sequence<T> of(T...elements) {
         return ofAll(Iterator.of(elements));
     }
 
@@ -277,7 +271,7 @@ public class TailedList<T> implements Sequence<T> {
      * @param <T>       the type of the elements
      * @return          the {@link TailedList} containing the provided elements
      */
-    public static <T> TailedList<T> ofAll(Iterable<T> iterable) {
+    public static <T> Sequence<T> ofAll(Iterable<? extends T> iterable) {
         TailedList<T> reversed = (TailedList<T>) TailedList.EMPTY;
         for (T element : iterable) {
             reversed = new TailedList<>(element, reversed);

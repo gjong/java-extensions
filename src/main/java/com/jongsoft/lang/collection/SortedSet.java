@@ -7,11 +7,13 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
+import com.jongsoft.lang.collection.support.Collections;
+
 public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
     @SuppressWarnings("unchecked")
     private static final SortedSet EMPTY = new SortedSet(new Object[0], new EqualsComparator());
 
-    private final Comparator<T> comparator;
+    private transient final Comparator<T> comparator;
 
     private SortedSet(Object[] delegate, Comparator<T> comparator) {
         super(delegate);
@@ -65,8 +67,8 @@ public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
     }
 
     @Override
-    public <Y> Collector<Y, ArrayList<Y>, Set<Y>> collector() {
-        return null;
+    public Collector<T, ArrayList<T>, Set<T>> collector() {
+        return Collections.collector(x -> ofAll(comparator, x));
     }
 
     @Override
@@ -84,7 +86,7 @@ public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
      * @return  the empty comparator based set
      */
     @SuppressWarnings("unchecked")
-    public static <T> SortedSet empty() {
+    public static <T> Set empty() {
         return (SortedSet<T>) EMPTY;
     }
 
@@ -97,8 +99,20 @@ public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
      * @return              the newly generated sorted set
      */
     @SafeVarargs
-    public static <T> SortedSet<T> of(Comparator<T> comparator, T...elements) {
+    public static <T> Set<T> of(Comparator<T> comparator, T...elements) {
         return new SortedSet<>(elements, comparator);
+    }
+
+    /**
+     * Creates a new Sorted Set with the provided {@code comparator} and all elements that are in the provided {@code iterable}.
+     *
+     * @param comparator    the comparator to use for sorting the set
+     * @param iterable      the iterable whose elements to copy into the new set
+     * @param <T>           the type of the elements
+     * @return              the newly generated sorted set
+     */
+    public static <T> Set<T> ofAll(Comparator<T> comparator, Iterable<? extends T> iterable) {
+        return new SortedSet<>(Iterator.of(iterable).toNativeArray(), comparator);
     }
 
     private static class EqualsComparator<T> implements Comparator<T> {

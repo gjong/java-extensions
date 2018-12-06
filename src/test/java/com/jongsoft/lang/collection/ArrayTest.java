@@ -20,7 +20,7 @@ public class ArrayTest {
     @Test
     public void empty() {
         thrown.expect(NoSuchElementException.class);
-        Array empty = Array.empty();
+        Sequence empty = Array.empty();
 
         empty.iterator().next();
 
@@ -54,7 +54,7 @@ public class ArrayTest {
 
     @Test
     public void singleInt() {
-        Array<Integer> ints = Array.of(5);
+        Sequence<Integer> ints = Array.of(5);
 
         assertThat(ints.size(), equalTo(1));
         assertThat(ints.isSingleValued(), equalTo(false));
@@ -99,7 +99,7 @@ public class ArrayTest {
 
     @Test
     public void append() {
-        Array<Integer> source = Array.of(5);
+        Sequence<Integer> source = Array.of(5);
         Sequence<Integer> add = source.append(6);
 
         assertThat(source.size(), equalTo(1));
@@ -180,13 +180,13 @@ public class ArrayTest {
 
     @Test
     public void ofList() {
-        Array<Integer> integers = Array.ofAll(Arrays.asList(0, 1, 2, 3, 4, 5));
+        Sequence<Integer> integers = Array.ofAll(Arrays.asList(0, 1, 2, 3, 4, 5));
         assertThat(integers.size(), equalTo(6));
     }
 
     @Test
     public void ofIterable() {
-        Array<Integer> integers = Array.ofAll(() -> Collections.singleton(5).iterator());
+        Sequence<Integer> integers = Array.ofAll(() -> Collections.singleton(5).iterator());
 
         assertThat(integers.size(), equalTo(1));
         assertThat(integers.get(0), equalTo(5));
@@ -244,7 +244,7 @@ public class ArrayTest {
     
     @Test
     public void map() {
-        Array<Integer> mapped = Array.of("test", "two")
+        Sequence<Integer> mapped = Array.of("test", "two")
                 .map(String::length);
 
         assertThat(mapped.size(), equalTo(2));
@@ -267,7 +267,7 @@ public class ArrayTest {
 
     @Test
     public void findLastFirst() {
-        final Array<Integer> array = Array.of(1, 2, 3, 4, 5);
+        final Sequence<Integer> array = Array.of(1, 2, 3, 4, 5);
 
         Optional<Integer> lastFound = array.last(i -> i % 2 == 0);
         assertThat(lastFound.isPresent(), equalTo(true));
@@ -283,7 +283,7 @@ public class ArrayTest {
 
     @Test
     public void reverse() {
-        final Array<Integer> result = Array.of(1, 2, 3).reverse();
+        final Sequence<Integer> result = Array.of(1, 2, 3).reverse();
 
         assertThat(result.size(), equalTo(3));
         assertThat(result.get(0), equalTo(3));

@@ -124,6 +124,6 @@ abstract class AbstractSet<T> implements Set<T> {
 
     protected abstract <X> Supplier<Set<X>> emptySupplier();
     protected abstract Function<Object[], Set<T>> wrapperSupplier();
-    public abstract <Y> Collector<Y, ArrayList<Y>, Set<Y>> collector();
+    public abstract Collector<T, ArrayList<T>, Set<T>> collector();
 
 }

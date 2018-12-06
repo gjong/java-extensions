@@ -29,7 +29,6 @@ import static java.util.Arrays.*;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
@@ -67,7 +66,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public Array<T> tail() {
+    public Sequence<T> tail() {
         if (size() == 0) {
             throw new NoSuchElementException("Cannot call tail on empty collection");
         } else if (size() == 1) {
@@ -86,7 +85,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public Array<T> filter(Predicate<T> predicate) {
+    public Sequence<T> filter(Predicate<T> predicate) {
         return stream()
                 .filter(predicate)
                 .collect(collector());
@@ -94,7 +93,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public <U> Array<U> map(final Function<T, U> mapper) {
+    public <U> Sequence<U> map(final Function<T, U> mapper) {
         Objects.requireNonNull(mapper, "The mapper cannot be null for this operation.");
 
         Object[] mapped = new Object[delegate.length];
@@ -111,7 +110,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public Array<T> union(final Iterable<T> iterable) {
+    public Sequence<T> union(final Iterable<T> iterable) {
         Object[] toBeAdded = toArray(iterable);
         Object[] newDelegate = new Object[delegate.length + toBeAdded.length];
         System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
@@ -120,7 +119,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public Array<T> insert(int index, T value) {
+    public Sequence<T> insert(int index, T value) {
         Object[] newDelegate = new Object[delegate.length + 1];
         System.arraycopy(delegate, 0, newDelegate, 0, index);
         newDelegate[index] = value;
@@ -142,7 +141,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public Array<T> remove(int index) {
+    public Sequence<T> remove(int index) {
         validateOutOfBounds(index);
         Object[] newDelegate = new Object[delegate.length - 1];
 
@@ -153,7 +152,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public Array<T> reverse() {
+    public Sequence<T> reverse() {
         Object[] reversed = new Object[delegate.length];
         for (int i = 0; i < delegate.length; i++) {
             reversed[(delegate.length - 1) - i] = delegate[i];
@@ -172,14 +171,8 @@ public class Array<T> implements Sequence<T> {
         return result;
     }
 
-    @SuppressWarnings("Duplicates")
-    public static <T> Collector<T, ArrayList<T>, Array<T>> collector() {
-        final BinaryOperator<ArrayList<T>> combiner = (left, right) -> {
-            left.addAll(right);
-            return left;
-        };
-
-        return Collector.of(ArrayList::new, ArrayList::add, combiner, Array::ofAll);
+    public static <T> Collector<T, ArrayList<T>, Sequence<T>> collector() {
+        return Collections.collector(Array::ofAll);
     }
 
     private void validateOutOfBounds(int index) {
@@ -191,7 +184,7 @@ public class Array<T> implements Sequence<T> {
     //------------------------------------------------------------------
     //-- Static supporting methods
 
-    private static <T> Array<T> create(Object[] array) {
+    private static <T> Sequence<T> create(Object[] array) {
         return array.length == 0
                 ? empty()
                 : new Array<>(array);
@@ -204,7 +197,7 @@ public class Array<T> implements Sequence<T> {
      * @return      the empty array list
      */
     @SuppressWarnings("unchecked")
-    public static <T> Array<T> empty() {
+    public static <T> Sequence<T> empty() {
         return (Array<T>) EMPTY;
     }
 
@@ -215,7 +208,7 @@ public class Array<T> implements Sequence<T> {
      * @param <T>       the type of the element
      * @return          the new array list
      */
-    public static <T> Array<T> of(T element) {
+    public static <T> Sequence<T> of(T element) {
         return create(new Object[]{element});
     }
 
@@ -229,7 +222,7 @@ public class Array<T> implements Sequence<T> {
      * @throws NullPointerException in case the passed elements is null
      */
     @SafeVarargs
-    public static <T> Array<T> of(final T...elements) {
+    public static <T> Sequence<T> of(final T...elements) {
         Objects.requireNonNull(elements, "The provided elements cannot be null");
         return create(copyOf(elements, elements.length));
     }
@@ -242,7 +235,7 @@ public class Array<T> implements Sequence<T> {
      * @return          the new array
      */
     @SuppressWarnings("unchecked")
-    public static <T> Array<T> ofAll(Iterable<? extends T> elements) {
+    public static <T> Sequence<T> ofAll(Iterable<? extends T> elements) {
         return elements instanceof Array
                 ? (Array<T>) elements
                 : create(toArray(elements));
@@ -256,7 +249,7 @@ public class Array<T> implements Sequence<T> {
      * @return          the newly created array
      * @throws NullPointerException if {@code iterator} is null
      */
-    public static <T> Array<T> ofAll(Iterator<T> iterator) {
+    public static <T> Sequence<T> ofAll(Iterator<T> iterator) {
         Objects.requireNonNull(iterator, "iterator is null");
         return create(iterator.toNativeArray());
     }
