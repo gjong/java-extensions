@@ -32,6 +32,7 @@ import java.util.function.Supplier;
 import com.jongsoft.lang.Filterable;
 import com.jongsoft.lang.Runner;
 import com.jongsoft.lang.Value;
+import com.jongsoft.lang.control.impl.Constants;
 
 /**
  * The Optional provides a functional way to detect <code>null</code> values without null reference checks or complicated
@@ -94,12 +95,17 @@ public interface Optional<T> extends Value<T>, Filterable<T> {
      *
      * @param runner                the code to execute if nothing is present
      * @throws NullPointerException in case the runner is null
+     * @return           the {@link OrElse} functionality, which enables processing in case of {@link #isPresent() }
+     *                   being true.
      */
-    default void ifNotPresent(Runner runner) {
+    default OrElse ifNotPresent(Runner runner) {
         Objects.requireNonNull(runner, "Runner cannot be null");
         if (!isPresent()) {
             runner.run();
+            return Constants.OR_ELSE_NOT_EMPTY;
         }
+
+        return Constants.OR_ELSE_EMPTY;
     }
 
     /**
@@ -109,12 +115,16 @@ public interface Optional<T> extends Value<T>, Filterable<T> {
      * @param <X>               the type of exception expected
      * @throws X                the exception thrown if no present element
      * @throws NullPointerException in case the exceptionSupplier is null
+     * @return           the {@link OrElse} functionality, which enables processing in case of {@link #isPresent() }
+     *                   being true.
      */
-    default <X extends Throwable> void ifNotPresent(Supplier<X> exceptionSupplier) throws X {
+    default <X extends Throwable> OrElse ifNotPresent(Supplier<X> exceptionSupplier) throws X {
         Objects.requireNonNull(exceptionSupplier, "Supplier of exceptions cannot be null");
         if (!isPresent()) {
             throw exceptionSupplier.get();
         }
+
+        return Constants.OR_ELSE_EMPTY;
     }
 
     /**

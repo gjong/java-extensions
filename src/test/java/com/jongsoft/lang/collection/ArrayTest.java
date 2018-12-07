@@ -257,6 +257,14 @@ public class ArrayTest {
     }
 
     @Test
+    public void allNone() {
+        Sequence<String> result = API.List("o", "n", "b");
+
+        assertThat(result.none(x -> x.length() == 2), equalTo(true));
+        assertThat(result.all(x -> x.length() == 1), equalTo(true));
+    }
+
+    @Test
     public void groupBy() {
         Map<Integer, Sequence<String>> result = API.List("one", "two", "three", "four")
              .groupBy(String::length);

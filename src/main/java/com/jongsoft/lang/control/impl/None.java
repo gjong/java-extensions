@@ -86,7 +86,7 @@ public class None<T> implements Optional<T> {
 
     @Override
     public Optional<T> filter(Predicate<T> predicate) {
-        return API.Option(null);
+        return this;
     }
 
     @Override

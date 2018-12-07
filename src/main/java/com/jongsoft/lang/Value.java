@@ -77,13 +77,23 @@ public interface Value<T> extends Iterable<T>, Streamable<T>, Mappable<T>, Seria
     }
     
     /**
-     * Validate that all elements contained within match the predicate provided.
+     * Validate that all elements match the predicate provided.
+     * This can be useful to quickly look over the elements to verify that they all meet a pre-specified criteria.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code    // result will be true
+     *    List("a", "b").all(x -> x.length() == 1);
+     * }</pre>
      * 
      * @param predicate the predicate to test with
      * @return          true if all elements match the predicate, otherwise false
+     *
+     * @see #none(Predicate)
+     * @see #exists(Predicate)
      * @throws NullPointerException in case the {@link Predicate} is null
      */
     default boolean all(Predicate<? super T> predicate) {
+        Objects.requireNonNull(predicate, "Predicate provided cannot be null");
         return !exists(predicate.negate());
     }
 
@@ -92,6 +102,9 @@ public interface Value<T> extends Iterable<T>, Streamable<T>, Mappable<T>, Seria
      *
      * @param predicate the predicate to test with
      * @return          true if none of the elements match, otherwise false
+     *
+     * @see #all(Predicate)
+     * @see #exists(Predicate)
      * @throws NullPointerException in case the {@link Predicate} is null
      */
     default boolean none(Predicate<? super T> predicate) {
