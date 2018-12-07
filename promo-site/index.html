@@ -19,11 +19,11 @@
         }
 
         .navbar, .about {
-            background: #007bff75;
+            background: #337ab7;
         }
 
         .usage {
-            background: #ffc1073b;
+            background: #b77a33;
         }
     </style>
 </head>
@@ -76,21 +76,32 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <p class="font-weight-bold">
-                    Functional way to create and manipulate collections
+                    Create null safe code:
                 </p>
-                <code class="java highlight px-4">
-                    Array&lt;String&gt; valueList = Array.of("first", "second", "third") <br/>
-                    &nbsp;&nbsp;.add("fourth") <br/>
-                    &nbsp;&nbsp;.remove("first") <br/>
-                    &nbsp;&nbsp;.filter(s -&gt; s.length > 5);
+                <code class="java highlight px-4 text-white">
+                    Sequence&lt;String&gt; valueList = API.Option(null) <br/>
+                    &nbsp;&nbsp;.ifPresent(this::process) <br/>
+                    &nbsp;&nbsp;.elseThrow(() -&gt; new NotFoundException());
                 </code>
             </div>
             <div class="carousel-item">
                 <p class="font-weight-bold">
-                    Use the Try to delegate exception recovery
+                    Create and manipulate sequences:
                 </p>
-                <code class="java highlight px-4">
-                    String message = Try&lt;String&gt.supply(this::mayThrowException) <br/>
+                <code class="java highlight px-4 text-white">
+                    String reducedString = API.of("first", "second", "third") <br/>
+                    &nbsp;&nbsp;.add("fourth") <br/>
+                    &nbsp;&nbsp;.remove("first") <br/>
+                    &nbsp;&nbsp;.filter(s -&gt; s.length > 5) <br/>
+                    &nbsp;&nbsp;.fold("!", (xs, x) -&gt; xs + x);
+                </code>
+            </div>
+            <div class="carousel-item">
+                <p class="font-weight-bold">
+                    Use the Try to delegate exception recovery:
+                </p>
+                <code class="java highlight px-4 text-white">
+                    String message = API&lt;String&gt.Try(this::mayThrowException) <br/>
                     &nbsp;&nbsp;.recover(x -&gt; "default text") <br/>
                     &nbsp;&nbsp;.get();
                 </code>

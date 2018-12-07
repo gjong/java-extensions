@@ -16,12 +16,12 @@
  * </p>
  * <pre>{@code
  *     // Correct usage of an immutable collection
- *     Sequence<String> myStrings = Array.of("one")
+ *     Sequence<String> myStrings = API.List("one")
  *              .add("two")
  *              .add("three");
  *
  *     // Incorrect usage of an immutable collection, as the initial collection assigned to myString does not change
- *     Sequence<String> myStrings = Array.of("one");
+ *     Sequence<String> myStrings = API.List("one");
  *     myStrings.add("two");
  *     myStrings.add("three");
  * }</pre>

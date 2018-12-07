@@ -21,11 +21,11 @@ for all the other modules. Like:
 * `CheckedConsumer`, `CheckedFunction`, `CheckedRunner`, `CheckedSupplier`
 
 ### Collection based classes
-* `Array`, a wrapping entity around an primitive array
-* `TailedList`, a linked list structure
-* `HashSet`, an implementation of a collection with unique entries based on the hash code
+* `Sequence`, access to an ordered collection
+* `Set`, a collection with unique entries based on the hash code
+* `SortedSet`, a collection with unique entries based on the hash code
 * `Tuple`, a tuple implementation to store 2 or more entities
-* `ImmutableHashMap`, a map implementation
+* `Map`, a map implementation
 
 ## Maven usage
 To include this module use the Maven dependency below:
