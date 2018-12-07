@@ -32,7 +32,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.jongsoft.lang.control.Control;
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.control.OrElse;
 import com.jongsoft.lang.control.Optional;
 
@@ -81,12 +81,12 @@ public class None<T> implements Optional<T> {
 
     @Override
     public <U> Optional<U> map(Function<T, U> mapper) {
-        return Control.Option(null);
+        return API.Option(null);
     }
 
     @Override
     public Optional<T> filter(Predicate<T> predicate) {
-        return Control.Option(null);
+        return API.Option(null);
     }
 
     @Override

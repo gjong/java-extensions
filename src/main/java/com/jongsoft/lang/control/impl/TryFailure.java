@@ -26,6 +26,7 @@ package com.jongsoft.lang.control.impl;
 import java.util.Objects;
 import java.util.function.Function;
 
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.control.Try;
 import com.jongsoft.lang.exception.NonFatalException;
 
@@ -42,7 +43,7 @@ public class TryFailure<T> extends None<T> implements Try<T> {
     @SuppressWarnings("unchecked")
     public <X extends Throwable> Try<T> recover(Function<X, T> recoverMethod) {
         Objects.requireNonNull(recoverMethod, "The recover method cannot be null");
-        return Try.supply(() -> recoverMethod.apply((X) cause.getCause()));
+        return API.Try(() -> recoverMethod.apply((X) cause.getCause()));
     }
 
     @Override

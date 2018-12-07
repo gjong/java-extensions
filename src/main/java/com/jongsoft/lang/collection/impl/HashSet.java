@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.collection;
+package com.jongsoft.lang.collection.impl;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -30,6 +30,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
+import com.jongsoft.lang.API;
+import com.jongsoft.lang.collection.Collection;
+import com.jongsoft.lang.collection.Foldable;
+import com.jongsoft.lang.collection.Set;
 import com.jongsoft.lang.collection.support.Collections;
 
 /**
@@ -45,9 +49,7 @@ import com.jongsoft.lang.collection.support.Collections;
  */
 public class HashSet<T> extends AbstractSet<T> implements Set<T> {
 
-    private static final HashSet EMPTY = new HashSet(new Object[0]);
-
-    private HashSet(final Object[] delegate) {
+    public HashSet(final Object[] delegate) {
         super(delegate);
     }
 
@@ -66,12 +68,12 @@ public class HashSet<T> extends AbstractSet<T> implements Set<T> {
 
     @Override
     public Collector<T, ArrayList<T>, Set<T>> collector() {
-        return Collections.collector(HashSet::of);
+        return Collections.collector(API::Set);
     }
 
     @Override
     protected <X> Supplier<Set<X>> emptySupplier() {
-        return HashSet::empty;
+        return API::Set;
     }
 
     @Override
@@ -79,53 +81,4 @@ public class HashSet<T> extends AbstractSet<T> implements Set<T> {
         return HashSet::new;
     }
 
-    //------------------------------------------------------------------
-    //-- Static supporting methods
-
-    /**
-     * Create an empty HashSet.
-     *
-     * @param <T>   the type of the entities
-     * @return  the empty hash set
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> Set<T> empty() {
-        return EMPTY;
-    }
-
-    /**
-     * Create a new hash set containing all unique elements.
-     *
-     * @param elements  the elements for the new set
-     * @param <T>       the type of the elements
-     * @return  the created set
-     */
-    @SafeVarargs
-    public static <T> Set<T> of(T...elements) {
-        Set<T> newSet = empty();
-
-        for (int i = 0; i < elements.length; i++) {
-            newSet = newSet.add(elements[i]);
-        }
-
-        return newSet;
-    }
-
-    /**
-     * Create a new set containing all the elements of the {@code iterable}.
-     *
-     * @param iterable  the iterable containing the elements to add to the set
-     * @param <T>       the type of the elements
-     * @return  the created set
-     * @throws NullPointerException if {@code iterable} is null
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> Set<T> of(Iterable<? extends T> iterable) {
-        Objects.requireNonNull(iterable, "iterable is null");
-        if (iterable instanceof HashSet) {
-            return (HashSet<T>) iterable;
-        }
-
-        return new HashSet<>(Iterator.of(iterable).toNativeArray());
-    }
 }

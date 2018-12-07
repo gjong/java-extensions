@@ -144,7 +144,7 @@
                     <configuration>
                         <quiet>true</quiet>
                         <failOnWarnings>false</failOnWarnings>
-                        <excludePackageNames>com.jongsoft.lang.control.impl:com.jongsoft.lang.collection.support:com.jongsoft.lang.impl</excludePackageNames>
+                        <excludePackageNames>com.jongsoft.lang.control.impl:com.jongsoft.lang.collection.support:com.jongsoft.lang.collection.impl:com.jongsoft.lang.impl</excludePackageNames>
                     </configuration>
                     <executions>
                         <execution>

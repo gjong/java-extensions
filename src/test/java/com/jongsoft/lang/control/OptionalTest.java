@@ -23,7 +23,7 @@
  */
 package com.jongsoft.lang.control;
 
-import static com.jongsoft.lang.control.Control.*;
+import static com.jongsoft.lang.API.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.junit.rules.ExpectedException.*;
@@ -34,6 +34,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import com.jongsoft.lang.API;
 
 public class OptionalTest {
 
@@ -42,13 +43,13 @@ public class OptionalTest {
 
     @Test
     public void ofNullableWithNull() {
-        assertThat(Control.Option(null).isPresent(), equalTo(false));
+        assertThat(API.Option(null).isPresent(), equalTo(false));
     }
-    
+
     @Test
     public void ofNullableWithObject() {
         Optional<Integer> optional = Option(Integer.MAX_VALUE);
-        
+
         assertThat(optional.isPresent(), equalTo(true));
         assertThat(optional.get(), equalTo(Integer.MAX_VALUE));
     }
@@ -57,26 +58,26 @@ public class OptionalTest {
     public void ifPresentWithException() throws Exception {
         thrown.expect(Exception.class);
         thrown.expectMessage("Not present");
-        
-        Control.Option(null)
+
+        API.Option(null)
                 .ifPresent(a -> Assert.fail())
                 .elseThrow(() -> new Exception("Not present"));
     }
-    
+
     @Test
     public void ifPresentWithRunnable() {
         StringBuilder response = new StringBuilder();
-        Control.Option(null)
+        API.Option(null)
                 .ifPresent(a -> Assert.fail())
                 .elseRun(() -> response.append("ran"));
-        
+
         assertThat(response.toString(), equalTo("ran"));
     }
 
     @Test
     public void ifPresentWithValue() {
         StringBuilder response = new StringBuilder();
-        Control.Option("Good")
+        API.Option("Good")
                 .ifPresent(response::append)
                 .elseRun(() -> response.append("Bad"));
 
@@ -88,14 +89,14 @@ public class OptionalTest {
         thrown.expect(Exception.class);
         thrown.expectMessage("Good");
 
-        Control.Option("Good")
+        API.Option("Good")
                 .ifPresent(() -> new Exception("Good"));
     }
 
     @Test
     public void ifPresentExceptionWithoutValue() throws Exception {
         StringBuilder response = new StringBuilder();
-        Control.Option(null)
+        API.Option(null)
                 .ifPresent(() -> new Exception("Bad"))
                 .elseRun(() -> response.append("Good"));
 
@@ -106,8 +107,8 @@ public class OptionalTest {
     public void ifNotPresent() {
         StringBuilder response = new StringBuilder();
 
-        Control.Option(null)
-               .ifNotPresent(() -> response.append("Good"));
+        API.Option(null)
+                .ifNotPresent(() -> response.append("Good"));
 
         assertThat(response.toString(), equalTo("Good"));
     }
@@ -116,8 +117,8 @@ public class OptionalTest {
     public void ifNotPresentException() throws Exception {
         thrown.expect(Exception.class);
 
-        Control.Option(null)
-               .ifNotPresent(() -> new Exception());
+        API.Option(null)
+                .ifNotPresent(() -> new Exception());
     }
 
     @Test
@@ -125,14 +126,17 @@ public class OptionalTest {
         thrown.expect(Exception.class);
         thrown.expectMessage("Not present");
 
-        Control.Option(null)
-                .map(v1 -> {Assert.fail("Should not map"); return "failed";})
+        API.Option(null)
+                .map(v1 -> {
+                    Assert.fail("Should not map");
+                    return "failed";
+                })
                 .getOrThrow(() -> new Exception("Not present"));
     }
 
     @Test
     public void getOrSupplyWithNullValue() {
-        String result = Control.<String>Option(null)
+        String result = API.<String> Option(null)
                 .getOrSupply(() -> "Test");
 
         assertThat(result, equalTo("Test"));
@@ -140,7 +144,7 @@ public class OptionalTest {
 
     @Test
     public void getOrSupplyWithString() {
-        String result = Control.Option("Good")
+        String result = API.Option("Good")
                 .getOrSupply(() -> "Bad");
 
         assertThat(result, equalTo("Good"));
@@ -148,7 +152,7 @@ public class OptionalTest {
 
     @Test
     public void getOrThrowString() throws Exception {
-        String message = Control.Option("Good")
+        String message = API.Option("Good")
                 .getOrThrow(Exception::new);
 
         assertThat(message, equalTo("Good"));
@@ -158,7 +162,7 @@ public class OptionalTest {
     public void getOrThrowNull() throws Exception {
         thrown.expect(Exception.class);
 
-        Control.<String>Option(null)
+        API.<String> Option(null)
                 .getOrThrow(Exception::new);
     }
 
@@ -167,23 +171,23 @@ public class OptionalTest {
         thrown.expect(NoSuchElementException.class);
         thrown.expectMessage(equalTo("No value is present"));
 
-        boolean hasElement = Control.Option(null).iterator().hasNext();
-        Control.Option(null).get();
+        boolean hasElement = API.Option(null).iterator().hasNext();
+        API.Option(null).get();
 
         assertThat(hasElement, equalTo(false));
     }
 
     @Test
     public void map() {
-        Optional<Integer> stringLength = Control.Option("My String")
-               .map(String::length);
+        Optional<Integer> stringLength = API.Option("My String")
+                .map(String::length);
 
         assertThat(stringLength.get(), equalTo(9));
     }
 
     @Test
     public void filterSelf() {
-        Optional<String> afterFilter = Control.Option("String")
+        Optional<String> afterFilter = API.Option("String")
                 .filter(s -> s.equalsIgnoreCase("string"));
 
         assertThat(afterFilter.isPresent(), equalTo(true));
@@ -192,7 +196,7 @@ public class OptionalTest {
 
     @Test
     public void filterNoResult() {
-        Optional<String> afterFilter = Control.Option("String")
+        Optional<String> afterFilter = API.Option("String")
                 .filter(s -> s.length() == 3);
 
         assertThat(afterFilter.isPresent(), equalTo(false));
@@ -200,29 +204,29 @@ public class OptionalTest {
 
     @Test
     public void filterNone() {
-        Optional<String> afterFilter = Control.<String>Option(null)
+        Optional<String> afterFilter = API.<String> Option(null)
                 .filter(s -> s.length() == 3);
 
         assertThat(afterFilter.isPresent(), equalTo(false));
     }
-    
+
     @Test
     public void toStringSome() {
-        String toString = Control.Option("String").toString();
+        String toString = API.Option("String").toString();
 
         assertThat(toString, equalTo("Optional<Some>: String"));
     }
 
     @Test
     public void toStringNull() {
-        String toString = Control.Option(null).toString();
+        String toString = API.Option(null).toString();
 
         assertThat(toString, equalTo("Optional<Empty>: None"));
     }
 
     @Test
     public void isSingleValued() {
-        assertThat(Control.Option(1).isSingleValued(), equalTo(true));
+        assertThat(API.Option(1).isSingleValued(), equalTo(true));
     }
 
 }

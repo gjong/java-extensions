@@ -31,7 +31,7 @@ import java.util.function.Predicate;
 
 import com.jongsoft.lang.Value;
 import com.jongsoft.lang.collection.support.AbstractIterator;
-import com.jongsoft.lang.control.Control;
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.control.Optional;
 
 /**
@@ -114,7 +114,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
             }
         }
 
-        return Control.Option(lastMatch);
+        return API.Option(lastMatch);
     }
 
     /**
@@ -131,11 +131,11 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
         while (hasNext()) {
             final T next = next();
             if (predicate.test(next)) {
-                return Control.Option(next);
+                return API.Option(next);
             }
         }
 
-        return Control.Option(null);
+        return API.Option(null);
     }
 
     @Override
@@ -156,7 +156,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
 
     @Override
     default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
-        Sequence<T> array = Array.ofAll(this);
+        Sequence<T> array = API.List(this);
         return array.tail().foldLeft(array.head(), reducer);
     }
 

@@ -8,20 +8,21 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.tuple.Tuple;
 
 public class HashMapTest {
 
     @Test
     public void empty() {
-        final Map empty = HashMap.create();
+        final Map empty = API.Map();
 
         assertThat(empty.size(), equalTo(0));
     }
 
     @Test
     public void containsKey() {
-        Map<String, String> subject = HashMap.<String, String>create()
+        Map<String, String> subject = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three");
 
@@ -33,7 +34,7 @@ public class HashMapTest {
 
     @Test
     public void containsValue() {
-        Map<String, String> subject = HashMap.<String, String>create()
+        Map<String, String> subject = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three");
 
@@ -44,7 +45,7 @@ public class HashMapTest {
 
     @Test
     public void size() {
-        Map<String, String> subject = HashMap.<String, String>create()
+        Map<String, String> subject = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three");
 
@@ -53,7 +54,7 @@ public class HashMapTest {
 
     @Test
     public void remove() {
-        Map<String, String> subject = HashMap.<String, String>create()
+        Map<String, String> subject = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .remove("one");
@@ -66,7 +67,7 @@ public class HashMapTest {
 
     @Test
     public void putDuplicateKey() {
-        Map<String, String> subject = HashMap.<String, String>create()
+        Map<String, String> subject = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .put("one", "five");
@@ -77,7 +78,7 @@ public class HashMapTest {
 
     @Test
     public void get() {
-        Map<String, String> subject = HashMap.<String, String>create()
+        Map<String, String> subject = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three");
 
@@ -87,7 +88,7 @@ public class HashMapTest {
 
     @Test
     public void stream() {
-        List<Tuple.Pair<String, String>> collected = HashMap.<String, String>create()
+        List<Tuple.Pair<String, String>> collected = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .stream()
@@ -102,7 +103,7 @@ public class HashMapTest {
 
     @Test
     public void streamValue() {
-        List<String> collected = HashMap.<String, String>create()
+        List<String> collected = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .valueStream()
@@ -114,7 +115,7 @@ public class HashMapTest {
 
     @Test
     public void map() {
-        Collection<String> collected = HashMap.<String, String>create()
+        Collection<String> collected = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .map(Tuple.Pair::getSecond);
@@ -125,7 +126,7 @@ public class HashMapTest {
 
     @Test
     public void filter() {
-        final Map<String, String> result = HashMap.<String, String>create()
+        final Map<String, String> result = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .filter(p -> p.getSecond().length() == 3);
@@ -136,7 +137,7 @@ public class HashMapTest {
 
     @Test
     public void reject() {
-        Map<String, String> result = HashMap.<String, String>create()
+        Map<String, String> result = API.<String, String>Map()
                .put("one", "two")
                .put("two", "three")
                .reject(e -> e.getSecond().length() == 3);
@@ -147,8 +148,7 @@ public class HashMapTest {
 
     @Test
     public void iterator() {
-        Iterator<Tuple.Pair<String, String>> stringIt = HashMap.<String, String>create()
-                .put("one", "two")
+        Iterator<Tuple.Pair<String, String>> stringIt = API.Map("one", "two")
                 .put("two", "three")
                 .iterator();
 
@@ -159,7 +159,7 @@ public class HashMapTest {
 
     @Test
     public void toJava() {
-        java.util.Map result = HashMap.<String, String>create()
+        java.util.Map result = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .toJava();

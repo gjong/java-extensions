@@ -4,12 +4,13 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import com.jongsoft.lang.API;
 
 public class SortedSetTest {
 
     @Test
     public void add() {
-        Set<Integer> sortedInts = SortedSet.of(Integer::compareTo, 1, 3, 6)
+        Set<Integer> sortedInts = API.Set(Integer::compareTo, 1, 3, 6)
                 .add(2)
                 .add(5)
                 .add(2)
@@ -26,8 +27,8 @@ public class SortedSetTest {
 
     @Test
     public void map() {
-        Set<Integer> ints = SortedSet.of(Integer::compareTo, 1, 2, 3)
-                 .map(x -> x * 2);
+        Set<Integer> ints = API.Set(Integer::compareTo, 1, 2, 3)
+                .map(x -> x * 2);
 
         assertThat(ints.size(), equalTo(3));
         assertThat(ints.get(0), equalTo(2));
@@ -37,7 +38,7 @@ public class SortedSetTest {
 
     @Test
     public void remove() {
-        Set<Integer> sortedInts = SortedSet.of(Integer::compareTo, 1, 3, 6)
+        Set<Integer> sortedInts = API.Set(Integer::compareTo, 1, 3, 6)
                 .remove(1);
 
         assertThat(sortedInts.size(), equalTo(2));

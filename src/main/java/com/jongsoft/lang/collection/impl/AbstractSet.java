@@ -1,4 +1,4 @@
-package com.jongsoft.lang.collection;
+package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
@@ -9,6 +9,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
+
+import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.Set;
 
 abstract class AbstractSet<T> implements Set<T> {
 

@@ -55,48 +55,6 @@ import com.jongsoft.lang.control.impl.TrySuccess;
 public interface Try<T> extends Optional<T> {
 
     /**
-     * Attempt to execute code that will return an entity, but may also result into an exception.
-     *
-     * @param <T>      the type of entity that will be returned in case of success
-     * @param supplier the supplier that will return the entity
-     *
-     * @return either an {@link Try} with success set to true and a get returning the entity, or a {@link Try} with
-     *         failure set to true and the get throwing the exception.
-     *
-     * @throws NullPointerException in case the supplier is null
-     */
-    static <T> Try<T> supply(CheckedSupplier<T> supplier) {
-        Objects.requireNonNull(supplier, "Supplier cannot be null");
-        try {
-            return new TrySuccess<>(supplier.get());
-        } catch (Exception exception) {
-            return new TryFailure<>(exception);
-        }
-    }
-
-    /**
-     * Attempt to execute the code in the {@link CheckedRunner}. If the execution results into an exception then this
-     * call will return a {@link Try} with a failure result. Otherwise it will return an empty success {@link Try}.
-     *
-     * @param runner the code to execute with a try..catch construction
-     *
-     * @return A {@link Try} with success set to true if the execution went without exceptions, otherwise it will return
-     *         a {@link Try} with a failure set to true.
-     *
-     * @throws NullPointerException in case the runner is null
-     */
-    static Try<Void> run(CheckedRunner runner) {
-        Objects.requireNonNull(runner, "Runner cannot be null");
-        try {
-            runner.run();
-        } catch (Exception exception) {
-            return new TryFailure<>(exception);
-        }
-
-        return new TrySuccess<>(null);
-    }
-
-    /**
      * Indicates if the try operation resulted in an exception
      *
      * @return true in case of an exception of the try, otherwise false

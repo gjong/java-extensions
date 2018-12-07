@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.collection;
+package com.jongsoft.lang.collection.impl;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -29,6 +29,10 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import com.jongsoft.lang.collection.Collection;
+import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.Map;
+import com.jongsoft.lang.collection.Sequence;
 import com.jongsoft.lang.collection.tuple.Tuple;
 
 /**
@@ -39,12 +43,9 @@ import com.jongsoft.lang.collection.tuple.Tuple;
  */
 public class HashMap<K, T> implements Map<K, T> {
 
-    @SuppressWarnings("unchecked")
-    private static final HashMap<?, ?> EMPTY = new HashMap(Array.empty());
-
     private Sequence<Tuple.Pair<K, T>> delegate;
 
-    private HashMap(Sequence<Tuple.Pair<K, T>> delegate) {
+    public HashMap(Sequence<Tuple.Pair<K, T>> delegate) {
         this.delegate = delegate;
     }
 
@@ -146,21 +147,6 @@ public class HashMap<K, T> implements Map<K, T> {
         java.util.Map<K, T> result = new java.util.HashMap<>(delegate.size());
         delegate.forEach(entry -> result.put(entry.getFirst(), entry.getSecond()));
         return result;
-    }
-
-    //------------------------------------------------------------------
-    //-- Static supporting methods
-
-    /**
-     * Create a new empty {@link HashMap}.
-     *
-     * @param <K>   the type of the key
-     * @param <T>   the type of the balue
-     * @return      the new empty map
-     */
-    @SuppressWarnings("unchecked")
-    public static <K, T> Map<K, T> create() {
-        return (Map<K, T>) EMPTY;
     }
 
 }
