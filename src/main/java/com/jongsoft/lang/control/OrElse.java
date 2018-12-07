@@ -36,7 +36,7 @@ import com.jongsoft.lang.Runner;
  * </p>
  * <p></p>
  * <p><strong>Example:</strong></p>
- * <pre>{@code  Optional.ofNullable(null)
+ * <pre>{@code  API.Option(null)
  *      .ifPresent(System.out::println)
  *      .elseThrow(() -> new NullPointerException("No value present"))
  * }</pre>

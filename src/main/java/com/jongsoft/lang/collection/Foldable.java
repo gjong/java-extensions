@@ -65,7 +65,7 @@ public interface Foldable<T> {
      *   <strong>Example:</strong>
      * </p>
      * <pre>{@code // result "!test"
-     *    Array("t", "e", "s", "t").foldLeft("!",  (x, y) -> x + y)
+     *    List("t", "e", "s", "t").foldLeft("!",  (x, y) -> x + y)
      * }</pre>
      *
      * @param start      the start value for the fold operation
@@ -84,7 +84,7 @@ public interface Foldable<T> {
      *   <strong>Example:</strong>
      * </p>
      * <pre>{@code // result "tset!"
-     *    Array("t", "e", "s", "t").foldRight("!",  (x, y) -> x + y)
+     *    List("t", "e", "s", "t").foldRight("!",  (x, y) -> x + y)
      * }</pre>
      *
      * @param start      the start value for the fold operation
@@ -116,7 +116,7 @@ public interface Foldable<T> {
      *   <strong>Example:</strong>
      * </p>
      * <pre>{@code // result "test"
-     *    Array("t", "e", "s", "t").reduceLeft((x, y) -> x + y)
+     *    List("t", "e", "s", "t").reduceLeft((x, y) -> x + y)
      * }</pre>
      *
      * <p>

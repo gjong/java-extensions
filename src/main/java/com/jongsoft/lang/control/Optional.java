@@ -41,7 +41,7 @@ import com.jongsoft.lang.Value;
  *     of potential {@link NullPointerException} in the code calling the operation.
  * </p>
  * <pre> {@code  // Sample usage of the Optional
- *     Optional.ofNullable("one")
+ *     API.Option("one")
  *          .ifPresent(System.out::println)
  *          .orElse(() -> System.out.println("No value is present");
  * }</pre>

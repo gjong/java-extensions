@@ -81,9 +81,21 @@ public interface Value<T> extends Iterable<T>, Streamable<T>, Mappable<T>, Seria
      * 
      * @param predicate the predicate to test with
      * @return          true if all elements match the predicate, otherwise false
+     * @throws NullPointerException in case the {@link Predicate} is null
      */
     default boolean all(Predicate<? super T> predicate) {
         return !exists(predicate.negate());
+    }
+
+    /**
+     * Validate that none of the elements match the {@code predicate} provided.
+     *
+     * @param predicate the predicate to test with
+     * @return          true if none of the elements match, otherwise false
+     * @throws NullPointerException in case the {@link Predicate} is null
+     */
+    default boolean none(Predicate<? super T> predicate) {
+        return !exists(predicate);
     }
 
     /**

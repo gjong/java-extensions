@@ -199,10 +199,16 @@ public interface Sequence<T> extends Collection<T> {
 
     /**
      * Generate a new sequence using the {@code keyGenerator}.
+     * Calling this operation will create a new map grouping the elements by the generator provided.
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // This will result in Map(1 -> List(1, 11, 21), 2 -> List(2, 12, 22))
+     *   List(1, 2, 11, 12, 21, 22)
+     *      .groupBy(x -> x % 10);
+     * }</pre>
      *
-     * @param keyGenerator
-     * @param <K>
-     * @return
+     * @param keyGenerator  the generator to use for creating keys
+     * @param <K>           the type of the key
+     * @return              the new map created using the generator
      * @throws NullPointerException if {@code keyGenerator} is null
      */
     <K> Map<K, Sequence<T>> groupBy(Function<? super T, ? extends K> keyGenerator);
@@ -212,8 +218,8 @@ public interface Sequence<T> extends Collection<T> {
      * The elements in this sequence will be added before the provided {@code iterable} in the returned sequence.
      *
      * <p><strong>Example:</strong></p>
-     * <pre>{@code  // the example would be a Sequence(1, 2, 3, 4)
-     *   Sequence result = Sequence(1, 2).union(Sequence(3, 4));
+     * <pre>{@code  // the example would be a List(1, 2, 3, 4)
+     *   Sequence result = List(1, 2).union(Sequence(3, 4));
      * }</pre>
      *
      * @param iterable  the elements to be added

@@ -8,7 +8,6 @@
  *     </thead>
  *     <tbody>
  *         <tr><td>{@linkplain com.jongsoft.lang.Value}</td><td>A wrapper interface for any element</td></tr>
- *         <tr><td>{@linkplain com.jongsoft.lang.Presence}</td><td>Indicating some functionality for present logic</td></tr>
  *     </tbody>
  * </table>
  *
