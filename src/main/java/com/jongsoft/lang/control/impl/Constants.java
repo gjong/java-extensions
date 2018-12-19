@@ -26,7 +26,6 @@ package com.jongsoft.lang.control.impl;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.control.OrElse;
-import com.jongsoft.lang.Runner;
 
 /**
  * This class contains utility methods and static classes to support the interfaces in this package.
@@ -35,7 +34,7 @@ public final class Constants {
 
     public static final OrElse OR_ELSE_EMPTY = new OrElse() {
         @Override
-        public void elseRun(Runner runner) {
+        public void elseRun(Runnable runner) {
             runner.run();
         }
 

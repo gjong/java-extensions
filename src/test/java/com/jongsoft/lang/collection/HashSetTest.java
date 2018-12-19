@@ -17,11 +17,11 @@ public class HashSetTest {
     public ExpectedException thrown = none();
 
     @Test
-    public void add() {
+    public void append() {
         final Set<String> strings = API.<String>Set()
-                .add("one")
-                .add("two")
-                .add("one");
+                .append("one")
+                .append("two")
+                .append("one");
 
         assertThat(strings.size(), equalTo(2));
         assertThat(strings, hasItems("one", "two"));
@@ -39,9 +39,9 @@ public class HashSetTest {
     @Test
     public void indexOf() {
         int index = API.<String>Set()
-                .add("one")
-                .add("two")
-                .add("three")
+                .append("one")
+                .append("two")
+                .append("three")
                 .indexOf("two");
 
         assertThat(index, equalTo(1));
@@ -50,11 +50,11 @@ public class HashSetTest {
     @Test
     public void firstIndexOf() {
         Set<String> set = API.<String>Set()
-                .add("one")
-                .add("two")
-                .add("three");
+                .append("one")
+                .append("two")
+                .append("three");
 
-        int index = set.firstIndexOf(str -> str.length() == 5);
+        int index = set.firstIndexWhere(str -> str.length() == 5);
         int noIndex = set.indexOf("five");
 
         assertThat(index, equalTo(2));

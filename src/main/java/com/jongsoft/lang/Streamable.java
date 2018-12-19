@@ -23,6 +23,8 @@
  */
 package com.jongsoft.lang;
 
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -39,5 +41,27 @@ public interface Streamable<T> {
      * @return the {@link Stream} entity.
      */
     Stream<T> stream();
+
+    /**
+     * Perform a mapping operation on the elements in the stream.
+     * This operation will loop over all elements in the stream and apply the {@code mapper} method. The mapped values will be returned
+     * in as a new set of elements.
+     *
+     * @param <U>       the type of object expected as a result
+     * @param mapper    the mapping functionality
+     * @return          the mapped object
+     */
+    <U> Streamable<U> map(Function<T, U> mapper);
+
+    /**
+     * Filter out an element if it does not match the supplied {@code predicate}.
+     * This operation will iterate over all elements and return a new set containing only the elements where the predicate returns {@code
+     * true} for.
+     *
+     * @param predicate the predicate to apply to the contents of this
+     * @return the filtered value
+     * @throws NullPointerException if {@code predicate} is null
+     */
+    Streamable<T> filter(Predicate<T> predicate);
 
 }

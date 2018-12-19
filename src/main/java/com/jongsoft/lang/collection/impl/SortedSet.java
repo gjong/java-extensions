@@ -24,7 +24,7 @@ public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Set<T> add(final T value) {
+    public Set<T> append(final T value) {
         Object[] existing = iterator().toNativeArray();
 
         int insertIndex = -1;

@@ -25,8 +25,6 @@ package com.jongsoft.lang.control;
 
 import java.util.function.Supplier;
 
-import com.jongsoft.lang.Runner;
-
 /**
  * The OrElse interface is an extension to the {@link com.jongsoft.lang.control.Optional} interface. This interface can be used to cascade behaviour
  * when an entity is or is not present in the wrapper.
@@ -50,7 +48,7 @@ public interface OrElse {
      *
      * @param runner    the code to be run when the else is running
      */
-    default void elseRun(Runner runner) {}
+    default void elseRun(Runnable runner) {}
 
     /**
      * This operation will create an exception using the provided {@link Supplier} and throw it.

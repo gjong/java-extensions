@@ -22,7 +22,7 @@ abstract class AbstractSet<T> implements Set<T> {
     }
 
     @Override
-    public Set<T> add(final T value) {
+    public Set<T> append(final T value) {
         if (contains(value)) {
             return this;
         }
@@ -47,7 +47,7 @@ abstract class AbstractSet<T> implements Set<T> {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public int firstIndexOf(final Predicate<T> predicate) {
+    public int firstIndexWhere(final Predicate<T> predicate) {
         for (int i = 0; i < size(); i++) {
             if (predicate.test(get(i))) {
                 return i;
@@ -92,7 +92,7 @@ abstract class AbstractSet<T> implements Set<T> {
 
         Set<U> mappedSet = this.<U>emptySupplier().get();
         for (int i = 0; i < size(); i++) {
-            mappedSet = mappedSet.add(mapper.apply(get(i)));
+            mappedSet = mappedSet.append(mapper.apply(get(i)));
         }
 
         return mappedSet;

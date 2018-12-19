@@ -159,7 +159,7 @@ public final class API {
         Set<T> newSet = EMPTY_SET;
 
         for (int i = 0; i < elements.length; i++) {
-            newSet = newSet.add(elements[i]);
+            newSet = newSet.append(elements[i]);
         }
 
         return newSet;

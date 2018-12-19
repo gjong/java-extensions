@@ -11,10 +11,10 @@ public class SortedSetTest {
     @Test
     public void add() {
         Set<Integer> sortedInts = API.Set(Integer::compareTo, 1, 3, 6)
-                .add(2)
-                .add(5)
-                .add(2)
-                .add(4);
+                .append(2)
+                .append(5)
+                .append(2)
+                .append(4);
 
         assertThat(sortedInts.size(), equalTo(6));
         assertThat(sortedInts.get(0), equalTo(1));

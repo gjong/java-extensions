@@ -29,8 +29,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.jongsoft.lang.Filterable;
-import com.jongsoft.lang.Runner;
 import com.jongsoft.lang.Value;
 import com.jongsoft.lang.control.impl.Constants;
 
@@ -50,8 +48,8 @@ import com.jongsoft.lang.control.impl.Constants;
  * @param <T> the type of entity contained in the Optional
  * @since 0.0.1
  */
-public interface Optional<T> extends Value<T>, Filterable<T> {
-    
+public interface Optional<T> extends Value<T> {
+
     @Override
     <U> Optional<U> map(Function<T, U> mapper);
 
@@ -98,7 +96,7 @@ public interface Optional<T> extends Value<T>, Filterable<T> {
      * @return           the {@link OrElse} functionality, which enables processing in case of {@link #isPresent() }
      *                   being true.
      */
-    default OrElse ifNotPresent(Runner runner) {
+    default OrElse ifNotPresent(Runnable runner) {
         Objects.requireNonNull(runner, "Runner cannot be null");
         if (!isPresent()) {
             runner.run();

@@ -40,44 +40,12 @@ import com.jongsoft.lang.collection.impl.HashSet;
  * @param <T>   the entity type contained in the set
  * @since 0.0.3
  */
-public interface Set<T> extends Collection<T> {
+public interface Set<T> extends List<T> {
 
-    /**
-     * Add an element to the end of the contents of the current list and return the result in a new {@link Set} instance. This
-     * operation will return the current instance if the entity added is already contained in the Set.
-     *
-     * @param value     the value to append to the list
-     * @return          the new list with the value appended
-     */
-    Set<T> add(T value);
+    @Override
+    Set<T> append(T value);
 
-    /**
-     * Find the index for the provided element, will return <code>-1</code> if the element
-     * is not present in the list.
-     *
-     * @param lookFor   the element to look for
-     * @return  the index of the element, or <code>-1</code> if none found
-     */
-    default int indexOf(Object lookFor) {
-        return firstIndexOf(e -> Objects.equals(lookFor, e));
-    }
-
-    /**
-     * Search the collections for the first element matching the provided {@link Predicate} and return the index
-     * position of that element.
-     *
-     * @param predicate the predicate to match
-     * @return  index of the found element, -1 if none found
-     */
-    int firstIndexOf(Predicate<T> predicate);
-
-    /**
-     * Removes an element from the list and returns a new instance of the list.
-     *
-     * @param index     the index of the element to be removed
-     * @return          the new instance of the list without the element at the provided index
-     * @throws IndexOutOfBoundsException    in case the index is not between the 0 and list size
-     */
+    @Override
     Set<T> remove(int index);
 
     @Override
@@ -91,15 +59,6 @@ public interface Set<T> extends Collection<T> {
 
     @Override
     Set<T> tail();
-
-    /**
-     * Get the element at the location of <code>index</code>
-     *
-     * @param index     the index of the element in the list to get
-     * @return          the element at the provided index
-     * @throws IndexOutOfBoundsException    in case the index provided is greater then the {@link #size()} - 1.
-     */
-    T get(int index);
 
     @Override
     Set<T> filter(Predicate<T> predicate);

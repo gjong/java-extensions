@@ -70,19 +70,9 @@ import java.util.function.Predicate;
  *
  * @param <T>   the entity type of the sequence
  */
-public interface Sequence<T> extends Collection<T> {
+public interface Sequence<T> extends List<T> {
 
-    /**
-     * Create a new sequence starting with all elements in this sequence and ending with the provided {@code value}.
-     *
-     * <p><strong>Example:</strong></p>
-     * <pre>{@code  // will result in a sequence with 2, 3, 4, 1
-     *    Sequence(2, 3, 4).append(1)
-     * }</pre>
-     *
-     * @param value     the value to append to the list
-     * @return          the new list with the value appended
-     */
+    @Override
     default Sequence<T> append(T value) {
         return insert(size(), value);
     }
@@ -112,33 +102,7 @@ public interface Sequence<T> extends Collection<T> {
      */
     Sequence<T> insert(int index, T value);
 
-    /**
-     * Find the index for the provided element, will return <code>-1</code> if the element
-     * is not present in the list.
-     *
-     * @param lookFor   the element to look for
-     * @return  the index of the element, or <code>-1</code> if none found
-     */
-    default int indexOf(Object lookFor) {
-        return firstIndexWhere(e -> Objects.equals(lookFor, e));
-    }
-
-    /**
-     * Search the collections for the first element matching the provided {@link Predicate} and return the index
-     * position of that element.
-     *
-     * @param predicate the predicate to match
-     * @return  index of the found element, -1 if none found
-     */
-    int firstIndexWhere(Predicate<T> predicate);
-
-    /**
-     * Removes an element from the list and returns a new instance of the list.
-     *
-     * @param index     the index of the element to be removed
-     * @return          the new instance of the list without the element at the provided index
-     * @throws IndexOutOfBoundsException    in case the index is not between the 0 and list size
-     */
+    @Override
     Sequence<T> remove(int index);
 
     /**
@@ -156,15 +120,6 @@ public interface Sequence<T> extends Collection<T> {
 
         return this;
     }
-
-    /**
-     * Get the element at the location of <code>index</code>
-     *
-     * @param index     the index of the element in the list to get
-     * @return          the element at the provided index
-     * @throws IndexOutOfBoundsException    in case the index provided is greater then the {@link #size()} - 1.
-     */
-    T get(int index);
 
     @Override
     default T head() {
