@@ -33,7 +33,7 @@ import java.util.stream.Stream;
  * @param <T> the type of entities that are contained in the {@link Stream}.
  * @since 0.0.1
  */
-public interface Streamable<T> {
+public interface Streamable<T> extends Iterable<T> {
 
     /**
      * Creates a {@link Stream} to access the entities of type T contained within this {@link Streamable} class.

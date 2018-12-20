@@ -29,9 +29,9 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.Value;
 import com.jongsoft.lang.collection.support.AbstractIterator;
-import com.jongsoft.lang.API;
 import com.jongsoft.lang.control.Optional;
 
 /**
@@ -58,6 +58,9 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
     default boolean isSingleValued() {
         return false;
     }
+
+    @Override
+    Iterator<T> filter(Predicate<T> predicate);
 
     /**
      * Move the iterator back to the first element in the sequence.

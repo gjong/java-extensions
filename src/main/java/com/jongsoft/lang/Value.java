@@ -37,7 +37,7 @@ import java.util.stream.StreamSupport;
  * @param <T>   the type of object being wrapped
  * @since 0.0.1
  */
-public interface Value<T> extends Iterable<T>, Streamable<T>, Serializable {
+public interface Value<T> extends Streamable<T>, Serializable {
     
     /**
      * Return the contents {@code T} of the wrapped value.

@@ -36,7 +36,7 @@ import com.jongsoft.lang.control.Optional;
  *
  * @param <T> the type of the elements
  */
-public interface Collection<T> extends Iterable<T>, Value<T>, Foldable<T> {
+public interface Collection<T> extends Value<T>, Foldable<T> {
 
     /**
      * Filter the list contents with the provided predicate. Only returning those elements that match the predicate.

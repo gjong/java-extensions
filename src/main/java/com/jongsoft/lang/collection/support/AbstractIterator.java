@@ -24,7 +24,9 @@
 package com.jongsoft.lang.collection.support;
 
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
 
 /**
@@ -47,6 +49,13 @@ public abstract class AbstractIterator<T> implements Iterator<T> {
         }
 
         return getNext();
+    }
+
+    @Override
+    public Iterator<T> filter(final Predicate<T> predicate) {
+        return API.List(this)
+                  .filter(predicate)
+                  .iterator();
     }
 
     @Override
