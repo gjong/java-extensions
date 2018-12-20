@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Set;
 
@@ -119,10 +120,39 @@ abstract class AbstractSet<T> implements Set<T> {
         return result;
     }
 
+    @Override
+    public Set<T> union(final Iterable<T> iterable) {
+        return setTheory(this, iterable, Predicate.not(this::contains));
+    }
+
+    @Override
+    public Set<T> intersect(final Iterable<T> iterable) {
+        return setTheory(this.<T>emptySupplier().get(), iterable, this::contains);
+    }
+
+    @Override
+    public Set<T> complement(final Iterable<T> iterable) {
+        Set<T> iterator = API.Set(iterable);
+        return setTheory(this.<T>emptySupplier().get(), this, Predicate.not(iterator::contains));
+    }
+
     private void validateOutOfBounds(int index) {
         if (index >= delegate.length || index < 0) {
             throw new IndexOutOfBoundsException(format("%s is not in the bounds of 0 and %s", index, delegate.length));
         }
+    }
+
+    private Set<T> setTheory(Set<T> seed, Iterable<T> iterable, Predicate<T> theoryRule) {
+        Set<T> result = seed;
+
+        for (T element : iterable) {
+            if (theoryRule.test(element)) {
+                result = result.append(element);
+            }
+        }
+
+        return result;
+
     }
 
     protected abstract <X> Supplier<Set<X>> emptySupplier();

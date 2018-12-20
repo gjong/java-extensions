@@ -1,6 +1,10 @@
 # Java Language Extensions
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.jongsoft.lang/language.svg?color=green&style=flat-square)](https://search.maven.org/artifact/com.jongsoft.lang/language/)[![SonarCloud Quality](https://sonarcloud.io/api/project_badges/measure?project=com.jongsoft.lang%3Alanguage&metric=alert_status&?style=flat-square)](https://sonarcloud.io/dashboard?id=com.jongsoft.lang%3Alanguage)![CircleCI](https://img.shields.io/circleci/project/bitbucket/jongsoftdev/language-extension/master.svg?style=flat-square)[![Coveralls bitbucket branch](https://img.shields.io/coveralls/bitbucket/jongsoftdev/language-extension/master.svg?style=flat-square)](https://coveralls.io/bitbucket/jongsoftdev/language-extension?branch=master)![APMLicense](https://img.shields.io/apm/l/vim-mode.svg?style=flat-square)
+[![Maven Central](https://img.shields.io/maven-central/v/com.jongsoft.lang/language.svg?color=green&style=flat-square)](https://search.maven.org/artifact/com.jongsoft.lang/language/)
+[![SonarCloud Quality](https://sonarcloud.io/api/project_badges/measure?project=com.jongsoft.lang%3Alanguage&metric=alert_status&?style=flat-square)](https://sonarcloud.io/dashboard?id=com.jongsoft.lang%3Alanguage)
+![CircleCI](https://img.shields.io/circleci/project/bitbucket/jongsoftdev/language-extension/master.svg?style=flat-square)
+[![Coveralls bitbucket branch](https://img.shields.io/coveralls/bitbucket/jongsoftdev/language-extension/master.svg?style=flat-square)](https://coveralls.io/bitbucket/jongsoftdev/language-extension?branch=master)
+![APMLicense](https://img.shields.io/apm/l/vim-mode.svg?style=flat-square)
 
 With Java 8 a great new introduction was made to support functional programming. Unfortunately true functional programming was not
 yet supported.

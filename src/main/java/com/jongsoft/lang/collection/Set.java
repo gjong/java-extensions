@@ -79,4 +79,44 @@ public interface Set<T> extends List<T> {
      */
     java.util.Set<T> toJava();
 
+    /**
+     * Create a set that contains all elements that are contained in both {@code this} and the provided {@code iterable}.
+     * Where the resulting set contains only unique elements.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a Set(1, 2, 3, 4)
+     *   Set result = Set(1, 2, 3).union(Set(3, 4));
+     * }</pre>
+     *
+     * @param iterable  the iterable to perform the union with
+     * @return  the product of the union operation
+     */
+    Set<T> union(Iterable<T> iterable);
+
+    /**
+     * Creates a set that contains only the elements contained in both {@code this} and the provided {@code iterable}.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a Set(3)
+     *   Set result = Set(1, 2, 3).intersect(Set(3, 4));
+     * }</pre>
+     *
+     * @param iterable  the iterable to perform the intersects with
+     * @return  the product of the intersect operation
+     */
+    Set<T> intersect(Iterable<T> iterable);
+
+    /**
+     * Creates a new set that contains elements that are only in {@code this}, but not contained within {@code iterable}.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a Set(1, 2)
+     *   Set result = Set(1, 2, 3).complement(Set(3, 4));
+     * }</pre>
+     *
+     * @param iterable  the iterable to perform the complement with
+     * @return  the product of the complement operation
+     */
+    Set<T> complement(Iterable<T> iterable);
+
 }

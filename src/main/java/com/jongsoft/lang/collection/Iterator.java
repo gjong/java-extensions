@@ -69,7 +69,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
 
     @Override
     default java.util.Iterator<T> iterator() {
-        return this;
+        return Iterator.of((T[])this.toNativeArray());
     }
 
     @Override
