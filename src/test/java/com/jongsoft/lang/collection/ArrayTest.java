@@ -314,4 +314,12 @@ public class ArrayTest {
         assertThat(integers, hasItems(1, 2, 3, 4));
     }
 
+    @Test
+    public void toStringTest() {
+        Sequence<String> myStrings = API.List("test", "string", "one")
+                                        .filter(s -> s.length() == 3)
+                                        .remove("test");
+
+        assertThat(myStrings.toString(), equalTo("Sequence[one]"));
+    }
 }
