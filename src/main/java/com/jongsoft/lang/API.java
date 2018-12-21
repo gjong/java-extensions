@@ -34,6 +34,9 @@ public final class API {
     @SuppressWarnings("unchecked")
     private static final HashMap<?, ?> EMPTY_MAP = new HashMap(EMPTY_LIST);
 
+    private API() {
+        // hidden constructor for utility class
+    }
 
     /**
      * Creates a new {@link Optional} representing the provided value.
@@ -45,7 +48,7 @@ public final class API {
      *
      * @return          an {@link Optional} representing the value
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <T> Optional<T> Option(T value) {
         return value != null ? new Some<>(value) : (Optional<T>) None.INSTANCE;
 
@@ -62,6 +65,7 @@ public final class API {
      *
      * @throws NullPointerException in case the supplier is null
      */
+    @SuppressWarnings("squid:S00100")
     public static <T> Try<T> Try(CheckedSupplier<T> supplier) {
         Objects.requireNonNull(supplier, "Supplier cannot be null");
         try {
@@ -82,6 +86,7 @@ public final class API {
      *
      * @throws NullPointerException in case the runner is null
      */
+    @SuppressWarnings("squid:S00100")
     public static Try<Void> Try(CheckedRunner runner) {
         Objects.requireNonNull(runner, "Runner cannot be null");
         try {
@@ -100,6 +105,7 @@ public final class API {
      * @param <T>       the type of the element
      * @return          the new array list
      */
+    @SuppressWarnings("squid:S00100")
     public static <T> Sequence<T> List(T element) {
         return create(new Object[]{element});
     }
@@ -114,6 +120,7 @@ public final class API {
      * @throws NullPointerException in case the passed elements is null
      */
     @SafeVarargs
+    @SuppressWarnings("squid:S00100")
     public static <T> Sequence<T> List(final T...elements) {
         Objects.requireNonNull(elements, "The provided elements cannot be null");
         return create(copyOf(elements, elements.length));
@@ -126,7 +133,7 @@ public final class API {
      * @param <T>       the type of the elements
      * @return          the new array
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <T> Sequence<T> List(Iterable<? extends T> elements) {
         return elements instanceof Array
                 ? (Array<T>) elements
@@ -141,6 +148,7 @@ public final class API {
      * @return          the newly created array
      * @throws NullPointerException if {@code iterator} is null
      */
+    @SuppressWarnings("squid:S00100")
     public static <T> Sequence<T> List(Iterator<T> iterator) {
         Objects.requireNonNull(iterator, "iterator is null");
         return create(iterator.toNativeArray());
@@ -154,7 +162,7 @@ public final class API {
      * @return  the created set
      */
     @SafeVarargs
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <T> Set<T> Set(T...elements) {
         Set<T> newSet = EMPTY_SET;
 
@@ -173,7 +181,7 @@ public final class API {
      * @return  the created set
      * @throws NullPointerException if {@code iterable} is null
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <T> Set<T> Set(Iterable<? extends T> iterable) {
         Objects.requireNonNull(iterable, "iterable is null");
         if (iterable instanceof HashSet) {
@@ -192,6 +200,7 @@ public final class API {
      * @return              the newly generated sorted set
      */
     @SafeVarargs
+    @SuppressWarnings("squid:S00100")
     public static <T> Set<T> Set(Comparator<T> comparator, T...elements) {
         return new SortedSet<>(elements, comparator);
     }
@@ -204,11 +213,12 @@ public final class API {
      * @param <T>           the type of the elements
      * @return              the newly generated sorted set
      */
+    @SuppressWarnings("squid:S00100")
     public static <T> Set<T> Set(Comparator<T> comparator, Iterable<? extends T> iterable) {
         return new SortedSet<>(Iterator.of(iterable).toNativeArray(), comparator);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <T> Set<T> SortedSet() {
         return EMPTY_SORTED_SET;
     }
@@ -220,7 +230,7 @@ public final class API {
      * @param <T>   the type of the balue
      * @return      the new empty map
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <K, T> Map<K, T> Map() {
         return (Map<K, T>) EMPTY_MAP;
     }
@@ -234,7 +244,7 @@ public final class API {
      * @param <T>       the type of the balue
      * @return          the new map
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <K, T> Map<K, T> Map(K key, T value) {
         return (Map<K, T>) Map().put(key, value);
     }

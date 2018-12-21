@@ -14,8 +14,12 @@ import com.jongsoft.lang.collection.Sequence;
 
 public final class Collections {
 
+    private Collections() {
+        // hidden constructor utility class
+    }
+
     public static <K, U> Map<K, Sequence<U>> groupBy(Supplier<Sequence<U>> instanceSupplier, Sequence<U> source,
-            Function<? super U, ? extends K> keyGenerator) {
+                                                     Function<? super U, ? extends K> keyGenerator) {
         Objects.requireNonNull(keyGenerator, "keyGenerator is null");
         Map<K, Sequence<U>> result = API.Map();
         for (U element : source) {

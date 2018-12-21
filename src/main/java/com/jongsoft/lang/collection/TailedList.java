@@ -73,17 +73,17 @@ public class TailedList<T> implements Sequence<T> {
     public Sequence<T> insert(int index, T value) {
         validateIndexOutOfBounds(index);
 
-        TailedList<T> tail = this;
+        TailedList<T> result = this;
         for (int i = 0; i < index; i++) {
-            tail = tail.tail;
+            result = result.tail;
         }
 
-        tail = new TailedList<>(value, tail);
+        result = new TailedList<>(value, result);
         for (int i = index - 1; i >= 0; i--) {
-            tail = new TailedList<>(get(i), tail);
+            result = new TailedList<>(get(i), result);
         }
 
-        return tail;
+        return result;
     }
 
     @Override

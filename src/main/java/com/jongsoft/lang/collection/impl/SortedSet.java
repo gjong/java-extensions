@@ -13,7 +13,7 @@ import com.jongsoft.lang.collection.support.Collections;
 
 public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
 
-    private transient final Comparator<T> comparator;
+    private final transient Comparator<T> comparator;
 
     public SortedSet(Object[] delegate, Comparator<T> comparator) {
         super(delegate);

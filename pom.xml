@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jongsoft.lang</groupId>
@@ -144,7 +145,9 @@
                     <configuration>
                         <quiet>true</quiet>
                         <failOnWarnings>false</failOnWarnings>
-                        <excludePackageNames>com.jongsoft.lang.control.impl:com.jongsoft.lang.collection.support:com.jongsoft.lang.collection.impl:com.jongsoft.lang.impl</excludePackageNames>
+                        <excludePackageNames>
+                            com.jongsoft.lang.control.impl:com.jongsoft.lang.collection.support:com.jongsoft.lang.collection.impl:com.jongsoft.lang.impl
+                        </excludePackageNames>
                     </configuration>
                     <executions>
                         <execution>
@@ -299,6 +302,19 @@
                     </plugin>
 
                     <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>3.5.0.1254</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>sonar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <executions>
@@ -334,7 +350,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-scm-plugin</artifactId>
                         <version>1.9.4</version>
-                        <configuration />
+                        <configuration/>
                     </plugin>
                 </plugins>
             </build>

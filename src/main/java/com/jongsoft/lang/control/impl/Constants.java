@@ -32,6 +32,10 @@ import com.jongsoft.lang.control.OrElse;
  */
 public final class Constants {
 
+    private Constants() {
+        // hidden constructor utility class
+    }
+
     public static final OrElse OR_ELSE_EMPTY = new OrElse() {
         @Override
         public void elseRun(Runnable runner) {
