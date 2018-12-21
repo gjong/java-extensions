@@ -46,6 +46,24 @@ public class HashSetTest {
     }
 
     @Test
+    public void intersectEmpty() {
+        Set<Integer> result = API.Set(1, 2, 3)
+                .intersect();
+
+        assertThat(result.isEmpty(), equalTo(true));
+        assertThat(result.size(), equalTo(0));
+    }
+
+    @Test
+    public void intersectMultiple() {
+        Set<Integer> result = API.Set(1, 2, 3)
+           .intersect(API.List(3, 4, 5), API.List(4, 7, 3));
+
+        assertThat(result.size(), equalTo(1));
+        assertThat(result, hasItem(3));
+    }
+
+    @Test
     public void complement() {
         Set<Integer> result = API.Set(1, 2, 3, 4)
            .complement(API.Set(3, 2));

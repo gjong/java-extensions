@@ -28,16 +28,18 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.jongsoft.lang.collection.impl.HashSet;
+import com.jongsoft.lang.API;
 
 /**
  * The sets are implementations of {@link Collection} that guarantee uniqueness in the collection. This will prevent duplicate entries.
  * How this is done varies pending the implementation. Currently the following implementations are supported:
+ *
  * <ul>
- *     <li>{@link HashSet}, an implementation that uses the entities hash</li>
+ *     <li>{@link API#Set(Object[])}, an implementation that uses the entities hash</li>
+ *     <li>{@link API#SortedSet()}, a set where all elements are sorted based on a {@link java.util.Comparator}</li>
  * </ul>
  *
- * @param <T>   the entity type contained in the set
+ * @param <T> the entity type contained in the set
  * @since 0.0.3
  */
 public interface Set<T> extends List<T> {
@@ -81,7 +83,11 @@ public interface Set<T> extends List<T> {
 
     /**
      * Create a set that contains all elements that are contained in both {@code this} and the provided {@code iterable}.
-     * Where the resulting set contains only unique elements.
+     *
+     * <blockquote>
+     * The union of two sets A and B is the set of elements which are in A, in B, or in both A and B, but not containing duplicate
+     * elements.
+     * </blockquote>
      *
      * <p><strong>Example:</strong></p>
      * <pre>{@code  // the example would be a Set(1, 2, 3, 4)
@@ -94,7 +100,7 @@ public interface Set<T> extends List<T> {
     Set<T> union(Iterable<T> iterable);
 
     /**
-     * Creates a set that contains only the elements contained in both {@code this} and the provided {@code iterable}.
+     * Creates a set that contains only the elements that are in both {@code this} and the provided {@code iterable}.
      *
      * <p><strong>Example:</strong></p>
      * <pre>{@code  // the example would be a Set(3)
@@ -104,7 +110,28 @@ public interface Set<T> extends List<T> {
      * @param iterable  the iterable to perform the intersects with
      * @return  the product of the intersect operation
      */
-    Set<T> intersect(Iterable<T> iterable);
+    @SuppressWarnings("unchecked")
+    default Set<T> intersect(Iterable<T> iterable) {
+        return intersect(new Iterable[] {iterable});
+    }
+
+    /**
+     * Creates a set that contains only the elements that are in all collections and {@code this}.
+     *
+     * <blockquote>
+     * We say that A intersects (meets) B at an element x if x belongs to A and B. We say that A intersects (meets) B
+     * if A intersects B at some element. A intersects B if their intersection is inhabited.
+     * </blockquote>
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a Set(3)
+     *   Set result = Set(1, 2, 3).intersect(Set(3, 4));
+     * }</pre>
+     *
+     * @param iterables the set of iterables the intersection should be calculated on
+     * @return the product of the intersect operation
+     */
+    Set<T> intersect(Iterable<T>...iterables);
 
     /**
      * Creates a new set that contains elements that are only in {@code this}, but not contained within {@code iterable}.
