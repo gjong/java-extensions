@@ -117,7 +117,7 @@ public final class API {
      * @param <T>       the type that the elements represent
      * @return          the new array list
      *
-     * @throws NullPointerException in case the passed elements is null
+     * @throws NullPointerException if {@code elements} is null
      */
     @SafeVarargs
     @SuppressWarnings("squid:S00100")

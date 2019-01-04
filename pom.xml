@@ -81,6 +81,8 @@
         <jacoco.version>0.8.2</jacoco.version>
         <asm.version>7.0</asm.version>
 
+        <repoKey>dummy</repoKey>
+
         <sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
@@ -286,6 +288,12 @@
                     <value>true</value>
                 </property>
             </activation>
+
+            <properties>
+                <!-- these properties are overridden in the build -->
+                <env.gpgKey>dummy</env.gpgKey>
+                <env.gpgPassword>dummy</env.gpgPassword>
+            </properties>
 
             <build>
                 <plugins>

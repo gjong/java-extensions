@@ -17,7 +17,6 @@
  *         <tr><td>Interface</td><td>Description</td></tr>
  *     </thead>
  *     <tbody>
- *         <tr><td>{@linkplain com.jongsoft.lang.Filterable}</td><td>Indicating the implementation can be filtered</td></tr>
  *         <tr><td>{@linkplain com.jongsoft.lang.Streamable}</td><td>Indicating the implementation can provide a Java stream</td></tr>
  *     </tbody>
  * </table>

@@ -4,16 +4,19 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import com.jongsoft.lang.collection.Sequence;
 
 public class TupleTest {
 
     @Test
     public void pairInts() {
         Tuple.Pair<Integer, Integer> pair = Tuple.Pair.of(1, 3);
+        final Sequence actual = pair.toList();
 
         assertThat(pair.getFirst(), equalTo(1));
         assertThat(pair.getSecond(), equalTo(3));
         assertThat(pair.toString(), equalTo("Pair(1, 3)"));
+        assertThat(actual.size(), equalTo(2));
     }
 
     @Test

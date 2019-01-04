@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 public interface List<T> extends Collection<T> {
 
     /**
-     * Create a new sequence starting with all elements in this sequence and ending with the provided {@code value}.
+     * Create a new list containing all elements in this instance and appending the provided {@code value} to the end of the new list.
      *
      * <p><strong>Example:</strong></p>
      * <pre>{@code  // will result in a list with 2, 3, 4, 1
@@ -28,7 +28,7 @@ public interface List<T> extends Collection<T> {
      *
      * @param index     the index of the element to be removed
      * @return          the new instance of the list without the element at the provided index
-     * @throws IndexOutOfBoundsException    in case the index is not between the 0 and list size
+     * @throws IndexOutOfBoundsException  if {@code index} is not between the 0 and {@linkplain #size()}
      */
     List<T> remove(int index);
 
@@ -37,7 +37,7 @@ public interface List<T> extends Collection<T> {
      *
      * @param index     the index of the element in the list to get
      * @return          the element at the provided index
-     * @throws IndexOutOfBoundsException    in case the index provided is greater then the {@link #size()} - 1.
+     * @throws IndexOutOfBoundsException if {@code index} is greater then the {@link #size()} - 1
      */
     T get(int index);
 

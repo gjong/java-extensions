@@ -71,6 +71,17 @@ public class HashSetTest {
         assertThat(result.size(), equalTo(2));
         assertThat(result, hasItems(1, 4));
     }
+
+    @Test
+    public void complementMultiple() {
+        Set<Integer> result = API.Set(1, 2, 3, 4)
+           .complement(API.Set(2), API.Set(3));
+
+        assertThat(result.size(), equalTo(2));
+        assertThat(result, hasItems(1, 4));
+
+        assertThat(API.Set(1, 2, 3).complement(), hasItems(1, 2, 3));
+    }
     
     @Test
     public void toJava() {

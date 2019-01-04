@@ -31,9 +31,10 @@ import java.util.function.Predicate;
 import com.jongsoft.lang.API;
 
 /**
- * The sets are implementations of {@link Collection} that guarantee uniqueness in the collection. This will prevent duplicate entries.
- * How this is done varies pending the implementation. Currently the following implementations are supported:
+ * The set is an extension of the {@link Collection} interface that guarantees only unique elements are contained within the set.
+ * How uniqueness is guaranteed varies pending the implementing class.
  *
+ * Currently the following implementations are supported:
  * <ul>
  *     <li>{@link API#Set(Object[])}, an implementation that uses the entities hash</li>
  *     <li>{@link API#SortedSet()}, a set where all elements are sorted based on a {@link java.util.Comparator}</li>
@@ -144,6 +145,22 @@ public interface Set<T> extends List<T> {
      * @param iterable  the iterable to perform the complement with
      * @return  the product of the complement operation
      */
-    Set<T> complement(Iterable<T> iterable);
+    @SuppressWarnings("unchecked")
+    default Set<T> complement(Iterable<T> iterable) {
+        return complement(new Iterable[] {iterable});
+    }
+
+    /**
+     * Creates a new set that contains elements that are only in {@code this}, but not contained within any of the {@code iterables}.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a Set(1, 2)
+     *   Set result = Set(1, 2, 3).complement(Set(3, 4));
+     * }</pre>
+     *
+     * @param iterables  the iterables to perform the complement with
+     * @return  the product of the complement operation
+     */
+    Set<T> complement(Iterable<T>...iterables);
 
 }

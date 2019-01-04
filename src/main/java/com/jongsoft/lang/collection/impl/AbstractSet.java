@@ -126,7 +126,8 @@ abstract class AbstractSet<T> implements Set<T> {
     }
 
     @Override
-    public Set<T> intersect(final Iterable<T>...iterable) {
+    @SafeVarargs
+    public final Set<T> intersect(final Iterable<T>...iterable) {
         if (iterable.length == 0) {
             return this.<T>emptySupplier().get();
         }
@@ -139,9 +140,17 @@ abstract class AbstractSet<T> implements Set<T> {
     }
 
     @Override
-    public Set<T> complement(final Iterable<T> iterable) {
-        Set<T> iterator = API.Set(iterable);
-        return setTheory(this.<T>emptySupplier().get(), this, Predicate.not(iterator::contains));
+    @SafeVarargs
+    public final Set<T> complement(final Iterable<T>...iterables) {
+        if (iterables.length == 0) {
+            return this;
+        }
+
+        Predicate<T> operation = API.Set(iterables)
+                .map(API::Set)
+                .foldLeft(x -> true, (x, xs) -> x.and(Predicate.not(xs::contains)));
+
+        return setTheory(this.<T>emptySupplier().get(), this, operation);
     }
 
     private void validateOutOfBounds(int index) {

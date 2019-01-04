@@ -59,6 +59,16 @@ public class IteratorTest {
     }
 
     @Test
+    public void filter() {
+        Iterator<Integer> iterator = Iterator.of(1, 2, 3, 4)
+                .filter(x -> x % 2 == 0);
+
+        assertThat(iterator.next(), equalTo(2));
+        assertThat(iterator.next(), equalTo(4));
+        assertThat(iterator.hasNext(), equalTo(false));
+    }
+
+    @Test
     public void get() {
         final Integer number = Iterator.of(1, 2, 3, 4, 5).get();
         assertThat(number, equalTo(1));
