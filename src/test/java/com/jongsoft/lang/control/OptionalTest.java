@@ -85,6 +85,16 @@ public class OptionalTest {
     }
 
     @Test
+    public void ifPresentWithValueThrow() {
+        StringBuilder response = new StringBuilder();
+        API.Option("Good")
+                .ifPresent(response::append)
+                .elseThrow(IllegalStateException::new);
+
+        assertThat(response.toString(), equalTo("Good"));
+    }
+
+    @Test
     public void ifPresentExceptionWithValue() throws Exception {
         thrown.expect(Exception.class);
         thrown.expectMessage("Good");

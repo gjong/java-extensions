@@ -78,7 +78,7 @@ public class TryTest {
 
         Try<String> test = API.Try(() -> {
             throw new UnsupportedOperationException();
-        });
+        }).map(s -> s + "12");
 
         assertThat(test.isSuccess(), equalTo(false));
         assertThat(test.isFailure(), equalTo(true));
@@ -129,6 +129,9 @@ public class TryTest {
             response.append("test");
         }).and(() -> {
             response.append(" two");
+        }).recover(th -> {
+            response.append("recovered");
+            return null;
         });
 
         assertThat(response.toString(), equalTo("test two"));
