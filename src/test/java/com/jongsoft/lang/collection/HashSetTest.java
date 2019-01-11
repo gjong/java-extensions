@@ -210,4 +210,12 @@ public class HashSetTest {
 
         assertThat(folded, equalTo("cba!"));
     }
+
+    @Test
+    public void toStringTest() {
+        Set<String> myStrings = API.Set("test-a", "test-b", "one")
+                                        .filter(s -> s.length() == 6);
+
+        assertThat(myStrings.toString(), equalTo("Set[test-a, test-b]"));
+    }
 }

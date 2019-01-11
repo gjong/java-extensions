@@ -174,16 +174,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     public String toString() {
-        StringBuilder text = new StringBuilder("Sequence[");
-        for (int i = 0; i < size(); i++) {
-            text.append(get(i));
-            if (i + 1 < size()) {
-                text.append(", ");
-            }
-        }
-        text.append("]");
-
-        return text.toString();
+        return Collections.textValueOf("Sequence", this);
     }
 
     public static <T> Collector<T, ArrayList<T>, Sequence<T>> collector() {

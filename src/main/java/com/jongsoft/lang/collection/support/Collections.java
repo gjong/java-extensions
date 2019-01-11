@@ -42,4 +42,22 @@ public final class Collections {
         return Collector.of(ArrayList::new, ArrayList::add, combiner, finisher::apply);
     }
 
+    public static <T> String textValueOf(String type, Collection<T> collection) {
+        StringBuilder text = new StringBuilder(type)
+                .append("[");
+
+        int index = 0;
+        for (T element : collection) {
+            text.append(element);
+
+            index++;
+            if (index < collection.size()) {
+                text.append(", ");
+            }
+        }
+        text.append("]");
+
+        return text.toString();
+    }
+
 }

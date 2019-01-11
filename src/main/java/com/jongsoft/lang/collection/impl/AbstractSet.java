@@ -13,6 +13,7 @@ import java.util.stream.Collector;
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Set;
+import com.jongsoft.lang.collection.support.Collections;
 
 abstract class AbstractSet<T> implements Set<T> {
 
@@ -151,6 +152,11 @@ abstract class AbstractSet<T> implements Set<T> {
                 .foldLeft(x -> true, (x, xs) -> x.and(Predicate.not(xs::contains)));
 
         return setTheory(this.<T>emptySupplier().get(), this, operation);
+    }
+
+    @Override
+    public String toString() {
+        return Collections.textValueOf("Set", this);
     }
 
     private void validateOutOfBounds(int index) {

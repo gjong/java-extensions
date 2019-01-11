@@ -11,15 +11,19 @@ yet supported.
 
 **Note:** from version 0.0.4 onwards only Java 11+ is supported
 
+## Features in the library
+The library currently has the following groups of features that it adds on top of the default Java 11+ system:
+
+* Functional interfaces, allowing for a more functional and declarative way of programming
+* Immutable collections, supporting better declarative and safer operations
+
 ### Functional classes
 The commons module contains interfaces supporting a more declarative way of programming. It consists out of the needed interfaces
 for all the other modules. Like:
 
-* `Builder`, a base to create immutable entities through the builder pattern
 * `Value`, base interface for all entities within the extension framework
 * `Optional`, a purely functionally version of the Optional introduced in Java 8
 * `Try`, a functional implementation to wrap exception handling
-* `Runner`, a variation of the `Runnable` interface
 * `CheckedConsumer`, `CheckedFunction`, `CheckedRunner`, `CheckedSupplier`
 
 ### Collection based interfaces
@@ -29,7 +33,7 @@ for all the other modules. Like:
 * `Tuple`, a tuple implementation to store 2 or more entities
 * `Map`, a map implementation
 
-### Documentation
+## Documentation
 To support development work the JavaDoc is published online for this library. Currently the following documentation is
 published:
     
@@ -39,7 +43,7 @@ published:
 Most of the functional interfaces can be instantiated using the [API](https://jdocstorage.z6.web.core.windows.net/java/language/com.jongsoft.lang/com/jongsoft/lang/API.html)
 class.
 
-**Example**
+**Example 1: using a declarative sequence of strings**
 ```java
 class Main {
     public static void main(String[] args){
@@ -57,15 +61,17 @@ class Main {
 ## Maven usage
 To include this module use the Maven dependency below:
 
+```xml
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>language</artifactId>
         <version>0.0.4</version>
     </dependency>
+```
 
 ## License
 The MIT License (MIT)
-Copyright (c) 2018 Jong Soft Development
+Copyright (c) 2016-2019 Jong Soft Development
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,

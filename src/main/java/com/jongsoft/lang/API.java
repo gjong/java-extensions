@@ -5,14 +5,16 @@ import static java.util.Arrays.*;
 import java.util.Comparator;
 import java.util.Objects;
 
-import com.jongsoft.lang.collection.impl.HashMap;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Sequence;
 import com.jongsoft.lang.collection.Set;
+import com.jongsoft.lang.collection.Tree;
 import com.jongsoft.lang.collection.impl.Array;
+import com.jongsoft.lang.collection.impl.HashMap;
 import com.jongsoft.lang.collection.impl.HashSet;
 import com.jongsoft.lang.collection.impl.SortedSet;
+import com.jongsoft.lang.collection.impl.TreeSet;
 import com.jongsoft.lang.control.CheckedRunner;
 import com.jongsoft.lang.control.CheckedSupplier;
 import com.jongsoft.lang.control.Optional;
@@ -96,6 +98,14 @@ public final class API {
         }
 
         return new TrySuccess<>(null);
+    }
+
+    public static <T> Tree<T> Tree(String label, T rootValue) {
+        return new TreeSet<>(label, rootValue);
+    }
+
+    public static <T> Tree<T> Tree(String label, T value, Iterable<Tree<T>> children) {
+        return new TreeSet<>(label, value, children);
     }
 
     /**
