@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jongsoft.lang</groupId>
     <artifactId>language</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     <packaging>jar</packaging>
 
     <name>Jong-Soft Java Language Extensions</name>
@@ -56,7 +55,7 @@
         <url>https://bitbucket.org/jongsoftdev/language-extension/src</url>
         <connection>scm:git:git://bitbucket.org:jongsoftdev/language-extension.git</connection>
         <developerConnection>scm:git:git@bitbucket.org:jongsoftdev/language-extension.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>language-0.0.5</tag>
     </scm>
 
     <distributionManagement>
@@ -352,7 +351,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-scm-plugin</artifactId>
                         <version>1.9.4</version>
-                        <configuration/>
+                        <configuration />
                     </plugin>
                 </plugins>
             </build>
