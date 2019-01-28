@@ -289,12 +289,6 @@
                 </property>
             </activation>
 
-            <properties>
-                <!-- these properties are overridden in the build -->
-                <env.gpgKey>dummy</env.gpgKey>
-                <env.gpgPassword>dummy</env.gpgPassword>
-            </properties>
-
             <build>
                 <plugins>
                     <plugin>
