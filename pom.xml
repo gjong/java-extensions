@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jongsoft.lang</groupId>
     <artifactId>language</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Jong-Soft Java Language Extensions</name>
@@ -289,12 +288,6 @@
                 </property>
             </activation>
 
-            <properties>
-                <!-- these properties are overridden in the build -->
-                <env.gpgKey>dummy</env.gpgKey>
-                <env.gpgPassword>dummy</env.gpgPassword>
-            </properties>
-
             <build>
                 <plugins>
                     <plugin>
@@ -358,7 +351,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-scm-plugin</artifactId>
                         <version>1.9.4</version>
-                        <configuration/>
+                        <configuration />
                     </plugin>
                 </plugins>
             </build>
