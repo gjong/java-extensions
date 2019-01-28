@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import com.jongsoft.lang.collection.impl.TailedList;
 
 public class TailedListTest {
 
@@ -20,8 +21,8 @@ public class TailedListTest {
     @Test
     public void insert() {
         Sequence<String> result = TailedList.of("my", "test")
-                .insert(1, "first")
-                .insert(2, "auto");
+                                            .insert(1, "first")
+                                            .insert(2, "auto");
 
         assertThat(result.size(), equalTo(4));
         assertThat(result.get(0), equalTo("my"));

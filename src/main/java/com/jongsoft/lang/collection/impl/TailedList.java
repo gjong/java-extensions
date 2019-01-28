@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.collection;
+package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
@@ -32,6 +32,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
+import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.Map;
+import com.jongsoft.lang.collection.Sequence;
 import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.collection.support.Collections;
 
@@ -139,6 +142,11 @@ public class TailedList<T> implements Sequence<T> {
         }
 
         return filtered;
+    }
+
+    @Override
+    public Sequence<T> distinct() {
+        return null;
     }
 
     @Override

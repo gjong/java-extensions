@@ -93,6 +93,18 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> distinct() {
+        Sequence<T> result = new Array<>(new Object[0]);
+        for (T element : this) {
+            if (!result.contains(element)) {
+                result = result.append(element);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
     @SuppressWarnings("Duplicates")
     public <U> Sequence<U> map(final Function<T, U> mapper) {
         Objects.requireNonNull(mapper, "The mapper cannot be null for this operation.");

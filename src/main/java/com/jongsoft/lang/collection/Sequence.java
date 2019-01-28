@@ -61,6 +61,7 @@ import java.util.function.Predicate;
  *         predicate</td></tr>
  *         <tr><td>{@linkplain #filter(Predicate)}</td><td>Create a new sequence with values matching the predicate</td></tr>
  *         <tr><td>{@linkplain #map(Function)}</td><td>Create a new sequence with the mapped values</td></tr>
+ *         <tr><td>{@linkplain #distinct()}</td><td>Create a sequence with only unique elements</td></tr>
  *     </tbody>
  * </table>
  *
@@ -148,6 +149,13 @@ public interface Sequence<T> extends List<T> {
         Objects.requireNonNull(predicate, "predicate is null");
         return filter(predicate.negate());
     }
+
+    /**
+     * Generate a new sequence containing only unique elements from this collection.
+     *
+     * @return  a new unique sequence
+     */
+    Sequence<T> distinct();
 
     @Override
     <U> Sequence<U> map(Function<T, U> mapper);

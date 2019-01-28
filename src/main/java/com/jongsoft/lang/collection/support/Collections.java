@@ -43,16 +43,18 @@ public final class Collections {
     }
 
     public static <T> String textValueOf(String type, Collection<T> collection) {
-        StringBuilder text = new StringBuilder(type)
-                .append("[");
+        StringBuilder text = new StringBuilder(type);
 
-        int index = 0;
-        for (T element : collection) {
-            text.append(element);
+        text.append("[");
+        if (collection != null) {
+            int index = 0;
+            for (T element : collection) {
+                text.append(element);
 
-            index++;
-            if (index < collection.size()) {
-                text.append(", ");
+                index++;
+                if (index < collection.size()) {
+                    text.append(", ");
+                }
             }
         }
         text.append("]");
