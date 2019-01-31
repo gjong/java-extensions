@@ -38,6 +38,7 @@ import com.jongsoft.lang.collection.impl.HashMap;
 import com.jongsoft.lang.collection.impl.HashSet;
 import com.jongsoft.lang.collection.impl.SortedSet;
 import com.jongsoft.lang.collection.impl.TreeSet;
+import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.control.CheckedRunner;
 import com.jongsoft.lang.control.CheckedSupplier;
 import com.jongsoft.lang.control.Optional;
@@ -221,7 +222,7 @@ public final class API {
             return (HashSet<T>) iterable;
         }
 
-        return new HashSet<>(Iterator.of(iterable).toNativeArray());
+        return new HashSet<>(Iterator(iterable).toNativeArray());
     }
 
     /**
@@ -248,7 +249,7 @@ public final class API {
      */
     @SuppressWarnings("squid:S00100")
     public static <T> Set<T> Set(Comparator<T> comparator, Iterable<? extends T> iterable) {
-        return new SortedSet<>(Iterator.of(iterable).toNativeArray(), comparator);
+        return new SortedSet<>(Iterator(iterable).toNativeArray(), comparator);
     }
 
     @SuppressWarnings({"unchecked", "squid:S00100"})
@@ -280,6 +281,65 @@ public final class API {
     @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <K, T> Map<K, T> Map(K key, T value) {
         return (Map<K, T>) Map().put(key, value);
+    }
+
+    /**
+     * Creates a Iterator that contains all the provided elements.
+     *
+     * @param elements  the elements to wrap in an iterator
+     * @param <T>       the type of the elements
+     * @return          the new iterator
+     */
+    @SafeVarargs
+    public static <T> Iterator<T> Iterator(T...elements) {
+        return new AbstractIterator<>() {
+            private int index = 0;
+
+            @Override
+            public void reset() {
+                index = 0;
+            }
+
+            @Override
+            protected T getNext() {
+                return elements[index++];
+            }
+
+            @Override
+            public boolean hasNext() {
+                return index < elements.length;
+            }
+        };
+    }
+
+    /**
+     * Create a new Iterator wrapping the provided iterable.
+     *
+     * @param iterable  the iterable to wrap
+     * @param <T>       the type of elements in the iterable
+     * @return the iterator wrapping the iterable
+     * @throws NullPointerException if {@code iterable} is null
+     */
+    public static <T> Iterator<T> Iterator(final Iterable<T> iterable) {
+        Objects.requireNonNull(iterable, "iterable is null");
+        return new AbstractIterator<>() {
+            java.util.Iterator<T> original = iterable.iterator();
+
+            @Override
+            public boolean hasNext() {
+                return original.hasNext();
+            }
+
+            @Override
+            public void reset() {
+                original = iterable.iterator();
+            }
+
+            @Override
+            protected T getNext() {
+                return original.next();
+            }
+        };
     }
 
     @SuppressWarnings("unchecked")

@@ -21,26 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.collection.tuple;
+package com.jongsoft.lang.collection.tuple.impl;
 
-import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.Sequence;
+import com.jongsoft.lang.collection.tuple.Triplet;
 
-class AbstractTuple implements Tuple {
+public class TripletImpl<X, Y, Z> extends PairImpl<X, Y> implements Triplet<X, Y, Z> {
 
-    private Sequence elements;
-
-    AbstractTuple(Object...elements) {
-        this.elements = API.List(elements);
-    }
-
-    Object element(int index) {
-        return elements.get(index);
+    public TripletImpl(Object... elements) {
+        super(elements);
     }
 
     @Override
-    public Sequence toList() {
-        return elements;
+    public Z getThird() {
+        return (Z) super.element(2);
     }
 
+    @Override
+    public String toString() {
+        return "Triplet(" + getFirst() + ", " + getSecond() + ", " + getThird() + ")";
+    }
 }

@@ -21,26 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.collection.tuple;
+package com.jongsoft.lang.collection.tuple.impl;
 
-class PairImpl<X, Y> extends AbstractTuple implements Tuple.Pair<X, Y> {
+import com.jongsoft.lang.collection.tuple.Quadruplet;
 
-    PairImpl(Object...elements) {
+public class QuadrupletImpl<X, Y, Z, D> extends TripletImpl<X, Y, Z> implements Quadruplet<X, Y, Z, D> {
+
+    public QuadrupletImpl(Object... elements) {
         super(elements);
     }
 
     @Override
-    public X getFirst() {
-        return (X) super.element(0);
-    }
-
-    @Override
-    public Y getSecond() {
-        return (Y) super.element(1);
+    public D getFourth() {
+        return (D) super.element(3);
     }
 
     @Override
     public String toString() {
-        return "Pair(" + getFirst() + ", " + getSecond() + ")";
+        return "Quadruplet(" + getFirst() + ", " + getSecond() + ", " + getThird() + ", " + getFourth() + ")";
     }
+
 }

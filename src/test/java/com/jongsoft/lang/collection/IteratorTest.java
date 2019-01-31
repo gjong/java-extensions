@@ -6,6 +6,7 @@ import static org.junit.rules.ExpectedException.*;
 
 import java.util.NoSuchElementException;
 
+import com.jongsoft.lang.API;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -18,7 +19,7 @@ public class IteratorTest {
 
     @Test
     public void ofInteger() {
-        final Iterator<Integer> numbers = Iterator.of(1, 2, 3, 4, 5);
+        final Iterator<Integer> numbers = API.Iterator(1, 2, 3, 4, 5);
 
         final Optional<Integer> firstMatch = numbers.first(i -> i % 2 == 0);
         final Optional<Integer> lastMatch = numbers.last(i -> i % 2 == 0);
@@ -31,7 +32,7 @@ public class IteratorTest {
 
     @Test
     public void concatInteger() {
-        final Iterator<Integer> numbers = Iterator.concat(Iterator.of(1), Iterator.of(2));
+        final Iterator<Integer> numbers = Iterator.concat(API.Iterator(1), API.Iterator(2));
 
         assertThat(numbers.hasNext(), equalTo(true));
         assertThat(numbers.next(), equalTo(1));
@@ -52,7 +53,7 @@ public class IteratorTest {
     public void empty() {
         thrown.expect(NoSuchElementException.class);
 
-        final Iterator<Object> empty = Iterator.empty();
+        final Iterator<Object> empty = API.Iterator();
 
         assertThat(empty.hasNext(), equalTo(false));
         empty.next();
@@ -60,7 +61,7 @@ public class IteratorTest {
 
     @Test
     public void filter() {
-        Iterator<Integer> iterator = Iterator.of(1, 2, 3, 4)
+        Iterator<Integer> iterator = API.Iterator(1, 2, 3, 4)
                 .filter(x -> x % 2 == 0);
 
         assertThat(iterator.next(), equalTo(2));
@@ -70,13 +71,13 @@ public class IteratorTest {
 
     @Test
     public void get() {
-        final Integer number = Iterator.of(1, 2, 3, 4, 5).get();
+        final Integer number = API.Iterator(1, 2, 3, 4, 5).get();
         assertThat(number, equalTo(1));
     }
 
     @Test
     public void map() {
-        final Iterator<Integer> mapped = Iterator.of("one", "two", "three", "four")
+        final Iterator<Integer> mapped = API.Iterator("one", "two", "three", "four")
                 .map(String::length);
 
         assertThat(mapped.next(), equalTo(3));
@@ -88,7 +89,7 @@ public class IteratorTest {
 
     @Test
     public void toNativeArray() {
-        Object[] strings = Iterator.of("one", "two").toNativeArray();
+        Object[] strings = API.Iterator("one", "two").toNativeArray();
 
         assertThat(strings.length, equalTo(2));
         assertThat(strings[0], equalTo("one"));
@@ -97,7 +98,7 @@ public class IteratorTest {
     
     @Test
     public void firstNoElements() {
-        final Optional<Object> match = Iterator.empty()
+        final Optional<Object> match = API.Iterator()
                 .first(s -> true);
 
         assertThat(match.isPresent(), equalTo(false));

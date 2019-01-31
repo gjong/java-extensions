@@ -78,7 +78,7 @@ public class TreeSet<T> extends Some<T> implements Tree<T> {
     public Tree<T> appendChild(final String label, final T child) {
         final Tree<T> childNode = new TreeSet<>(label, child, this);
 
-        Object[] rawChildren = Iterator.concat(this.children.iterator(), Iterator.<Tree<T>>of(childNode))
+        Object[] rawChildren = Iterator.concat(this.children.iterator(), API.<Tree<T>>Iterator(childNode))
                                        .toNativeArray();
 
         this.children = new NodeCollectionImpl<>(rawChildren);

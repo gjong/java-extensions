@@ -33,6 +33,7 @@ import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Sequence;
+import com.jongsoft.lang.collection.tuple.Pair;
 import com.jongsoft.lang.collection.tuple.Tuple;
 
 /**
@@ -43,9 +44,9 @@ import com.jongsoft.lang.collection.tuple.Tuple;
  */
 public class HashMap<K, T> implements Map<K, T> {
 
-    private Sequence<Tuple.Pair<K, T>> delegate;
+    private Sequence<Pair<K, T>> delegate;
 
-    public HashMap(Sequence<Tuple.Pair<K, T>> delegate) {
+    public HashMap(Sequence<Pair<K, T>> delegate) {
         this.delegate = delegate;
     }
 
@@ -53,13 +54,13 @@ public class HashMap<K, T> implements Map<K, T> {
     public Map<K, T> put(final K key, final T value) {
         Objects.requireNonNull(key, "A null value is not allowed for the key in a map");
 
-        Sequence<Tuple.Pair<K, T>> afterRemove = delegate;
+        Sequence<Pair<K, T>> afterRemove = delegate;
         int existingEntry = delegate.firstIndexWhere(e -> Objects.equals(e.getFirst(), key));
         if (existingEntry > -1) {
             afterRemove = delegate.remove(existingEntry);
         }
 
-        return new HashMap<>(afterRemove.append(Tuple.Pair.of(key, value)));
+        return new HashMap<>(afterRemove.append(Pair.of(key, value)));
     }
 
     @Override
@@ -97,7 +98,7 @@ public class HashMap<K, T> implements Map<K, T> {
     }
 
     @Override
-    public Tuple.Pair<K, T> head() {
+    public Pair<K, T> head() {
         return delegate.head();
     }
 
@@ -107,28 +108,28 @@ public class HashMap<K, T> implements Map<K, T> {
     }
 
     @Override
-    public Map<K, T> filter(final Predicate<Tuple.Pair<K, T>> predicate) {
+    public Map<K, T> filter(final Predicate<Pair<K, T>> predicate) {
         return new HashMap<>(delegate.filter(predicate));
     }
 
     @Override
-    public <U> Collection<U> map(final Function<Tuple.Pair<K, T>, U> mapper) {
+    public <U> Collection<U> map(final Function<Pair<K, T>, U> mapper) {
         return delegate.map(mapper);
     }
 
     @Override
-    public Stream<Tuple.Pair<K, T>> stream() {
+    public Stream<Pair<K, T>> stream() {
         return delegate.stream();
     }
 
     @Override
     public Stream<T> valueStream() {
         return delegate.stream()
-                .map(Tuple.Pair::getSecond);
+                .map(Pair::getSecond);
     }
 
     @Override
-    public Iterator<Tuple.Pair<K, T>> iterator() {
+    public Iterator<Pair<K, T>> iterator() {
         return delegate.iterator();
     }
 
@@ -138,7 +139,7 @@ public class HashMap<K, T> implements Map<K, T> {
     }
 
     @Override
-    public <U> U foldRight(final U start, final BiFunction<? super Tuple.Pair<K, T>, ? super U, ? extends U> combiner) {
+    public <U> U foldRight(final U start, final BiFunction<? super Pair<K, T>, ? super U, ? extends U> combiner) {
         throw new IllegalStateException("not yet implemented");
     }
 

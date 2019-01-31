@@ -32,6 +32,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Sequence;
@@ -269,7 +270,7 @@ public class TailedList<T> implements Sequence<T> {
      */
     @SafeVarargs
     public static <T> Sequence<T> of(T...elements) {
-        return ofAll(Iterator.of(elements));
+        return ofAll(API.Iterator(elements));
     }
 
     /**

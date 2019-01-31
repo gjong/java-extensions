@@ -82,7 +82,7 @@ public class Array<T> implements Sequence<T> {
     @Override
     @SuppressWarnings("unchecked")
     public Iterator<T> iterator() {
-        return Iterator.of((T[]) delegate);
+        return API.Iterator((T[]) delegate);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     public Sequence<T> union(final Iterable<T> iterable) {
-        Object[] toBeAdded = Iterator.of(iterable).toNativeArray();
+        Object[] toBeAdded = API.Iterator(iterable).toNativeArray();
         Object[] newDelegate = new Object[delegate.length + toBeAdded.length];
         System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
         System.arraycopy(toBeAdded, 0, newDelegate, delegate.length, toBeAdded.length);

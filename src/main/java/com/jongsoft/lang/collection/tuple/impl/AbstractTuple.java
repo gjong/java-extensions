@@ -21,22 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.jongsoft.lang.collection.tuple;
+package com.jongsoft.lang.collection.tuple.impl;
 
-public class QuadrupletImpl<X, Y, Z, D> extends TripletImpl<X, Y, Z> implements Tuple.Quadruplet<X, Y, Z, D> {
+import com.jongsoft.lang.API;
+import com.jongsoft.lang.collection.Sequence;
+import com.jongsoft.lang.collection.tuple.Tuple;
 
-    public QuadrupletImpl(Object... elements) {
-        super(elements);
+public class AbstractTuple implements Tuple {
+
+    private Sequence elements;
+
+    AbstractTuple(Object...elements) {
+        this.elements = API.List(elements);
+    }
+
+    Object element(int index) {
+        return elements.get(index);
     }
 
     @Override
-    public D getFourth() {
-        return (D) super.element(3);
-    }
-
-    @Override
-    public String toString() {
-        return "Quadruplet(" + getFirst() + ", " + getSecond() + ", " + getThird() + ", " + getFourth() + ")";
+    public Sequence toList() {
+        return elements;
     }
 
 }

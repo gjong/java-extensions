@@ -41,7 +41,7 @@ import com.jongsoft.lang.control.Optional;
  * @param <T>   the type contained in the iterator
  * @since 0.0.3
  */
-public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T> {
+public interface Iterator<T> extends java.util.Iterator<T>, Traversable<T> {
 
     /**
      * This operation is a convenience method for the {@link #next()}.
@@ -68,8 +68,8 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
     void reset();
 
     @Override
-    default java.util.Iterator<T> iterator() {
-        return Iterator.of((T[])this.toNativeArray());
+    default Iterator<T> iterator() {
+        return API.Iterator((T[])this.toNativeArray());
     }
 
     @Override
@@ -95,17 +95,10 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
             };
         }
 
-        return empty();
+        return API.Iterator();
     }
 
-    /**
-     * Find the last match in the Iterator using the provided {@link Predicate}.
-     * Note that his is a destructive operation which moves the cursor forward to the end.
-     *
-     * @param predicate the predicate to use
-     * @return          the last match found
-     * @throws NullPointerException in case that the predicate is null
-     */
+    @Override
     default Optional<T> last(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "The predicate may not be null");
 
@@ -120,14 +113,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
         return API.Option(lastMatch);
     }
 
-    /**
-     * Find the first match in the Iterator using the provided {@link Predicate}.
-     * Note that this is a destructive operation which moves the cursor in the iterator forward until the first match is found.
-     *
-     * @param predicate the predicate to use
-     * @return          the first match found
-     * @throws NullPointerException in case that the predicate is null
-     */
+    @Override
     default Optional<T> first(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "The predicate may not be null");
 
@@ -184,91 +170,6 @@ public interface Iterator<T> extends java.util.Iterator<T>, Value<T>, Foldable<T
 
     //------------------------------------------------------------------
     //-- Static supporting methods
-
-    /**
-     * Create an empty Iterator.
-     *
-     * @param <T>   the entity type
-     * @return      a new empty iterator
-     */
-    static <T> Iterator<T> empty() {
-        return new AbstractIterator<T>() {
-
-            @Override
-            public void reset() {
-                // do nothing, an empty iterator cannot reset
-            }
-
-            @Override
-            protected T getNext() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-        };
-    }
-
-    /**
-     * Creates a Iterator that contains all the provided elements.
-     *
-     * @param elements  the elements to wrap in an iterator
-     * @param <T>       the type of the elements
-     * @return          the new iterator
-     */
-    @SafeVarargs
-    static <T> Iterator<T> of(final T...elements) {
-        return new AbstractIterator<>() {
-            private int index = 0;
-
-            @Override
-            public void reset() {
-                index = 0;
-            }
-
-            @Override
-            protected T getNext() {
-                return elements[index++];
-            }
-
-            @Override
-            public boolean hasNext() {
-                return index < elements.length;
-            }
-        };
-    }
-
-    /**
-     * Create a new Iterator wrapping the provided iterable.
-     *
-     * @param iterable  the iterable to wrap
-     * @param <T>       the type of elements in the iterable
-     * @return the iterator wrapping the iterable
-     * @throws NullPointerException if {@code iterable} is null
-     */
-    static <T> Iterator<T> of(final Iterable<T> iterable) {
-        Objects.requireNonNull(iterable, "iterable is null");
-        return new AbstractIterator<>() {
-            java.util.Iterator<T> original = iterable.iterator();
-
-            @Override
-            public boolean hasNext() {
-                return original.hasNext();
-            }
-
-            @Override
-            public void reset() {
-                original = iterable.iterator();
-            }
-
-            @Override
-            protected T getNext() {
-                return original.next();
-            }
-        };
-    }
 
     /**
      * Combine multiple iterator instances into one big iterator.

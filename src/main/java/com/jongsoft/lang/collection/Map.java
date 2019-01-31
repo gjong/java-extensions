@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import com.jongsoft.lang.collection.tuple.Pair;
 import com.jongsoft.lang.collection.tuple.Tuple;
 
 /**
@@ -37,7 +38,7 @@ import com.jongsoft.lang.collection.tuple.Tuple;
  * @param <T>   the type for the values
  * @since 0.0.3
  */
-public interface Map<K, T> extends Collection<Tuple.Pair<K, T>> {
+public interface Map<K, T> extends Collection<Pair<K, T>> {
 
     /**
      * Add a new entry to the {@link Map}.
@@ -96,10 +97,10 @@ public interface Map<K, T> extends Collection<Tuple.Pair<K, T>> {
     Stream<T> valueStream();
 
     @Override
-    Map<K, T> filter(Predicate<Tuple.Pair<K, T>> predicate);
+    Map<K, T> filter(Predicate<Pair<K, T>> predicate);
 
     @Override
-    default Map<K, T> reject(Predicate<Tuple.Pair<K, T>> predicate) {
+    default Map<K, T> reject(Predicate<Pair<K, T>> predicate) {
         Objects.requireNonNull(predicate, "predicate is null");
         return filter(predicate.negate());
     }

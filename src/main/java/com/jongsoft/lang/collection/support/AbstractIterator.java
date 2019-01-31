@@ -28,6 +28,7 @@ import java.util.function.Predicate;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.Traversable;
 
 /**
  * Provides a common implementation for the {@link Iterator} implementing the following calls as a common:
@@ -56,6 +57,11 @@ public abstract class AbstractIterator<T> implements Iterator<T> {
         return API.List(this)
                   .filter(predicate)
                   .iterator();
+    }
+
+    @Override
+    public Traversable<T> reject(Predicate<T> predicate) {
+        return filter(predicate.negate());
     }
 
     @Override

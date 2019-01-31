@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.jongsoft.lang.collection.tuple.Pair;
 import org.junit.Test;
 
 import com.jongsoft.lang.API;
@@ -88,7 +89,7 @@ public class HashMapTest {
 
     @Test
     public void stream() {
-        List<Tuple.Pair<String, String>> collected = API.<String, String>Map()
+        List<Pair<String, String>> collected = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .stream()
@@ -118,7 +119,7 @@ public class HashMapTest {
         Collection<String> collected = API.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
-                .map(Tuple.Pair::getSecond);
+                .map(Pair::getSecond);
 
         assertThat(collected.size(), equalTo(2));
         assertThat(collected, hasItems("two", "three"));
@@ -148,7 +149,7 @@ public class HashMapTest {
 
     @Test
     public void iterator() {
-        Iterator<Tuple.Pair<String, String>> stringIt = API.Map("one", "two")
+        Iterator<Pair<String, String>> stringIt = API.Map("one", "two")
                 .put("two", "three")
                 .iterator();
 
