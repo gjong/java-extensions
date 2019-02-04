@@ -23,17 +23,17 @@
  */
 package com.jongsoft.lang.collection;
 
-import java.util.Objects;
-
-import com.jongsoft.lang.Value;
 import com.jongsoft.lang.control.Optional;
+
+import java.util.Objects;
+import java.util.function.Function;
 
 /**
  *
  * @param <T> the entity type contained in the tree
  * @since 0.0.5
  */
-public interface Tree<T> extends Value<T> {
+public interface Tree<T> extends Traversable<T> {
 
     /**
      * The node collection is a set of tree elements each containing exactly one value.
@@ -92,5 +92,7 @@ public interface Tree<T> extends Value<T> {
     default Optional<Tree<T>> getChild(String label) {
         return children().first(c -> Objects.equals(c.label(), label));
     }
+
+    <U> Tree<U> map(Function<T, U> mapper);
 
 }
