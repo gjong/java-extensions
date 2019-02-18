@@ -86,8 +86,16 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
       - run:
+          name: Setup the PGP key
+          command: |
+            openssl aes-256-cbc -pass pass:$openSslPwd -md md5 -in private-key.gpg.enc -out signing-key -d
+            gpg --batch --import signing-key
+            shred signing-key
+      - run:
           name: Performing a dry run release
-          command: mvn -B release:prepare -DdryRun=true -P release-profile -s settings.xml
+          command: |
+            GPG_TTY=$(tty)
+            mvn -B release:prepare -DdryRun=true -P release-profile,sonar -s settings.xml -Dsonar.login=$sonarKey
 
   release:
     executor: docker-builder
