@@ -4,13 +4,14 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Sequence;
 
 public class TupleTest {
 
     @Test
     public void pairInts() {
-        Pair<Integer, Integer> pair = Pair.of(1, 3);
+        Pair<Integer, Integer> pair = API.Tuple(1, 3);
         final Sequence actual = pair.toList();
 
         assertThat(pair.getFirst(), equalTo(1));
@@ -21,7 +22,7 @@ public class TupleTest {
 
     @Test
     public void pairMixed() {
-        Pair<Integer, String> pair = Pair.of(1, "test");
+        Pair<Integer, String> pair = API.Tuple(1, "test");
 
         assertThat(pair.getFirst(), equalTo(1));
         assertThat(pair.getSecond(), equalTo("test"));
@@ -30,7 +31,7 @@ public class TupleTest {
 
     @Test
     public void triplet() {
-        Triplet<String, Float, Integer> triplet = Triplet.of("test", 2.3f, 5);
+        Triplet<String, Float, Integer> triplet = API.Tuple("test", 2.3f, 5);
 
         assertThat(triplet.getFirst(), equalTo("test"));
         assertThat(triplet.getSecond(), equalTo(2.3f));
@@ -40,7 +41,7 @@ public class TupleTest {
 
     @Test
     public void quadruplet() {
-        Quadruplet<Float, Integer, String, String> of = Quadruplet.of(1f, 2, "test", "cat");
+        Quadruplet<Float, Integer, String, String> of = API.Tuple(1f, 2, "test", "cat");
 
         assertThat(of.getFirst(), equalTo(1f));
         assertThat(of.getSecond(), equalTo(2));

@@ -1,10 +1,10 @@
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.Value;
-import com.jongsoft.lang.control.Optional;
-
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import com.jongsoft.lang.Value;
+import com.jongsoft.lang.control.Optional;
 
 public interface Traversable<T> extends Value<T>, Foldable<T> {
 

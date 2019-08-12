@@ -28,7 +28,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.jongsoft.lang.Value;
 import com.jongsoft.lang.control.Optional;
 
 /**
@@ -106,6 +105,18 @@ public interface Collection<T> extends Traversable<T> {
     default int count(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "predicate is null");
         return foldLeft(0, (count, element) -> predicate.test(element) ? count + 1 : count);
+    }
+
+    /**
+     * Sum all elements using the provided accumulator. This reduces the Collection to a single numbered value.
+     *
+     * @param accumulator the accumulator to be used
+     * @return            the resulting value
+     * @throws NullPointerException in case {@code accumulator} is null
+     */
+    default long summing(BiFunction<Long, T, Long> accumulator) {
+        Objects.requireNonNull(accumulator, "accumulator is null");
+        return foldLeft(0L, accumulator);
     }
 
     @Override

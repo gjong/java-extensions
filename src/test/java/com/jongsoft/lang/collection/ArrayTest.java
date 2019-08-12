@@ -231,6 +231,13 @@ public class ArrayTest {
     }
 
     @Test
+    public void summing() {
+        long total = API.List(1, 2, 3, 4)
+                .summing(Long::sum);
+        assertThat(total, equalTo(10L));
+    }
+
+    @Test
     public void fold() {
         assertThat(API.List("t", "e", "s", "t").fold("!", (x, y) -> x + y), equalTo("!test"));
         assertThat(API.List("t", "e", "s", "t").foldLeft("!", (x, y) -> x + y), equalTo("!test"));

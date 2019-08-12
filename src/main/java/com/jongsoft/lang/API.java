@@ -39,6 +39,12 @@ import com.jongsoft.lang.collection.impl.HashSet;
 import com.jongsoft.lang.collection.impl.SortedSet;
 import com.jongsoft.lang.collection.impl.TreeSet;
 import com.jongsoft.lang.collection.support.AbstractIterator;
+import com.jongsoft.lang.collection.tuple.Pair;
+import com.jongsoft.lang.collection.tuple.Quadruplet;
+import com.jongsoft.lang.collection.tuple.Triplet;
+import com.jongsoft.lang.collection.tuple.impl.PairImpl;
+import com.jongsoft.lang.collection.tuple.impl.QuadrupletImpl;
+import com.jongsoft.lang.collection.tuple.impl.TripletImpl;
 import com.jongsoft.lang.control.CheckedRunner;
 import com.jongsoft.lang.control.CheckedSupplier;
 import com.jongsoft.lang.control.Optional;
@@ -130,6 +136,51 @@ public final class API {
 
     public static <T> Tree<T> Tree(String label, T value, Iterable<Tree<T>> children) {
         return new TreeSet<>(label, value, children);
+    }
+
+    /**
+     * Create a new tuple containing 2 elements.
+     *
+     * @param first     the first element of the pair
+     * @param second    the second element of the pair
+     * @param <X>       the first element type
+     * @param <Y>       the second element type
+     * @return          the created tuple
+     */
+    public static <X, Y> Pair<X, Y> Tuple(X first, Y second) {
+        return new PairImpl<>(first, second);
+    }
+
+    /**
+     * Create a new tuple containing 3 elements.
+     *
+     * @param first     the first element of the tuple
+     * @param second    the second element of the tuple
+     * @param third     the third element of the tuple
+     * @param <X>       the first element type
+     * @param <Y>       the second element type
+     * @param <Z>       the third element type
+     * @return          the created tuple
+     */
+    public static <X, Y, Z> Triplet<X, Y, Z> Tuple(X first, Y second, Z third) {
+        return new TripletImpl<>(first, second, third);
+    }
+
+    /**
+     * Create a new tuple containing 4 elements.
+     *
+     * @param first     the first element of the tuple
+     * @param second    the second element of the tuple
+     * @param third     the third element of the tuple
+     * @param fourth    the fourth element of the tuple
+     * @param <X>       the first element type
+     * @param <Y>       the second element type
+     * @param <Z>       the third element type
+     * @param <D>       the fourth element type
+     * @return          the created tuple
+     */
+    public static <X, Y, Z, D> Quadruplet<X, Y, Z, D> Tuple(X first, Y second, Z third, D fourth) {
+        return new QuadrupletImpl<>(first, second, third, fourth);
     }
 
     /**

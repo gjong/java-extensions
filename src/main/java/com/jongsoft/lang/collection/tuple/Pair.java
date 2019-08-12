@@ -1,14 +1,19 @@
 package com.jongsoft.lang.collection.tuple;
 
-import com.jongsoft.lang.collection.tuple.impl.PairImpl;
-
 public interface Pair<X, Y> extends Tuple {
 
+    /**
+     * Get the first element from the tuple.
+     *
+     * @return the element
+     */
     X getFirst();
 
+    /**
+     * Get the second element from the tuple.
+     *
+     * @return the element
+     */
     Y getSecond();
 
-    static <X, Y> Pair<X, Y> of(X left, Y right) {
-        return new PairImpl<>(left, right);
-    }
 }
