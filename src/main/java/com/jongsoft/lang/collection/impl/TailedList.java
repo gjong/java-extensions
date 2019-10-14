@@ -36,6 +36,7 @@ import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Sequence;
+import com.jongsoft.lang.collection.Set;
 import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.collection.support.Collections;
 
@@ -146,7 +147,7 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public Sequence<T> distinct() {
+    public Set<T> distinct() {
         return null;
     }
 

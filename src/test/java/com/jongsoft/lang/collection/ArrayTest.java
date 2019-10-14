@@ -176,7 +176,7 @@ public class ArrayTest {
 
     @Test
     public void distinct() {
-        Sequence<Integer> numbers = API.List(1, 2, 3, 1, 4, 2, 5)
+        Set<Integer> numbers = API.List(1, 2, 3, 1, 4, 2, 5)
            .distinct();
 
         assertThat(numbers.size(), equalTo(5));

@@ -36,6 +36,7 @@ import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Sequence;
+import com.jongsoft.lang.collection.Set;
 import com.jongsoft.lang.collection.support.Collections;
 
 /**
@@ -87,21 +88,13 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     public Sequence<T> filter(Predicate<T> predicate) {
-        return stream()
-                .filter(predicate)
-                .collect(collector());
+        return Collections.filter(API.List(), this, predicate);
     }
 
     @Override
-    public Sequence<T> distinct() {
-        Sequence<T> result = new Array<>(new Object[0]);
-        for (T element : this) {
-            if (!result.contains(element)) {
-                result = result.append(element);
-            }
-        }
-
-        return result;
+    @SuppressWarnings("unchecked")
+    public Set<T> distinct() {
+        return API.Set((T[]) delegate);
     }
 
     @Override

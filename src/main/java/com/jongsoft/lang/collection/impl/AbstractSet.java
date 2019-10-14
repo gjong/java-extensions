@@ -105,9 +105,7 @@ abstract class AbstractSet<T> implements Set<T> {
 
     @Override
     public Set<T> filter(final Predicate<T> predicate) {
-        return stream()
-                .filter(predicate)
-                .collect(collector());
+        return Collections.filter(this.<T>emptySupplier().get(), this, predicate);
     }
 
     @Override
@@ -146,7 +144,7 @@ abstract class AbstractSet<T> implements Set<T> {
 
     @Override
     public Set<T> union(final Iterable<T> iterable) {
-        return setTheory(this, iterable, Predicate.not(this::contains));
+        return Collections.<T, Set<T>>filter(this, iterable, Predicate.not(this::contains));
     }
 
     @Override
@@ -160,7 +158,7 @@ abstract class AbstractSet<T> implements Set<T> {
                 .map(API::Set)
                 .foldLeft(x -> true, (x, xs) -> x.and(xs::contains));
 
-        return setTheory(this.<T>emptySupplier().get(), this, operation);
+        return Collections.filter(this.<T>emptySupplier().get(), this, operation);
     }
 
     @Override
@@ -174,7 +172,7 @@ abstract class AbstractSet<T> implements Set<T> {
                 .map(API::Set)
                 .foldLeft(x -> true, (x, xs) -> x.and(Predicate.not(xs::contains)));
 
-        return setTheory(this.<T>emptySupplier().get(), this, operation);
+        return Collections.filter(this.<T>emptySupplier().get(), this, operation);
     }
 
     @Override
@@ -186,19 +184,6 @@ abstract class AbstractSet<T> implements Set<T> {
         if (index >= delegate.length || index < 0) {
             throw new IndexOutOfBoundsException(format("%s is not in the bounds of 0 and %s", index, delegate.length));
         }
-    }
-
-    private Set<T> setTheory(Set<T> seed, Iterable<T> iterable, Predicate<T> theoryRule) {
-        Set<T> result = seed;
-
-        for (T element : iterable) {
-            if (theoryRule.test(element)) {
-                result = result.append(element);
-            }
-        }
-
-        return result;
-
     }
 
     protected abstract <X> Supplier<Set<X>> emptySupplier();

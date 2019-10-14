@@ -155,7 +155,7 @@ public interface Sequence<T> extends List<T> {
      *
      * @return  a new unique sequence
      */
-    Sequence<T> distinct();
+    Set<T> distinct();
 
     @Override
     <U> Sequence<U> map(Function<T, U> mapper);

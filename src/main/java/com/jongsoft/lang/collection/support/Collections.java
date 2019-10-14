@@ -27,11 +27,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Collection;
+import com.jongsoft.lang.collection.List;
 import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Sequence;
 
@@ -63,6 +65,19 @@ public final class Collections {
         };
 
         return Collector.of(ArrayList::new, ArrayList::add, combiner, finisher::apply);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T, K extends List<T>> K filter(K seed, Iterable<T> source, Predicate<T> filter) {
+        K result = seed;
+
+        for (T element : source) {
+            if (filter.test(element)) {
+                result = (K) result.append(element);
+            }
+        }
+
+        return result;
     }
 
     public static <T> String textValueOf(String type, Collection<T> collection) {
