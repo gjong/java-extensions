@@ -30,7 +30,7 @@ import com.jongsoft.lang.API;
 import com.jongsoft.lang.control.Try;
 import com.jongsoft.lang.exception.NonFatalException;
 
-public class TryFailure<T> extends None<T> implements Try<T> {
+public class TryFailure<T> implements Try<T> {
 
     private final NonFatalException cause;
 

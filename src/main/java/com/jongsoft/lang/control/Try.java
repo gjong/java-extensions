@@ -24,7 +24,6 @@
 package com.jongsoft.lang.control;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.jongsoft.lang.control.impl.TryFailure;
@@ -52,7 +51,17 @@ import com.jongsoft.lang.control.impl.TrySuccess;
  * @param <T>   the type of entity contained
  * @since 0.0.2
  */
-public interface Try<T> extends Optional<T> {
+public interface Try<T> {
+
+    /**
+     * Get the value contained in the try.
+     *
+     * This method will throw an exception in case the try failed somewhere in the chain. Use
+     * {@link #isFailure()} to detect if a failure occurred.
+     *
+     * @return the value contained
+     */
+    T get();
 
     /**
      * Indicates if the try operation resulted in an exception
@@ -99,32 +108,6 @@ public interface Try<T> extends Optional<T> {
     <X extends Throwable> Try<T> recover(Function<X, T> recoverMethod);
 
     /**
-     * Convenience method for checked consumer call.
-     * 
-     * @param consumer the consumer function to apply
-     * @see #andTry(CheckedConsumer)
-     * @return a {@link Try} with {@link #isSuccess()} is true in case of no issues, otherwise a {@link Try} with
-     *         {@link #isFailure()} is true.
-     */
-    default Try<T> and(Consumer<T> consumer) {
-        Objects.requireNonNull(consumer, "Consumer cannot be null");
-        return andTry(consumer::accept);
-    }
-
-    /**
-     * Execute the runnable with a try and catch around it. This is a convenience operation for {@link #andTry(CheckedRunner)}.
-     *
-     * @see #andTry(CheckedRunner)
-     * @param runner the runner to execute
-     * @return a {@link Try} with {@link #isSuccess()} is true in case of no issues, otherwise a {@link Try} with
-     *         {@link #isFailure()} is true.
-     */
-    default Try<T> and(Runnable runner) {
-        Objects.requireNonNull(runner, "Runner cannot be null");
-        return andTry(runner::run);
-    }
-
-    /**
      * Passes then entity contained within the {@link #get()} if the try has a success. Otherwise it will not call the
      * consumer and return the try containing the failure.
      * <p>
@@ -141,7 +124,7 @@ public interface Try<T> extends Optional<T> {
      *
      * @throws NullPointerException in case the {@code consumer} is null
      */
-    default Try<T> andTry(CheckedConsumer<? super T> consumer) {
+    default Try<T> consume(CheckedConsumer<? super T> consumer) {
         Objects.requireNonNull(consumer, "Consumer cannot be null");
         if (!isFailure()) {
             try {
@@ -174,7 +157,7 @@ public interface Try<T> extends Optional<T> {
      *
      * @throws NullPointerException in case the <code>runner</code> is null
      */
-    default Try<T> andTry(CheckedRunner runner) {
+    default Try<T> run(CheckedRunner runner) {
         Objects.requireNonNull(runner, "Runner cannot be null");
         if (!isFailure()) {
             try {

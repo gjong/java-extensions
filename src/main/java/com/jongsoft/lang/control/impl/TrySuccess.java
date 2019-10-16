@@ -27,10 +27,12 @@ import java.util.function.Function;
 
 import com.jongsoft.lang.control.Try;
 
-public class TrySuccess<T> extends Some<T> implements Try<T> {
+public class TrySuccess<T> implements Try<T> {
+
+    private final T value;
 
     public TrySuccess(T value) {
-        super(value);
+        this.value = value;
     }
 
     @Override
@@ -41,6 +43,11 @@ public class TrySuccess<T> extends Some<T> implements Try<T> {
     @Override
     public boolean isSuccess() {
         return true;
+    }
+
+    @Override
+    public T get() {
+        return value;
     }
 
     @Override

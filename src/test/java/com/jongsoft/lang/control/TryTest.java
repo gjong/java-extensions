@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import static org.junit.rules.ExpectedException.*;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +30,7 @@ public class TryTest {
     public void trySupplyAndConsume() {
         StringBuilder response = new StringBuilder();
         Try<String> test = API.Try(() -> "test")
-                .and(response::append);
+                .consume(response::append);
 
         assertThat(response.toString(), equalTo("test"));
         assertThat(test.isSuccess(), equalTo(true));
@@ -41,7 +40,7 @@ public class TryTest {
     @Test
     public void trySupplyAndConsumeException() {
         Try<String> result = API.Try(() -> "test")
-                .and(tst -> {
+                .consume(tst -> {
                     throw new UnsupportedOperationException("big boobo");
                 });
 
@@ -53,7 +52,7 @@ public class TryTest {
     @Test
     public void trySupplyAndConsumeExceptionRecover() {
         Try<String> result = API.Try(() -> "test")
-                .and(tst -> {
+                .consume(tst -> {
                     throw new UnsupportedOperationException("big boobo");
                 })
                 .recover(x -> "auto");
@@ -67,9 +66,9 @@ public class TryTest {
     public void trySupplyAndConsumeNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("Consumer cannot be null");
-        Consumer<String> c = null;
+        CheckedConsumer<String> c = null;
         API.Try(() -> "test")
-                .and(c);
+                .consume(c);
     }
 
     @Test
@@ -113,9 +112,7 @@ public class TryTest {
         StringBuilder response = new StringBuilder();
         Try<Void> test = API.Try(() -> {
             response.append("test");
-        }).and(d -> {
-            assertThat(d, is(nullValue()));
-        });
+        }).consume(d -> assertThat(d, is(nullValue())));
 
         assertThat(response.toString(), equalTo("test"));
         assertThat(test.isSuccess(), equalTo(true));
@@ -126,13 +123,13 @@ public class TryTest {
     public void tryRunAndRun() {
         StringBuilder response = new StringBuilder();
         Try<Void> test = API.Try(() -> {
-            response.append("test");
-        }).and(() -> {
-            response.append(" two");
-        }).recover(th -> {
-            response.append("recovered");
-            return null;
-        });
+                response.append("test");
+            })
+            .run(() -> response.append(" two"))
+            .recover(th -> {
+                response.append("recovered");
+                return null;
+            });
 
         assertThat(response.toString(), equalTo("test two"));
         assertThat(test.isSuccess(), equalTo(true));
@@ -144,7 +141,7 @@ public class TryTest {
         StringBuilder response = new StringBuilder();
         Try<Void> test = API.Try(() -> {
             response.append("test");
-        }).and(() -> {
+        }).run(() -> {
             throw new UnsupportedOperationException("Is good");
         });
 
@@ -160,7 +157,7 @@ public class TryTest {
         StringBuilder response = new StringBuilder();
         Try<Void> test = API.Try(() -> {
             response.append("test");
-        }).and(d -> {
+        }).consume(d -> {
             Objects.requireNonNull(d, "Was null");
         });
 
@@ -195,9 +192,9 @@ public class TryTest {
     @Test
     public void tryMapException() {
         final Try<Integer> mapped = API.Try(() -> "My string")
-                                       .map(string -> {
-                                           throw new UnsupportedOperationException("Not implemented");
-                                       });
+               .map(string -> {
+                   throw new UnsupportedOperationException("Not implemented");
+               });
 
         assertThat(mapped.isFailure(), equalTo(true));
         assertThat(mapped.getCause(), instanceOf(UnsupportedOperationException.class));

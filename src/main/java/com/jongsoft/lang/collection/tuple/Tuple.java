@@ -24,7 +24,6 @@
 package com.jongsoft.lang.collection.tuple;
 
 import com.jongsoft.lang.collection.Sequence;
-import com.jongsoft.lang.collection.tuple.impl.QuadrupletImpl;
 
 public interface Tuple {
 
