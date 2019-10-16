@@ -32,7 +32,6 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
-import com.jongsoft.lang.control.OrElse;
 import com.jongsoft.lang.control.Optional;
 
 public class Some<T> implements Optional<T> {

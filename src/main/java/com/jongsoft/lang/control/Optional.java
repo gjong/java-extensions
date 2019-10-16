@@ -145,5 +145,40 @@ public interface Optional<T> extends Value<T> {
      * @throws NullPointerException in case the exceptionSupplier was null
      */
     <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) throws X;
-    
+
+    /**
+     * The OrElse interface is an extension to the {@link com.jongsoft.lang.control.Optional} interface. This interface can be used to cascade behaviour
+     * when an entity is or is not present in the wrapper.
+     * <p>
+     *     For example if the {@link com.jongsoft.lang.control.Optional} has no entity contained within then the OrElse can be used to throw an exception
+     *     or run alternative logic.
+     * </p>
+     * <p></p>
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  API.Option(null)
+     *      .ifPresent(System.out::println)
+     *      .elseThrow(() -> new NullPointerException("No value present"))
+     * }</pre>
+     *
+     * @since 0.0.1
+     */
+    interface OrElse {
+        /**
+         * This operation will run when the precondition of this OrElse is not met.
+         *
+         * @param runner    the code to be run when the else is running
+         */
+        default void elseRun(Runnable runner) {}
+
+        /**
+         * This operation will create an exception using the provided {@link Supplier} and throw it.
+         *
+         * @param exceptionSupplier the supplier to create the exception
+         * @param <X>               the type of exception
+         * @throws X                the exception in case of an OrElse run
+         */
+        default <X extends Throwable> void elseThrow(Supplier<X> exceptionSupplier) throws X {}
+
+    }
+
 }

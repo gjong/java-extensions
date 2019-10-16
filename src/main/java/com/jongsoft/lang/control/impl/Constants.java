@@ -25,7 +25,7 @@ package com.jongsoft.lang.control.impl;
 
 import java.util.function.Supplier;
 
-import com.jongsoft.lang.control.OrElse;
+import com.jongsoft.lang.control.Optional.OrElse;
 
 /**
  * This class contains utility methods and static classes to support the interfaces in this package.
