@@ -33,11 +33,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.Iterator;
-import com.jongsoft.lang.collection.Map;
-import com.jongsoft.lang.collection.Sequence;
-import com.jongsoft.lang.collection.Set;
+import com.jongsoft.lang.collection.*;
 import com.jongsoft.lang.collection.support.Collections;
+import com.jongsoft.lang.collection.support.PipeCommand;
 
 /**
  * The {@link Array} implementation of the {@link Sequence} interface provides access to an immutable collection of elements.
@@ -108,6 +106,11 @@ public class Array<T> implements Sequence<T> {
         }
 
         return new Array<>(mapped);
+    }
+
+    @Override
+    public Pipeline<T> pipeline() {
+        return new PipeCommand<>(this);
     }
 
     @Override

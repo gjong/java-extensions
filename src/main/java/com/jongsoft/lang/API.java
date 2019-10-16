@@ -45,14 +45,8 @@ import com.jongsoft.lang.collection.tuple.Triplet;
 import com.jongsoft.lang.collection.tuple.impl.PairImpl;
 import com.jongsoft.lang.collection.tuple.impl.QuadrupletImpl;
 import com.jongsoft.lang.collection.tuple.impl.TripletImpl;
-import com.jongsoft.lang.control.CheckedRunner;
-import com.jongsoft.lang.control.CheckedSupplier;
-import com.jongsoft.lang.control.Optional;
-import com.jongsoft.lang.control.Try;
-import com.jongsoft.lang.control.impl.None;
-import com.jongsoft.lang.control.impl.Some;
-import com.jongsoft.lang.control.impl.TryFailure;
-import com.jongsoft.lang.control.impl.TrySuccess;
+import com.jongsoft.lang.control.*;
+import com.jongsoft.lang.control.impl.*;
 
 /**
  * The API class allows access to the libraries interfaces and control structures.
@@ -68,6 +62,10 @@ public final class API {
 
     private API() {
         // hidden constructor for utility class
+    }
+
+    public static <T, X> Equal Equal(T left, X right) {
+        return EqualHelper.IS_EQUAL.append(left, right);
     }
 
     /**

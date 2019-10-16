@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="671.0">com.jongsoft.lang.control.CheckedFunction</node>
+    <node x="293.0" y="0.0">com.jongsoft.lang.control.Try</node>
+    <node x="0.0" y="0.0">com.jongsoft.lang.Streamable</node>
+    <node x="196.0" y="671.0">com.jongsoft.lang.control.CheckedSupplier</node>
+    <node x="392.0" y="671.0">com.jongsoft.lang.control.CheckedConsumer</node>
+    <node x="3.5" y="144.0">com.jongsoft.lang.Value</node>
+    <node x="6.5" y="377.0">com.jongsoft.lang.control.Optional</node>
+    <node x="588.0" y="671.0">com.jongsoft.lang.control.CheckedRunner</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.jongsoft.lang.Value" target="com.jongsoft.lang.Streamable">
+      <point x="0.0" y="-91.5" />
+      <point x="0.0" y="47.0" />
+    </edge>
+    <edge source="com.jongsoft.lang.control.Optional" target="com.jongsoft.lang.Value">
+      <point x="0.0" y="-124.5" />
+      <point x="0.0" y="91.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="608.0" y="471.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

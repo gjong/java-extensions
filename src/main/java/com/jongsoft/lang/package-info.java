@@ -7,7 +7,7 @@
  *         <tr><td>Interface</td><td>Description</td></tr>
  *     </thead>
  *     <tbody>
- *         <tr><td>{@linkplain com.jongsoft.lang.Value}</td><td>A wrapper interface for any element</td></tr>
+ *         <tr><td>{@linkplain com.jongsoft.lang.Value}</td><td>A wrapper interface that can contain any number of elements</td></tr>
  *     </tbody>
  * </table>
  *

@@ -83,4 +83,13 @@ public interface List<T> extends Collection<T> {
      * @return  index of the found element, -1 if none found
      */
     int firstIndexWhere(Predicate<T> predicate);
+
+    /**
+     * Create a pipeline for the current list. A pipeline can be used to create a set of lazy operations on the list
+     * that will only get executed once the pipe is terminated.
+     *
+     * @return the pipeline for this list
+     */
+    Pipeline<T> pipeline();
+
 }

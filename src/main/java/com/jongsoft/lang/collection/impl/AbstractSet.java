@@ -35,8 +35,10 @@ import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.Pipeline;
 import com.jongsoft.lang.collection.Set;
 import com.jongsoft.lang.collection.support.Collections;
+import com.jongsoft.lang.collection.support.PipeCommand;
 
 abstract class AbstractSet<T> implements Set<T> {
 
@@ -119,6 +121,11 @@ abstract class AbstractSet<T> implements Set<T> {
         }
 
         return mappedSet;
+    }
+
+    @Override
+    public Pipeline<T> pipeline() {
+        return new PipeCommand<>(this);
     }
 
     @Override

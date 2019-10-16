@@ -165,7 +165,7 @@ public interface Sequence<T> extends List<T> {
      * Calling this operation will create a new map grouping the elements by the generator provided.
      * <p><strong>Example:</strong></p>
      * <pre>{@code  // This will result in Map(1 -> List(1, 11, 21), 2 -> List(2, 12, 22))
-     *   List(1, 2, 11, 12, 21, 22)
+     *   Sequence(1, 2, 11, 12, 21, 22)
      *      .groupBy(x -> x % 10);
      * }</pre>
      *

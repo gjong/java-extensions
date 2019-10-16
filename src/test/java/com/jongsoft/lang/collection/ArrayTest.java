@@ -7,6 +7,7 @@ import static org.junit.rules.ExpectedException.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -31,6 +32,30 @@ public class ArrayTest {
 
         assertThat(empty.size(), equalTo(0));
         assertThat(empty.iterator().hasNext(), equalTo(false));
+    }
+
+    @Test
+    public void pipeline() {
+        Pipeline<Integer> pipe = API.List(1, 2, 3, 4)
+                .pipeline()
+                .map(x -> x * 2);
+
+        Pipeline<Integer> pipe1 = pipe.filter(x -> x % 2 == 0);
+        Pipeline<String> pipe2 = pipe.map(String::valueOf);
+
+        Iterator<Integer> iterator = pipe1.iterator();
+        assertThat(iterator.next(), equalTo(2));
+        assertThat(iterator.next(), equalTo(4));
+        assertThat(iterator.next(), equalTo(6));
+        assertThat(iterator.next(), equalTo(8));
+        assertFalse(iterator.hasNext());
+
+        Iterator<String> iterator1 = pipe2.iterator();
+        assertThat(iterator1.next(), equalTo("2"));
+        assertThat(iterator1.next(), equalTo("4"));
+        assertThat(iterator1.next(), equalTo("6"));
+        assertThat(iterator1.next(), equalTo("8"));
+        assertFalse(iterator.hasNext());
     }
 
     @Test

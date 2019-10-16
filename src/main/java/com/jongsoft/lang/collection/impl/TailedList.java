@@ -33,12 +33,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.Iterator;
-import com.jongsoft.lang.collection.Map;
-import com.jongsoft.lang.collection.Sequence;
-import com.jongsoft.lang.collection.Set;
+import com.jongsoft.lang.collection.*;
 import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.collection.support.Collections;
+import com.jongsoft.lang.collection.support.PipeCommand;
 
 /**
  * A {@link TailedList} is an {@link Sequence} implementation where each entry in the list points to the next
@@ -158,6 +156,11 @@ public class TailedList<T> implements Sequence<T> {
             mappedTail = new TailedList<>(mapper.apply(processing.get()), (TailedList<U>) mappedTail);
         }
         return mappedTail.reverse();
+    }
+
+    @Override
+    public Pipeline<T> pipeline() {
+        return new PipeCommand<>(this);
     }
 
     @Override
