@@ -24,6 +24,7 @@
 package com.jongsoft.lang.collection;
 
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -91,5 +92,14 @@ public interface List<T> extends Collection<T> {
      * @return the pipeline for this list
      */
     Pipeline<T> pipeline();
+
+    @Override
+    <U> List<U> map(Function<T, U> mapper);
+
+    @Override
+    List<T> tail();
+
+    @Override
+    List<T> reject(Predicate<T> predicate);
 
 }
