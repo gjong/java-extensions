@@ -1,8 +1,8 @@
 package com.jongsoft.lang.control.impl;
 
-import com.jongsoft.lang.control.Equal;
-
 import java.util.Objects;
+
+import com.jongsoft.lang.control.Equal;
 
 public class EqualHelper {
 
@@ -10,7 +10,14 @@ public class EqualHelper {
 
         @Override
         public <T, R> Equal append(T left, R right) {
-            if (Objects.equals(left, right)) {
+            boolean isEqual = false;
+            if (left instanceof Object[] && right instanceof Object[]) {
+                 isEqual = primitiveArrayEqual((Object[]) left, (Object[]) right);
+            } else {
+                isEqual = Objects.equals(left, right);
+            }
+
+            if (isEqual) {
                 return this;
             }
 
@@ -22,6 +29,10 @@ public class EqualHelper {
             return true;
         }
 
+        @Override
+        public boolean isNotEqual() {
+            return false;
+        }
     };
 
     public static final Equal NOT_EQUAL = new Equal() {
@@ -35,10 +46,28 @@ public class EqualHelper {
             return false;
         }
 
+        @Override
+        public boolean isNotEqual() {
+            return true;
+        }
     };
 
     private EqualHelper() {
+        // helper class should not have an public constructor
+    }
 
+    private static boolean primitiveArrayEqual(Object[] left, Object[] right) {
+        if (left.length != right.length) {
+            return false;
+        }
+
+        for (int i = 0; i < left.length; i++) {
+            if (IS_EQUAL.append(left[i], right[i]).isNotEqual()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

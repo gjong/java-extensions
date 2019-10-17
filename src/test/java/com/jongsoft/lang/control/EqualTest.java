@@ -1,8 +1,8 @@
 package com.jongsoft.lang.control;
 
-import com.jongsoft.lang.API;
 import org.junit.Assert;
 import org.junit.Test;
+import com.jongsoft.lang.API;
 
 public class EqualTest {
 
@@ -10,6 +10,7 @@ public class EqualTest {
     public void equal() {
         boolean equals = API.Equal(1, 1)
                 .append("left", "left")
+                .append(new String[] {"one", "two"}, new String[] {"one", "two"})
                 .isEqual();
 
         Assert.assertTrue(equals);
