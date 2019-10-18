@@ -197,4 +197,21 @@ abstract class AbstractSet<T> implements Set<T> {
     protected abstract Function<Object[], Set<T>> wrapperSupplier();
     public abstract Collector<T, ArrayList<T>, Set<T>> collector();
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(final Object obj) {
+        if (obj instanceof Set) {
+            Set casted = (Set) obj;
+
+            return casted.size() == size()
+                    && casted.intersect(this).size() == size();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return foldLeft(21, (left, right) -> left + (right != null ? right.hashCode() : 0));
+    }
 }

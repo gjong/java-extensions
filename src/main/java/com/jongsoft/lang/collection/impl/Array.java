@@ -195,4 +195,22 @@ public class Array<T> implements Sequence<T> {
         }
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(final Object obj) {
+        if (obj instanceof Sequence) {
+            Sequence casted = (Sequence) obj;
+
+            return casted.size() == size()
+                    && casted.containsAll(this)
+                    && containsAll(casted);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return foldLeft(19, (left, right) -> left + (right != null ? right.hashCode() : 0));
+    }
 }

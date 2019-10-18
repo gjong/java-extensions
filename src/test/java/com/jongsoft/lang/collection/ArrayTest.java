@@ -363,4 +363,18 @@ public class ArrayTest {
 
         assertThat(myStrings.toString(), equalTo("Sequence[one]"));
     }
+
+    @Test
+    public void equalTest() {
+        assertEquals(API.List(1, 2, 3), API.List(1, 2, 3));
+        assertEquals(API.List("test", 2, 3), API.List(2, "test", 3));
+        assertNotEquals(API.List("test", 2, 3), API.List("test", 3));
+        assertNotEquals(API.List("test", 2, 3), API.List("test", 3, null));
+    }
+
+    @Test
+    public void hashCodeTest() {
+        assertEquals(19, API.List().hashCode());
+        assertEquals(20, API.List(null, 1).hashCode());
+    }
 }

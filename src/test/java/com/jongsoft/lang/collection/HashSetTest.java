@@ -218,4 +218,17 @@ public class HashSetTest {
 
         assertThat(myStrings.toString(), equalTo("Set[test-a, test-b]"));
     }
+
+    @Test
+    public void equalTest() {
+        assertEquals(API.Set(1, 2, 3), API.Set(1, 2, 3));
+        assertEquals(API.Set("test", 2, 3), API.Set(2, "test", 3));
+        assertNotEquals(API.Set("test", 2, 3), API.Set("test", 3));
+    }
+
+    @Test
+    public void hashCodeTest() {
+        assertEquals(21, API.Set().hashCode());
+        assertEquals(22, API.Set(1).hashCode());
+    }
 }
