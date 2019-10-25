@@ -51,42 +51,28 @@ import com.jongsoft.lang.control.impl.Constants;
 public interface Optional<T> extends Value<T> {
 
     @Override
-    <U> Optional<U> map(Function<T, U> mapper);
-
-    @Override
     Optional<T> filter(Predicate<T> predicate);
 
-
-    @Override
-    default boolean isSingleValued() {
-        return true;
-    }
+    /**
+     * This method will provide the entity contained within the {@link Optional}, in case no entity
+     * is present the {@link Supplier} is called to create the else situation.
+     *
+     * @param supplier  the supplier to create an entity of none is contained in the {@link Optional}
+     * @return          either the contained entity or the created one using the {@link Supplier}
+     */
+    T getOrSupply(Supplier<T> supplier);
 
     /**
-     * Indicates if a value is present within the wrapper
+     * This method will return the contained entity within the {@link Optional}, in case no entity
+     * is present an exception will be thrown using the provided <code>exceptionSupplier</code>.
      *
-     * @return true if an element is present, otherwise false
+     * @param exceptionSupplier     the {@link Supplier} used to create the {@link Throwable}
+     * @param <X>                   the type of the Throwable that will be thrown
+     * @return                      the entity contained within the {@link Optional}
+     * @throws X                    in case of no entity
+     * @throws NullPointerException in case the exceptionSupplier was null
      */
-    boolean isPresent();
-
-    /**
-     * Process the present element wrapped within using the provided {@link java.util.function.Consumer}.
-     *
-     * @param consumer   the method that will consume the element
-     * @return           the {@link OrElse} functionality, which enables processing in case of {@link #isPresent() }
-     *                   being false.
-     */
-    OrElse ifPresent(Consumer<T> consumer);
-
-    /**
-     * Throw an exception if an element is present within. Otherwise it will return the {@link OrElse}.
-     *
-     * @param exceptionSupplier the supplier to create the exception
-     * @param <X>               the type of exception expected
-     * @return                  the {@link OrElse} in case no element is present
-     * @throws X                the exception thrown if a present element
-     */
-    <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) throws X;
+    <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) throws X;
 
     /**
      * Execute the runner method if no entity is present in this wrapped object
@@ -126,25 +112,38 @@ public interface Optional<T> extends Value<T> {
     }
 
     /**
-     * This method will provide the entity contained within the {@link Optional}, in case no entity
-     * is present the {@link Supplier} is called to create the else situation.
+     * Process the present element wrapped within using the provided {@link java.util.function.Consumer}.
      *
-     * @param supplier  the supplier to create an entity of none is contained in the {@link Optional}
-     * @return          either the contained entity or the created one using the {@link Supplier}
+     * @param consumer   the method that will consume the element
+     * @return           the {@link OrElse} functionality, which enables processing in case of {@link #isPresent() }
+     *                   being false.
      */
-    T getOrSupply(Supplier<T> supplier);
+    OrElse ifPresent(Consumer<T> consumer);
 
     /**
-     * This method will return the contained entity within the {@link Optional}, in case no entity
-     * is present an exception will be thrown using the provided <code>exceptionSupplier</code>.
+     * Throw an exception if an element is present within. Otherwise it will return the {@link OrElse}.
      *
-     * @param exceptionSupplier     the {@link Supplier} used to create the {@link Throwable}
-     * @param <X>                   the type of the Throwable that will be thrown
-     * @return                      the entity contained within the {@link Optional}
-     * @throws X                    in case of no entity
-     * @throws NullPointerException in case the exceptionSupplier was null
+     * @param exceptionSupplier the supplier to create the exception
+     * @param <X>               the type of exception expected
+     * @return                  the {@link OrElse} in case no element is present
+     * @throws X                the exception thrown if a present element
      */
-    <X extends Throwable> T getOrThrow(Supplier<X> exceptionSupplier) throws X;
+    <X extends Throwable> OrElse ifPresent(Supplier<X> exceptionSupplier) throws X;
+
+    /**
+     * Indicates if a value is present within the wrapper
+     *
+     * @return true if an element is present, otherwise false
+     */
+    boolean isPresent();
+
+    @Override
+    default boolean isSingleValued() {
+        return true;
+    }
+
+    @Override
+    <U> Optional<U> map(Function<T, U> mapper);
 
     /**
      * The OrElse interface is an extension to the {@link com.jongsoft.lang.control.Optional} interface. This interface can be used to cascade behaviour

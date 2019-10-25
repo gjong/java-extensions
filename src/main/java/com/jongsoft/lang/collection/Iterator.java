@@ -30,7 +30,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.jongsoft.lang.API;
-import com.jongsoft.lang.Value;
 import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.control.Optional;
 
@@ -43,75 +42,8 @@ import com.jongsoft.lang.control.Optional;
  */
 public interface Iterator<T> extends java.util.Iterator<T>, Traversable<T> {
 
-    /**
-     * This operation is a convenience method for the {@link #next()}.
-     *
-     * @return the next value in the iterator
-     * @see #next()
-     */
-    @Override
-    default T get() {
-        return next();
-    }
-
-    @Override
-    default boolean isSingleValued() {
-        return false;
-    }
-
     @Override
     Iterator<T> filter(Predicate<T> predicate);
-
-    /**
-     * Move the iterator back to the first element in the sequence.
-     */
-    void reset();
-
-    @Override
-    default Iterator<T> iterator() {
-        return API.Iterator((T[])this.toNativeArray());
-    }
-
-    @Override
-    default <U> Iterator<U> map(Function<T, U> mapper) {
-        if (hasNext()) {
-            Iterator<T> pointer = this;
-            return new AbstractIterator<>() {
-
-                @Override
-                public void reset() {
-                    pointer.reset();
-                }
-
-                @Override
-                protected U getNext() {
-                    return mapper.apply(pointer.next());
-                }
-
-                @Override
-                public boolean hasNext() {
-                    return pointer.hasNext();
-                }
-            };
-        }
-
-        return API.Iterator();
-    }
-
-    @Override
-    default Optional<T> last(Predicate<T> predicate) {
-        Objects.requireNonNull(predicate, "The predicate may not be null");
-
-        T lastMatch = null;
-        while (hasNext()) {
-            final T next = next();
-            if (predicate.test(next)) {
-                lastMatch = next;
-            }
-        }
-
-        return API.Option(lastMatch);
-    }
 
     @Override
     default Optional<T> first(Predicate<T> predicate) {
@@ -143,11 +75,78 @@ public interface Iterator<T> extends java.util.Iterator<T>, Traversable<T> {
         return foldLeft(start, (y, x) -> combiner.apply(x, y));
     }
 
+    /**
+     * This operation is a convenience method for the {@link #next()}.
+     *
+     * @return the next value in the iterator
+     * @see #next()
+     */
+    @Override
+    default T get() {
+        return next();
+    }
+
+    @Override
+    default boolean isSingleValued() {
+        return false;
+    }
+
+    @Override
+    default Iterator<T> iterator() {
+        return API.Iterator((T[])this.toNativeArray());
+    }
+
+    @Override
+    default Optional<T> last(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate, "The predicate may not be null");
+
+        T lastMatch = null;
+        while (hasNext()) {
+            final T next = next();
+            if (predicate.test(next)) {
+                lastMatch = next;
+            }
+        }
+
+        return API.Option(lastMatch);
+    }
+
+    @Override
+    default <U> Iterator<U> map(Function<T, U> mapper) {
+        if (hasNext()) {
+            Iterator<T> pointer = this;
+            return new AbstractIterator<>() {
+
+                @Override
+                public void reset() {
+                    pointer.reset();
+                }
+
+                @Override
+                protected U getNext() {
+                    return mapper.apply(pointer.next());
+                }
+
+                @Override
+                public boolean hasNext() {
+                    return pointer.hasNext();
+                }
+            };
+        }
+
+        return API.Iterator();
+    }
+
     @Override
     default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
         Sequence<T> array = API.List(this);
         return array.tail().foldLeft(array.head(), reducer);
     }
+
+    /**
+     * Move the iterator back to the first element in the sequence.
+     */
+    void reset();
 
     /**
      * Create a primitive array of the elements contained within the iterator.

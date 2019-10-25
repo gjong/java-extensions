@@ -1,14 +1,15 @@
 package com.jongsoft.lang.collection.support;
 
-import com.jongsoft.lang.collection.Collection;
-import com.jongsoft.lang.collection.Pipeline;
-
 import java.util.Iterator;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
+import com.jongsoft.lang.collection.Collection;
+import com.jongsoft.lang.collection.Pipeline;
 
 public class PipeCommand<T> implements Pipeline<T> {
 
@@ -61,4 +62,10 @@ public class PipeCommand<T> implements Pipeline<T> {
     public T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
         return command.get().reduceLeft(reducer);
     }
+
+    @Override
+    public void consume(final Consumer<T> consumer) {
+        command.get().forEach(consumer);
+    }
+
 }

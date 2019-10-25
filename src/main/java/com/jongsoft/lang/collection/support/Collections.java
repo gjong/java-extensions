@@ -35,7 +35,6 @@ import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.List;
 import com.jongsoft.lang.collection.Map;
-import com.jongsoft.lang.collection.Sequence;
 
 public final class Collections {
 
@@ -43,13 +42,13 @@ public final class Collections {
         // hidden constructor utility class
     }
 
-    public static <K, U> Map<K, Sequence<U>> groupBy(Supplier<Sequence<U>> instanceSupplier, Sequence<U> source,
+    public static <K, U> Map<K, List<U>> groupBy(Supplier<List<U>> instanceSupplier, List<U> source,
                                                      Function<? super U, ? extends K> keyGenerator) {
         Objects.requireNonNull(keyGenerator, "keyGenerator is null");
-        Map<K, Sequence<U>> result = API.Map();
+        Map<K, List<U>> result = API.Map();
         for (U element : source) {
             K key = keyGenerator.apply(element);
-            Sequence<U> elementsForKey = API.Option(result.get(key))
+            List<U> elementsForKey = API.Option(result.get(key))
                                             .getOrSupply(instanceSupplier);
 
             result = result.put(key, elementsForKey.append(element));

@@ -36,11 +36,15 @@ import java.util.stream.Stream;
 public interface Streamable<T> extends Iterable<T> {
 
     /**
-     * Creates a {@link Stream} to access the entities of type T contained within this {@link Streamable} class.
+     * Filter out an element if it does not match the supplied {@code predicate}.
+     * This operation will iterate over all elements and return a new set containing only the elements where the predicate returns {@code
+     * true} for.
      *
-     * @return the {@link Stream} entity.
+     * @param predicate the predicate to apply to the contents of this
+     * @return the filtered value
+     * @throws NullPointerException if {@code predicate} is null
      */
-    Stream<T> stream();
+    Streamable<T> filter(Predicate<T> predicate);
 
     /**
      * Perform a mapping operation on the elements in the stream.
@@ -54,14 +58,10 @@ public interface Streamable<T> extends Iterable<T> {
     <U> Streamable<U> map(Function<T, U> mapper);
 
     /**
-     * Filter out an element if it does not match the supplied {@code predicate}.
-     * This operation will iterate over all elements and return a new set containing only the elements where the predicate returns {@code
-     * true} for.
+     * Creates a {@link Stream} to access the entities of type T contained within this {@link Streamable} class.
      *
-     * @param predicate the predicate to apply to the contents of this
-     * @return the filtered value
-     * @throws NullPointerException if {@code predicate} is null
+     * @return the {@link Stream} entity.
      */
-    Streamable<T> filter(Predicate<T> predicate);
+    Stream<T> stream();
 
 }

@@ -23,10 +23,10 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.control.Optional;
-
 import java.util.Objects;
 import java.util.function.Function;
+
+import com.jongsoft.lang.control.Optional;
 
 /**
  *
@@ -46,12 +46,7 @@ public interface Tree<T> extends Traversable<T> {
 
     }
 
-    /**
-     * Get the parent tree node for this tree node.
-     *
-     * @return  the parent, or {@code null} if no parent exists
-     */
-    Tree<T> parent();
+    Tree<T> appendChild(String label, T child);
 
     /**
      * Fetch the collection of child tree elements contained within this tree.
@@ -60,12 +55,9 @@ public interface Tree<T> extends Traversable<T> {
      */
     NodeCollection<T> children();
 
-    /**
-     * Fetch the label that belongs to the current tree.
-     *
-     * @return  the string label of the tree
-     */
-    String label();
+    default Optional<Tree<T>> getChild(String label) {
+        return children().first(c -> Objects.equals(c.label(), label));
+    }
 
     /**
      * Indicates if the tree is a leaf node.
@@ -87,12 +79,20 @@ public interface Tree<T> extends Traversable<T> {
         return parent() == null;
     }
 
-    Tree<T> appendChild(String label, T child);
-
-    default Optional<Tree<T>> getChild(String label) {
-        return children().first(c -> Objects.equals(c.label(), label));
-    }
+    /**
+     * Fetch the label that belongs to the current tree.
+     *
+     * @return  the string label of the tree
+     */
+    String label();
 
     <U> Tree<U> map(Function<T, U> mapper);
+
+    /**
+     * Get the parent tree node for this tree node.
+     *
+     * @return  the parent, or {@code null} if no parent exists
+     */
+    Tree<T> parent();
 
 }

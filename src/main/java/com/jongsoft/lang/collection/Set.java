@@ -48,8 +48,37 @@ public interface Set<T> extends List<T> {
     @Override
     Set<T> append(T value);
 
+    /**
+     * Creates a new set that contains elements that are only in {@code this}, but not contained within {@code iterable}.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a Set(1, 2)
+     *   Set result = Set(1, 2, 3).complement(Set(3, 4));
+     * }</pre>
+     *
+     * @param iterable  the iterable to perform the complement with
+     * @return  the product of the complement operation
+     */
+    @SuppressWarnings("unchecked")
+    default Set<T> complement(Iterable<T> iterable) {
+        return complement(new Iterable[] {iterable});
+    }
+
+    /**
+     * Creates a new set that contains elements that are only in {@code this}, but not contained within any of the {@code iterables}.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a Set(1, 2)
+     *   Set result = Set(1, 2, 3).complement(Set(3, 4));
+     * }</pre>
+     *
+     * @param iterables  the iterables to perform the complement with
+     * @return  the product of the complement operation
+     */
+    Set<T> complement(Iterable<T>...iterables);
+
     @Override
-    Set<T> remove(int index);
+    Set<T> filter(Predicate<T> predicate);
 
     @Override
     default T head() {
@@ -59,46 +88,6 @@ public interface Set<T> extends List<T> {
 
         throw new NoSuchElementException("Cannot get head on empty collection");
     }
-
-    @Override
-    Set<T> tail();
-
-    @Override
-    Set<T> filter(Predicate<T> predicate);
-
-    @Override
-    default Set<T> reject(Predicate<T> predicate) {
-        Objects.requireNonNull(predicate, "predicate is null");
-        return filter(predicate.negate());
-    }
-
-    @Override
-    <U> Set<U> map(Function<T, U> mapper);
-
-    /**
-     * Transform this collection into one supported natively in Java.
-     *
-     * @return the native java collection
-     */
-    java.util.Set<T> toJava();
-
-    /**
-     * Create a set that contains all elements that are contained in both {@code this} and the provided {@code iterable}.
-     *
-     * <blockquote>
-     * The union of two sets A and B is the set of elements which are in A, in B, or in both A and B, but not containing duplicate
-     * elements.
-     * </blockquote>
-     *
-     * <p><strong>Example:</strong></p>
-     * <pre>{@code  // the example would be a Set(1, 2, 3, 4)
-     *   Set result = Set(1, 2, 3).union(Set(3, 4));
-     * }</pre>
-     *
-     * @param iterable  the iterable to perform the union with
-     * @return  the product of the union operation
-     */
-    Set<T> union(Iterable<T> iterable);
 
     /**
      * Creates a set that contains only the elements that are in both {@code this} and the provided {@code iterable}.
@@ -134,33 +123,44 @@ public interface Set<T> extends List<T> {
      */
     Set<T> intersect(Iterable<T>...iterables);
 
-    /**
-     * Creates a new set that contains elements that are only in {@code this}, but not contained within {@code iterable}.
-     *
-     * <p><strong>Example:</strong></p>
-     * <pre>{@code  // the example would be a Set(1, 2)
-     *   Set result = Set(1, 2, 3).complement(Set(3, 4));
-     * }</pre>
-     *
-     * @param iterable  the iterable to perform the complement with
-     * @return  the product of the complement operation
-     */
-    @SuppressWarnings("unchecked")
-    default Set<T> complement(Iterable<T> iterable) {
-        return complement(new Iterable[] {iterable});
+    @Override
+    <U> Set<U> map(Function<T, U> mapper);
+
+    @Override
+    default Set<T> reject(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate, "predicate is null");
+        return filter(predicate.negate());
     }
 
+    @Override
+    Set<T> remove(int index);
+
+    @Override
+    Set<T> tail();
+
     /**
-     * Creates a new set that contains elements that are only in {@code this}, but not contained within any of the {@code iterables}.
+     * Transform this collection into one supported natively in Java.
+     *
+     * @return the native java collection
+     */
+    java.util.Set<T> toJava();
+
+    /**
+     * Create a set that contains all elements that are contained in both {@code this} and the provided {@code iterable}.
+     *
+     * <blockquote>
+     * The union of two sets A and B is the set of elements which are in A, in B, or in both A and B, but not containing duplicate
+     * elements.
+     * </blockquote>
      *
      * <p><strong>Example:</strong></p>
-     * <pre>{@code  // the example would be a Set(1, 2)
-     *   Set result = Set(1, 2, 3).complement(Set(3, 4));
+     * <pre>{@code  // the example would be a Set(1, 2, 3, 4)
+     *   Set result = Set(1, 2, 3).union(Set(3, 4));
      * }</pre>
      *
-     * @param iterables  the iterables to perform the complement with
-     * @return  the product of the complement operation
+     * @param iterable  the iterable to perform the union with
+     * @return  the product of the union operation
      */
-    Set<T> complement(Iterable<T>...iterables);
+    Set<T> union(Iterable<T> iterable);
 
 }

@@ -48,13 +48,13 @@ public interface List<T> extends Collection<T> {
     List<T> append(T value);
 
     /**
-     * Removes an element from the list and returns a new instance of the list.
+     * Search the collections for the first element matching the provided {@link Predicate} and return the index
+     * position of that element.
      *
-     * @param index     the index of the element to be removed
-     * @return          the new instance of the list without the element at the provided index
-     * @throws IndexOutOfBoundsException  if {@code index} is not between the 0 and {@linkplain #size()}
+     * @param predicate the predicate to match
+     * @return  index of the found element, -1 if none found
      */
-    List<T> remove(int index);
+    int firstIndexWhere(Predicate<T> predicate);
 
     /**
      * Get the element at the location of <code>index</code>
@@ -64,6 +64,22 @@ public interface List<T> extends Collection<T> {
      * @throws IndexOutOfBoundsException if {@code index} is greater then the {@link #size()} - 1
      */
     T get(int index);
+
+    /**
+     * Generate a new sequence using the {@code keyGenerator}.
+     * Calling this operation will create a new map grouping the elements by the generator provided.
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // This will result in Map(1 -> List(1, 11, 21), 2 -> List(2, 12, 22))
+     *   Sequence(1, 2, 11, 12, 21, 22)
+     *      .groupBy(x -> x % 10);
+     * }</pre>
+     *
+     * @param keyGenerator  the generator to use for creating keys
+     * @param <K>           the type of the key
+     * @return              the new map created using the generator
+     * @throws NullPointerException if {@code keyGenerator} is null
+     */
+    <K> Map<K, List<T>> groupBy(Function<? super T, ? extends K> keyGenerator);
 
     /**
      * Find the index for the provided element, will return <code>-1</code> if the element
@@ -76,14 +92,8 @@ public interface List<T> extends Collection<T> {
         return firstIndexWhere(e -> Objects.equals(lookFor, e));
     }
 
-    /**
-     * Search the collections for the first element matching the provided {@link Predicate} and return the index
-     * position of that element.
-     *
-     * @param predicate the predicate to match
-     * @return  index of the found element, -1 if none found
-     */
-    int firstIndexWhere(Predicate<T> predicate);
+    @Override
+    <U> List<U> map(Function<T, U> mapper);
 
     /**
      * Create a pipeline for the current list. A pipeline can be used to create a set of lazy operations on the list
@@ -94,12 +104,18 @@ public interface List<T> extends Collection<T> {
     Pipeline<T> pipeline();
 
     @Override
-    <U> List<U> map(Function<T, U> mapper);
+    List<T> reject(Predicate<T> predicate);
+
+    /**
+     * Removes an element from the list and returns a new instance of the list.
+     *
+     * @param index     the index of the element to be removed
+     * @return          the new instance of the list without the element at the provided index
+     * @throws IndexOutOfBoundsException  if {@code index} is not between the 0 and {@linkplain #size()}
+     */
+    List<T> remove(int index);
 
     @Override
     List<T> tail();
-
-    @Override
-    List<T> reject(Predicate<T> predicate);
 
 }

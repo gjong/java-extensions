@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.Rule;
@@ -307,7 +306,7 @@ public class ArrayTest {
 
     @Test
     public void groupBy() {
-        Map<Integer, Sequence<String>> result = API.List("one", "two", "three", "four")
+        Map<Integer, List<String>> result = API.List("one", "two", "three", "four")
              .groupBy(String::length);
 
         assertThat(result.size(), equalTo(3));
@@ -347,7 +346,7 @@ public class ArrayTest {
 
     @Test
     public void toJava() {
-        List<Integer> integers = API.List(1, 2, 3, 4)
+        java.util.List<Integer> integers = API.List(1, 2, 3, 4)
                 .toJava();
 
         assertThat(integers, instanceOf(ArrayList.class));

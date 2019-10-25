@@ -136,6 +136,19 @@ public class HashSetTest {
     }
 
     @Test
+    public void groupBy() {
+        final Map<Integer, List<Integer>> pairs = API.Set(1, 2, 3, 4, 5).groupBy(x -> x % 2);
+
+        assertThat(pairs.size(), equalTo(2));
+        assertTrue(pairs.containsKey(0));
+        assertThat(pairs.get(0).size(), equalTo(2));
+        assertThat(pairs.get(0), hasItems(2, 4));
+        assertTrue(pairs.containsKey(1));
+        assertThat(pairs.get(1).size(), equalTo(3));
+        assertThat(pairs.get(1), hasItems(1, 3, 5));
+    }
+
+    @Test
     public void headNoElement() {
         thrown.expect(NoSuchElementException.class);
         API.Set().head();

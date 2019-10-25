@@ -161,22 +161,6 @@ public interface Sequence<T> extends List<T> {
     <U> Sequence<U> map(Function<T, U> mapper);
 
     /**
-     * Generate a new sequence using the {@code keyGenerator}.
-     * Calling this operation will create a new map grouping the elements by the generator provided.
-     * <p><strong>Example:</strong></p>
-     * <pre>{@code  // This will result in Map(1 -> List(1, 11, 21), 2 -> List(2, 12, 22))
-     *   Sequence(1, 2, 11, 12, 21, 22)
-     *      .groupBy(x -> x % 10);
-     * }</pre>
-     *
-     * @param keyGenerator  the generator to use for creating keys
-     * @param <K>           the type of the key
-     * @return              the new map created using the generator
-     * @throws NullPointerException if {@code keyGenerator} is null
-     */
-    <K> Map<K, Sequence<T>> groupBy(Function<? super T, ? extends K> keyGenerator);
-
-    /**
      * Create a new sequence with all elements of this sequence combined with the elements of the provided iterable.
      * The elements in this sequence will be added before the provided {@code iterable} in the returned sequence.
      *

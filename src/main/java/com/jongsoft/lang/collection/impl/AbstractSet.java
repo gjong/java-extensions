@@ -35,6 +35,8 @@ import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.List;
+import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Pipeline;
 import com.jongsoft.lang.collection.Set;
 import com.jongsoft.lang.collection.support.Collections;
@@ -89,6 +91,12 @@ abstract class AbstractSet<T> implements Set<T> {
     public T get(final int index) {
         validateOutOfBounds(index);
         return (T) delegate[index];
+    }
+
+    @Override
+    public <K> Map<K, List<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
+        final Supplier<Set<T>> setSupplier = this.emptySupplier();
+        return Collections.groupBy(setSupplier::get, this, keyGenerator);
     }
 
     @Override

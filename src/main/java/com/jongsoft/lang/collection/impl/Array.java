@@ -114,7 +114,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public <K> Map<K, Sequence<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
+    public <K> Map<K, List<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
         return Collections.groupBy(API::List, this, keyGenerator);
     }
 

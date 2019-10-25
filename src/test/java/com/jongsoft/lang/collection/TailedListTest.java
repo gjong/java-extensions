@@ -33,7 +33,7 @@ public class TailedListTest {
 
     @Test
     public void groupBy() {
-        Map<Integer, Sequence<String>> result = TailedList.of("one", "two", "three", "four")
+        Map<Integer, List<String>> result = TailedList.of("one", "two", "three", "four")
                 .groupBy(String::length);
 
         assertThat(result.size(), equalTo(3));

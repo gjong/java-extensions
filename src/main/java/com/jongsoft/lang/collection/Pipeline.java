@@ -1,10 +1,11 @@
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.Streamable;
-
 import java.util.Iterator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import com.jongsoft.lang.Streamable;
 
 /**
  * A pipeline is a set of commands that will be applied on top any {@link Collection}. Each command is lazy and will
@@ -30,6 +31,25 @@ import java.util.function.Predicate;
  */
 public interface Pipeline<T> extends Foldable<T>, Streamable<T> {
 
+    /**
+     * Consumes each element in the pipeline using the provided consume operation. This is a terminal operation.
+     *
+     * @param consumer the consumer
+     * @throws NullPointerException if the {@code consumer} is null
+     */
+    void consume(Consumer<T> consumer);
+
+    @Override
+    Pipeline<T> filter(Predicate<T> predicate);
+
+    /**
+     * This will return the iterator for this pipelines elements. This is a terminal operation.
+     *
+     * @return the iterator for all elements in the pipeline
+     */
+    @Override
+    Iterator<T> iterator();
+
     @Override
     <U> Pipeline<U> map(Function<T, U> mapper);
 
@@ -42,14 +62,4 @@ public interface Pipeline<T> extends Foldable<T>, Streamable<T> {
      */
     Pipeline<T> reject(Predicate<T> predicate);
 
-    @Override
-    Pipeline<T> filter(Predicate<T> predicate);
-
-    /**
-     * This will return the iterator for this pipelines elements. This is a terminal operation.
-     *
-     * @return the iterator for all elements in the pipeline
-     */
-    @Override
-    Iterator<T> iterator();
 }

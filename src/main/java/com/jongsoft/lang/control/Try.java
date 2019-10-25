@@ -54,60 +54,6 @@ import com.jongsoft.lang.control.impl.TrySuccess;
 public interface Try<T> {
 
     /**
-     * Get the value contained in the try.
-     *
-     * This method will throw an exception in case the try failed somewhere in the chain. Use
-     * {@link #isFailure()} to detect if a failure occurred.
-     *
-     * @return the value contained
-     */
-    T get();
-
-    /**
-     * Indicates if the try operation resulted in an exception
-     *
-     * @return true in case of an exception of the try, otherwise false
-     */
-    boolean isFailure();
-
-    /**
-     * Indicates if the try operation was successful
-     *
-     * @return false in case of an exception of the try, otherwise true
-     */
-    boolean isSuccess();
-    
-    /**
-     * Return the cause of the failure. If the {@link #isSuccess()} is true this call will cause an exception.
-     * 
-     * @return get the root cause for a failure
-     */
-    Throwable getCause();
-
-    /**
-     * <p>
-     *    Set a fallback operation to be executed when the primary operation fails.
-     * </p>
-     *
-     * <p><strong>Example:</strong></p>
-     * <pre>{@code List<String> safeGet = Try.supply(myDatabase::getRecords)
-     *          .recover(x -> Collections.emptyList())
-     *          .get();
-     * }</pre>
-     * <p>
-     *   In the sample above a call is made to a database repository, which can fail with various exceptions. In case
-     *   the call fails then the logic in the recover operation is executed instead. The result of this logic will be
-     *   returned to the caller. In the case of the example the caller will get an empty list when the database call
-     *   fails.
-     * </p>
-     *
-     * @param recoverMethod the operation that will be executed when the primary operation fails
-     * @param <X>           the type of exception thrown by the primary operation
-     * @return              the result of the recoverMethod operation
-     */
-    <X extends Throwable> Try<T> recover(Function<X, T> recoverMethod);
-
-    /**
      * Passes then entity contained within the {@link #get()} if the try has a success. Otherwise it will not call the
      * consumer and return the try containing the failure.
      * <p>
@@ -136,6 +82,73 @@ public interface Try<T> {
 
         return this;
     }
+
+    /**
+     * Get the value contained in the try.
+     *
+     * This method will throw an exception in case the try failed somewhere in the chain. Use
+     * {@link #isFailure()} to detect if a failure occurred.
+     *
+     * @return the value contained
+     */
+    T get();
+
+    /**
+     * Return the cause of the failure. If the {@link #isSuccess()} is true this call will cause an exception.
+     *
+     * @return get the root cause for a failure
+     */
+    Throwable getCause();
+
+    /**
+     * Indicates if the try operation resulted in an exception
+     *
+     * @return true in case of an exception of the try, otherwise false
+     */
+    boolean isFailure();
+
+    /**
+     * Indicates if the try operation was successful
+     *
+     * @return false in case of an exception of the try, otherwise true
+     */
+    boolean isSuccess();
+
+    default <U> Try<U> map(Function<T, U> mapper) {
+        Objects.requireNonNull(mapper, "Mapper cannot be null");
+        if (!isFailure()) {
+            try {
+                return new TrySuccess<>(mapper.apply(get()));
+            } catch (Exception th) {
+                return new TryFailure<>(th);
+            }
+        }
+
+        return new TryFailure<>(getCause());
+    }
+
+    /**
+     * <p>
+     *    Set a fallback operation to be executed when the primary operation fails.
+     * </p>
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code List<String> safeGet = Try.supply(myDatabase::getRecords)
+     *          .recover(x -> Collections.emptyList())
+     *          .get();
+     * }</pre>
+     * <p>
+     *   In the sample above a call is made to a database repository, which can fail with various exceptions. In case
+     *   the call fails then the logic in the recover operation is executed instead. The result of this logic will be
+     *   returned to the caller. In the case of the example the caller will get an empty list when the database call
+     *   fails.
+     * </p>
+     *
+     * @param recoverMethod the operation that will be executed when the primary operation fails
+     * @param <X>           the type of exception thrown by the primary operation
+     * @return              the result of the recoverMethod operation
+     */
+    <X extends Throwable> Try<T> recover(Function<X, T> recoverMethod);
 
     /**
      * Allows for secondary runners to be executed within a try..catch. If the runner does not throw any
@@ -167,19 +180,6 @@ public interface Try<T> {
             }
         }
         return this;
-    }
-
-    default <U> Try<U> map(Function<T, U> mapper) {
-        Objects.requireNonNull(mapper, "Mapper cannot be null");
-        if (!isFailure()) {
-            try {
-                return new TrySuccess<>(mapper.apply(get()));
-            } catch (Exception th) {
-                return new TryFailure<>(th);
-            }
-        }
-
-        return new TryFailure<>(getCause());
     }
 
 }

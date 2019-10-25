@@ -38,7 +38,55 @@ import java.util.stream.StreamSupport;
  * @since 0.0.1
  */
 public interface Value<T> extends Streamable<T>, Serializable {
-    
+
+    /**
+     * Validate that all elements match the predicate provided.
+     * This can be useful to quickly look over the elements to verify that they all meet a pre-specified criteria.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code    // result will be true
+     *    List("a", "b").all(x -> x.length() == 1);
+     * }</pre>
+     *
+     * @param predicate the predicate to test with
+     * @return          true if all elements match the predicate, otherwise false
+     *
+     * @see #none(Predicate)
+     * @see #exists(Predicate)
+     * @throws NullPointerException in case the {@link Predicate} is null
+     */
+    default boolean all(Predicate<? super T> predicate) {
+        Objects.requireNonNull(predicate, "Predicate provided cannot be null");
+        return !exists(predicate.negate());
+    }
+
+    /**
+     * Validate if the value contains the provided item.
+     *
+     * @param element   an element of type T, can be <code>null</code>
+     * @return          true, if the element is contained within
+     */
+    default boolean contains(T element) {
+        return exists(e -> Objects.equals(e, element));
+    }
+
+    /**
+     * Validate if an element is contained that matches the provided predicate.
+     *
+     * @param predicate the predicate to validate with
+     * @return          true, if any element is contained within that matches the predicate
+     * @throws NullPointerException in case the {@link Predicate} is null
+     */
+    default boolean exists(Predicate<? super T> predicate) {
+        Objects.requireNonNull(predicate, "Predicate provided cannot be null");
+        for (T entity : this) {
+            if (predicate.test(entity)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Return the contents {@code T} of the wrapped value.
      * <p>
@@ -57,47 +105,6 @@ public interface Value<T> extends Streamable<T>, Serializable {
     boolean isSingleValued();
 
     /**
-     * Create a stream of the value.
-     *
-     * @return the stream containing the value
-     */
-    @Override
-    default Stream<T> stream() {
-        return StreamSupport.stream(spliterator(), false);
-    }
-    
-    /**
-     * Validate if the value contains the provided item.
-     *
-     * @param element   an element of type T, can be <code>null</code>
-     * @return          true, if the element is contained within
-     */
-    default boolean contains(T element) {
-        return exists(e -> Objects.equals(e, element));
-    }
-    
-    /**
-     * Validate that all elements match the predicate provided.
-     * This can be useful to quickly look over the elements to verify that they all meet a pre-specified criteria.
-     *
-     * <p><strong>Example:</strong></p>
-     * <pre>{@code    // result will be true
-     *    List("a", "b").all(x -> x.length() == 1);
-     * }</pre>
-     * 
-     * @param predicate the predicate to test with
-     * @return          true if all elements match the predicate, otherwise false
-     *
-     * @see #none(Predicate)
-     * @see #exists(Predicate)
-     * @throws NullPointerException in case the {@link Predicate} is null
-     */
-    default boolean all(Predicate<? super T> predicate) {
-        Objects.requireNonNull(predicate, "Predicate provided cannot be null");
-        return !exists(predicate.negate());
-    }
-
-    /**
      * Validate that none of the elements match the {@code predicate} provided.
      *
      * @param predicate the predicate to test with
@@ -112,20 +119,13 @@ public interface Value<T> extends Streamable<T>, Serializable {
     }
 
     /**
-     * Validate if an element is contained that matches the provided predicate.
+     * Create a stream of the value.
      *
-     * @param predicate the predicate to validate with
-     * @return          true, if any element is contained within that matches the predicate
-     * @throws NullPointerException in case the {@link Predicate} is null
+     * @return the stream containing the value
      */
-    default boolean exists(Predicate<? super T> predicate) {
-        Objects.requireNonNull(predicate, "Predicate provided cannot be null");
-        for (T entity : this) {
-            if (predicate.test(entity)) {
-                return true;
-            }
-        }
-        return false;
+    @Override
+    default Stream<T> stream() {
+        return StreamSupport.stream(spliterator(), false);
     }
 
 }

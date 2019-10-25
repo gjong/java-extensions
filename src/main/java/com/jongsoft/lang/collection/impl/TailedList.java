@@ -26,7 +26,6 @@ package com.jongsoft.lang.collection.impl;
 import static java.lang.String.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -164,7 +163,7 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public <K> Map<K, Sequence<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
+    public<K> Map<K, List<T>> groupBy(Function<? super T, ? extends K> keyGenerator) {
         return Collections.groupBy(TailedList::empty, this, keyGenerator);
     }
 
@@ -186,7 +185,7 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public List<T> toJava() {
+    public java.util.List<T> toJava() {
         java.util.List<T> result = new java.util.ArrayList<>(size());
         forEach(result::add);
         return result;

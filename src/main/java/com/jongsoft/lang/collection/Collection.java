@@ -37,43 +37,6 @@ import com.jongsoft.lang.control.Optional;
  */
 public interface Collection<T> extends Traversable<T> {
 
-    @Override
-    Collection<T> filter(Predicate<T> predicate);
-
-    @Override
-    Collection<T> reject(Predicate<T> predicate);
-
-    @Override
-    <U> Collection<U> map(Function<T, U> mapper);
-
-    /**
-     * Get the amount of elements contained in the collection.
-     *
-     * @return 0 if empty, otherwise the amount of entries
-     */
-    int size();
-
-    /**
-     * Convenience method to see if the current list is empty or not.
-     * This method will yield the same result as checking if the {@linkplain #size()} returns the value 0.
-     *
-     * @return true if the list contains elements, otherwise false
-     * @see #size()
-     */
-    default boolean isEmpty() {
-        return size() == 0;
-    }
-
-    @Override
-    default Optional<T> first(Predicate<T> predicate) {
-        return iterator().first(predicate);
-    }
-
-    @Override
-    default Optional<T> last(Predicate<T> predicate) {
-        return iterator().last(predicate);
-    }
-
     /**
      * Checks if all elements in the provided iterable are contained in this collection.
      * <p>
@@ -107,16 +70,12 @@ public interface Collection<T> extends Traversable<T> {
         return foldLeft(0, (count, element) -> predicate.test(element) ? count + 1 : count);
     }
 
-    /**
-     * Sum all elements using the provided accumulator. This reduces the Collection to a single numbered value.
-     *
-     * @param accumulator the accumulator to be used
-     * @return            the resulting value
-     * @throws NullPointerException in case {@code accumulator} is null
-     */
-    default long summing(BiFunction<Long, T, Long> accumulator) {
-        Objects.requireNonNull(accumulator, "accumulator is null");
-        return foldLeft(0L, accumulator);
+    @Override
+    Collection<T> filter(Predicate<T> predicate);
+
+    @Override
+    default Optional<T> first(Predicate<T> predicate) {
+        return iterator().first(predicate);
     }
 
     @Override
@@ -129,12 +88,6 @@ public interface Collection<T> extends Traversable<T> {
     default <U> U foldRight(U start, BiFunction<? super T, ? super U, ? extends U> combiner) {
         Objects.requireNonNull(combiner, "combiner is null");
         return iterator().foldRight(start, combiner);
-    }
-
-    @Override
-    default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
-        Objects.requireNonNull(reducer, "reducer is null");
-        return iterator().reduceLeft(reducer);
     }
 
     /**
@@ -174,6 +127,58 @@ public interface Collection<T> extends Traversable<T> {
     T head();
 
     /**
+     * Convenience method to see if the current list is empty or not.
+     * This method will yield the same result as checking if the {@linkplain #size()} returns the value 0.
+     *
+     * @return true if the list contains elements, otherwise false
+     * @see #size()
+     */
+    default boolean isEmpty() {
+        return size() == 0;
+    }
+
+    @Override
+    default boolean isSingleValued() {
+        return false;
+    }
+
+    @Override
+    default Optional<T> last(Predicate<T> predicate) {
+        return iterator().last(predicate);
+    }
+
+    @Override
+    <U> Collection<U> map(Function<T, U> mapper);
+
+    @Override
+    default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
+        Objects.requireNonNull(reducer, "reducer is null");
+        return iterator().reduceLeft(reducer);
+    }
+
+    @Override
+    Collection<T> reject(Predicate<T> predicate);
+
+    /**
+     * Get the amount of elements contained in the collection.
+     *
+     * @return 0 if empty, otherwise the amount of entries
+     */
+    int size();
+
+    /**
+     * Sum all elements using the provided accumulator. This reduces the Collection to a single numbered value.
+     *
+     * @param accumulator the accumulator to be used
+     * @return            the resulting value
+     * @throws NullPointerException in case {@code accumulator} is null
+     */
+    default long summing(BiFunction<Long, T, Long> accumulator) {
+        Objects.requireNonNull(accumulator, "accumulator is null");
+        return foldLeft(0L, accumulator);
+    }
+
+    /**
      * Build a new collection with all elements except for the {@linkplain #head() head}.
      * If there is only one element present then an empty collection will be returned. If the operation is called on an empty collection an
      * {@code NoSuchElementException} will be thrown.
@@ -182,9 +187,4 @@ public interface Collection<T> extends Traversable<T> {
      * @throws java.util.NoSuchElementException if the collection is {@code #isEmpty}
      */
     Collection<T> tail();
-
-    @Override
-    default boolean isSingleValued() {
-        return false;
-    }
 }
