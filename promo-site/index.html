@@ -9,6 +9,8 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css">
     <link rel="stylesheet"
           href="bootstrap.min.css">
+    <link rel="stylesheet"
+          href="railcast.css">
     <style>
         body {
             font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
@@ -19,11 +21,11 @@
         }
 
         .navbar, .about {
-            background: #337ab7;
+            background: #075ea9;
         }
 
         .usage {
-            background: #b77a33;
+            background: #9a5607;
         }
     </style>
 </head>
@@ -43,16 +45,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto mr-2">
             <li class="nav-item">
-                <a href="#about" class="nav-link">About</a>
+                <a href="#about" class="nav-link text-white">About</a>
             </li>
             <li class="nav-item">
-                <a href="#features" class="nav-link">Features</a>
+                <a href="#features" class="nav-link text-white">Features</a>
             </li>
             <li class="nav-item">
-                <a href="#usage" class="nav-link">Usage</a>
+                <a href="#usage" class="nav-link text-white">Usage</a>
             </li>
             <li class="nav-item">
-                <a href="#contribute" class="nav-link">Contribute</a>
+                <a href="#contribute" class="nav-link text-white">Contribute</a>
             </li>
         </ul>
     </div>
@@ -62,8 +64,8 @@
     <a name="about"></a>
     <h1 class="display-4">Java Language Extensions</h1>
     <p class="lead">
-        A functional oriented library that helps reduce the code clutter and increase readability. It will help in promoting the usage
-        of immutable entities and programming style.
+        A functional oriented library that helps reduce the code clutter and increase readability. The library will aid in creating
+        fully immutable code.
     </p>
     <div class="m-3 text-center">
         <img src="https://maven-badges.herokuapp.com/maven-central/com.jongsoft.lang/language/badge.svg" alt="Latest version">
@@ -78,7 +80,7 @@
                 <p class="font-weight-bold">
                     Create null safe code:
                 </p>
-                <code class="java highlight px-4 text-white">
+                <code class="java highlight px-4 text-white railscasts">
                     Sequence&lt;String&gt; valueList = API.Option(null) <br/>
                     &nbsp;&nbsp;.ifPresent(this::process) <br/>
                     &nbsp;&nbsp;.elseThrow(() -&gt; new NotFoundException());
@@ -112,7 +114,7 @@
 
 <a name="features"></a>
 
-<div class="block p-5 usage">
+<div class="block p-5 usage text-white">
     <a name="usage"></a>
     <h4>Using the modules in your project</h4>
     <p>
@@ -125,12 +127,12 @@
         &lt;dependency&gt;<br/>
         &nbsp;&nbsp;&lt;groupId&gt;com.com.jongsoft.lang&lt;/groupId&gt;<br/>
         &nbsp;&nbsp;&lt;artifactId&gt;language&lt;/artifactId&gt;<br/>
-        &nbsp;&nbsp;&lt;version&gt;0.0.5&lt;/version&gt;<br/>
+        &nbsp;&nbsp;&lt;version&gt;0.0.9&lt;/version&gt;<br/>
         &lt;/dependency&gt;
     </code>
     <strong>Gradle</strong>
     <code class="highlight xml py-0 my-0 px-4">
-        compile 'com.jongsoft.lang:language:0.0.5'
+        compile 'com.jongsoft.lang:language:0.0.9'
     </code>
 </div>
 

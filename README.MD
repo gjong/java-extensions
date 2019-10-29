@@ -65,7 +65,7 @@ To include this module use the Maven dependency below:
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>language</artifactId>
-        <version>0.0.5</version>
+        <version>0.0.9</version>
     </dependency>
 ```
 

@@ -23,9 +23,11 @@
  */
 package com.jongsoft.lang.collection.tuple;
 
+import java.io.Serializable;
+
 import com.jongsoft.lang.collection.Sequence;
 
-public interface Tuple {
+public interface Tuple extends Serializable {
 
     /**
      * Build an immutable {@link Sequence} of all elements present in the {@link Tuple}.
