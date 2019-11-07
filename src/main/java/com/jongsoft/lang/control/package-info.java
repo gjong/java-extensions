@@ -5,6 +5,7 @@
  * <ul>
  *     <li>{@linkplain com.jongsoft.lang.control.Optional}, for {@code null} safe access to elements</li>
  *     <li>{@linkplain com.jongsoft.lang.control.Try}, for exception handling logic</li>
+ *     <li>{@linkplain com.jongsoft.lang.control.Equal}, for logical equality building</li>
  * </ul>
  *
  * <p>

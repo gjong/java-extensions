@@ -33,6 +33,12 @@ public class EqualHelper {
         public boolean isNotEqual() {
             return false;
         }
+
+        @Override
+        public String toString() {
+            return "Equal[true]";
+        }
+
     };
 
     public static final Equal NOT_EQUAL = new Equal() {
@@ -50,6 +56,12 @@ public class EqualHelper {
         public boolean isNotEqual() {
             return true;
         }
+
+        @Override
+        public String toString() {
+            return "Equal[false]";
+        }
+
     };
 
     private EqualHelper() {

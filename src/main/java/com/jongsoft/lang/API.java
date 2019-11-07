@@ -64,6 +64,16 @@ public final class API {
         // hidden constructor for utility class
     }
 
+    /**
+     * This operation will compare the {@code left} with the provided {@code right} and return
+     * the corresponding equality.
+     *
+     * @param left      the left value
+     * @param right     the right value
+     * @param <T>       the type for left
+     * @param <X>       the type for right
+     * @return          the equality between {@code left} and {@code right}
+     */
     public static <T, X> Equal Equal(T left, X right) {
         return EqualHelper.IS_EQUAL.append(left, right);
     }

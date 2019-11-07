@@ -1,7 +1,7 @@
 package com.jongsoft.lang.control;
 
 /**
- * A control class to build an equality.
+ * A control class to build an equality comparison.
  */
 public interface Equal {
 
