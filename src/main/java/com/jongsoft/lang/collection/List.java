@@ -56,6 +56,9 @@ public interface List<T> extends Collection<T> {
      */
     int firstIndexWhere(Predicate<T> predicate);
 
+    @Override
+    List<T> filter(Predicate<T> predicate);
+
     /**
      * Get the element at the location of <code>index</code>
      *
