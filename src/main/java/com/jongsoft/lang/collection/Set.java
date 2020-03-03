@@ -23,12 +23,12 @@
  */
 package com.jongsoft.lang.collection;
 
+import com.jongsoft.lang.API;
+
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-import com.jongsoft.lang.API;
 
 /**
  * The set is an extension of the {@link Collection} interface that guarantees only unique elements are contained within the set.
@@ -145,22 +145,7 @@ public interface Set<T> extends List<T> {
      */
     java.util.Set<T> toJava();
 
-    /**
-     * Create a set that contains all elements that are contained in both {@code this} and the provided {@code iterable}.
-     *
-     * <blockquote>
-     * The union of two sets A and B is the set of elements which are in A, in B, or in both A and B, but not containing duplicate
-     * elements.
-     * </blockquote>
-     *
-     * <p><strong>Example:</strong></p>
-     * <pre>{@code  // the example would be a Set(1, 2, 3, 4)
-     *   Set result = Set(1, 2, 3).union(Set(3, 4));
-     * }</pre>
-     *
-     * @param iterable  the iterable to perform the union with
-     * @return  the product of the union operation
-     */
+    @Override
     Set<T> union(Iterable<T> iterable);
 
 }

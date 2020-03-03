@@ -23,12 +23,11 @@
  */
 package com.jongsoft.lang.collection;
 
+import com.jongsoft.lang.collection.tuple.Pair;
+
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import com.jongsoft.lang.collection.tuple.Pair;
-import com.jongsoft.lang.collection.tuple.Tuple;
 
 /**
  * This class represents a map implementation that is immutable. This means all operations that would change its contents result into a

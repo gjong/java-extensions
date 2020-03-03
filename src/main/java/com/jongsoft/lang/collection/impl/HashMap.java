@@ -23,18 +23,18 @@
  */
 package com.jongsoft.lang.collection.impl;
 
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Sequence;
 import com.jongsoft.lang.collection.tuple.Pair;
+
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * The {@link HashMap} allows for storing basic key, value pair based data.

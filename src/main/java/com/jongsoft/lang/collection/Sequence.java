@@ -161,24 +161,12 @@ public interface Sequence<T> extends List<T> {
     <U> Sequence<U> map(Function<T, U> mapper);
 
     /**
-     * Create a new sequence with all elements of this sequence combined with the elements of the provided iterable.
-     * The elements in this sequence will be added before the provided {@code iterable} in the returned sequence.
-     *
-     * <p><strong>Example:</strong></p>
-     * <pre>{@code  // the example would be a List(1, 2, 3, 4)
-     *   Sequence result = List(1, 2).union(Sequence(3, 4));
-     * }</pre>
-     *
-     * @param iterable  the elements to be added
-     * @return          the new list containing a union between this and the iterable
-     */
-    Sequence<T> union(Iterable<T> iterable);
-
-    /**
      * Transform this collection into one supported natively in Java.
      *
      * @return the native java collection
      */
     java.util.List<T> toJava();
 
+    @Override
+    Sequence<T> union(Iterable<T> iterable);
 }

@@ -121,4 +121,17 @@ public interface List<T> extends Collection<T> {
     @Override
     List<T> tail();
 
+    /**
+     * Create a new sequence with all elements of this sequence combined with the elements of the provided iterable.
+     * The elements in this sequence will be added before the provided {@code iterable} in the returned sequence.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a List(1, 2, 3, 4)
+     *   List<Integer> result = List(1, 2).union(List(3, 4));
+     * }</pre>
+     *
+     * @param iterable  the elements to be added
+     * @return          the new list containing a union between this and the iterable
+     */
+    List<T> union(Iterable<T> iterable);
 }
