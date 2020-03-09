@@ -40,6 +40,40 @@ import java.util.function.Predicate;
  *     <li>{@link API#SortedSet()}, a set where all elements are sorted based on a {@link java.util.Comparator}</li>
  * </ul>
  *
+ * <p></p>
+ * <table>
+ *     <caption><strong>Single change operations</strong></caption>
+ *     <thead>
+ *         <tr><td>Operation</td><td>Description</td></tr>
+ *     </thead>
+ *     <tbody>
+ *         <tr><td>{@linkplain #append(Object)}</td><td>Add element to end of the sequence</td></tr>
+ *         <tr><td>{@linkplain #remove(int)}</td><td>Remove an element by its index</td></tr>
+ *     </tbody>
+ * </table>
+ * <p></p>
+ * <table>
+ *     <caption><strong>Collection based operations</strong></caption>
+ *     <thead>
+ *         <tr><td>Operation</td><td>Description</td></tr>
+ *     </thead>
+ *     <tbody>
+ *         <tr><td>
+ *             {@linkplain #complement(Iterable)}<br/>
+ *             {@linkplain #complement(Iterable[])}
+ *         </td><td>Creates a set with elements only contained in this</td></tr>
+*         <tr><td>
+ *             {@linkplain #intersect(Iterable)}<br/>
+ *             {@linkplain #intersect(Iterable[])}
+ *         </td><td>Creates a set containing elements that are both in this and the provided iterables</td></tr>
+ *         <tr><td>{@linkplain #map(Function)}</td><td>Create a new sequence with the mapped values</td></tr>
+ *         <tr><td>{@linkplain #filter(Predicate)}</td><td>Create a new set with values matching the predicate</td></tr>
+ *         <tr><td>{@linkplain #reject(Predicate)}</td><td>Create a new sequence without the rejected values matching the
+ *         predicate</td></tr>
+ *         <tr><td>{@linkplain #union(Iterable)}</td><td>Combine this sequence of elements with the provided iterable</td></tr>
+ * </tbody>
+ * </table>
+ * 
  * @param <T> the entity type contained in the set
  * @since 0.0.3
  */

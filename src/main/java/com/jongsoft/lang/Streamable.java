@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016-2019 Jong Soft.
+ * Copyright 2016-2020 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,8 +48,10 @@ public interface Streamable<T> extends Iterable<T> {
 
     /**
      * Perform a mapping operation on the elements in the stream.
+     * <p>
      * This operation will loop over all elements in the stream and apply the {@code mapper} method. The mapped values will be returned
-     * in as a new set of elements.
+     * in as a new stream of elements.
+     * </p>
      *
      * @param <U>       the type of object expected as a result
      * @param mapper    the mapping functionality

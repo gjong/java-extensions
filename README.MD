@@ -71,7 +71,7 @@ To include this module use the Maven dependency below:
 
 ## License
 The MIT License (MIT)
-Copyright (c) 2016-2019 Jong Soft Development
+Copyright (c) 2016-2020 Jong Soft Development
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,

@@ -31,9 +31,19 @@ import java.util.function.Predicate;
 /**
  * <p>
  *   Sequences are ordered collections of elements.
- *   These collections allow for appending duplicate entries, but all entries will always be returned in the order that they were added or
- *   inserted.
+ *
+ *   These collections allow for appending duplicate entries, but all entries will always be returned in the order
+ *   that they were added or inserted.
  * </p>
+ * <p>
+ *   Creating a new sequence can be achieved by using the on of the following operations:
+ * </p>
+ * <ul>
+ *   <li>{@link com.jongsoft.lang.API#List(Iterator)}</li>
+ *   <li>{@link com.jongsoft.lang.API#List(Iterable)}</li>
+ *   <li>{@link com.jongsoft.lang.API#List(Object[])}</li>
+ *   <li>{@link com.jongsoft.lang.API#List(Object)}</li>
+ * </ul>
  * <p></p>
  * <table>
  *     <caption><strong>Single change operations</strong></caption>
@@ -42,7 +52,6 @@ import java.util.function.Predicate;
  *     </thead>
  *     <tbody>
  *         <tr><td>{@linkplain #append(Object)}</td><td>Add element to end of the sequence</td></tr>
- *         <tr><td>{@linkplain #union(Iterable)}</td><td>Add elements to end of the sequence</td></tr>
  *         <tr><td>{@linkplain #prepend(Object)}</td><td>Add elements to start of the sequence</td></tr>
  *         <tr><td>{@linkplain #insert(int, Object)}</td><td>Add an element to the indicated place</td></tr>
  *         <tr><td>{@linkplain #remove(Object)}</td><td>Remove the element</td></tr>
@@ -51,7 +60,7 @@ import java.util.function.Predicate;
  * </table>
  * <p></p>
  * <table>
- *     <caption><strong>Set operations</strong></caption>
+ *     <caption><strong>Collection operations</strong></caption>
  *     <thead>
  *         <tr><td>Operation</td><td>Description</td></tr>
  *     </thead>
@@ -61,7 +70,7 @@ import java.util.function.Predicate;
  *         predicate</td></tr>
  *         <tr><td>{@linkplain #filter(Predicate)}</td><td>Create a new sequence with values matching the predicate</td></tr>
  *         <tr><td>{@linkplain #map(Function)}</td><td>Create a new sequence with the mapped values</td></tr>
- *         <tr><td>{@linkplain #distinct()}</td><td>Create a sequence with only unique elements</td></tr>
+ *         <tr><td>{@linkplain #distinct()}</td><td>Create a set with only unique elements</td></tr>
  *     </tbody>
  * </table>
  *
@@ -151,9 +160,10 @@ public interface Sequence<T> extends List<T> {
     }
 
     /**
-     * Generate a new sequence containing only unique elements from this collection.
+     * Generate a new set containing only unique elements from this collection. As identified by their
+     * {@link Object#hashCode()}.
      *
-     * @return  a new unique sequence
+     * @return  a set with unique elements
      */
     Set<T> distinct();
 

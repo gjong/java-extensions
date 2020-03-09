@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016-2019 Jong Soft.
+ * Copyright 2016-2020 Jong Soft.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,12 @@
  */
 package com.jongsoft.lang.collection;
 
+import com.jongsoft.lang.control.Optional;
+
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-import com.jongsoft.lang.control.Optional;
 
 /**
  * The collection interface enables basic operations that allow access to the elements.
