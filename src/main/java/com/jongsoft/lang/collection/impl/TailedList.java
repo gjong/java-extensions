@@ -25,14 +25,17 @@ package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.*;
+import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.List;
+import com.jongsoft.lang.collection.Map;
+import com.jongsoft.lang.collection.Pipeline;
+import com.jongsoft.lang.collection.Sequence;
+import com.jongsoft.lang.collection.Set;
 import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.collection.support.Collections;
 import com.jongsoft.lang.collection.support.PipeCommand;
@@ -189,10 +192,6 @@ public class TailedList<T> implements Sequence<T> {
         java.util.List<T> result = new java.util.ArrayList<>(size());
         forEach(result::add);
         return result;
-    }
-
-    public static <T> Collector<T, ArrayList<T>, Sequence<T>> collector() {
-        return Collections.collector(TailedList::ofAll);
     }
 
     private void validateIndexOutOfBounds(int index) {

@@ -281,7 +281,8 @@ public final class API {
             return (HashSet<T>) iterable;
         }
 
-        return new HashSet<>(Iterator(iterable).toNativeArray());
+        Set<? extends T> set = new HashSet<>(API.<T>Iterator().toNativeArray());
+        return (Set<T>) set.union(create(toArray(iterable)));
     }
 
     /**
@@ -295,7 +296,7 @@ public final class API {
     @SafeVarargs
     @SuppressWarnings("squid:S00100")
     public static <T> Set<T> Set(Comparator<T> comparator, T...elements) {
-        return new SortedSet<>(elements, comparator);
+        return API.Set(comparator, create(elements));
     }
 
     /**
@@ -308,7 +309,8 @@ public final class API {
      */
     @SuppressWarnings("squid:S00100")
     public static <T> Set<T> Set(Comparator<T> comparator, Iterable<? extends T> iterable) {
-        return new SortedSet<>(Iterator(iterable).toNativeArray(), comparator);
+        Set<T> set = new SortedSet<T>(API.<T>Iterator().toNativeArray(), comparator);
+        return set.union((Iterable<T>) iterable);
     }
 
     @SuppressWarnings({"unchecked", "squid:S00100"})

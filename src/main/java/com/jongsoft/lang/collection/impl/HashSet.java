@@ -23,18 +23,15 @@
  */
 package com.jongsoft.lang.collection.impl;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.Foldable;
 import com.jongsoft.lang.collection.Set;
-import com.jongsoft.lang.collection.support.Collections;
 
 /**
  * This class implements the {@link Set} interface and ensures uniqueness of the elements using there {@link Object#hashCode()}.
@@ -64,11 +61,6 @@ public class HashSet<T> extends AbstractSet<T> implements Set<T> {
     public <U> U foldRight(final U start, final BiFunction<? super T, ? super U, ? extends U> combiner) {
         Objects.requireNonNull(combiner, "combiner is null");
         return foldLeft(start, (x , y) -> combiner.apply(y, x));
-    }
-
-    @Override
-    public Collector<T, ArrayList<T>, Set<T>> collector() {
-        return Collections.collector(API::Set);
     }
 
     @Override

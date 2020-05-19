@@ -25,13 +25,11 @@ package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
@@ -203,7 +201,6 @@ abstract class AbstractSet<T> implements Set<T> {
 
     protected abstract <X> Supplier<Set<X>> emptySupplier();
     protected abstract Function<Object[], Set<T>> wrapperSupplier();
-    public abstract Collector<T, ArrayList<T>, Set<T>> collector();
 
     @Override
     @SuppressWarnings("unchecked")

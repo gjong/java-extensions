@@ -25,15 +25,18 @@ package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.*;
+import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.List;
+import com.jongsoft.lang.collection.Map;
+import com.jongsoft.lang.collection.Pipeline;
+import com.jongsoft.lang.collection.Sequence;
+import com.jongsoft.lang.collection.Set;
 import com.jongsoft.lang.collection.support.Collections;
 import com.jongsoft.lang.collection.support.PipeCommand;
 
@@ -183,10 +186,6 @@ public class Array<T> implements Sequence<T> {
     @Override
     public String toString() {
         return Collections.textValueOf("Sequence", this);
-    }
-
-    public static <T> Collector<T, ArrayList<T>, Sequence<T>> collector() {
-        return Collections.collector(API::List);
     }
 
     private void validateOutOfBounds(int index) {

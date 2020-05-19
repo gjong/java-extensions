@@ -23,6 +23,12 @@
  */
 package com.jongsoft.lang.collection.impl;
 
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.Iterator;
@@ -30,17 +36,11 @@ import com.jongsoft.lang.collection.Map;
 import com.jongsoft.lang.collection.Sequence;
 import com.jongsoft.lang.collection.tuple.Pair;
 
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 /**
  * The {@link HashMap} allows for storing basic key, value pair based data.
  *
- * @param <K>   the type of the key
- * @param <T>   the type of the value
+ * @param <K> the type of the key
+ * @param <T> the type of the value
  */
 public class HashMap<K, T> implements Map<K, T> {
 
@@ -124,8 +124,7 @@ public class HashMap<K, T> implements Map<K, T> {
 
     @Override
     public Stream<T> valueStream() {
-        return delegate.stream()
-                .map(Pair::getSecond);
+        return delegate.stream().map(Pair::getSecond);
     }
 
     @Override
@@ -150,4 +149,11 @@ public class HashMap<K, T> implements Map<K, T> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return delegate.foldLeft(
+                "Map {" + System.lineSeparator(),
+                (left, right) -> left + right.getFirst() + " : " + right.getSecond() + System.lineSeparator())
+                + "}";
+    }
 }

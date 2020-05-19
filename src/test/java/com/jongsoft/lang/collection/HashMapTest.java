@@ -6,11 +6,9 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.jongsoft.lang.collection.tuple.Pair;
 import org.junit.Test;
-
 import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.tuple.Tuple;
+import com.jongsoft.lang.collection.tuple.Pair;
 
 public class HashMapTest {
 
@@ -168,5 +166,22 @@ public class HashMapTest {
         assertThat(result.size(), equalTo(2));
         assertThat(result.get("one"), equalTo("two"));
         assertThat(result.get("two"), equalTo("three"));
+    }
+
+    @Test
+    public void testToString() {
+        String result = API.Map()
+                .put("one", "two")
+                .put("two", "three")
+                .toString();
+
+        assertThat(result,
+                   equalTo("Map {"
+                           + System.lineSeparator()
+                           + "one : two"
+                           + System.lineSeparator()
+                           + "two : three"
+                           + System.lineSeparator()
+                           + "}"));
     }
 }

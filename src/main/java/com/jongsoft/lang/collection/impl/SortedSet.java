@@ -23,16 +23,13 @@
  */
 package com.jongsoft.lang.collection.impl;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Set;
-import com.jongsoft.lang.collection.support.Collections;
 
 public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
 
@@ -87,11 +84,6 @@ public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
     @Override
     protected Function<Object[], Set<T>> wrapperSupplier() {
         return x -> new SortedSet<>(x, comparator);
-    }
-
-    @Override
-    public Collector<T, ArrayList<T>, Set<T>> collector() {
-        return Collections.collector(x -> API.Set(comparator, x));
     }
 
     @Override
