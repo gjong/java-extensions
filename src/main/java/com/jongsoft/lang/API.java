@@ -91,7 +91,17 @@ public final class API {
     @SuppressWarnings({"unchecked", "squid:S00100"})
     public static <T> Optional<T> Option(T value) {
         return value != null ? new Some<>(value) : (Optional<T>) None.INSTANCE;
+    }
 
+    /**
+     * Will always return an empty optional.
+     *
+     * @param <T>       the type of the value
+     * @return          the empty optional
+     */
+    @SuppressWarnings({"unchecked", "squid:S00100"})
+    public static <T> Optional<T> Option() {
+        return (Optional<T>) None.INSTANCE;
     }
 
     /**

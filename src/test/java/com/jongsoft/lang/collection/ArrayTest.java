@@ -308,6 +308,39 @@ public class ArrayTest {
     }
 
     @Test
+    public void sum() {
+        final Optional<Double> sum = API.List(1, 3, 3).sum();
+        assertThat(sum.get(), equalTo(7.0));
+        assertThat(API.List(1.0, 10e100, 2.0, -10e100).sum().get(), equalTo(3.0));
+        assertTrue(Double.isNaN(API.List(1.0, Double.NaN).sum().get()));
+    }
+
+    @Test
+    public void sum_empty() {
+        final Optional<Double> sum = API.List().sum();
+        assertThat(sum.isPresent(), equalTo(false));
+    }
+
+    @Test
+    public void average() {
+        assertThat(API.List().average().isPresent(), equalTo(false));
+        assertThat(API.List(1, 2, 3).average().get(), equalTo(2.0));
+        assertThat(API.List(1.0, 10e100, 2.0, -10e100).average().get(), equalTo(0.75));
+
+        assertTrue(Double.isNaN(API.List(1.0, Double.NaN).average().get()));
+    }
+
+    @Test(expected = ClassCastException.class)
+    public void average_NoNumber() {
+        API.List("st", "tes").average();
+    }
+
+    @Test(expected = ClassCastException.class)
+    public void sum_NoNumber() {
+        API.List("st", "tes").sum();
+    }
+
+    @Test
     public void allNone() {
         Sequence<String> result = API.List("o", "n", "b");
 

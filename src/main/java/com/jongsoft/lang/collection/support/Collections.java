@@ -29,12 +29,15 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
 import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.List;
 import com.jongsoft.lang.collection.Map;
+import com.jongsoft.lang.collection.Traversable;
+import com.jongsoft.lang.collection.tuple.Pair;
 
 public final class Collections {
 
@@ -64,6 +67,29 @@ public final class Collections {
         };
 
         return Collector.of(ArrayList::new, ArrayList::add, combiner, finisher::apply);
+    }
+
+    public static <T> Pair<Integer, Double> neumaierSum(Traversable<T> traversable, ToDoubleFunction<T> toDoubleFunction) {
+        int count = 0;
+        double sum = 0.0;
+        double compensation = 0.0;
+
+        for (T t : traversable) {
+            double value = toDoubleFunction.applyAsDouble(t);
+            double y = sum + value;
+
+            if (Math.abs(sum) >= Math.abs(value)) {
+                compensation += (sum - y) + value;
+            } else {
+                compensation += (value - y) + sum;
+            }
+
+            sum = y;
+            count++;
+        }
+
+        sum += compensation;
+        return API.Tuple(count, sum);
     }
 
     @SuppressWarnings("unchecked")
