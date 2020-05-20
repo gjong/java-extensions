@@ -25,6 +25,7 @@ package com.jongsoft.lang.collection.support;
 
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
@@ -60,8 +61,18 @@ public abstract class AbstractIterator<T> implements Iterator<T> {
     }
 
     @Override
-    public Traversable<T> reject(Predicate<T> predicate) {
+    public Iterator<T> reject(Predicate<T> predicate) {
         return filter(predicate.negate());
+    }
+
+    @Override
+    public Traversable<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
+        return hasNext() ? this : API.Iterator((Iterable<T>) supplier.get());
+    }
+
+    @Override
+    public Traversable<T> orElse(final Iterable<? extends T> other) {
+        return hasNext() ? this : API.Iterator((Iterable<T>) other);
     }
 
     @Override

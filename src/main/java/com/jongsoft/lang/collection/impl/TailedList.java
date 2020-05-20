@@ -28,6 +28,7 @@ import static java.lang.String.*;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
@@ -158,6 +159,16 @@ public class TailedList<T> implements Sequence<T> {
             mappedTail = new TailedList<>(mapper.apply(processing.get()), (TailedList<U>) mappedTail);
         }
         return mappedTail.reverse();
+    }
+
+    @Override
+    public Sequence<T> orElse(final Iterable<? extends T> other) {
+        return isEmpty() ? TailedList.ofAll(other) : this;
+    }
+
+    @Override
+    public Sequence<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
+        return isEmpty() ? TailedList.ofAll(supplier.get()) : this;
     }
 
     @Override

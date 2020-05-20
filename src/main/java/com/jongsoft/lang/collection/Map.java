@@ -23,11 +23,12 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.collection.tuple.Pair;
-
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
+
+import com.jongsoft.lang.collection.tuple.Pair;
 
 /**
  * This class represents a map implementation that is immutable. This means all operations that would change its contents result into a
@@ -57,6 +58,12 @@ public interface Map<K, T> extends Collection<Pair<K, T>> {
      * @return      a new instance without the entry with the key
      */
     Map<K, T> remove(K key);
+
+    @Override
+    Map<K, T> orElse(Supplier<? extends Iterable<? extends Pair<K, T>>> supplier);
+
+    @Override
+    Map<K, T> orElse(Iterable<? extends Pair<K, T>> other);
 
     /**
      * Returns true if this {@link Map} contains the key provided.

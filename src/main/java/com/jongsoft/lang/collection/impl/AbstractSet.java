@@ -130,6 +130,20 @@ abstract class AbstractSet<T> implements Set<T> {
     }
 
     @Override
+    public Set<T> orElse(final Iterable<? extends T> other) {
+        return isEmpty() ?
+                this.wrapperSupplier().apply(API.Iterator(other).toNativeArray())
+                : this;
+    }
+
+    @Override
+    public Set<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
+        return isEmpty() ?
+                this.wrapperSupplier().apply(API.Iterator(supplier.get()).toNativeArray())
+                : this;
+    }
+
+    @Override
     public Pipeline<T> pipeline() {
         return new PipeCommand<>(this);
     }

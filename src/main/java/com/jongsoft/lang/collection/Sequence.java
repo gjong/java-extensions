@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * <p>
@@ -169,6 +170,12 @@ public interface Sequence<T> extends List<T> {
 
     @Override
     <U> Sequence<U> map(Function<T, U> mapper);
+
+    @Override
+    Sequence<T> orElse(Iterable<? extends T> other);
+
+    @Override
+    Sequence<T> orElse(Supplier<? extends Iterable<? extends T>> supplier);
 
     /**
      * Transform this collection into one supported natively in Java.

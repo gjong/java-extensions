@@ -13,7 +13,6 @@ import java.util.NoSuchElementException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.control.Optional;
 
@@ -294,6 +293,18 @@ public class ArrayTest {
 
         assertThat(mapped.size(), equalTo(2));
         assertThat(mapped, hasItems(4, 3));
+    }
+
+    @Test
+    public void orElse() {
+        Sequence<String> result = API.List("test")
+                .orElse(API.List("two"));
+
+        Sequence<String> supplied = API.List("test")
+                .orElse(API.List("two"));
+
+        assertThat(result, hasItem("test"));
+        assertThat(supplied, hasItem("test"));
     }
 
     @Test

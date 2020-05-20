@@ -16,6 +16,10 @@
             font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
         }
 
+        .block {
+            height: calc(100vh - 56px);
+        }
+
         code.highlight {
             background: transparent;
         }
@@ -60,80 +64,81 @@
     </div>
 </nav>
 
-<div class="block px-5 jumbotron-fluid about text-white py-5">
-    <a name="about"></a>
-    <h1 class="display-4">Java Language Extensions</h1>
-    <p class="lead">
-        A functional oriented library that helps reduce the code clutter and increase readability. The library will aid in creating
-        fully immutable code.
-    </p>
-    <div class="m-3 text-center">
-        <img src="https://maven-badges.herokuapp.com/maven-central/com.jongsoft.lang/language/badge.svg" alt="Latest version">
-        <img src="https://circleci.com/bb/jongsoftdev/language-extension/tree/master.svg?style=svg" alt="Build status">
-        <img src="https://sonarcloud.io/api/project_badges/measure?project=com.jongsoft.lang%3Alanguage&metric=alert_status"
-             alt="Sonar quality">
-    </div>
-    <hr class="my-4"/>
-    <div id="mainFeatures" class="carousel slide px-5 py-3 container " data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <p class="font-weight-bold">
-                    Create null safe code:
-                </p>
-                <code class="java highlight px-4 text-white railscasts">
-                    Sequence&lt;String&gt; valueList = API.Option(null) <br/>
-                    &nbsp;&nbsp;.ifPresent(this::process) <br/>
-                    &nbsp;&nbsp;.elseThrow(() -&gt; new NotFoundException());
-                </code>
-            </div>
-            <div class="carousel-item">
-                <p class="font-weight-bold">
-                    Create and manipulate sequences:
-                </p>
-                <code class="java highlight px-4 text-white">
-                    String reducedString = API.List("first", "second", "third") <br/>
-                    &nbsp;&nbsp;.add("fourth") <br/>
-                    &nbsp;&nbsp;.remove("first") <br/>
-                    &nbsp;&nbsp;.filter(s -&gt; s.length > 5) <br/>
-                    &nbsp;&nbsp;.fold("!", (xs, x) -&gt; xs + x);
-                </code>
-            </div>
-            <div class="carousel-item">
-                <p class="font-weight-bold">
-                    Use the Try to delegate exception recovery:
-                </p>
-                <code class="java highlight px-4 text-white">
-                    String message = API&lt;String&gt.Try(this::mayThrowException) <br/>
-                    &nbsp;&nbsp;.recover(x -&gt; "default text") <br/>
-                    &nbsp;&nbsp;.get();
-                </code>
+<div class="block p-5 about text-white">
+    <div class="container">
+        <a name="about"></a>
+        <h1 class="display-4">Java Language Extensions</h1>
+        <p class="lead">
+            A functional oriented library that helps reduce the code clutter and increase readability.
+        </p>
+        <div class="m-3 text-center">
+            <img src="https://img.shields.io/maven-central/v/com.jongsoft.lang/language.svg?color=green&style=flat-square" alt="Latest version">
+            <img src="https://sonarcloud.io/api/project_badges/measure?project=com.jongsoft.lang%3Alanguage&metric=alert_status" alt="Sonar quality">
+            <img src="https://img.shields.io/coveralls/bitbucket/jongsoftdev/language-extension/master.svg?style=flat-square" alt="Code coverage">
+            <img src="https://img.shields.io/apm/l/vim-mode.svg?style=flat-square" alt="Code coverage">
+        </div>
+        <hr class="my-4"/>
+        <div id="mainFeatures" class="carousel slide px-5 py-3 container " data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <p class="font-weight-bold">
+                        Create null safe code:
+                    </p>
+                    <code class="java highlight px-4 text-white railscasts">
+                        Sequence&lt;String&gt; valueList = API.Option(null) <br/>
+                        &nbsp;&nbsp;.ifPresent(this::process) <br/>
+                        &nbsp;&nbsp;.elseThrow(() -&gt; new NotFoundException());
+                    </code>
+                </div>
+                <div class="carousel-item">
+                    <p class="font-weight-bold">
+                        Create and manipulate sequences:
+                    </p>
+                    <code class="java highlight px-4 text-white">
+                        String reducedString = API.List("first", "second", "third") <br/>
+                        &nbsp;&nbsp;.add("fourth") <br/>
+                        &nbsp;&nbsp;.remove("first") <br/>
+                        &nbsp;&nbsp;.filter(s -&gt; s.length > 5) <br/>
+                        &nbsp;&nbsp;.fold("!", (xs, x) -&gt; xs + x);
+                    </code>
+                </div>
+                <div class="carousel-item">
+                    <p class="font-weight-bold">
+                        Use the Try to delegate exception recovery:
+                    </p>
+                    <code class="java highlight px-4 text-white">
+                        String message = API&lt;String&gt.Try(this::mayThrowException) <br/>
+                        &nbsp;&nbsp;.recover(x -&gt; "default text") <br/>
+                        &nbsp;&nbsp;.get();
+                    </code>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<a name="features"></a>
-
 <div class="block p-5 usage text-white">
-    <a name="usage"></a>
-    <h4>Using the modules in your project</h4>
-    <p>
-        Including the language extensions in your project can be done by adding maven dependencies to your existing project. The project is
-        split in several modules that can be included pending on your needs.
-    </p>
+    <div class="container">
+        <a name="usage"></a>
+        <h4>Using the modules in your project</h4>
+        <p class="mb-5">
+            Including the language extensions in your project can be done by adding maven dependencies to your existing project.
+        </p>
 
-    <strong>Maven</strong>
-    <code class="highlight xml py-0 my-0 px-4">
-        &lt;dependency&gt;<br/>
-        &nbsp;&nbsp;&lt;groupId&gt;com.com.jongsoft.lang&lt;/groupId&gt;<br/>
-        &nbsp;&nbsp;&lt;artifactId&gt;language&lt;/artifactId&gt;<br/>
-        &nbsp;&nbsp;&lt;version&gt;0.0.9&lt;/version&gt;<br/>
-        &lt;/dependency&gt;
-    </code>
-    <strong>Gradle</strong>
-    <code class="highlight xml py-0 my-0 px-4">
-        compile 'com.jongsoft.lang:language:0.0.9'
-    </code>
+        <strong>Maven</strong>
+        <code class="highlight xml py-0 mt-0 px-4 mb-5">
+            &lt;dependency&gt;<br/>
+            &nbsp;&nbsp;&lt;groupId&gt;com.com.jongsoft.lang&lt;/groupId&gt;<br/>
+            &nbsp;&nbsp;&lt;artifactId&gt;language&lt;/artifactId&gt;<br/>
+            &nbsp;&nbsp;&lt;version&gt;0.0.9&lt;/version&gt;<br/>
+            &lt;/dependency&gt;
+        </code>
+
+        <strong>Gradle</strong>
+        <code class="highlight xml py-0 my-0 px-4">
+            compile 'com.jongsoft.lang:language:0.0.9'
+        </code>
+    </div>
 </div>
 
 <a name="contribute"></a>

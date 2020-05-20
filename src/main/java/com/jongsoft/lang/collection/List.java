@@ -26,6 +26,7 @@ package com.jongsoft.lang.collection;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  *
@@ -97,6 +98,12 @@ public interface List<T> extends Collection<T> {
 
     @Override
     <U> List<U> map(Function<T, U> mapper);
+
+    @Override
+    List<T> orElse(Iterable<? extends T> other);
+
+    @Override
+    List<T> orElse(Supplier<? extends Iterable<? extends T>> supplier);
 
     /**
      * Create a pipeline for the current list. A pipeline can be used to create a set of lazy operations on the list

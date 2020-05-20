@@ -209,6 +209,19 @@ public class HashSetTest {
     }
 
     @Test
+    public void orElse() {
+        Set<String> result = API.Set("test")
+                .orElse(API.List("two"));
+
+        Set<String> supplied = API.Set("test")
+                .orElse(API.List("two"));
+
+        assertThat(result, hasItem("test"));
+        assertThat(supplied, hasItem("test"));
+    }
+
+
+    @Test
     public void fold() {
         String folded = API.Set("a", "b", "a", "c").fold("!", (xs, y) -> xs + y);
         String leftFolded = API.Set("a", "b", "a", "c").foldLeft("!", (xs, y) -> xs + y);

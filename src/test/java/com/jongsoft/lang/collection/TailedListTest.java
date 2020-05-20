@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.impl.TailedList;
 
 public class TailedListTest {
@@ -64,6 +65,19 @@ public class TailedListTest {
         assertThat(list.get(1), equalTo("test"));
         assertThat(list.get(2), equalTo("added"));
     }
+
+    @Test
+    public void orElse() {
+        Sequence<String> result = TailedList.of("test")
+                .orElse(API.List("two"));
+
+        Sequence<String> supplied = TailedList.of("test")
+                .orElse(API.List("two"));
+
+        assertThat(result, hasItem("test"));
+        assertThat(supplied, hasItem("test"));
+    }
+
 
     @Test
     public void addAll() {

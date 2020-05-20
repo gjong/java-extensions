@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import com.jongsoft.lang.API;
@@ -115,6 +116,16 @@ public class HashMap<K, T> implements Map<K, T> {
     @Override
     public <U> Collection<U> map(final Function<Pair<K, T>, U> mapper) {
         return delegate.map(mapper);
+    }
+
+    @Override
+    public Map<K, T> orElse(final Supplier<? extends Iterable<? extends Pair<K, T>>> supplier) {
+        return isEmpty() ? new HashMap<>(API.List(supplier.get())) : this;
+    }
+
+    @Override
+    public Map<K, T> orElse(final Iterable<? extends Pair<K, T>> other) {
+        return isEmpty() ? new HashMap<>(API.List(other)) : this;
     }
 
     @Override

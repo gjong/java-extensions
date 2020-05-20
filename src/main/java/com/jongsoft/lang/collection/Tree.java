@@ -25,6 +25,7 @@ package com.jongsoft.lang.collection;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.jongsoft.lang.control.Optional;
 
@@ -87,6 +88,12 @@ public interface Tree<T> extends Traversable<T> {
     String label();
 
     <U> Tree<U> map(Function<T, U> mapper);
+
+    @Override
+    Tree<T> orElse(Iterable<? extends T> other);
+
+    @Override
+    Tree<T> orElse(Supplier<? extends Iterable<? extends T>> supplier);
 
     /**
      * Get the parent tree node for this tree node.

@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
@@ -104,11 +105,21 @@ public class Array<T> implements Sequence<T> {
         Objects.requireNonNull(mapper, "The mapper cannot be null for this operation.");
 
         Object[] mapped = new Object[delegate.length];
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < delegate.length; i++) {
             mapped[i] = mapper.apply(get(i));
         }
 
         return new Array<>(mapped);
+    }
+
+    @Override
+    public Sequence<T> orElse(final Iterable<? extends T> other) {
+        return isEmpty() ? API.List(other) : this;
+    }
+
+    @Override
+    public Sequence<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
+        return isEmpty() ? API.List(supplier.get()) : this;
     }
 
     @Override

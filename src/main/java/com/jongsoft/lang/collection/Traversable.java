@@ -2,6 +2,7 @@ package com.jongsoft.lang.collection;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import com.jongsoft.lang.Value;
 import com.jongsoft.lang.control.Optional;
@@ -44,6 +45,22 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
     Optional<T> last(Predicate<T> predicate);
 
     <U> Traversable<U> map(Function<T, U> mapper);
+
+    /**
+     * Returns either {@code this} if it is non empty, otherwise will return the provided {@code other}.
+     *
+     * @param other the alternative
+     * @return this {@code Traversable} if non empty, or {@code other}
+     */
+    Traversable<T> orElse(Iterable<? extends T> other);
+
+    /**
+     * Returns either {@code this} if it is non empty, otherwise the provided supplier is evaluated and returned.
+     *
+     * @param supplier the supplier to generate the other
+     * @return this (@code Traversable} if non empty, otherwise other
+     */
+    Traversable<T> orElse(Supplier<? extends Iterable<? extends T>> supplier);
 
     /**
      * Return a list that removes all elements that match the {@code predicate} provided.

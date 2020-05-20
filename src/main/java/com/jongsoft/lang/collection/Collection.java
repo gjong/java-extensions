@@ -23,12 +23,13 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.control.Optional;
-
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
+
+import com.jongsoft.lang.control.Optional;
 
 /**
  * The collection interface enables basic operations that allow access to the elements.
@@ -149,6 +150,12 @@ public interface Collection<T> extends Traversable<T> {
 
     @Override
     <U> Collection<U> map(Function<T, U> mapper);
+
+    @Override
+    Collection<T> orElse(Iterable<? extends T> other);
+
+    @Override
+    Collection<T> orElse(Supplier<? extends Iterable<? extends T>> supplier);
 
     @Override
     default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {

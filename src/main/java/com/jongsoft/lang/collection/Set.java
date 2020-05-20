@@ -23,12 +23,13 @@
  */
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.API;
-
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
+
+import com.jongsoft.lang.API;
 
 /**
  * The set is an extension of the {@link Collection} interface that guarantees only unique elements are contained within the set.
@@ -159,6 +160,12 @@ public interface Set<T> extends List<T> {
 
     @Override
     <U> Set<U> map(Function<T, U> mapper);
+
+    @Override
+    Set<T> orElse(Iterable<? extends T> other);
+
+    @Override
+    Set<T> orElse(Supplier<? extends Iterable<? extends T>> supplier);
 
     @Override
     default Set<T> reject(Predicate<T> predicate) {

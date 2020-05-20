@@ -23,6 +23,11 @@
  */
 package com.jongsoft.lang.collection.impl;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Sequence;
@@ -30,10 +35,6 @@ import com.jongsoft.lang.collection.Traversable;
 import com.jongsoft.lang.collection.Tree;
 import com.jongsoft.lang.collection.support.Collections;
 import com.jongsoft.lang.control.Optional;
-
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 public class TreeSet<T> implements Tree<T> {
 
@@ -108,6 +109,16 @@ public class TreeSet<T> implements Tree<T> {
     @Override
     public <U> Tree<U> map(Function<T, U> mapper) {
         return API.Tree(label, mapper.apply(value), children.map(t -> t.map(mapper)));
+    }
+
+    @Override
+    public Tree<T> orElse(final Iterable<? extends T> other) {
+        return this;
+    }
+
+    @Override
+    public Tree<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
+        return this;
     }
 
     @Override
