@@ -9,7 +9,7 @@
 With the introduction of Java 8 the first steps were taken to support functional programming. Unfortunately true functional programming is not
 yet supported.
 
-**Note:** from version 0.0.4 onward only Java 11+ is supported
+**Note:** from version 1.1.0 the API class became deprecated
 
 ## Features in the library
 The library currently has the following groups of features that it adds on top of the default Java 11+ system:
