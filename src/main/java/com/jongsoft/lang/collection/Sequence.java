@@ -40,12 +40,11 @@ import java.util.function.Supplier;
  *   Creating a new sequence can be achieved by using the on of the following operations:
  * </p>
  * <ul>
- *   <li>{@link com.jongsoft.lang.API#List(Iterator)}</li>
- *   <li>{@link com.jongsoft.lang.API#List(Iterable)}</li>
- *   <li>{@link com.jongsoft.lang.API#List(Object[])}</li>
- *   <li>{@link com.jongsoft.lang.API#List(Object)}</li>
+ *   <li>{@link com.jongsoft.lang.Collections#List(Iterator)}</li>
+ *   <li>{@link com.jongsoft.lang.Collections#List(Iterable)}</li>
+ *   <li>{@link com.jongsoft.lang.Collections#List(Object[])}</li>
+ *   <li>{@link com.jongsoft.lang.Collections#List(Object)}</li>
  * </ul>
- * <p></p>
  * <table>
  *     <caption><strong>Single change operations</strong></caption>
  *     <thead>
@@ -59,7 +58,6 @@ import java.util.function.Supplier;
  *         <tr><td>{@linkplain #remove(int)}</td><td>Remove the element at the indicated place</td></tr>
  *     </tbody>
  * </table>
- * <p></p>
  * <table>
  *     <caption><strong>Collection operations</strong></caption>
  *     <thead>

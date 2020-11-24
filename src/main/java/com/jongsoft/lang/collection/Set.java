@@ -37,11 +37,9 @@ import com.jongsoft.lang.API;
  *
  * Currently the following implementations are supported:
  * <ul>
- *     <li>{@link API#Set(Object[])}, an implementation that uses the entities hash</li>
- *     <li>{@link API#SortedSet()}, a set where all elements are sorted based on a {@link java.util.Comparator}</li>
+ *     <li>{@link com.jongsoft.lang.Collections#Set(Object[])}, an implementation that uses the entities hash</li>
+ *     <li>{@link com.jongsoft.lang.Collections#SortedSet()}, a set where all elements are sorted based on a {@link java.util.Comparator}</li>
  * </ul>
- *
- * <p></p>
  * <table>
  *     <caption><strong>Single change operations</strong></caption>
  *     <thead>
@@ -52,7 +50,6 @@ import com.jongsoft.lang.API;
  *         <tr><td>{@linkplain #remove(int)}</td><td>Remove an element by its index</td></tr>
  *     </tbody>
  * </table>
- * <p></p>
  * <table>
  *     <caption><strong>Collection based operations</strong></caption>
  *     <thead>
@@ -60,11 +57,11 @@ import com.jongsoft.lang.API;
  *     </thead>
  *     <tbody>
  *         <tr><td>
- *             {@linkplain #complement(Iterable)}<br/>
+ *             {@linkplain #complement(Iterable)}<br>
  *             {@linkplain #complement(Iterable[])}
  *         </td><td>Creates a set with elements only contained in this</td></tr>
 *         <tr><td>
- *             {@linkplain #intersect(Iterable)}<br/>
+ *             {@linkplain #intersect(Iterable)}<br>
  *             {@linkplain #intersect(Iterable[])}
  *         </td><td>Creates a set containing elements that are both in this and the provided iterables</td></tr>
  *         <tr><td>{@linkplain #map(Function)}</td><td>Create a new sequence with the mapped values</td></tr>

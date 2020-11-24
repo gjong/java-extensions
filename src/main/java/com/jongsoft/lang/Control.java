@@ -50,18 +50,6 @@ public class Control {
     }
 
     /**
-     * Create a range window of two temporal entities. The range will be exclusive on the until entity.
-     *
-     * @param from      the beginning of the range (inclusive)
-     * @param until     the end of the range (exclusive)
-     * @param <T>       the type of the range
-     * @return
-     */
-    public static <T extends Temporal> Range<T> temporalRange(T from, T until) {
-        return new RangeImpl<>(from, until);
-    }
-
-    /**
      * Attempt to execute code that will return an entity, but may also result into an exception.
      *
      * @param <T>      the type of entity that will be returned in case of success

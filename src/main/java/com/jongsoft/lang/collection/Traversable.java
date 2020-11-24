@@ -18,7 +18,6 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
     /**
      * Find the first match in the elements using the provided {@link Predicate}.
      * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be an empty {@link Optional}.
-     * <p></p>
      * <p><strong>Example:</strong></p>
      * <pre>{@code // the result will be an Optional with the value 2
      *    int firstMatch = Collection(1, 2, 3, 4)
@@ -36,7 +35,6 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
     /**
      * Find the last match in the Iterator using the provided {@link Predicate}.
      * The returned {@linkplain Optional} is {@code null} safe and will either contain the element or be an empty {@link Optional}.
-     * <p></p>
      * <p><strong>Example:</strong></p>
      * <pre>{@code // the result will be an Optional with the value 4
      *    int firstMatch = Collection(1, 2, 3, 4)

@@ -152,7 +152,6 @@ public interface Optional<T> extends Value<T> {
      *     For example if the {@link com.jongsoft.lang.control.Optional} has no entity contained within then the OrElse can be used to throw an exception
      *     or run alternative logic.
      * </p>
-     * <p></p>
      * <p><strong>Example:</strong></p>
      * <pre>{@code  API.Option(null)
      *      .ifPresent(System.out::println)

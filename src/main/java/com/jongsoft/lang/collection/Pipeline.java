@@ -14,7 +14,6 @@ import com.jongsoft.lang.Streamable;
  *     Note that a pipeline can be split by re-using the intermediate operation. Each pipeline after the split will
  *     yield a different result and not modify the steps in between.
  * </p>
- * <p></p>
  * <p><strong>Example:</strong></p>
  * <pre>{@code
  *    Pipeline<Integer> intermediatePipe = API.List(1, 2, 3, 4)
