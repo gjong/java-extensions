@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -47,6 +48,15 @@ public interface List<T> extends Collection<T> {
      * @return          the new list with the value appended
      */
     List<T> append(T value);
+
+    /**
+     * Creates a distinct list based upon the provided comparator. If a duplicate is found only the first match will
+     * be included in the returned list.
+     *
+     * @param comparator    the comparator to use for distinct check
+     * @return              the distinct list
+     */
+    List<T> distinctBy(Comparator<T> comparator);
 
     /**
      * Search the collections for the first element matching the provided {@link Predicate} and return the index

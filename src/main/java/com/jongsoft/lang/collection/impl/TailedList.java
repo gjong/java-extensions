@@ -25,6 +25,7 @@ package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -149,6 +150,12 @@ public class TailedList<T> implements Sequence<T> {
 
     @Override
     public Set<T> distinct() {
+        return null;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Set<T> distinctBy(Comparator<T> comparator) {
         return null;
     }
 

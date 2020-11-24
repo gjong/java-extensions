@@ -4,10 +4,8 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.junit.rules.ExpectedException.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import com.jongsoft.lang.Collections;
 import org.junit.Rule;
@@ -204,6 +202,15 @@ public class ArrayTest {
 
         assertThat(numbers.size(), equalTo(5));
         assertThat(numbers, hasItems(1, 2, 3, 4, 5));
+    }
+
+    @Test
+    public void distinctBy() {
+        Set<String> strings = Collections.List("one", "two", "three")
+                .distinctBy(Comparator.comparing(String::length));
+
+        assertThat(strings.size(), equalTo(2));
+        assertThat(strings, hasItems("one", "three"));
     }
     
     @Test

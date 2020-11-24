@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
@@ -165,6 +166,9 @@ public interface Sequence<T> extends List<T> {
      * @return  a set with unique elements
      */
     Set<T> distinct();
+
+    @Override
+    Set<T> distinctBy(Comparator<T> comparator);
 
     @Override
     <U> Sequence<U> map(Function<T, U> mapper);

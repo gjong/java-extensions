@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.junit.rules.ExpectedException.*;
 
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 import com.jongsoft.lang.Collections;
@@ -25,6 +26,15 @@ public class HashSetTest {
 
         assertThat(strings.size(), equalTo(2));
         assertThat(strings, hasItems("one", "two"));
+    }
+
+    @Test
+    public void distinctBy() {
+        Set<String> strings = Collections.Set("one", "two", "three")
+                .distinctBy(Comparator.comparing(String::length));
+
+        assertThat(strings.size(), equalTo(2));
+        assertThat(strings, hasItems("one", "three"));
     }
 
     @Test

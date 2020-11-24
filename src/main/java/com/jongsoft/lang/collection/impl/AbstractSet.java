@@ -25,6 +25,7 @@ package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
@@ -32,11 +33,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.Iterator;
-import com.jongsoft.lang.collection.List;
-import com.jongsoft.lang.collection.Map;
-import com.jongsoft.lang.collection.Pipeline;
-import com.jongsoft.lang.collection.Set;
+import com.jongsoft.lang.collection.*;
 import com.jongsoft.lang.collection.support.Collections;
 import com.jongsoft.lang.collection.support.PipeCommand;
 
@@ -58,6 +55,12 @@ abstract class AbstractSet<T> implements Set<T> {
         System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
         newDelegate[delegate.length] = value;
         return this.wrapperSupplier().apply(newDelegate);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Set<T> distinctBy(Comparator<T> comparator) {
+        return com.jongsoft.lang.Collections.Set(comparator, (T[]) delegate);
     }
 
     @Override

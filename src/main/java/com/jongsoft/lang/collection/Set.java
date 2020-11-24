@@ -23,6 +23,7 @@
  */
 package com.jongsoft.lang.collection;
 
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
@@ -79,6 +80,9 @@ public interface Set<T> extends List<T> {
 
     @Override
     Set<T> append(T value);
+
+    @Override
+    Set<T> distinctBy(Comparator<T> comparator);
 
     /**
      * Creates a new set that contains elements that are only in {@code this}, but not contained within {@code iterable}.

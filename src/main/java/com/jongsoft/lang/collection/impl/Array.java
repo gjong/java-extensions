@@ -25,6 +25,7 @@ package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
@@ -97,6 +98,12 @@ public class Array<T> implements Sequence<T> {
     @SuppressWarnings("unchecked")
     public Set<T> distinct() {
         return com.jongsoft.lang.Collections.Set((T[]) delegate);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Set<T> distinctBy(Comparator<T> comparator) {
+        return com.jongsoft.lang.Collections.Set(comparator, (T[]) delegate);
     }
 
     @Override
