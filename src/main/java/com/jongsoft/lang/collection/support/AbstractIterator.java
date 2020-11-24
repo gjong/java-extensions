@@ -28,6 +28,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
+import com.jongsoft.lang.Collections;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Traversable;
 
@@ -55,7 +56,7 @@ public abstract class AbstractIterator<T> implements Iterator<T> {
 
     @Override
     public Iterator<T> filter(final Predicate<T> predicate) {
-        return API.List(this)
+        return Collections.List(this)
                   .filter(predicate)
                   .iterator();
     }
@@ -67,12 +68,12 @@ public abstract class AbstractIterator<T> implements Iterator<T> {
 
     @Override
     public Traversable<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
-        return hasNext() ? this : API.Iterator((Iterable<T>) supplier.get());
+        return hasNext() ? this : Collections.Iterator((Iterable<T>) supplier.get());
     }
 
     @Override
     public Traversable<T> orElse(final Iterable<? extends T> other) {
-        return hasNext() ? this : API.Iterator((Iterable<T>) other);
+        return hasNext() ? this : Collections.Iterator((Iterable<T>) other);
     }
 
     @Override

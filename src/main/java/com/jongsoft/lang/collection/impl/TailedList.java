@@ -283,7 +283,7 @@ public class TailedList<T> implements Sequence<T> {
      */
     @SafeVarargs
     public static <T> Sequence<T> of(T...elements) {
-        return ofAll(API.Iterator(elements));
+        return ofAll(com.jongsoft.lang.Collections.Iterator(elements));
     }
 
     /**

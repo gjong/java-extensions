@@ -33,6 +33,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
+import com.jongsoft.lang.Control;
 import com.jongsoft.lang.control.Optional;
 
 public class None<T> implements Optional<T> {
@@ -80,7 +81,7 @@ public class None<T> implements Optional<T> {
 
     @Override
     public <U> Optional<U> map(Function<T, U> mapper) {
-        return API.Option(null);
+        return Control.Option(null);
     }
 
     @Override

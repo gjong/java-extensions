@@ -31,6 +31,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import com.jongsoft.lang.API;
+import com.jongsoft.lang.Collections;
 import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Map;
@@ -120,12 +121,12 @@ public class HashMap<K, T> implements Map<K, T> {
 
     @Override
     public Map<K, T> orElse(final Supplier<? extends Iterable<? extends Pair<K, T>>> supplier) {
-        return isEmpty() ? new HashMap<>(API.List(supplier.get())) : this;
+        return isEmpty() ? new HashMap<>(Collections.List(supplier.get())) : this;
     }
 
     @Override
     public Map<K, T> orElse(final Iterable<? extends Pair<K, T>> other) {
-        return isEmpty() ? new HashMap<>(API.List(other)) : this;
+        return isEmpty() ? new HashMap<>(Collections.List(other)) : this;
     }
 
     @Override

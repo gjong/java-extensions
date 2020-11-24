@@ -24,6 +24,7 @@
 package com.jongsoft.lang.collection.tuple.impl;
 
 import com.jongsoft.lang.API;
+import com.jongsoft.lang.Collections;
 import com.jongsoft.lang.collection.Sequence;
 import com.jongsoft.lang.collection.tuple.Tuple;
 
@@ -32,7 +33,7 @@ public class AbstractTuple implements Tuple {
     private Sequence elements;
 
     AbstractTuple(Object...elements) {
-        this.elements = API.List(elements);
+        this.elements = Collections.List(elements);
     }
 
     Object element(int index) {

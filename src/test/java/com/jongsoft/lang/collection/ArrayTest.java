@@ -6,10 +6,10 @@ import static org.junit.rules.ExpectedException.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import com.jongsoft.lang.Collections;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,7 +24,7 @@ public class ArrayTest {
     @Test
     public void empty() {
         thrown.expect(NoSuchElementException.class);
-        Sequence empty = API.List();
+        Sequence empty = Collections.List();
 
         empty.iterator().next();
 
@@ -34,7 +34,7 @@ public class ArrayTest {
 
     @Test
     public void pipeline() {
-        Pipeline<Integer> pipe = API.List(1, 2, 3, 4)
+        Pipeline<Integer> pipe = Collections.List(1, 2, 3, 4)
                 .pipeline()
                 .map(x -> x * 2);
 
@@ -59,30 +59,30 @@ public class ArrayTest {
     @Test
     public void headNoElement() {
         thrown.expect(NoSuchElementException.class);
-        API.List().head();
+        Collections.List().head();
     }
 
     @Test
     public void head() {
-        Integer head = API.List(1, 2).head();
+        Integer head = Collections.List(1, 2).head();
         assertThat(head, equalTo(1));
     }
 
     @Test
     public void tailNoElements() {
         thrown.expect(NoSuchElementException.class);
-        API.List().tail();
+        Collections.List().tail();
     }
 
     @Test
     public void tail() {
-        assertThat(API.List(1).tail().isEmpty(), equalTo(true));
-        assertThat(API.List(1, 2).tail().head(), equalTo(2));
+        assertThat(Collections.List(1).tail().isEmpty(), equalTo(true));
+        assertThat(Collections.List(1, 2).tail().head(), equalTo(2));
     }
 
     @Test
     public void singleInt() {
-        Sequence<Integer> ints = API.List(5);
+        Sequence<Integer> ints = Collections.List(5);
 
         assertThat(ints.size(), equalTo(1));
         assertThat(ints.isSingleValued(), equalTo(false));
@@ -93,12 +93,12 @@ public class ArrayTest {
     public void singleIntOutOfBounds() {
         thrown.expect(IndexOutOfBoundsException.class);
         thrown.expectMessage(equalTo("1 is not in the bounds of 0 and 1"));
-        API.List(5).get(1);
+        Collections.List(5).get(1);
     }
     
     @Test
     public void insertAt0Int() {
-        Sequence<Integer> insert = API.List(5).insert(0, 2);
+        Sequence<Integer> insert = Collections.List(5).insert(0, 2);
 
         assertThat(insert.size(), equalTo(2));
         assertThat(insert.get(0), equalTo(2));
@@ -107,7 +107,7 @@ public class ArrayTest {
 
     @Test
     public void insertAt1Int() {
-        Sequence<Integer> insert = API.List(5).insert(1, 2);
+        Sequence<Integer> insert = Collections.List(5).insert(1, 2);
 
         assertThat(insert.size(), equalTo(2));
         assertThat(insert.get(0), equalTo(5));
@@ -116,7 +116,7 @@ public class ArrayTest {
 
     @Test
     public void insertAt2Int() {
-        Sequence<Integer> insert = API.List(1, 2, 3, 4, 5).insert(2, 12);
+        Sequence<Integer> insert = Collections.List(1, 2, 3, 4, 5).insert(2, 12);
 
         assertThat(insert.size(), equalTo(6));
         assertThat(insert.get(0), equalTo(1));
@@ -127,7 +127,7 @@ public class ArrayTest {
 
     @Test
     public void append() {
-        Sequence<Integer> source = API.List(5);
+        Sequence<Integer> source = Collections.List(5);
         Sequence<Integer> add = source.append(6);
 
         assertThat(source.size(), equalTo(1));
@@ -139,7 +139,7 @@ public class ArrayTest {
 
     @Test
     public void prepend() {
-        Sequence<Integer> result = API.List(2, 3, 4).prepend(1);
+        Sequence<Integer> result = Collections.List(2, 3, 4).prepend(1);
 
         assertThat(result.size(), equalTo(4));
         assertThat(result.get(0), equalTo(1));
@@ -150,7 +150,7 @@ public class ArrayTest {
     
     @Test
     public void addAll() {
-        Sequence<Integer> values = API.List(1, 2, 3)
+        Sequence<Integer> values = Collections.List(1, 2, 3)
                 .union(Arrays.asList(4, 5, 6));
 
         assertThat(values.size(), equalTo(6));
@@ -159,7 +159,7 @@ public class ArrayTest {
 
     @Test
     public void removeIntAt2() {
-        Sequence<Integer> removed = API.List(1, 2, 3, 4, 5).remove(2);
+        Sequence<Integer> removed = Collections.List(1, 2, 3, 4, 5).remove(2);
 
         assertThat(removed.size(), equalTo(4));
         assertThat(removed.contains(3), equalTo(false));
@@ -167,7 +167,7 @@ public class ArrayTest {
 
     @Test
     public void removeByElement() {
-        Sequence<String> original = API.List("test", "string", "one");
+        Sequence<String> original = Collections.List("test", "string", "one");
         Sequence<String> afterRemove = original.remove("string");
 
         assertThat(original, not(equalTo(afterRemove)));
@@ -182,12 +182,12 @@ public class ArrayTest {
         thrown.expect(IndexOutOfBoundsException.class);
         thrown.expectMessage(equalTo("6 is not in the bounds of 0 and 5"));
 
-        API.List(1, 2, 3, 4, 5).remove(6);
+        Collections.List(1, 2, 3, 4, 5).remove(6);
     }
 
     @Test
     public void filterInt5() {
-        Sequence<Integer> noFives = API.List(1, 5, 34, 4, 5, 23, 4, 5)
+        Sequence<Integer> noFives = Collections.List(1, 5, 34, 4, 5, 23, 4, 5)
                 .filter(i -> 5 != i);
 
         assertThat(noFives.size(), equalTo(5));
@@ -199,7 +199,7 @@ public class ArrayTest {
 
     @Test
     public void distinct() {
-        Set<Integer> numbers = API.List(1, 2, 3, 1, 4, 2, 5)
+        Set<Integer> numbers = Collections.List(1, 2, 3, 1, 4, 2, 5)
            .distinct();
 
         assertThat(numbers.size(), equalTo(5));
@@ -208,7 +208,7 @@ public class ArrayTest {
     
     @Test
     public void reject() {
-        Sequence<Integer> noFives = API.List(1, 2, 3, 4, 5)
+        Sequence<Integer> noFives = Collections.List(1, 2, 3, 4, 5)
                 .reject(i -> i % 2 == 0);
 
         assertThat(noFives.size(), equalTo(3));
@@ -217,13 +217,13 @@ public class ArrayTest {
 
     @Test
     public void ofList() {
-        Sequence<Integer> integers = API.List(Arrays.asList(0, 1, 2, 3, 4, 5));
+        Sequence<Integer> integers = Collections.List(Arrays.asList(0, 1, 2, 3, 4, 5));
         assertThat(integers.size(), equalTo(6));
     }
 
     @Test
     public void ofIterable() {
-        Sequence<Integer> integers = API.List(() -> Collections.singleton(5).iterator());
+        Sequence<Integer> integers = Collections.List(() -> java.util.List.of(5).iterator());
 
         assertThat(integers.size(), equalTo(1));
         assertThat(integers.get(0), equalTo(5));
@@ -231,50 +231,50 @@ public class ArrayTest {
 
     @Test
     public void containsNull() {
-        assertThat(API.List(1,2,3,4,5,null).contains(null), equalTo(true));
-        assertThat(API.List(1,2,3,4,5).contains(null), equalTo(false));
+        assertThat(Collections.List(1,2,3,4,5,null).contains(null), equalTo(true));
+        assertThat(Collections.List(1,2,3,4,5).contains(null), equalTo(false));
     }
 
     @Test
     public void contains5() {
-        assertThat(API.List(1,2,3,4,5,null).contains(5), equalTo(true));
-        assertThat(API.List(1,2,3,4).contains(5), equalTo(false));
+        assertThat(Collections.List(1,2,3,4,5,null).contains(5), equalTo(true));
+        assertThat(Collections.List(1,2,3,4).contains(5), equalTo(false));
     }
 
     @Test
     public void containsAll() {
-        assertThat(API.List(1, 2, 3, 4).containsAll(API.List(2, 3)), equalTo(true));
+        assertThat(Collections.List(1, 2, 3, 4).containsAll(Collections.List(2, 3)), equalTo(true));
     }
 
     @Test
     public void count() {
-        int count = API.List(1, 2, 3, 4)
+        int count = Collections.List(1, 2, 3, 4)
              .count(x -> x % 2 == 0);
         assertThat(count, equalTo(2));
     }
 
     @Test
     public void summing() {
-        long total = API.List(1, 2, 3, 4)
+        long total = Collections.List(1, 2, 3, 4)
                 .summing(Long::sum);
         assertThat(total, equalTo(10L));
     }
 
     @Test
     public void fold() {
-        assertThat(API.List("t", "e", "s", "t").fold("!", (x, y) -> x + y), equalTo("!test"));
-        assertThat(API.List("t", "e", "s", "t").foldLeft("!", (x, y) -> x + y), equalTo("!test"));
+        assertThat(Collections.List("t", "e", "s", "t").fold("!", (x, y) -> x + y), equalTo("!test"));
+        assertThat(Collections.List("t", "e", "s", "t").foldLeft("!", (x, y) -> x + y), equalTo("!test"));
     }
 
     @Test
     public void foldRight() {
-        assertThat(API.List("t", "e", "s", "t").foldRight("!", (x, y) -> x + y), equalTo("tset!"));
+        assertThat(Collections.List("t", "e", "s", "t").foldRight("!", (x, y) -> x + y), equalTo("tset!"));
     }
 
     @Test
     public void reduceLeft() {
-        String reduce = API.List("t", "e", "s", "t").reduce((x ,y) -> x + y);
-        String reduceLeft = API.List("t", "e", "s", "t").reduceLeft((x ,y) -> x + y);
+        String reduce = Collections.List("t", "e", "s", "t").reduce((x ,y) -> x + y);
+        String reduceLeft = Collections.List("t", "e", "s", "t").reduceLeft((x ,y) -> x + y);
 
         assertThat(reduce, equalTo("test"));
         assertThat(reduceLeft, equalTo("test"));
@@ -282,13 +282,13 @@ public class ArrayTest {
 
     @Test
     public void indexOf5() {
-        assertThat(API.List(1,2,3,4,5,null).indexOf(5), equalTo(4));
-        assertThat(API.List(1,2,3,4).indexOf(5), equalTo(-1));
+        assertThat(Collections.List(1,2,3,4,5,null).indexOf(5), equalTo(4));
+        assertThat(Collections.List(1,2,3,4).indexOf(5), equalTo(-1));
     }
     
     @Test
     public void map() {
-        Sequence<Integer> mapped = API.List("test", "two")
+        Sequence<Integer> mapped = Collections.List("test", "two")
                 .map(String::length);
 
         assertThat(mapped.size(), equalTo(2));
@@ -297,11 +297,11 @@ public class ArrayTest {
 
     @Test
     public void orElse() {
-        Sequence<String> result = API.List("test")
-                .orElse(API.List("two"));
+        Sequence<String> result = Collections.List("test")
+                .orElse(Collections.List("two"));
 
-        Sequence<String> supplied = API.List("test")
-                .orElse(API.List("two"));
+        Sequence<String> supplied = Collections.List("test")
+                .orElse(Collections.List("two"));
 
         assertThat(result, hasItem("test"));
         assertThat(supplied, hasItem("test"));
@@ -309,40 +309,40 @@ public class ArrayTest {
 
     @Test
     public void sum() {
-        final Optional<Double> sum = API.List(1, 3, 3).sum();
+        final Optional<Double> sum = Collections.List(1, 3, 3).sum();
         assertThat(sum.get(), equalTo(7.0));
-        assertThat(API.List(1.0, 10e100, 2.0, -10e100).sum().get(), equalTo(3.0));
-        assertTrue(Double.isNaN(API.List(1.0, Double.NaN).sum().get()));
+        assertThat(Collections.List(1.0, 10e100, 2.0, -10e100).sum().get(), equalTo(3.0));
+        assertTrue(Double.isNaN(Collections.List(1.0, Double.NaN).sum().get()));
     }
 
     @Test
     public void sum_empty() {
-        final Optional<Double> sum = API.List().sum();
+        final Optional<Double> sum = Collections.List().sum();
         assertThat(sum.isPresent(), equalTo(false));
     }
 
     @Test
     public void average() {
-        assertThat(API.List().average().isPresent(), equalTo(false));
-        assertThat(API.List(1, 2, 3).average().get(), equalTo(2.0));
-        assertThat(API.List(1.0, 10e100, 2.0, -10e100).average().get(), equalTo(0.75));
+        assertThat(Collections.List().average().isPresent(), equalTo(false));
+        assertThat(Collections.List(1, 2, 3).average().get(), equalTo(2.0));
+        assertThat(Collections.List(1.0, 10e100, 2.0, -10e100).average().get(), equalTo(0.75));
 
-        assertTrue(Double.isNaN(API.List(1.0, Double.NaN).average().get()));
+        assertTrue(Double.isNaN(Collections.List(1.0, Double.NaN).average().get()));
     }
 
     @Test(expected = ClassCastException.class)
     public void average_NoNumber() {
-        API.List("st", "tes").average();
+        Collections.List("st", "tes").average();
     }
 
     @Test(expected = ClassCastException.class)
     public void sum_NoNumber() {
-        API.List("st", "tes").sum();
+        Collections.List("st", "tes").sum();
     }
 
     @Test
     public void allNone() {
-        Sequence<String> result = API.List("o", "n", "b");
+        Sequence<String> result = Collections.List("o", "n", "b");
 
         assertThat(result.none(x -> x.length() == 2), equalTo(true));
         assertThat(result.all(x -> x.length() == 1), equalTo(true));
@@ -350,7 +350,7 @@ public class ArrayTest {
 
     @Test
     public void groupBy() {
-        Map<Integer, List<String>> result = API.List("one", "two", "three", "four")
+        Map<Integer, List<String>> result = Collections.List("one", "two", "three", "four")
              .groupBy(String::length);
 
         assertThat(result.size(), equalTo(3));
@@ -364,7 +364,7 @@ public class ArrayTest {
 
     @Test
     public void findLastFirst() {
-        final Sequence<Integer> array = API.List(1, 2, 3, 4, 5);
+        final Sequence<Integer> array = Collections.List(1, 2, 3, 4, 5);
 
         Optional<Integer> lastFound = array.last(i -> i % 2 == 0);
         assertThat(lastFound.isPresent(), equalTo(true));
@@ -380,7 +380,7 @@ public class ArrayTest {
 
     @Test
     public void reverse() {
-        final Sequence<Integer> result = API.List(1, 2, 3).reverse();
+        final Sequence<Integer> result = Collections.List(1, 2, 3).reverse();
 
         assertThat(result.size(), equalTo(3));
         assertThat(result.get(0), equalTo(3));
@@ -390,7 +390,7 @@ public class ArrayTest {
 
     @Test
     public void toJava() {
-        java.util.List<Integer> integers = API.List(1, 2, 3, 4)
+        java.util.List<Integer> integers = Collections.List(1, 2, 3, 4)
                 .toJava();
 
         assertThat(integers, instanceOf(ArrayList.class));
@@ -400,7 +400,7 @@ public class ArrayTest {
 
     @Test
     public void toStringTest() {
-        Sequence<String> myStrings = API.List("test", "string", "one")
+        Sequence<String> myStrings = Collections.List("test", "string", "one")
                                         .filter(s -> s.length() == 3)
                                         .remove("test");
 
@@ -409,15 +409,15 @@ public class ArrayTest {
 
     @Test
     public void equalTest() {
-        assertEquals(API.List(1, 2, 3), API.List(1, 2, 3));
-        assertEquals(API.List("test", 2, 3), API.List(2, "test", 3));
-        assertNotEquals(API.List("test", 2, 3), API.List("test", 3));
-        assertNotEquals(API.List("test", 2, 3), API.List("test", 3, null));
+        assertEquals(Collections.List(1, 2, 3), Collections.List(1, 2, 3));
+        assertEquals(Collections.List("test", 2, 3), Collections.List(2, "test", 3));
+        assertNotEquals(Collections.List("test", 2, 3), Collections.List("test", 3));
+        assertNotEquals(Collections.List("test", 2, 3), Collections.List("test", 3, null));
     }
 
     @Test
     public void hashCodeTest() {
-        assertEquals(19, API.List().hashCode());
-        assertEquals(20, API.List(null, 1).hashCode());
+        assertEquals(19, Collections.List().hashCode());
+        assertEquals(20, Collections.List(null, 1).hashCode());
     }
 }

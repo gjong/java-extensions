@@ -74,7 +74,7 @@ public class Array<T> implements Sequence<T> {
         if (size() == 0) {
             throw new NoSuchElementException("Cannot call tail on empty collection");
         } else if (size() == 1) {
-            return API.List();
+            return com.jongsoft.lang.Collections.List();
         }
 
         Object[] tail = new Object[delegate.length - 1];
@@ -85,18 +85,18 @@ public class Array<T> implements Sequence<T> {
     @Override
     @SuppressWarnings("unchecked")
     public Iterator<T> iterator() {
-        return API.Iterator((T[]) delegate);
+        return com.jongsoft.lang.Collections.Iterator((T[]) delegate);
     }
 
     @Override
     public Sequence<T> filter(Predicate<T> predicate) {
-        return Collections.filter(API.List(), this, predicate);
+        return Collections.filter(com.jongsoft.lang.Collections.List(), this, predicate);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Set<T> distinct() {
-        return API.Set((T[]) delegate);
+        return com.jongsoft.lang.Collections.Set((T[]) delegate);
     }
 
     @Override
@@ -114,12 +114,12 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     public Sequence<T> orElse(final Iterable<? extends T> other) {
-        return isEmpty() ? API.List(other) : this;
+        return isEmpty() ? com.jongsoft.lang.Collections.List(other) : this;
     }
 
     @Override
     public Sequence<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
-        return isEmpty() ? API.List(supplier.get()) : this;
+        return isEmpty() ? com.jongsoft.lang.Collections.List(supplier.get()) : this;
     }
 
     @Override
@@ -129,12 +129,12 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     public <K> Map<K, List<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
-        return Collections.groupBy(API::List, this, keyGenerator);
+        return Collections.groupBy(com.jongsoft.lang.Collections::List, this, keyGenerator);
     }
 
     @Override
     public Sequence<T> union(final Iterable<T> iterable) {
-        Object[] toBeAdded = API.Iterator(iterable).toNativeArray();
+        Object[] toBeAdded = com.jongsoft.lang.Collections.Iterator(iterable).toNativeArray();
         Object[] newDelegate = new Object[delegate.length + toBeAdded.length];
         System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
         System.arraycopy(toBeAdded, 0, newDelegate, delegate.length, toBeAdded.length);

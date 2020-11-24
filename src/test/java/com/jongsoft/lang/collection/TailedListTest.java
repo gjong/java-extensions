@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import com.jongsoft.lang.Collections;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -69,10 +70,10 @@ public class TailedListTest {
     @Test
     public void orElse() {
         Sequence<String> result = TailedList.of("test")
-                .orElse(API.List("two"));
+                .orElse(Collections.List("two"));
 
         Sequence<String> supplied = TailedList.of("test")
-                .orElse(API.List("two"));
+                .orElse(Collections.List("two"));
 
         assertThat(result, hasItem("test"));
         assertThat(supplied, hasItem("test"));

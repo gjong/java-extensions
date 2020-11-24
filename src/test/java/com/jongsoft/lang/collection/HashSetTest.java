@@ -6,10 +6,10 @@ import static org.junit.rules.ExpectedException.*;
 
 import java.util.NoSuchElementException;
 
+import com.jongsoft.lang.Collections;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import com.jongsoft.lang.API;
 
 public class HashSetTest {
 
@@ -18,7 +18,7 @@ public class HashSetTest {
 
     @Test
     public void append() {
-        final Set<String> strings = API.<String>Set()
+        final Set<String> strings = Collections.<String>Set()
                 .append("one")
                 .append("two")
                 .append("one");
@@ -29,8 +29,8 @@ public class HashSetTest {
 
     @Test
     public void union() {
-        Set<Integer> result = API.Set(1, 2, 3)
-           .union(API.Set(3, 4, 5));
+        Set<Integer> result = Collections.Set(1, 2, 3)
+           .union(Collections.Set(3, 4, 5));
 
         assertThat(result.size(), equalTo(5));
         assertThat(result, hasItems(1, 2, 3, 4, 5));
@@ -38,8 +38,8 @@ public class HashSetTest {
 
     @Test
     public void intersect() {
-        Set<Integer> result = API.Set(1, 2, 3)
-           .intersect(API.Set(3, 4, 5));
+        Set<Integer> result = Collections.Set(1, 2, 3)
+           .intersect(Collections.Set(3, 4, 5));
 
         assertThat(result.size(), equalTo(1));
         assertThat(result, hasItem(3));
@@ -47,7 +47,7 @@ public class HashSetTest {
 
     @Test
     public void intersectEmpty() {
-        Set<Integer> result = API.Set(1, 2, 3)
+        Set<Integer> result = Collections.Set(1, 2, 3)
                 .intersect();
 
         assertThat(result.isEmpty(), equalTo(true));
@@ -56,8 +56,8 @@ public class HashSetTest {
 
     @Test
     public void intersectMultiple() {
-        Set<Integer> result = API.Set(1, 2, 3)
-           .intersect(API.List(3, 4, 5), API.List(4, 7, 3));
+        Set<Integer> result = Collections.Set(1, 2, 3)
+           .intersect(Collections.List(3, 4, 5), Collections.List(4, 7, 3));
 
         assertThat(result.size(), equalTo(1));
         assertThat(result, hasItem(3));
@@ -65,8 +65,8 @@ public class HashSetTest {
 
     @Test
     public void complement() {
-        Set<Integer> result = API.Set(1, 2, 3, 4)
-           .complement(API.Set(3, 2));
+        Set<Integer> result = Collections.Set(1, 2, 3, 4)
+           .complement(Collections.Set(3, 2));
 
         assertThat(result.size(), equalTo(2));
         assertThat(result, hasItems(1, 4));
@@ -74,18 +74,18 @@ public class HashSetTest {
 
     @Test
     public void complementMultiple() {
-        Set<Integer> result = API.Set(1, 2, 3, 4)
-           .complement(API.Set(2), API.Set(3));
+        Set<Integer> result = Collections.Set(1, 2, 3, 4)
+           .complement(Collections.Set(2), Collections.Set(3));
 
         assertThat(result.size(), equalTo(2));
         assertThat(result, hasItems(1, 4));
 
-        assertThat(API.Set(1, 2, 3).complement(), hasItems(1, 2, 3));
+        assertThat(Collections.Set(1, 2, 3).complement(), hasItems(1, 2, 3));
     }
     
     @Test
     public void toJava() {
-        final java.util.Set<Integer> ints = API.Set(1, 2, 3, 4)
+        final java.util.Set<Integer> ints = Collections.Set(1, 2, 3, 4)
                                                .toJava();
 
         assertThat(ints.size(), equalTo(4));
@@ -94,7 +94,7 @@ public class HashSetTest {
 
     @Test
     public void indexOf() {
-        int index = API.<String>Set()
+        int index = Collections.<String>Set()
                 .append("one")
                 .append("two")
                 .append("three")
@@ -105,7 +105,7 @@ public class HashSetTest {
 
     @Test
     public void firstIndexOf() {
-        Set<String> set = API.<String>Set()
+        Set<String> set = Collections.<String>Set()
                 .append("one")
                 .append("two")
                 .append("three");
@@ -119,7 +119,7 @@ public class HashSetTest {
 
     @Test
     public void get() {
-        Set<String> strings = API.Set("one", "two", "one", "three");
+        Set<String> strings = Collections.Set("one", "two", "one", "three");
 
         assertThat(strings.get(), equalTo("one"));
         assertThat(strings.get(0), equalTo("one"));
@@ -131,13 +131,13 @@ public class HashSetTest {
     public void getOutOfBounds() {
         thrown.expect(IndexOutOfBoundsException.class);
 
-        API.Set("one").get(1);
-        API.Set("one").get(-1);
+        Collections.Set("one").get(1);
+        Collections.Set("one").get(-1);
     }
 
     @Test
     public void groupBy() {
-        final Map<Integer, List<Integer>> pairs = API.Set(1, 2, 3, 4, 5).groupBy(x -> x % 2);
+        final Map<Integer, List<Integer>> pairs = Collections.Set(1, 2, 3, 4, 5).groupBy(x -> x % 2);
 
         assertThat(pairs.size(), equalTo(2));
         assertTrue(pairs.containsKey(0));
@@ -151,30 +151,30 @@ public class HashSetTest {
     @Test
     public void headNoElement() {
         thrown.expect(NoSuchElementException.class);
-        API.Set().head();
+        Collections.Set().head();
     }
 
     @Test
     public void head() {
-        Integer head = API.Set(1, 2).head();
+        Integer head = Collections.Set(1, 2).head();
         assertThat(head, equalTo(1));
     }
 
     @Test
     public void tailNoElements() {
         thrown.expect(NoSuchElementException.class);
-        API.Set().tail();
+        Collections.Set().tail();
     }
 
     @Test
     public void tail() {
-        assertThat(API.Set(1).tail().isEmpty(), equalTo(true));
-        assertThat(API.Set(1, 1, 2).tail().head(), equalTo(2));
+        assertThat(Collections.Set(1).tail().isEmpty(), equalTo(true));
+        assertThat(Collections.Set(1, 1, 2).tail().head(), equalTo(2));
     }
 
     @Test
     public void remove() {
-        Set<String> strings = API.Set("one", "two", "one", "three")
+        Set<String> strings = Collections.Set("one", "two", "one", "three")
                 .remove(2);
 
         assertThat(strings.size(), equalTo(2));
@@ -183,7 +183,7 @@ public class HashSetTest {
 
     @Test
     public void filter() {
-        Set<String> filter = API.Set("one", "two", "one", "three")
+        Set<String> filter = Collections.Set("one", "two", "one", "three")
                 .filter(s -> s.length() > 3);
 
         assertThat(filter.size(), equalTo(1));
@@ -192,7 +192,7 @@ public class HashSetTest {
 
     @Test
     public void reject() {
-        Set<Integer> noFives = API.Set(1, 2, 3, 4, 5)
+        Set<Integer> noFives = Collections.Set(1, 2, 3, 4, 5)
                 .reject(i -> i % 2 == 0);
 
         assertThat(noFives.size(), equalTo(3));
@@ -201,7 +201,7 @@ public class HashSetTest {
 
     @Test
     public void map() {
-        Set<Integer> lengths = API.Set("one", "two", "one", "three")
+        Set<Integer> lengths = Collections.Set("one", "two", "one", "three")
                 .map(String::length);
 
         assertThat(lengths.size(), equalTo(2));
@@ -210,11 +210,11 @@ public class HashSetTest {
 
     @Test
     public void orElse() {
-        Set<String> result = API.Set("test")
-                .orElse(API.List("two"));
+        Set<String> result = Collections.Set("test")
+                .orElse(Collections.List("two"));
 
-        Set<String> supplied = API.Set("test")
-                .orElse(API.List("two"));
+        Set<String> supplied = Collections.Set("test")
+                .orElse(Collections.List("two"));
 
         assertThat(result, hasItem("test"));
         assertThat(supplied, hasItem("test"));
@@ -223,8 +223,8 @@ public class HashSetTest {
 
     @Test
     public void fold() {
-        String folded = API.Set("a", "b", "a", "c").fold("!", (xs, y) -> xs + y);
-        String leftFolded = API.Set("a", "b", "a", "c").foldLeft("!", (xs, y) -> xs + y);
+        String folded = Collections.Set("a", "b", "a", "c").fold("!", (xs, y) -> xs + y);
+        String leftFolded = Collections.Set("a", "b", "a", "c").foldLeft("!", (xs, y) -> xs + y);
 
         assertThat(folded, equalTo("!abc"));
         assertThat(leftFolded, equalTo("!abc"));
@@ -232,14 +232,14 @@ public class HashSetTest {
 
     @Test
     public void rightFold() {
-        String folded = API.Set("a", "b", "a", "c").foldRight("!", (xs, y) -> xs + y);
+        String folded = Collections.Set("a", "b", "a", "c").foldRight("!", (xs, y) -> xs + y);
 
         assertThat(folded, equalTo("cba!"));
     }
 
     @Test
     public void toStringTest() {
-        Set<String> myStrings = API.Set("test-a", "test-b", "one")
+        Set<String> myStrings = Collections.Set("test-a", "test-b", "one")
                                         .filter(s -> s.length() == 6);
 
         assertThat(myStrings.toString(), equalTo("Set[test-a, test-b]"));
@@ -247,14 +247,14 @@ public class HashSetTest {
 
     @Test
     public void equalTest() {
-        assertEquals(API.Set(1, 2, 3), API.Set(1, 2, 3));
-        assertEquals(API.Set("test", 2, 3), API.Set(2, "test", 3));
-        assertNotEquals(API.Set("test", 2, 3), API.Set("test", 3));
+        assertEquals(Collections.Set(1, 2, 3), Collections.Set(1, 2, 3));
+        assertEquals(Collections.Set("test", 2, 3), Collections.Set(2, "test", 3));
+        assertNotEquals(Collections.Set("test", 2, 3), Collections.Set("test", 3));
     }
 
     @Test
     public void hashCodeTest() {
-        assertEquals(21, API.Set().hashCode());
-        assertEquals(22, API.Set(1).hashCode());
+        assertEquals(21, Collections.Set().hashCode());
+        assertEquals(22, Collections.Set(1).hashCode());
     }
 }

@@ -15,7 +15,7 @@ public class Collectors {
     }
 
     public static <T> Collector<T, ArrayList<T>, List<T>> toList() {
-        return Collections.collector(API::List);
+        return Collections.collector(com.jongsoft.lang.Collections::List);
     }
 
     public static <T> Collector<T, ArrayList<T>, List<T>> toLinkedList() {
@@ -23,11 +23,11 @@ public class Collectors {
     }
 
     public static <T> Collector<T, ArrayList<T>, Set<T>> toSet() {
-        return Collections.collector(API::Set);
+        return Collections.collector(com.jongsoft.lang.Collections::Set);
     }
 
     public static <T> Collector<T, ArrayList<T>, Set<T>> toSorted(Comparator<T> comparator) {
-        return Collections.collector(x -> API.Set(comparator, x));
+        return Collections.collector(x -> com.jongsoft.lang.Collections.Set(comparator, x));
     }
 
 }

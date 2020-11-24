@@ -32,6 +32,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
+import com.jongsoft.lang.Control;
 import com.jongsoft.lang.control.Optional;
 
 public class Some<T> implements Optional<T> {
@@ -86,13 +87,13 @@ public class Some<T> implements Optional<T> {
     @Override
     public <U> Optional<U> map(Function<T, U> mapper) {
         Objects.requireNonNull(mapper, "Mapping function cannot be null");
-        return API.Option(mapper.apply(get()));
+        return Control.Option(mapper.apply(get()));
     }
 
     @Override
     public Optional<T> filter(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "Predicate may not be null");
-        return this.all(predicate) ? this : API.Option(null);
+        return this.all(predicate) ? this : Control.Option(null);
     }
 
     @Override

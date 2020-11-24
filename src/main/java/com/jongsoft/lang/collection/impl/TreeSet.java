@@ -23,18 +23,17 @@
  */
 package com.jongsoft.lang.collection.impl;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
-import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Iterator;
 import com.jongsoft.lang.collection.Sequence;
 import com.jongsoft.lang.collection.Traversable;
 import com.jongsoft.lang.collection.Tree;
 import com.jongsoft.lang.collection.support.Collections;
 import com.jongsoft.lang.control.Optional;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class TreeSet<T> implements Tree<T> {
 
@@ -59,7 +58,7 @@ public class TreeSet<T> implements Tree<T> {
     public TreeSet(String label, T value, Iterable<Tree<T>> children) {
         this.value = value;
         this.label = label;
-        this.children = new NodeCollectionImpl<>(API.Set(children)
+        this.children = new NodeCollectionImpl<>(com.jongsoft.lang.Collections.Set(children)
                 .iterator()
                 .toNativeArray());
     }
@@ -83,7 +82,7 @@ public class TreeSet<T> implements Tree<T> {
     public Tree<T> appendChild(final String label, final T child) {
         final Tree<T> childNode = new TreeSet<>(label, child, this);
 
-        Object[] rawChildren = Iterator.concat(this.children.iterator(), API.<Tree<T>>Iterator(childNode))
+        Object[] rawChildren = Iterator.concat(this.children.iterator(), com.jongsoft.lang.Collections.<Tree<T>>Iterator(childNode))
                 .toNativeArray();
 
         this.children = new NodeCollectionImpl<>(rawChildren);
@@ -102,13 +101,13 @@ public class TreeSet<T> implements Tree<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return foldLeft(API.<T>List(), Sequence::append)
+        return foldLeft(com.jongsoft.lang.Collections.<T>List(), Sequence::append)
                 .iterator();
     }
 
     @Override
     public <U> Tree<U> map(Function<T, U> mapper) {
-        return API.Tree(label, mapper.apply(value), children.map(t -> t.map(mapper)));
+        return com.jongsoft.lang.Collections.Tree(label, mapper.apply(value), children.map(t -> t.map(mapper)));
     }
 
     @Override
@@ -133,13 +132,13 @@ public class TreeSet<T> implements Tree<T> {
 
     @Override
     public Optional<T> first(Predicate<T> predicate) {
-        return foldLeft(API.<T>List(), Sequence::append)
+        return foldLeft(com.jongsoft.lang.Collections.<T>List(), Sequence::append)
                 .first(predicate);
     }
 
     @Override
     public Optional<T> last(Predicate<T> predicate) {
-        return foldLeft(API.<T>List(), Sequence::append)
+        return foldLeft(com.jongsoft.lang.Collections.<T>List(), Sequence::append)
                 .last(predicate);
     }
 

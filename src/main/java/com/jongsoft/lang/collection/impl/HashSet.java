@@ -29,6 +29,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
+import com.jongsoft.lang.Collections;
 import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.Foldable;
 import com.jongsoft.lang.collection.Set;
@@ -65,7 +66,7 @@ public class HashSet<T> extends AbstractSet<T> implements Set<T> {
 
     @Override
     protected <X> Supplier<Set<X>> emptySupplier() {
-        return API::Set;
+        return Collections::Set;
     }
 
     @Override

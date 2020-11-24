@@ -9,7 +9,7 @@ import java.util.Objects;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import com.jongsoft.lang.API;
+import com.jongsoft.lang.Control;
 import com.jongsoft.lang.exception.NonFatalException;
 
 public class TryTest {
@@ -19,7 +19,7 @@ public class TryTest {
 
     @Test
     public void trySupply() {
-        Try<String> test = API.Try(() -> "test");
+        Try<String> test = Control.Try(() -> "test");
 
         assertThat(test.isSuccess(), equalTo(true));
         assertThat(test.isFailure(), equalTo(false));
@@ -29,7 +29,7 @@ public class TryTest {
     @Test
     public void trySupplyAndConsume() {
         StringBuilder response = new StringBuilder();
-        Try<String> test = API.Try(() -> "test")
+        Try<String> test = Control.Try(() -> "test")
                 .consume(response::append);
 
         assertThat(response.toString(), equalTo("test"));
@@ -39,7 +39,7 @@ public class TryTest {
 
     @Test
     public void trySupplyAndConsumeException() {
-        Try<String> result = API.Try(() -> "test")
+        Try<String> result = Control.Try(() -> "test")
                 .consume(tst -> {
                     throw new UnsupportedOperationException("big boobo");
                 });
@@ -51,7 +51,7 @@ public class TryTest {
 
     @Test
     public void trySupplyAndConsumeExceptionRecover() {
-        Try<String> result = API.Try(() -> "test")
+        Try<String> result = Control.Try(() -> "test")
                 .consume(tst -> {
                     throw new UnsupportedOperationException("big boobo");
                 })
@@ -67,7 +67,7 @@ public class TryTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("Consumer cannot be null");
         CheckedConsumer<String> c = null;
-        API.Try(() -> "test")
+        Control.Try(() -> "test")
                 .consume(c);
     }
 
@@ -75,7 +75,7 @@ public class TryTest {
     public void trySupplyException() {
         thrown.expect(NonFatalException.class);
 
-        Try<String> test = API.Try(() -> {
+        Try<String> test = Control.Try(() -> {
             throw new UnsupportedOperationException();
         }).map(s -> s + "12");
 
@@ -89,7 +89,7 @@ public class TryTest {
     @Test
     public void tryRun() {
         StringBuilder response = new StringBuilder();
-        Try<Void> test = API.Try(() -> {
+        Try<Void> test = Control.Try(() -> {
             response.append("test");
         });
 
@@ -103,14 +103,14 @@ public class TryTest {
         thrown.expect(UnsupportedOperationException.class);
         thrown.expectMessage(equalTo("Cannot call getCause when Try is successful"));
 
-        final Try<String> success = API.Try(() -> "My String");
+        final Try<String> success = Control.Try(() -> "My String");
         success.getCause();
     }
 
     @Test
     public void tryRunAndConsume() {
         StringBuilder response = new StringBuilder();
-        Try<Void> test = API.Try(() -> {
+        Try<Void> test = Control.Try(() -> {
             response.append("test");
         }).consume(d -> assertThat(d, is(nullValue())));
 
@@ -122,7 +122,7 @@ public class TryTest {
     @Test
     public void tryRunAndRun() {
         StringBuilder response = new StringBuilder();
-        Try<Void> test = API.Try(() -> {
+        Try<Void> test = Control.Try(() -> {
                 response.append("test");
             })
             .run(() -> response.append(" two"))
@@ -139,7 +139,7 @@ public class TryTest {
     @Test
     public void tryRunAndRunException() {
         StringBuilder response = new StringBuilder();
-        Try<Void> test = API.Try(() -> {
+        Try<Void> test = Control.Try(() -> {
             response.append("test");
         }).run(() -> {
             throw new UnsupportedOperationException("Is good");
@@ -155,7 +155,7 @@ public class TryTest {
     @Test
     public void tryRunAndConsumeException() {
         StringBuilder response = new StringBuilder();
-        Try<Void> test = API.Try(() -> {
+        Try<Void> test = Control.Try(() -> {
             response.append("test");
         }).consume(d -> {
             Objects.requireNonNull(d, "Was null");
@@ -170,7 +170,7 @@ public class TryTest {
 
     @Test
     public void tryRunException() {
-        Try<Void> test = API.Try(() -> {
+        Try<Void> test = Control.Try(() -> {
             throw new UnsupportedOperationException("Not implemented");
         });
 
@@ -182,7 +182,7 @@ public class TryTest {
 
     @Test
     public void tryMap() {
-        final Try<Integer> mapped = API.Try(() -> "My string")
+        final Try<Integer> mapped = Control.Try(() -> "My string")
                 .map(String::length);
 
         assertThat(mapped.isFailure(), equalTo(false));
@@ -191,7 +191,7 @@ public class TryTest {
 
     @Test
     public void tryMapException() {
-        final Try<Integer> mapped = API.Try(() -> "My string")
+        final Try<Integer> mapped = Control.Try(() -> "My string")
                .map(string -> {
                    throw new UnsupportedOperationException("Not implemented");
                });

@@ -30,6 +30,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.jongsoft.lang.API;
+import com.jongsoft.lang.Collections;
+import com.jongsoft.lang.Control;
 import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.control.Optional;
 
@@ -52,11 +54,11 @@ public interface Iterator<T> extends java.util.Iterator<T>, Traversable<T> {
         while (hasNext()) {
             final T next = next();
             if (predicate.test(next)) {
-                return API.Option(next);
+                return Control.Option(next);
             }
         }
 
-        return API.Option(null);
+        return Control.Option(null);
     }
 
     @Override
@@ -93,7 +95,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Traversable<T> {
 
     @Override
     default Iterator<T> iterator() {
-        return API.Iterator((T[])this.toNativeArray());
+        return Collections.Iterator((T[])this.toNativeArray());
     }
 
     @Override
@@ -108,7 +110,7 @@ public interface Iterator<T> extends java.util.Iterator<T>, Traversable<T> {
             }
         }
 
-        return API.Option(lastMatch);
+        return Control.Option(lastMatch);
     }
 
     @Override
@@ -134,12 +136,12 @@ public interface Iterator<T> extends java.util.Iterator<T>, Traversable<T> {
             };
         }
 
-        return API.Iterator();
+        return Collections.Iterator();
     }
 
     @Override
     default T reduceLeft(BiFunction<? super T, ? super T, ? extends T> reducer) {
-        Sequence<T> array = API.List(this);
+        Sequence<T> array = Collections.List(this);
         return array.tail().foldLeft(array.head(), reducer);
     }
 

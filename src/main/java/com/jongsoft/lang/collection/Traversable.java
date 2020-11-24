@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.jongsoft.lang.API;
+import com.jongsoft.lang.Control;
 import com.jongsoft.lang.Value;
 import com.jongsoft.lang.collection.support.Collections;
 import com.jongsoft.lang.collection.tuple.Pair;
@@ -92,7 +93,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
      */
     default Optional<Double> sum() {
         Pair<Integer, Double> summation = Collections.neumaierSum(this,  t -> ((Number) t).doubleValue());
-        return summation.getFirst() == 0 ? API.Option() : API.Option(summation.getSecond());
+        return summation.getFirst() == 0 ? Control.Option() : Control.Option(summation.getSecond());
     }
 
     /**
@@ -116,7 +117,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
     default Optional<Double> average() {
         Pair<Integer, Double> summation = Collections.neumaierSum(this,  t -> ((Number) t).doubleValue());
         return summation.getFirst() == 0
-                ? API.Option()
-                : API.Option(summation.getSecond() / summation.getFirst());
+                ? Control.Option()
+                : Control.Option(summation.getSecond() / summation.getFirst());
     }
 }

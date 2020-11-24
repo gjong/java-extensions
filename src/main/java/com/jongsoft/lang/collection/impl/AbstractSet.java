@@ -132,14 +132,14 @@ abstract class AbstractSet<T> implements Set<T> {
     @Override
     public Set<T> orElse(final Iterable<? extends T> other) {
         return isEmpty() ?
-                this.wrapperSupplier().apply(API.Iterator(other).toNativeArray())
+                this.wrapperSupplier().apply(com.jongsoft.lang.Collections.Iterator(other).toNativeArray())
                 : this;
     }
 
     @Override
     public Set<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
         return isEmpty() ?
-                this.wrapperSupplier().apply(API.Iterator(supplier.get()).toNativeArray())
+                this.wrapperSupplier().apply(com.jongsoft.lang.Collections.Iterator(supplier.get()).toNativeArray())
                 : this;
     }
 
@@ -156,7 +156,7 @@ abstract class AbstractSet<T> implements Set<T> {
     @Override
     @SuppressWarnings("unchecked")
     public Iterator<T> iterator() {
-        return API.Iterator((T[]) delegate);
+        return com.jongsoft.lang.Collections.Iterator((T[]) delegate);
     }
 
     @Override
@@ -181,8 +181,8 @@ abstract class AbstractSet<T> implements Set<T> {
             return this.<T>emptySupplier().get();
         }
 
-        Predicate<T> operation = API.Set(iterable)
-                .map(API::Set)
+        Predicate<T> operation = com.jongsoft.lang.Collections.Set(iterable)
+                .map(com.jongsoft.lang.Collections::Set)
                 .foldLeft(x -> true, (x, xs) -> x.and(xs::contains));
 
         return Collections.filter(this.<T>emptySupplier().get(), this, operation);
@@ -195,8 +195,8 @@ abstract class AbstractSet<T> implements Set<T> {
             return this;
         }
 
-        Predicate<T> operation = API.Set(iterables)
-                .map(API::Set)
+        Predicate<T> operation = com.jongsoft.lang.Collections.Set(iterables)
+                .map(com.jongsoft.lang.Collections::Set)
                 .foldLeft(x -> true, (x, xs) -> x.and(Predicate.not(xs::contains)));
 
         return Collections.filter(this.<T>emptySupplier().get(), this, operation);

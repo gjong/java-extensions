@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 
 import com.jongsoft.lang.control.Optional;
 import org.junit.Test;
-import com.jongsoft.lang.API;
+import com.jongsoft.lang.Collections;
 
 public class TreeSetTest {
 
     @Test
     public void rootOnly() {
-        Tree<String> stringTree = API.Tree("Root node", "My first node");
+        Tree<String> stringTree = Collections.Tree("Root node", "My first node");
 
         assertThat(stringTree.label(), equalTo("Root node"));
         assertThat(stringTree.isLeaf(), equalTo(true));
@@ -21,10 +21,10 @@ public class TreeSetTest {
 
     @Test
     public void nestedTree() {
-        Tree<String> stringTree = API.Tree("Root node",
+        Tree<String> stringTree = Collections.Tree("Root node",
                  "Uber parent" ,
-                 API.Set(API.Tree("Leaf 1", "Leaf node one"),
-                         API.Tree("Leaf 2", "Leaf node two")));
+                 Collections.Set(Collections.Tree("Leaf 1", "Leaf node one"),
+                         Collections.Tree("Leaf 2", "Leaf node two")));
 
         assertThat(stringTree.label(), equalTo("Root node"));
         assertThat(stringTree.isSingleValued(), equalTo(false));
@@ -38,7 +38,7 @@ public class TreeSetTest {
 
     @Test
     public void appendTree() {
-        Tree<String> nodes = API.Tree("Root node", "Parent value")
+        Tree<String> nodes = Collections.Tree("Root node", "Parent value")
            .appendChild("Child node 1", "First child node")
            .appendChild("Child node 2", "Second child node");
 
@@ -52,7 +52,7 @@ public class TreeSetTest {
 
     @Test
     public void foldLeft() {
-        String concat = API.Tree("Root node", "Parent value")
+        String concat = Collections.Tree("Root node", "Parent value")
                 .appendChild("Child node 1", "First child node")
                 .appendChild("Child node 2", "Second child node")
                 .foldLeft("start", (x, xs) -> xs + x);
@@ -62,7 +62,7 @@ public class TreeSetTest {
 
     @Test
     public void foldRight() {
-        String concat = API.Tree("Root node", "Parent value")
+        String concat = Collections.Tree("Root node", "Parent value")
                 .appendChild("Child node 1", "First child node")
                 .appendChild("Child node 2", "Second child node")
                 .foldRight("start", (x, xs) -> xs + x);
@@ -113,7 +113,7 @@ public class TreeSetTest {
     }
 
     private Tree<String> createTree() {
-        Tree<String> nodes = API.Tree("Root node", "Parent value")
+        Tree<String> nodes = Collections.Tree("Root node", "Parent value")
                 .appendChild("ch-1-01", "First child")
                 .appendChild("ch-1-02", "Second child");
 
