@@ -6,10 +6,10 @@
 [![Coveralls bitbucket branch](https://img.shields.io/coveralls/bitbucket/jongsoftdev/language-extension/master.svg?style=flat-square)](https://coveralls.io/bitbucket/jongsoftdev/language-extension?branch=master)
 ![APMLicense](https://img.shields.io/apm/l/vim-mode.svg?style=flat-square)
 
-With Java 8 a great new introduction was made to support functional programming. Unfortunately true functional programming was not
+With the introduction of Java 8 the first steps were taken to support functional programming. Unfortunately true functional programming is not
 yet supported.
 
-**Note:** from version 0.0.4 onwards only Java 11+ is supported
+**Note:** from version 0.0.4 onward only Java 11+ is supported
 
 ## Features in the library
 The library currently has the following groups of features that it adds on top of the default Java 11+ system:
@@ -18,9 +18,6 @@ The library currently has the following groups of features that it adds on top o
 * Immutable collections, supporting better declarative and safer operations
 
 ### Functional classes
-The commons module contains interfaces supporting a more declarative way of programming. It consists out of the needed interfaces
-for all the other modules. Like:
-
 * `Value`, base interface for all entities within the extension framework
 * `Optional`, a purely functionally version of the Optional introduced in Java 8
 * `Try`, a functional implementation to wrap exception handling
@@ -33,26 +30,63 @@ for all the other modules. Like:
 * `Tuple`, a tuple implementation to store 2 or more entities
 * `Map`, a map implementation
 
+### Date / Time based interfaces
+* `Range`, a wrapper to create a date or date time range
+
 ## Documentation
-To support development work the JavaDoc is published online for this library. Currently the following documentation is
-published:
+To aid in using this library the JavaDoc is published online. This documentation contains information about the various 
+interfaces present. The documentation is published at:
     
 * [Production API Documentation](https://jdocstorage.z6.web.core.windows.net/java/language/com.jongsoft.lang/module-summary.html)
 * [Snapshot API Documentation](https://jdocstorage.z6.web.core.windows.net/java/language/snapshot/index.html)
 
-Most of the functional interfaces can be instantiated using the [API](https://jdocstorage.z6.web.core.windows.net/java/language/com.jongsoft.lang/com/jongsoft/lang/API.html)
-class.
+## Examples
 
-**Example 1: using a declarative sequence of strings**
+### Collection examples
+
+#### Example 1: using a declarative sequence of strings
 ```java
+import com.jongsoft.lang.Collections;
+
 class Main {
     public static void main(String[] args){
         // Instantiate a list, filter the strings by length and remove one
-        Sequence<String> myStrings = API.List("test", "string", "one")
+        Sequence<String> myStrings = Collections.List("test", "string", "one")
            .filter(s -> s.length() == 3)
            .remove("test");
         
         // The result will be: Sequence[one] 
+        System.out.println(myStrings.toString());
+    }
+}
+```
+
+#### Example 1: creating a distinct list
+```java
+import com.jongsoft.lang.Collections;
+
+class Main {
+    public static class Entity {
+       private final String value;
+       
+       public Entity(String value) {
+          this.value = value;
+       }
+
+       public boolean contains(String other) {
+          return value.contains(other);
+       }
+    }
+
+    public static void main(String[] args){
+        // Instantiate a list, filter the strings by length and remove one
+        Sequence<String> myStrings = Collections.List(
+                new Entity("sample"),
+                new Entity("more sample")
+           )
+           .distinctBy((e1, e2) => e1.contains(e2));
+        
+        // The result will be: Sequence["sample"] 
         System.out.println(myStrings.toString());
     }
 }
@@ -65,7 +99,7 @@ To include this module use the Maven dependency below:
     <dependency>
         <groupId>com.jongsoft.lang</groupId>
         <artifactId>language</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </dependency>
 ```
 
