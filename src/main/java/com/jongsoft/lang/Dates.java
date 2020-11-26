@@ -3,6 +3,7 @@ package com.jongsoft.lang;
 import com.jongsoft.lang.time.Range;
 import com.jongsoft.lang.time.impl.RangeImpl;
 
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 
 public class Dates {
@@ -21,6 +22,19 @@ public class Dates {
      */
     public static <T extends Temporal> Range<T> range(T from, T until) {
         return new RangeImpl<>(from, until);
+    }
+
+    /**
+     * Create a temporal range, starting from the provided {@code from} and with a size containing exactly one of the
+     * provided chrono unit.
+     *
+     * @param from      the start of the range (inclusive)
+     * @param range     the size of the range
+     * @param <T>       the type of the range
+     * @return          the created range
+     */
+    public static <T extends Temporal> Range<T> range(T from, ChronoUnit range) {
+        return new RangeImpl<>(from, range);
     }
 
 }

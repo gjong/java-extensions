@@ -4,18 +4,27 @@ import com.jongsoft.lang.time.Range;
 
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.time.temporal.TemporalField;
+import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class RangeImpl<T extends Temporal> implements Range<T> {
 
+    private final ChronoUnit preset;
     private final T from;
     private final T until;
 
     public RangeImpl(T from, T until) {
         this.from = from;
         this.until = until;
+        this.preset = null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public RangeImpl(T from, ChronoUnit range) {
+        this.from = from;
+        this.until = (T) from.plus(1, range);
+        this.preset = range;
     }
 
     @Override
@@ -46,4 +55,50 @@ public class RangeImpl<T extends Temporal> implements Range<T> {
         return Stream.concat(streamSlices, addonSlice);
     }
 
+    @Override
+    public Range<T> previous() {
+        return shift(-1);
+    }
+
+    @Override
+    public Range<T> next() {
+        return shift(1);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Range<T> shift(int multiplier) {
+        if (preset != null) {
+            return new RangeImpl<>(
+                    (T) from.plus(multiplier, preset),
+                    preset
+            );
+        }
+
+        ChronoUnit measurement = from.isSupported(ChronoUnit.MINUTES)
+                ? ChronoUnit.MINUTES
+                : ChronoUnit.DAYS;
+
+        long windowSize = measurement.between(from, until);
+        return new RangeImpl<>(
+                (T) from.plus(windowSize * multiplier, measurement),
+                (T) until.plus(windowSize * multiplier, measurement)
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Range) {
+            Range<?> other = (Range<?>) o;
+
+            return Objects.equals(from, other.from())
+                    && Objects.equals(until, other.until());
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(17, from, until);
+    }
 }

@@ -56,4 +56,26 @@ public class RangeTest {
         range.slice(ChronoUnit.MINUTES);
     }
 
+    @Test
+    public void previous_from_until() {
+        Range<LocalDate> range = Dates.range(
+                LocalDate.of(2019, 1, 1),
+                LocalDate.of(2019, 2, 1));
+
+        Range<LocalDate> previous = range.previous();
+
+        Assert.assertEquals(LocalDate.of(2018, 12, 1), previous.from());
+        Assert.assertEquals(LocalDate.of(2019, 1, 1), previous.until());
+    }
+
+    @Test
+    public void previous_chronounit() {
+        Range<LocalDate> range = Dates.range(LocalDate.of(2019, 2, 1), ChronoUnit.DECADES);
+
+        Range<LocalDate> previous = range.previous();
+
+        Assert.assertEquals(LocalDate.of(2009, 2, 1), previous.from());
+        Assert.assertEquals(LocalDate.of(2019, 2, 1), previous.until());
+    }
+
 }

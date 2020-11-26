@@ -54,4 +54,14 @@ public interface Range<T extends Temporal> {
      */
     Stream<Range<T>> slice(ChronoUnit slicing);
 
+    /**
+     * Returns the range exactly before this range. If the range was created using a ChronoUnit then the window will shift
+     * exactly one ChronoUnit back. If it was created using a from and until it will shift exactly the same size back.
+     *
+     * @return the previous window
+     */
+    Range<T> previous();
+
+    Range<T> next();
+
 }
