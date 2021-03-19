@@ -120,23 +120,14 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    public Sequence<T> orElse(final Iterable<? extends T> other) {
-        return isEmpty() ? com.jongsoft.lang.Collections.List(other) : this;
-    }
-
-    @Override
-    public Sequence<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
-        return isEmpty() ? com.jongsoft.lang.Collections.List(supplier.get()) : this;
-    }
-
-    @Override
     public Pipeline<T> pipeline() {
         return new PipeCommand<>(this);
     }
 
     @Override
-    public <K> Map<K, List<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
-        return Collections.groupBy(com.jongsoft.lang.Collections::List, this, keyGenerator);
+    @SuppressWarnings("unchecked")
+    public <K> Map<K, ? extends Sequence<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
+        return (Map<K, ? extends Sequence<T>>) Collections.groupBy(com.jongsoft.lang.Collections::List, this, keyGenerator);
     }
 
     @Override

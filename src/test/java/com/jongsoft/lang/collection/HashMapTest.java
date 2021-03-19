@@ -146,6 +146,21 @@ public class HashMapTest {
     }
 
     @Test
+    public void split() {
+        Pair<? extends Map<Integer, String>, ? extends Map<Integer, String>> split =
+                Collections.Map(1, "two")
+                        .put(2, "three")
+                        .put(3, "four")
+                        .split(x -> x.getFirst() % 2 == 0);
+
+        assertThat(split.getFirst().size(), is(1));
+        assertThat(split.getFirst().containsKey(2), equalTo(true));
+        assertThat(split.getSecond().size(), is(2));
+        assertThat(split.getSecond().containsKey(1), equalTo(true));
+        assertThat(split.getSecond().containsKey(3), equalTo(true));
+    }
+
+    @Test
     public void iterator() {
         Iterator<Pair<String, String>> stringIt = Collections.Map("one", "two")
                 .put("two", "three")

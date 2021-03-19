@@ -78,4 +78,11 @@ public class RangeTest {
         Assert.assertEquals(LocalDate.of(2019, 2, 1), previous.until());
     }
 
+    @Test
+    public void range_equals() {
+        Range<LocalDate> range = Dates.range(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 2, 1));
+
+        Assert.assertEquals(Dates.range(LocalDate.of(2019, 1, 1), ChronoUnit.MONTHS), range);
+    }
+
 }

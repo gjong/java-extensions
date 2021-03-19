@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.Iterator;
 
 import com.jongsoft.lang.Collections;
+import com.jongsoft.lang.collection.tuple.Pair;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -357,8 +358,8 @@ public class ArrayTest {
 
     @Test
     public void groupBy() {
-        Map<Integer, List<String>> result = Collections.List("one", "two", "three", "four")
-             .groupBy(String::length);
+        Map<Integer, ? extends Sequence<String>> result = Collections.List("one", "two", "three", "four")
+                .groupBy(String::length);
 
         assertThat(result.size(), equalTo(3));
         assertThat(result.get(3).size(), equalTo(2));
@@ -393,6 +394,18 @@ public class ArrayTest {
         assertThat(result.get(0), equalTo(3));
         assertThat(result.get(1), equalTo(2));
         assertThat(result.get(2), equalTo(1));
+    }
+
+    @Test
+    public void split() {
+        Pair<? extends Sequence<Integer>, ? extends Sequence<Integer>> split =
+                Collections.List(1, 2, 3)
+                        .split(v -> v % 2 == 0);
+
+        assertThat(split.getFirst().size(), is(1));
+        assertThat(split.getFirst(), hasItems(2));
+        assertThat(split.getSecond().size(), is(2));
+        assertThat(split.getSecond(), hasItems(1, 3));
     }
 
     @Test

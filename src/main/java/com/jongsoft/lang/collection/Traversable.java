@@ -95,7 +95,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
     }
 
     /**
-     Calculates the average of this elements, assuming that the element type is {@link Number}.
+     * Calculates the average of this elements, assuming that the element type is {@link Number}.
      *
      * Since we do not know if the component type {@code T} is of type {@code Number}, the
      * {@code average()} call might throw at runtime (see examples below).

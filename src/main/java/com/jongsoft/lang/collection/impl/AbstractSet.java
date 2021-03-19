@@ -36,6 +36,7 @@ import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.*;
 import com.jongsoft.lang.collection.support.Collections;
 import com.jongsoft.lang.collection.support.PipeCommand;
+import com.jongsoft.lang.collection.tuple.Pair;
 
 abstract class AbstractSet<T> implements Set<T> {
 
@@ -95,9 +96,16 @@ abstract class AbstractSet<T> implements Set<T> {
     }
 
     @Override
-    public <K> Map<K, List<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
+    @SuppressWarnings("unchecked")
+    public <K> Map<K, ? extends Set<T>> groupBy(final Function<? super T, ? extends K> keyGenerator) {
         final Supplier<Set<T>> setSupplier = this.emptySupplier();
-        return Collections.groupBy(setSupplier::get, this, keyGenerator);
+        return (Map<K, ? extends Set<T>>) Collections.groupBy(setSupplier::get, this, keyGenerator);
+    }
+
+    @Override
+    public Pair<? extends Set<T>, ? extends Collection<T>> split(Predicate<T> predicate) {
+        Map<Boolean, ? extends Set<T>> split = groupBy(predicate::test);
+        return API.Tuple(split.get(true), split.get(false));
     }
 
     @Override

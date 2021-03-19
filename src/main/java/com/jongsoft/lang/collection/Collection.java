@@ -29,6 +29,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import com.jongsoft.lang.collection.tuple.Pair;
 import com.jongsoft.lang.control.Optional;
 
 /**
@@ -165,6 +166,18 @@ public interface Collection<T> extends Traversable<T> {
 
     @Override
     Collection<T> reject(Predicate<T> predicate);
+
+    /**
+     * The split operation is an execution that combines the {@link #reject(Predicate)} and the {@link #filter(Predicate)}
+     * methods into one. Separating the values into 2 separate buckets.
+     *
+     * The first bucket will contain the same as the {@link #filter(Predicate)} operation. The second bucket will
+     * contain the result of the {@link #reject(Predicate)} operation.
+     *
+     * @param predicate the predicate to use
+     * @return the two buckets of this operation
+     */
+    Pair<? extends Collection<T>, ? extends Collection<T>> split(Predicate<T> predicate);
 
     /**
      * Get the amount of elements contained in the collection.

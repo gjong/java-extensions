@@ -101,4 +101,12 @@ public class RangeImpl<T extends Temporal> implements Range<T> {
     public int hashCode() {
         return Objects.hash(17, from, until);
     }
+
+    @Override
+    public String toString() {
+        return "Range{" +
+                "from=" + from +
+                ", until=" + until +
+                '}';
+    }
 }

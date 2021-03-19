@@ -93,7 +93,7 @@ public interface List<T> extends Collection<T> {
      * @return              the new map created using the generator
      * @throws NullPointerException if {@code keyGenerator} is null
      */
-    <K> Map<K, List<T>> groupBy(Function<? super T, ? extends K> keyGenerator);
+    <K> Map<K, ? extends List<T>> groupBy(Function<? super T, ? extends K> keyGenerator);
 
     /**
      * Find the index for the provided element, will return <code>-1</code> if the element

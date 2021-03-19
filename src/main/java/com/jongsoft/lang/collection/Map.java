@@ -106,6 +106,9 @@ public interface Map<K, T> extends Collection<Pair<K, T>> {
     Map<K, T> filter(Predicate<Pair<K, T>> predicate);
 
     @Override
+    Pair<? extends Map<K, T>, ? extends Map<K, T>> split(Predicate<Pair<K, T>> predicate);
+
+    @Override
     default Map<K, T> reject(Predicate<Pair<K, T>> predicate) {
         Objects.requireNonNull(predicate, "predicate is null");
         return filter(predicate.negate());

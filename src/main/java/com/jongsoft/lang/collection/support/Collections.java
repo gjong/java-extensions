@@ -34,10 +34,7 @@ import java.util.stream.Collector;
 
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.Control;
-import com.jongsoft.lang.collection.Collection;
-import com.jongsoft.lang.collection.List;
-import com.jongsoft.lang.collection.Map;
-import com.jongsoft.lang.collection.Traversable;
+import com.jongsoft.lang.collection.*;
 import com.jongsoft.lang.collection.tuple.Pair;
 
 public final class Collections {
@@ -46,8 +43,8 @@ public final class Collections {
         // hidden constructor utility class
     }
 
-    public static <K, U> Map<K, List<U>> groupBy(Supplier<List<U>> instanceSupplier, List<U> source,
-                                                     Function<? super U, ? extends K> keyGenerator) {
+    public static <K, U> Map<K, ? extends List<U>> groupBy(Supplier<List<U>> instanceSupplier, List<U> source,
+                                                                    Function<? super U, ? extends K> keyGenerator) {
         Objects.requireNonNull(keyGenerator, "keyGenerator is null");
         Map<K, List<U>> result = com.jongsoft.lang.Collections.Map();
         for (U element : source) {

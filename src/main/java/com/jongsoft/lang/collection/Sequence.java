@@ -23,6 +23,10 @@
  */
 package com.jongsoft.lang.collection;
 
+import com.jongsoft.lang.API;
+import com.jongsoft.lang.Collections;
+import com.jongsoft.lang.collection.tuple.Pair;
+
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -154,9 +158,19 @@ public interface Sequence<T> extends List<T> {
     Sequence<T> filter(Predicate<T> predicate);
 
     @Override
+    <K> Map<K, ? extends Sequence<T>> groupBy(Function<? super T, ? extends K> keyGenerator);
+
+    @Override
     default Sequence<T> reject(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "predicate is null");
         return filter(predicate.negate());
+    }
+
+    @Override
+    default Pair<? extends Sequence<T>, ? extends Sequence<T>> split(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate, "predicate is null");
+        final Map<Boolean, ? extends Sequence<T>> pairs = groupBy(predicate::test);
+        return API.Tuple(pairs.get(true), pairs.get(false));
     }
 
     /**
@@ -174,10 +188,14 @@ public interface Sequence<T> extends List<T> {
     <U> Sequence<U> map(Function<T, U> mapper);
 
     @Override
-    Sequence<T> orElse(Iterable<? extends T> other);
+    default Sequence<T> orElse(Iterable<? extends T> other) {
+        return isEmpty() ? Collections.List(other) : this;
+    }
 
     @Override
-    Sequence<T> orElse(Supplier<? extends Iterable<? extends T>> supplier);
+    default Sequence<T> orElse(Supplier<? extends Iterable<? extends T>> supplier) {
+        return isEmpty() ? Collections.List(supplier.get()) : this;
+    }
 
     /**
      * Transform this collection into one supported natively in Java.

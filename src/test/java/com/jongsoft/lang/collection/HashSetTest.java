@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 import com.jongsoft.lang.Collections;
+import com.jongsoft.lang.collection.tuple.Pair;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -147,7 +148,7 @@ public class HashSetTest {
 
     @Test
     public void groupBy() {
-        final Map<Integer, List<Integer>> pairs = Collections.Set(1, 2, 3, 4, 5).groupBy(x -> x % 2);
+        final Map<Integer, ? extends List<Integer>> pairs = Collections.Set(1, 2, 3, 4, 5).groupBy(x -> x % 2);
 
         assertThat(pairs.size(), equalTo(2));
         assertTrue(pairs.containsKey(0));
@@ -207,6 +208,18 @@ public class HashSetTest {
 
         assertThat(noFives.size(), equalTo(3));
         assertThat(noFives, hasItems(1, 3, 5));
+    }
+
+    @Test
+    public void split() {
+        Pair<? extends Collection<Integer>, ? extends Collection<Integer>> split =
+                Collections.Set(1, 2, 3, 4, 5, 5)
+                        .split(i -> i % 2 == 0);
+
+        assertThat(split.getFirst().size(), equalTo(2));
+        assertThat(split.getFirst(), hasItems(2, 4));
+        assertThat(split.getSecond().size(), equalTo(3));
+        assertThat(split.getSecond(), hasItems(1, 3, 5));
     }
 
     @Test

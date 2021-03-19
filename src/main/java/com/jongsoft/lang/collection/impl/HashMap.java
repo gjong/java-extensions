@@ -115,6 +115,12 @@ public class HashMap<K, T> implements Map<K, T> {
     }
 
     @Override
+    public Pair<? extends Map<K, T>, ? extends Map<K, T>> split(Predicate<Pair<K, T>> predicate) {
+        Pair<? extends Sequence<Pair<K, T>>, ? extends Sequence<Pair<K, T>>> split = delegate.split(predicate);
+        return API.Tuple(new HashMap<>(split.getFirst()), new HashMap<>(split.getSecond()));
+    }
+
+    @Override
     public <U> Collection<U> map(final Function<Pair<K, T>, U> mapper) {
         return delegate.map(mapper);
     }

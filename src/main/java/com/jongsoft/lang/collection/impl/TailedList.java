@@ -169,23 +169,14 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
-    public Sequence<T> orElse(final Iterable<? extends T> other) {
-        return isEmpty() ? TailedList.ofAll(other) : this;
-    }
-
-    @Override
-    public Sequence<T> orElse(final Supplier<? extends Iterable<? extends T>> supplier) {
-        return isEmpty() ? TailedList.ofAll(supplier.get()) : this;
-    }
-
-    @Override
     public Pipeline<T> pipeline() {
         return new PipeCommand<>(this);
     }
 
     @Override
-    public<K> Map<K, List<T>> groupBy(Function<? super T, ? extends K> keyGenerator) {
-        return Collections.groupBy(TailedList::empty, this, keyGenerator);
+    @SuppressWarnings("unchecked")
+    public<K> Map<K, ? extends Sequence<T>> groupBy(Function<? super T, ? extends K> keyGenerator) {
+        return (Map<K, ? extends Sequence<T>>) Collections.groupBy(TailedList::empty, this, keyGenerator);
     }
 
     @Override

@@ -62,6 +62,12 @@ public interface Range<T extends Temporal> {
      */
     Range<T> previous();
 
+    /**
+     * Returns the range exactly after this range. If the range was created using a ChronoUnit then the window will shift
+     * exactly one ChronoUnit forward. If it was created using a from and until it will shift exactly the same size forward.
+     *
+     * @return
+     */
     Range<T> next();
 
 }
