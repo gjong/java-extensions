@@ -39,6 +39,7 @@ import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.collection.tuple.Pair;
 import com.jongsoft.lang.collection.tuple.Quadruplet;
 import com.jongsoft.lang.collection.tuple.Triplet;
+import com.jongsoft.lang.collection.tuple.Tuple;
 import com.jongsoft.lang.collection.tuple.impl.PairImpl;
 import com.jongsoft.lang.collection.tuple.impl.QuadrupletImpl;
 import com.jongsoft.lang.collection.tuple.impl.TripletImpl;
@@ -99,6 +100,16 @@ public final class API {
      */
     public static <X, Y, Z, D> Quadruplet<X, Y, Z, D> Tuple(X first, Y second, Z third, D fourth) {
         return new QuadrupletImpl<>(first, second, third, fourth);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <X, Y extends Pair<X, X>> Y Tuple(X...elements) {
+        switch (elements.length) {
+            case 2 : return (Y) API.Tuple(elements[0], elements[1]);
+            case 3 : return (Y) API.Tuple(elements[0], elements[1], elements[2]);
+            case 4 : return (Y) API.Tuple(elements[0], elements[1], elements[2], elements[3]);
+            default: throw new IllegalArgumentException("Cannot construct a tuple of more then 4 elements.");
+        }
     }
 
 }

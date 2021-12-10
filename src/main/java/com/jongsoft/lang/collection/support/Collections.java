@@ -90,6 +90,25 @@ public final class Collections {
         return API.Tuple(count, sum);
     }
 
+    public static <T> double median(Traversable<T> traversable, ToDoubleFunction<T> toDoubleFunction) {
+        for (T element : traversable) {
+            toDoubleFunction.applyAsDouble(element);
+        }
+
+        if (traversable instanceof List) {
+            var casted = (List<T>) traversable;
+            var elCount = casted.size();
+            if (elCount % 2 == 0) {
+                return (toDoubleFunction.applyAsDouble(casted.get(elCount / 2))
+                        + toDoubleFunction.applyAsDouble(casted.get(elCount / 2 - 1))) / 2;
+            } else {
+                return toDoubleFunction.applyAsDouble(casted.get(elCount / 2));
+            }
+        }
+
+        return 0;
+    }
+
     @SuppressWarnings("unchecked")
     public static <T, K extends List<T>> K filter(K seed, Iterable<T> source, Predicate<T> filter) {
         K result = seed;

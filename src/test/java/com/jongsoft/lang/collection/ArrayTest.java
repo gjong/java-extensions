@@ -213,6 +213,25 @@ public class ArrayTest {
         assertThat(strings.size(), equalTo(2));
         assertThat(strings, hasItems("one", "three"));
     }
+
+    @Test
+    public void sorted() {
+        var sorted = Collections.List(3, 2, 4, 1)
+                .sorted();
+
+        assertThat(sorted.get(0), equalTo(1));
+        assertThat(sorted.get(1), equalTo(2));
+        assertThat(sorted.get(2), equalTo(3));
+        assertThat(sorted.get(3), equalTo(4));
+    }
+
+    @Test
+    public void median() {
+        var median = Collections.List(1, 2, 3, 4, 5)
+                .median();
+
+        assertThat(median, equalTo(3.0));
+    }
     
     @Test
     public void reject() {

@@ -160,6 +160,11 @@ public class TailedList<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> sorted() {
+        return null;
+    }
+
+    @Override
     public <U> Sequence<U> map(final Function<T, U> mapper) {
         Sequence<U> mappedTail = empty();
         for (TailedList<T> processing = this; !processing.isEmpty(); processing = processing.tail) {

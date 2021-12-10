@@ -23,6 +23,8 @@
  */
 package com.jongsoft.lang.collection;
 
+import com.jongsoft.lang.collection.support.Collections;
+
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
@@ -109,6 +111,16 @@ public interface List<T> extends Collection<T> {
     @Override
     <U> List<U> map(Function<T, U> mapper);
 
+    /**
+     * Computes the median value of the set. This will only work if all elements in the set are of the
+     * type {@link Number}.
+     *
+     * @return The median value.
+     */
+    default double median() {
+        return Collections.median(this, t -> ((Number) t).doubleValue());
+    }
+
     @Override
     List<T> orElse(Iterable<? extends T> other);
 
@@ -134,6 +146,26 @@ public interface List<T> extends Collection<T> {
      * @throws IndexOutOfBoundsException  if {@code index} is not between the 0 and {@linkplain #size()}
      */
     List<T> remove(int index);
+
+    /**
+     * Sorts the specified array of objects into ascending order, according to the natural ordering of its elements. All elements
+     * in the array must implement the Comparable interface. Furthermore, all elements in the array must be mutually comparable
+     * (that is, e1.compareTo(e2) must not throw a ClassCastException for any elements e1 and e2 in the array).
+     * <p>
+     * This sort is guaranteed to be stable: equal elements will not be reordered as a result of the sort.
+     * Implementation note: This implementation is a stable, adaptive, iterative mergesort that requires far fewer than n lg(n)
+     * comparisons when the input array is partially sorted, while offering the performance of a traditional mergesort when the
+     * input array is randomly ordered. If the input array is nearly sorted, the implementation requires approximately n comparisons.
+     * Temporary storage requirements vary from a small constant for nearly sorted input arrays to n/2 object references
+     * for randomly ordered input arrays.
+     * <p>
+     * The implementation takes equal advantage of ascending and descending order in its input array, and can take advantage
+     * of ascending and descending order in different parts of the same input array. It is well-suited to merging two or
+     * more sorted arrays: simply concatenate the arrays and sort the resulting array.
+     *
+     * @return the sorted set
+     */
+    List<T> sorted();
 
     @Override
     List<T> tail();

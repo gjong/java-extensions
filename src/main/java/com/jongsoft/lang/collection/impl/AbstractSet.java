@@ -25,6 +25,7 @@ package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -62,6 +63,13 @@ abstract class AbstractSet<T> implements Set<T> {
     @SuppressWarnings("unchecked")
     public Set<T> distinctBy(Comparator<T> comparator) {
         return com.jongsoft.lang.Collections.Set(comparator, (T[]) delegate);
+    }
+
+    @Override
+    public List<T> sorted() {
+        Object[] clone = Arrays.copyOf(delegate, delegate.length);
+        Arrays.sort(clone);
+        return new Array<>(clone);
     }
 
     @Override

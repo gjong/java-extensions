@@ -25,6 +25,7 @@ package com.jongsoft.lang.collection.impl;
 
 import static java.lang.String.*;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -180,6 +181,13 @@ public class Array<T> implements Sequence<T> {
         }
 
         return new Array<>(reversed);
+    }
+
+    @Override
+    public Sequence<T> sorted() {
+        Object[] clone = Arrays.copyOf(delegate, delegate.length);
+        Arrays.sort(clone);
+        return new Array<>(clone);
     }
 
     @Override

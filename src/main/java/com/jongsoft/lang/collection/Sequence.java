@@ -205,5 +205,8 @@ public interface Sequence<T> extends List<T> {
     java.util.List<T> toJava();
 
     @Override
+    Sequence<T> sorted();
+
+    @Override
     Sequence<T> union(Iterable<T> iterable);
 }

@@ -84,6 +84,17 @@ public class HashSetTest {
     }
 
     @Test
+    public void sorted() {
+        var sorted = Collections.Set(3, 2, 4, 1)
+                .sorted();
+
+        assertThat(sorted.get(0), equalTo(1));
+        assertThat(sorted.get(1), equalTo(2));
+        assertThat(sorted.get(2), equalTo(3));
+        assertThat(sorted.get(3), equalTo(4));
+    }
+
+    @Test
     public void complementMultiple() {
         Set<Integer> result = Collections.Set(1, 2, 3, 4)
            .complement(Collections.Set(2), Collections.Set(3));
