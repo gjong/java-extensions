@@ -167,12 +167,12 @@ workflows:
       - publish-coverage:
           requires:
             - build-software
-      - publish-javadoc:
-          requires:
-            - build-software
-          filters:
-            branches:
-              only: master
+#      - publish-javadoc:
+#          requires:
+#            - build-software
+#          filters:
+#            branches:
+#              only: master
       - publish-sonar:
           requires:
             - build-software
@@ -194,9 +194,9 @@ workflows:
           filters:
             branches:
               only: /release\/.*/
-      - release-javadoc:
-          requires:
-            - release
-          filters:
-            branches:
-              only: /release\/.*/
+#      - release-javadoc:
+#          requires:
+#            - release
+#          filters:
+#            branches:
+#              only: /release\/.*/
