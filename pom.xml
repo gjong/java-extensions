@@ -4,7 +4,7 @@
 
     <groupId>com.jongsoft.lang</groupId>
     <artifactId>language</artifactId>
-    <version>1.1.4-SNAPSHOT</version>
+    <version>1.1.4</version>
     <packaging>jar</packaging>
 
     <name>Jong-Soft Java Language Extensions</name>
@@ -56,7 +56,7 @@
         <url>https://bitbucket.org/jongsoftdev/language-extension/src</url>
         <connection>scm:git:git://bitbucket.org:jongsoftdev/language-extension.git</connection>
         <developerConnection>scm:git:git@bitbucket.org:jongsoftdev/language-extension.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>language-1.1.4</tag>
     </scm>
 
     <distributionManagement>
