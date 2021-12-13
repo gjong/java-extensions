@@ -232,6 +232,17 @@ public class ArrayTest {
 
         assertThat(median, equalTo(3.0));
     }
+
+    @Test
+    public void min() {
+        var min = Collections.List(1, 2, 3, 4, 5)
+                .min();
+
+        assertThat(min.get(), equalTo((1)));
+        assertThat(
+                Collections.List("apple", "pear").min().get(),
+                equalTo("apple"));
+    }
     
     @Test
     public void reject() {

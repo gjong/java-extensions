@@ -36,6 +36,7 @@ import com.jongsoft.lang.API;
 import com.jongsoft.lang.Control;
 import com.jongsoft.lang.collection.*;
 import com.jongsoft.lang.collection.tuple.Pair;
+import com.jongsoft.lang.control.Optional;
 
 public final class Collections {
 
@@ -107,6 +108,24 @@ public final class Collections {
         }
 
         return 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Optional<T> compareGreatestSmallest(Traversable<T> traversable, boolean maximum) {
+        Comparable<T> value = null;
+        for (T element : traversable) {
+            if (!(element instanceof Comparable)) {
+                throw new ClassCastException("Element must be of type comparable to be able to determine max or min value.");
+            }
+
+            if (value == null
+                    || (maximum && value.compareTo(element) < 0)
+                    || (!maximum && value.compareTo(element) > 0)) {
+                value = (Comparable<T>) element;
+            }
+        }
+
+        return Control.Option((T) value);
     }
 
     @SuppressWarnings("unchecked")

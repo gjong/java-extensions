@@ -4,7 +4,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.jongsoft.lang.API;
 import com.jongsoft.lang.Control;
 import com.jongsoft.lang.Value;
 import com.jongsoft.lang.collection.support.Collections;
@@ -92,6 +91,36 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
     default Optional<Double> sum() {
         Pair<Integer, Double> summation = Collections.neumaierSum(this,  t -> ((Number) t).doubleValue());
         return summation.getFirst() == 0 ? Control.Option() : Control.Option(summation.getSecond());
+    }
+
+    /**
+     * Compute the smallest value in the set, based upon the {@link Comparable#compareTo(Object)} operation. Note
+     * all elements in the set must implement this method.
+     * <p>
+     * Examples:
+     * <pre>{@code
+     * API.List().min()                          // = Optional()
+     * API.List(1, 2, 3).min()                   // = Optional(1)
+     * API.List(1.0, 10e100, 2.0, -10e100).min() // = Optional(1)
+     * API.List("apple", "pear").min()           // = Optional("apple")
+     * }</pre>
+     *
+     * @return the smallest value
+     * @throws ClassCastException in case one or more elements does not implement the {@link Comparable} interface.
+     */
+    default Optional<T> min() {
+        return Collections.compareGreatestSmallest(this, false);
+    }
+
+    /**
+     * Compute the largest value in the set, based upon the {@link Comparable#compareTo(Object)} operation. Note
+     * all elements in the set must implement this method.
+     *
+     * @return the maximum value
+     * @throws ClassCastException in case one or more elements does not implement the {@link Comparable} interface.
+     */
+    default Optional<T> max() {
+        return Collections.compareGreatestSmallest(this, true);
     }
 
     /**
