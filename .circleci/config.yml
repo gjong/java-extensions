@@ -130,9 +130,6 @@ workflows:
           filters:
             branches:
               ignore: /release\/.*/
-      - publish-coverage:
-          requires:
-            - build-software
 #      - publish-javadoc:
 #          requires:
 #            - build-software
