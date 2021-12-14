@@ -22,7 +22,7 @@ jobs:
             - v1-dependencies-
       - run:
           name: Build dependency list
-          command: gradle dependencies
+          command: bash ./gradlew dependencies
       - save_cache:
           paths:
             - ~/.gradle
@@ -46,7 +46,7 @@ jobs:
           at: ~/repo
       - run:
           name: Performing analysis
-          command: ./gradlew sonarqube
+          command: bash ./gradlew sonarqube
 
   publish-javadoc:
     executor: docker-azure
