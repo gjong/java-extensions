@@ -40,6 +40,8 @@ jobs:
   publish-sonar:
     executor: docker-builder
     working_directory: ~/repo
+    environment:
+      SONAR_TOKEN: $sonarKey
     steps:
       - checkout
       - attach_workspace:
