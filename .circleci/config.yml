@@ -40,15 +40,13 @@ jobs:
   publish-sonar:
     executor: docker-builder
     working_directory: ~/repo
-    environment:
-      SONAR_TOKEN: $sonarKey
     steps:
       - checkout
       - attach_workspace:
           at: ~/repo
       - run:
           name: Performing analysis
-          command: bash ./gradlew sonarqube
+          command: bash ./gradlew sonarqube -Dsonar.login=$sonarKey
 
   publish-javadoc:
     executor: docker-azure
