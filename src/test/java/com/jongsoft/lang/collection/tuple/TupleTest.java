@@ -1,52 +1,51 @@
 package com.jongsoft.lang.collection.tuple;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
-import org.junit.Test;
 import com.jongsoft.lang.API;
 import com.jongsoft.lang.collection.Sequence;
+import org.junit.jupiter.api.Test;
 
-public class TupleTest {
+import static org.assertj.core.api.Assertions.assertThat;
+
+class TupleTest {
 
     @Test
-    public void pairInts() {
+    void pairInts() {
         Pair<Integer, Integer> pair = API.Tuple(1, 3);
         final Sequence actual = pair.toList();
 
-        assertThat(pair.getFirst(), equalTo(1));
-        assertThat(pair.getSecond(), equalTo(3));
-        assertThat(pair.toString(), equalTo("Pair(1, 3)"));
-        assertThat(actual.size(), equalTo(2));
+        assertThat(pair.getFirst()).isEqualTo(1);
+        assertThat(pair.getSecond()).isEqualTo(3);
+        assertThat(pair).hasToString("Pair(1, 3)");
+        assertThat(actual).hasSize(2);
     }
 
     @Test
-    public void pairMixed() {
+    void pairMixed() {
         Pair<Integer, String> pair = API.Tuple(1, "test");
 
-        assertThat(pair.getFirst(), equalTo(1));
-        assertThat(pair.getSecond(), equalTo("test"));
-        assertThat(pair.toString(), equalTo("Pair(1, test)"));
+        assertThat(pair.getFirst()).isEqualTo(1);
+        assertThat(pair.getSecond()).isEqualTo("test");
+        assertThat(pair).hasToString("Pair(1, test)");
     }
 
     @Test
-    public void triplet() {
+    void triplet() {
         Triplet<String, Float, Integer> triplet = API.Tuple("test", 2.3f, 5);
 
-        assertThat(triplet.getFirst(), equalTo("test"));
-        assertThat(triplet.getSecond(), equalTo(2.3f));
-        assertThat(triplet.getThird(), equalTo(5));
-        assertThat(triplet.toString(), equalTo("Triplet(test, 2.3, 5)"));
+        assertThat(triplet.getFirst()).isEqualTo("test");
+        assertThat(triplet.getSecond()).isEqualTo(2.3f);
+        assertThat(triplet.getThird()).isEqualTo(5);
+        assertThat(triplet).hasToString("Triplet(test, 2.3, 5)");
     }
 
     @Test
-    public void quadruplet() {
+    void quadruplet() {
         Quadruplet<Float, Integer, String, String> of = API.Tuple(1f, 2, "test", "cat");
 
-        assertThat(of.getFirst(), equalTo(1f));
-        assertThat(of.getSecond(), equalTo(2));
-        assertThat(of.getThird(), equalTo("test"));
-        assertThat(of.getFourth(), equalTo("cat"));
-        assertThat(of.toString(), equalTo("Quadruplet(1.0, 2, test, cat)"));
+        assertThat(of.getFirst()).isEqualTo(1f);
+        assertThat(of.getSecond()).isEqualTo(2);
+        assertThat(of.getThird()).isEqualTo("test");
+        assertThat(of.getFourth()).isEqualTo("cat");
+        assertThat(of.toString()).isEqualTo("Quadruplet(1.0, 2, test, cat)");
     }
 }

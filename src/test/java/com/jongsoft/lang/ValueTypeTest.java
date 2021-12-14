@@ -1,54 +1,58 @@
 package com.jongsoft.lang;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
 
-public class ValueTypeTest {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+class ValueTypeTest {
 
     @Test
-    public void isSingleValued() {
-        Assert.assertTrue(new ValueType<>("test").isSingleValued());
+    void isSingleValued() {
+        assertThat(new ValueType<>("test").isSingleValued()).isTrue();
     }
 
     @Test
-    public void get() {
-        Assert.assertThat(new ValueType<>(1).get(), CoreMatchers.equalTo(1));
+    void get() {
+        assertThat(new ValueType<>(1).get()).isEqualTo(1);
     }
 
     @Test
-    public void filter_matching() {
+    void filter_matching() {
         String result = new ValueType<>("test")
                 .filter(str -> str.length() > 1)
                 .get();
 
-        Assert.assertEquals("test", result);
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void filter_not_matching() {
-        new ValueType<>("test")
-                .filter(str -> str.length() > 10)
-                .get();
+        assertThat(result).isEqualTo("test");
     }
 
     @Test
-    public void map() {
+    void filter_not_matching() {
+        assertThatThrownBy(() ->
+                new ValueType<>("test")
+                        .filter(str -> str.length() > 10)
+                        .get())
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("Cannot get head on empty collection");
+    }
+
+    @Test
+    void map() {
         int length = new ValueType<>("test")
                 .map(String::length)
                 .get();
 
-        Assert.assertEquals(4, length);
+        assertThat(length).isEqualTo(4);
     }
 
     @Test
-    public void iterator() {
+    void iterator() {
         String value = new ValueType<>("test")
                 .iterator()
                 .next();
 
-        Assert.assertEquals("test", value);
+        assertThat(value).isEqualTo("test");
     }
 }

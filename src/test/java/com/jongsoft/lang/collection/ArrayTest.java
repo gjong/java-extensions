@@ -1,38 +1,31 @@
 package com.jongsoft.lang.collection;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static org.junit.rules.ExpectedException.*;
-
-import java.util.*;
-import java.util.Iterator;
-
 import com.jongsoft.lang.Collections;
 import com.jongsoft.lang.collection.tuple.Pair;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import com.jongsoft.lang.API;
 import com.jongsoft.lang.control.Optional;
+import org.junit.jupiter.api.Test;
 
-public class ArrayTest {
+import java.util.Iterator;
+import java.util.*;
 
-    @Rule
-    public ExpectedException thrown = none();
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+class ArrayTest {
 
     @Test
-    public void empty() {
-        thrown.expect(NoSuchElementException.class);
+    void empty() {
         Sequence empty = Collections.List();
 
-        empty.iterator().next();
+        assertThatThrownBy(() -> empty.iterator().next())
+                .isInstanceOf(NoSuchElementException.class);
 
-        assertThat(empty.size(), equalTo(0));
-        assertThat(empty.iterator().hasNext(), equalTo(false));
+        assertThat(empty).isEmpty();
+        assertThat(empty.iterator().hasNext()).isFalse();
     }
 
     @Test
-    public void pipeline() {
+    void pipeline() {
         Pipeline<Integer> pipe = Collections.List(1, 2, 3, 4)
                 .pipeline()
                 .map(x -> x * 2);
@@ -41,433 +34,442 @@ public class ArrayTest {
         Pipeline<String> pipe2 = pipe.map(String::valueOf);
 
         Iterator<Integer> iterator = pipe1.iterator();
-        assertThat(iterator.next(), equalTo(2));
-        assertThat(iterator.next(), equalTo(4));
-        assertThat(iterator.next(), equalTo(6));
-        assertThat(iterator.next(), equalTo(8));
-        assertFalse(iterator.hasNext());
+        assertThat(iterator.next()).isEqualTo(2);
+        assertThat(iterator.next()).isEqualTo(4);
+        assertThat(iterator.next()).isEqualTo(6);
+        assertThat(iterator.next()).isEqualTo(8);
+        assertThat(iterator.hasNext()).isFalse();
 
         Iterator<String> iterator1 = pipe2.iterator();
-        assertThat(iterator1.next(), equalTo("2"));
-        assertThat(iterator1.next(), equalTo("4"));
-        assertThat(iterator1.next(), equalTo("6"));
-        assertThat(iterator1.next(), equalTo("8"));
-        assertFalse(iterator.hasNext());
+        assertThat(iterator1.next()).isEqualTo("2");
+        assertThat(iterator1.next()).isEqualTo("4");
+        assertThat(iterator1.next()).isEqualTo("6");
+        assertThat(iterator1.next()).isEqualTo("8");
+        assertThat(iterator.hasNext()).isFalse();
     }
 
     @Test
-    public void headNoElement() {
-        thrown.expect(NoSuchElementException.class);
-        Collections.List().head();
+    void headNoElement() {
+        assertThatThrownBy(() -> Collections.List().head())
+                .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
-    public void head() {
+    void head() {
         Integer head = Collections.List(1, 2).head();
-        assertThat(head, equalTo(1));
+        assertThat(head).isEqualTo(1);
     }
 
     @Test
-    public void tailNoElements() {
-        thrown.expect(NoSuchElementException.class);
-        Collections.List().tail();
+    void tailNoElements() {
+        assertThatThrownBy(() -> Collections.List().tail())
+                .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
-    public void tail() {
-        assertThat(Collections.List(1).tail().isEmpty(), equalTo(true));
-        assertThat(Collections.List(1, 2).tail().head(), equalTo(2));
+    void tail() {
+        assertThat(Collections.List(1).tail()).isEmpty();
+        assertThat(Collections.List(1, 2).tail().head()).isEqualTo(2);
     }
 
     @Test
-    public void singleInt() {
+    void singleInt() {
         Sequence<Integer> ints = Collections.List(5);
 
-        assertThat(ints.size(), equalTo(1));
-        assertThat(ints.isSingleValued(), equalTo(false));
-        assertThat(ints.iterator().next(), equalTo(5));
+        assertThat(ints).hasSize(1);
+        assertThat(ints.isSingleValued()).isFalse();
+        assertThat(ints.iterator().next()).isEqualTo(5);
     }
 
     @Test
-    public void singleIntOutOfBounds() {
-        thrown.expect(IndexOutOfBoundsException.class);
-        thrown.expectMessage(equalTo("1 is not in the bounds of 0 and 1"));
-        Collections.List(5).get(1);
+    void singleIntOutOfBounds() {
+        assertThatThrownBy(() -> Collections.List(5).get(1))
+                .isInstanceOf(IndexOutOfBoundsException.class)
+                .hasMessage("1 is not in the bounds of 0 and 1");
     }
-    
+
     @Test
-    public void insertAt0Int() {
+    void insertAt0Int() {
         Sequence<Integer> insert = Collections.List(5).insert(0, 2);
 
-        assertThat(insert.size(), equalTo(2));
-        assertThat(insert.get(0), equalTo(2));
-        assertThat(insert.get(1), equalTo(5));
+        assertThat(insert)
+                .hasSize(2)
+                .containsExactly(2, 5);
     }
 
     @Test
-    public void insertAt1Int() {
+    void insertAt1Int() {
         Sequence<Integer> insert = Collections.List(5).insert(1, 2);
 
-        assertThat(insert.size(), equalTo(2));
-        assertThat(insert.get(0), equalTo(5));
-        assertThat(insert.get(1), equalTo(2));
+        assertThat(insert)
+                .hasSize(2)
+                .containsExactly(5, 2);
     }
 
     @Test
-    public void insertAt2Int() {
+    void insertAt2Int() {
         Sequence<Integer> insert = Collections.List(1, 2, 3, 4, 5).insert(2, 12);
 
-        assertThat(insert.size(), equalTo(6));
-        assertThat(insert.get(0), equalTo(1));
-        assertThat(insert.get(1), equalTo(2));
-        assertThat(insert.get(2), equalTo(12));
-        assertThat(insert.get(3), equalTo(3));
+        assertThat(insert)
+                .hasSize(6)
+                .containsExactly(1, 2, 12, 3, 4, 5);
     }
 
     @Test
-    public void append() {
+    void append() {
         Sequence<Integer> source = Collections.List(5);
         Sequence<Integer> add = source.append(6);
 
-        assertThat(source.size(), equalTo(1));
-        assertThat(source.isEmpty(), equalTo(false));
-        assertThat(add.size(), equalTo(2));
-        assertThat(add.get(0), equalTo(5));
-        assertThat(add.get(1), equalTo(6));
+        assertThat(source)
+                .hasSize(1)
+                .isNotEmpty()
+                .containsExactly(5);
+        assertThat(add)
+                .hasSize(2)
+                .containsExactly(5, 6);
     }
 
     @Test
-    public void prepend() {
+    void prepend() {
         Sequence<Integer> result = Collections.List(2, 3, 4).prepend(1);
 
-        assertThat(result.size(), equalTo(4));
-        assertThat(result.get(0), equalTo(1));
-        assertThat(result.get(1), equalTo(2));
-        assertThat(result.get(2), equalTo(3));
-        assertThat(result.get(3), equalTo(4));
+        assertThat(result)
+                .hasSize(4)
+                .containsExactly(1, 2, 3, 4);
     }
-    
+
     @Test
-    public void addAll() {
+    void addAll() {
         Sequence<Integer> values = Collections.List(1, 2, 3)
                 .union(Arrays.asList(4, 5, 6));
 
-        assertThat(values.size(), equalTo(6));
-        assertThat(values, hasItems(1, 2, 3, 4, 5, 6));
+        assertThat(values).hasSize(6)
+                .containsExactly(1, 2, 3, 4, 5, 6);
     }
 
     @Test
-    public void removeIntAt2() {
+    void removeIntAt2() {
         Sequence<Integer> removed = Collections.List(1, 2, 3, 4, 5).remove(2);
 
-        assertThat(removed.size(), equalTo(4));
-        assertThat(removed.contains(3), equalTo(false));
+        assertThat(removed)
+                .hasSize(4)
+                .containsExactly(1, 2, 4, 5);
     }
 
     @Test
-    public void removeByElement() {
+    void removeByElement() {
         Sequence<String> original = Collections.List("test", "string", "one");
         Sequence<String> afterRemove = original.remove("string");
 
-        assertThat(original, not(equalTo(afterRemove)));
-        assertThat(original.size(), equalTo(3));
-        assertThat(afterRemove.size(), equalTo(2));
-        assertThat(afterRemove.contains("string"), equalTo(false));
-        assertThat(original.remove("four"), equalTo(original));
+        assertThat(original)
+                .hasSize(3)
+                .isNotEqualTo(afterRemove);
+        assertThat(afterRemove)
+                .hasSize(2)
+                .doesNotContain("string");
+        assertThat(original.remove("four")).isEqualTo(original);
     }
 
     @Test
-    public void removeIntAt6OutOfBounds() {
-        thrown.expect(IndexOutOfBoundsException.class);
-        thrown.expectMessage(equalTo("6 is not in the bounds of 0 and 5"));
-
-        Collections.List(1, 2, 3, 4, 5).remove(6);
+    void removeIntAt6OutOfBounds() {
+        assertThatThrownBy(() -> Collections.List(1, 2, 3, 4, 5).remove(6))
+                .isInstanceOf(IndexOutOfBoundsException.class)
+                .hasMessage("6 is not in the bounds of 0 and 5");
     }
 
     @Test
-    public void filterInt5() {
+    void filterInt5() {
         Sequence<Integer> noFives = Collections.List(1, 5, 34, 4, 5, 23, 4, 5)
                 .filter(i -> 5 != i);
 
-        assertThat(noFives.size(), equalTo(5));
-        assertThat(noFives.get(0), equalTo(1));
-        assertThat(noFives.get(1), equalTo(34));
-        assertThat(noFives.get(2), equalTo(4));
-        assertThat(noFives.get(3), equalTo(23));
+        assertThat(noFives)
+                .hasSize(5)
+                .containsExactly(1, 34, 4, 23, 4);
     }
 
     @Test
-    public void distinct() {
+    void distinct() {
         Set<Integer> numbers = Collections.List(1, 2, 3, 1, 4, 2, 5)
-           .distinct();
+                .distinct();
 
-        assertThat(numbers.size(), equalTo(5));
-        assertThat(numbers, hasItems(1, 2, 3, 4, 5));
+        assertThat(numbers)
+                .hasSize(5)
+                .containsExactly(1, 2, 3, 4, 5);
     }
 
     @Test
-    public void distinctBy() {
+    void distinctBy() {
         Set<String> strings = Collections.List("one", "two", "three")
                 .distinctBy(Comparator.comparing(String::length));
 
-        assertThat(strings.size(), equalTo(2));
-        assertThat(strings, hasItems("one", "three"));
+        assertThat(strings)
+                .hasSize(2)
+                .containsExactly("one", "three");
     }
 
     @Test
-    public void sorted() {
+    void sorted() {
         var sorted = Collections.List(3, 2, 4, 1)
                 .sorted();
 
-        assertThat(sorted.get(0), equalTo(1));
-        assertThat(sorted.get(1), equalTo(2));
-        assertThat(sorted.get(2), equalTo(3));
-        assertThat(sorted.get(3), equalTo(4));
+        assertThat(sorted).containsExactly(1, 2, 3, 4);
     }
 
     @Test
-    public void median() {
+    void median() {
         var median = Collections.List(1, 2, 3, 4, 5)
                 .median();
 
-        assertThat(median, equalTo(3.0));
+        assertThat(median).isEqualTo(3.0);
     }
 
     @Test
-    public void min() {
+    void min() {
         var min = Collections.List(1, 2, 3, 4, 5)
                 .min();
 
-        assertThat(min.get(), equalTo((1)));
-        assertThat(
-                Collections.List("apple", "pear").min().get(),
-                equalTo("apple"));
+        assertThat(min.get()).isEqualTo(1);
+        assertThat(Collections.List("apple", "pear").min().get())
+                .isEqualTo("apple");
     }
-    
+
     @Test
-    public void reject() {
+    void reject() {
         Sequence<Integer> noFives = Collections.List(1, 2, 3, 4, 5)
                 .reject(i -> i % 2 == 0);
 
-        assertThat(noFives.size(), equalTo(3));
-        assertThat(noFives, hasItems(1, 3, 5));
+        assertThat(noFives)
+                .hasSize(3)
+                .containsExactly(1, 3, 5);
     }
 
     @Test
-    public void ofList() {
+    void ofList() {
         Sequence<Integer> integers = Collections.List(Arrays.asList(0, 1, 2, 3, 4, 5));
-        assertThat(integers.size(), equalTo(6));
+        assertThat(integers).hasSize(6);
     }
 
     @Test
-    public void ofIterable() {
+    void ofIterable() {
         Sequence<Integer> integers = Collections.List(() -> java.util.List.of(5).iterator());
 
-        assertThat(integers.size(), equalTo(1));
-        assertThat(integers.get(0), equalTo(5));
+        assertThat(integers)
+                .hasSize(1)
+                .containsExactly(5);
     }
 
     @Test
-    public void containsNull() {
-        assertThat(Collections.List(1,2,3,4,5,null).contains(null), equalTo(true));
-        assertThat(Collections.List(1,2,3,4,5).contains(null), equalTo(false));
+    void containsNull() {
+        assertThat(Collections.List(1, 2, 3, 4, 5, null).contains(null)).isTrue();
+        assertThat(Collections.List(1, 2, 3, 4, 5).contains(null)).isFalse();
     }
 
     @Test
-    public void contains5() {
-        assertThat(Collections.List(1,2,3,4,5,null).contains(5), equalTo(true));
-        assertThat(Collections.List(1,2,3,4).contains(5), equalTo(false));
+    void contains5() {
+        assertThat(Collections.List(1, 2, 3, 4, 5, null).contains(5)).isEqualTo(true);
+        assertThat(Collections.List(1, 2, 3, 4).contains(5)).isFalse();
     }
 
     @Test
-    public void containsAll() {
-        assertThat(Collections.List(1, 2, 3, 4).containsAll(Collections.List(2, 3)), equalTo(true));
+    void containsAll() {
+        assertThat(Collections.List(1, 2, 3, 4).containsAll(Collections.List(2, 3))).isTrue();
     }
 
     @Test
-    public void count() {
+    void count() {
         int count = Collections.List(1, 2, 3, 4)
-             .count(x -> x % 2 == 0);
-        assertThat(count, equalTo(2));
+                .count(x -> x % 2 == 0);
+        assertThat(count).isEqualTo(2);
     }
 
     @Test
-    public void summing() {
+    void summing() {
         long total = Collections.List(1, 2, 3, 4)
                 .summing(Long::sum);
-        assertThat(total, equalTo(10L));
+        assertThat(total).isEqualTo(10L);
     }
 
     @Test
-    public void fold() {
-        assertThat(Collections.List("t", "e", "s", "t").fold("!", (x, y) -> x + y), equalTo("!test"));
-        assertThat(Collections.List("t", "e", "s", "t").foldLeft("!", (x, y) -> x + y), equalTo("!test"));
+    void fold() {
+        assertThat(Collections.List("t", "e", "s", "t").fold("!", (x, y) -> x + y))
+                .isEqualTo("!test");
+        assertThat(Collections.List("t", "e", "s", "t").foldLeft("!", (x, y) -> x + y))
+                .isEqualTo("!test");
     }
 
     @Test
-    public void foldRight() {
-        assertThat(Collections.List("t", "e", "s", "t").foldRight("!", (x, y) -> x + y), equalTo("tset!"));
+    void foldRight() {
+        assertThat(Collections.List("t", "e", "s", "t").foldRight("!", (x, y) -> x + y))
+                .isEqualTo("tset!");
     }
 
     @Test
-    public void reduceLeft() {
-        String reduce = Collections.List("t", "e", "s", "t").reduce((x ,y) -> x + y);
-        String reduceLeft = Collections.List("t", "e", "s", "t").reduceLeft((x ,y) -> x + y);
+    void reduceLeft() {
+        String reduce = Collections.List("t", "e", "s", "t").reduce((x, y) -> x + y);
+        String reduceLeft = Collections.List("t", "e", "s", "t").reduceLeft((x, y) -> x + y);
 
-        assertThat(reduce, equalTo("test"));
-        assertThat(reduceLeft, equalTo("test"));
+        assertThat(reduce).isEqualTo("test");
+        assertThat(reduceLeft).isEqualTo("test");
     }
 
     @Test
-    public void indexOf5() {
-        assertThat(Collections.List(1,2,3,4,5,null).indexOf(5), equalTo(4));
-        assertThat(Collections.List(1,2,3,4).indexOf(5), equalTo(-1));
+    void indexOf5() {
+        assertThat(Collections.List(1, 2, 3, 4, 5, null).indexOf(5)).isEqualTo(4);
+        assertThat(Collections.List(1, 2, 3, 4).indexOf(5)).isEqualTo(-1);
     }
-    
+
     @Test
-    public void map() {
+    void map() {
         Sequence<Integer> mapped = Collections.List("test", "two")
                 .map(String::length);
 
-        assertThat(mapped.size(), equalTo(2));
-        assertThat(mapped, hasItems(4, 3));
+        assertThat(mapped).hasSize(2)
+                .containsExactly(4, 3);
     }
 
     @Test
-    public void orElse() {
+    void orElse() {
         Sequence<String> result = Collections.List("test")
                 .orElse(Collections.List("two"));
 
         Sequence<String> supplied = Collections.List("test")
                 .orElse(Collections.List("two"));
 
-        assertThat(result, hasItem("test"));
-        assertThat(supplied, hasItem("test"));
+        assertThat(result).contains("test");
+        assertThat(supplied).contains("test");
     }
 
     @Test
-    public void sum() {
+    void sum() {
         final Optional<Double> sum = Collections.List(1, 3, 3).sum();
-        assertThat(sum.get(), equalTo(7.0));
-        assertThat(Collections.List(1.0, 10e100, 2.0, -10e100).sum().get(), equalTo(3.0));
-        assertTrue(Double.isNaN(Collections.List(1.0, Double.NaN).sum().get()));
+        assertThat(sum.get()).isEqualTo(7.0);
+        assertThat(Collections.List(1.0, 10e100, 2.0, -10e100).sum().get()).isEqualTo(3.0);
+
+        assertThat(Double.isNaN(Collections.List(1.0, Double.NaN).sum().get())).isTrue();
     }
 
     @Test
-    public void sum_empty() {
+    void sum_empty() {
         final Optional<Double> sum = Collections.List().sum();
-        assertThat(sum.isPresent(), equalTo(false));
+        assertThat(sum.isPresent()).isFalse();
     }
 
     @Test
-    public void average() {
-        assertThat(Collections.List().average().isPresent(), equalTo(false));
-        assertThat(Collections.List(1, 2, 3).average().get(), equalTo(2.0));
-        assertThat(Collections.List(1.0, 10e100, 2.0, -10e100).average().get(), equalTo(0.75));
+    void average() {
+        assertThat(Collections.List().average().isPresent()).isFalse();
+        assertThat(Collections.List(1, 2, 3).average().get()).isEqualTo(2.0);
+        assertThat(Collections.List(1.0, 10e100, 2.0, -10e100).average().get()).isEqualTo(0.75);
 
-        assertTrue(Double.isNaN(Collections.List(1.0, Double.NaN).average().get()));
-    }
-
-    @Test(expected = ClassCastException.class)
-    public void average_NoNumber() {
-        Collections.List("st", "tes").average();
-    }
-
-    @Test(expected = ClassCastException.class)
-    public void sum_NoNumber() {
-        Collections.List("st", "tes").sum();
+        assertThat(Double.isNaN(Collections.List(1.0, Double.NaN).average().get())).isTrue();
     }
 
     @Test
-    public void allNone() {
+    void average_NoNumber() {
+        assertThatThrownBy(() -> Collections.List("st", "tes").average())
+                .isInstanceOf(ClassCastException.class);
+    }
+
+    @Test
+    void sum_NoNumber() {
+        assertThatThrownBy(() -> Collections.List("st", "tes").sum())
+                .isInstanceOf(ClassCastException.class);
+    }
+
+    @Test
+    void allNone() {
         Sequence<String> result = Collections.List("o", "n", "b");
 
-        assertThat(result.none(x -> x.length() == 2), equalTo(true));
-        assertThat(result.all(x -> x.length() == 1), equalTo(true));
+        assertThat(result.none(x -> x.length() == 2)).isTrue();
+        assertThat(result.all(x -> x.length() == 1)).isTrue();
     }
 
     @Test
-    public void groupBy() {
+    void groupBy() {
         Map<Integer, ? extends Sequence<String>> result = Collections.List("one", "two", "three", "four")
                 .groupBy(String::length);
 
-        assertThat(result.size(), equalTo(3));
-        assertThat(result.get(3).size(), equalTo(2));
-        assertThat(result.get(3), hasItems("one", "two"));
-        assertThat(result.get(4).size(), equalTo(1));
-        assertThat(result.get(4), hasItems("four"));
-        assertThat(result.get(5).size(), equalTo(1));
-        assertThat(result.get(5), hasItems("three"));
+        assertThat(result).hasSize(3);
+        assertThat(result.get(3))
+                .hasSize(2)
+                .containsExactly("one", "two");
+        assertThat(result.get(4))
+                .hasSize(1)
+                .containsExactly("four");
+        assertThat(result.get(5))
+                .hasSize(1)
+                .containsExactly("three");
     }
 
     @Test
-    public void findLastFirst() {
+    void findLastFirst() {
         final Sequence<Integer> array = Collections.List(1, 2, 3, 4, 5);
 
         Optional<Integer> lastFound = array.last(i -> i % 2 == 0);
-        assertThat(lastFound.isPresent(), equalTo(true));
-        assertThat(lastFound.get(), equalTo(4));
+        assertThat(lastFound.isPresent()).isTrue();
+        assertThat(lastFound.get()).isEqualTo(4);
 
         Optional<Integer> lastNotFound = array.last(i -> i % 9 == 0);
-        assertThat(lastNotFound.isPresent(), equalTo(false));
+        assertThat(lastNotFound.isPresent()).isFalse();
 
         Optional<Integer> firstFound = array.first(i -> i % 2 == 0);
-        assertThat(firstFound.isPresent(), equalTo(true));
-        assertThat(firstFound.get(), equalTo(2));
+        assertThat(firstFound.isPresent()).isTrue();
+        assertThat(firstFound.get()).isEqualTo(2);
     }
 
     @Test
-    public void reverse() {
+    void reverse() {
         final Sequence<Integer> result = Collections.List(1, 2, 3).reverse();
 
-        assertThat(result.size(), equalTo(3));
-        assertThat(result.get(0), equalTo(3));
-        assertThat(result.get(1), equalTo(2));
-        assertThat(result.get(2), equalTo(1));
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly(3, 2, 1);
     }
 
     @Test
-    public void split() {
+    void split() {
         Pair<? extends Sequence<Integer>, ? extends Sequence<Integer>> split =
                 Collections.List(1, 2, 3)
                         .split(v -> v % 2 == 0);
 
-        assertThat(split.getFirst().size(), is(1));
-        assertThat(split.getFirst(), hasItems(2));
-        assertThat(split.getSecond().size(), is(2));
-        assertThat(split.getSecond(), hasItems(1, 3));
+        assertThat(split.getFirst())
+                .hasSize(1)
+                .containsExactly(2);
+        assertThat(split.getSecond())
+                .hasSize(2)
+                .containsExactly(1, 3);
     }
 
     @Test
-    public void toJava() {
+    void toJava() {
         java.util.List<Integer> integers = Collections.List(1, 2, 3, 4)
                 .toJava();
 
-        assertThat(integers, instanceOf(ArrayList.class));
-        assertThat(integers.size(), equalTo(4));
-        assertThat(integers, hasItems(1, 2, 3, 4));
+        assertThat(integers)
+                .isInstanceOf(ArrayList.class)
+                .hasSize(4)
+                .containsExactly(1, 2, 3, 4);
     }
 
     @Test
-    public void toStringTest() {
+    void toStringTest() {
         Sequence<String> myStrings = Collections.List("test", "string", "one")
-                                        .filter(s -> s.length() == 3)
-                                        .remove("test");
+                .filter(s -> s.length() == 3)
+                .remove("test");
 
-        assertThat(myStrings.toString(), equalTo("Sequence[one]"));
+        assertThat(myStrings).hasToString("Sequence[one]");
     }
 
     @Test
-    public void equalTest() {
-        assertEquals(Collections.List(1, 2, 3), Collections.List(1, 2, 3));
-        assertEquals(Collections.List("test", 2, 3), Collections.List(2, "test", 3));
-        assertNotEquals(Collections.List("test", 2, 3), Collections.List("test", 3));
-        assertNotEquals(Collections.List("test", 2, 3), Collections.List("test", 3, null));
+    void equalTest() {
+        assertThat(Collections.List(1, 2, 3)).isEqualTo(Collections.List(1, 2, 3));
+        assertThat(Collections.List("test", 2, 3)).isEqualTo(Collections.List(2, "test", 3));
+        assertThat(Collections.List("test", 2, 3)).isNotEqualTo(Collections.List("test", 3));
+        assertThat(Collections.List("test", 2, 3)).isNotEqualTo(Collections.List("test", 3, null));
     }
 
     @Test
-    public void hashCodeTest() {
-        assertEquals(19, Collections.List().hashCode());
-        assertEquals(20, Collections.List(null, 1).hashCode());
+    void hashCodeTest() {
+        assertThat(Collections.List()).hasSameHashCodeAs(19);
+        assertThat(Collections.List(null, 1)).hasSameHashCodeAs(20);
     }
 }

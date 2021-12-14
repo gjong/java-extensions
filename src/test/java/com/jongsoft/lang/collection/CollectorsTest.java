@@ -1,54 +1,48 @@
 package com.jongsoft.lang.collection;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class CollectorsTest {
+class CollectorsTest {
 
     @Test
-    public void toList() {
-        List<String> result = Arrays.asList("one", "two", "three")
-              .stream()
-              .collect(Collectors.toList());
+    void toList() {
+        List<String> result = Stream.of("one", "two", "three")
+                .collect(Collectors.toList());
 
-        assertThat(result.size(), CoreMatchers.equalTo(3));
-        assertThat(result, CoreMatchers.hasItems("one", "two", "three"));
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly("one", "two", "three");
     }
 
     @Test
-    public void toLinkedList() {
-        List<String> result = Arrays.asList("one", "two", "three")
-                                        .stream()
-                                        .collect(Collectors.toLinkedList());
+    void toLinkedList() {
+        List<String> result = Stream.of("one", "two", "three")
+                .collect(Collectors.toLinkedList());
 
-        assertThat(result.size(), CoreMatchers.equalTo(3));
-        assertThat(result, CoreMatchers.hasItems("one", "two", "three"));
+        assertThat(result).hasSize(3)
+                .containsExactly("one", "two", "three");
     }
 
     @Test
-    public void toSet() {
-        Set<String> result = Arrays.asList("one", "two", "three", "two")
-                                        .stream()
-                                        .collect(Collectors.toSet());
+    void toSet() {
+        Set<String> result = Stream.of("one", "two", "three", "two")
+                .collect(Collectors.toSet());
 
-        assertThat(result.size(), CoreMatchers.equalTo(3));
-        assertThat(result, CoreMatchers.hasItems("one", "two", "three"));
+        assertThat(result).hasSize(3)
+                .containsExactly("one", "two", "three");
     }
 
     @Test
-    public void toSorted() {
-        Set<String> result = Arrays.asList("one", "two", "three", "two")
-                                   .stream()
-                                   .collect(Collectors.toSorted(String::compareTo));
+    void toSorted() {
+        Set<String> result = Stream.of("one", "two", "three", "two")
+                .collect(Collectors.toSorted(String::compareTo));
 
-        assertThat(result.size(), CoreMatchers.equalTo(3));
-        assertThat(result.get(0), CoreMatchers.equalTo("one"));
-        assertThat(result.get(1), CoreMatchers.equalTo("three"));
-        assertThat(result.get(2), CoreMatchers.equalTo("two"));
+        assertThat(result).hasSize(3)
+                        .containsExactly("one", "three", "two");
     }
 
 }

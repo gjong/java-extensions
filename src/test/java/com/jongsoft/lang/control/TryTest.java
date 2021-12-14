@@ -1,143 +1,129 @@
 package com.jongsoft.lang.control;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static org.junit.rules.ExpectedException.*;
+import com.jongsoft.lang.Control;
+import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import com.jongsoft.lang.Control;
-import com.jongsoft.lang.exception.NonFatalException;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class TryTest {
-
-    @Rule
-    public ExpectedException thrown = none();
+class TryTest {
 
     @Test
     public void trySupply() {
         Try<String> test = Control.Try(() -> "test");
 
-        assertThat(test.isSuccess(), equalTo(true));
-        assertThat(test.isFailure(), equalTo(false));
-        assertThat(test.get(), equalTo("test"));
+        assertThat(test.isSuccess()).isTrue();
+        assertThat(test.isFailure()).isFalse();
+        assertThat(test.get()).isEqualTo("test");
     }
 
     @Test
-    public void trySupplyAndConsume() {
+    void trySupplyAndConsume() {
         StringBuilder response = new StringBuilder();
         Try<String> test = Control.Try(() -> "test")
                 .consume(response::append);
 
-        assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isSuccess(), equalTo(true));
-        assertThat(test.isFailure(), equalTo(false));
+        assertThat(response.toString()).isEqualTo("test");
     }
 
     @Test
-    public void trySupplyAndConsumeException() {
+    void trySupplyAndConsumeException() {
         Try<String> result = Control.Try(() -> "test")
                 .consume(tst -> {
                     throw new UnsupportedOperationException("big boobo");
                 });
 
-        assertThat(result.isFailure(), equalTo(true));
-        assertThat(result.getCause(), instanceOf(UnsupportedOperationException.class));
-        assertThat(result.getCause().getMessage(), equalTo("big boobo"));
+        assertThat(result.isFailure()).isTrue();
+        assertThat(result.getCause()).isInstanceOf(UnsupportedOperationException.class);
+        assertThat(result.getCause().getMessage()).isEqualTo("big boobo");
     }
 
     @Test
-    public void trySupplyAndConsumeExceptionRecover() {
+    void trySupplyAndConsumeExceptionRecover() {
         Try<String> result = Control.Try(() -> "test")
                 .consume(tst -> {
                     throw new UnsupportedOperationException("big boobo");
                 })
                 .recover(x -> "auto");
 
-        assertThat(result.isFailure(), equalTo(false));
-        assertThat(result.get(), equalTo("auto"));
+        assertThat(result.isFailure()).isFalse();
+        assertThat(result.get()).isEqualTo("auto");
     }
 
 
     @Test
-    public void trySupplyAndConsumeNull() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("Consumer cannot be null");
+    void trySupplyAndConsumeNull() {
         CheckedConsumer<String> c = null;
-        Control.Try(() -> "test")
-                .consume(c);
+
+        assertThatThrownBy(() ->
+                Control.Try(() -> "test")
+                        .consume(c))
+                .isInstanceOf(NullPointerException.class)
+                .hasMessage("Consumer cannot be null");
     }
 
     @Test
-    public void trySupplyException() {
-        thrown.expect(NonFatalException.class);
-
+    void trySupplyException() {
         Try<String> test = Control.Try(() -> {
             throw new UnsupportedOperationException();
         }).map(s -> s + "12");
 
-        assertThat(test.isSuccess(), equalTo(false));
-        assertThat(test.isFailure(), equalTo(true));
-        assertThat(test.getCause(), instanceOf(UnsupportedOperationException.class));
+        assertThat(test.isSuccess()).isFalse();
+        assertThat(test.isFailure()).isTrue();
+        assertThat(test.getCause()).isInstanceOf(UnsupportedOperationException.class);
 
-        test.get();
+        assertThatThrownBy(test::get);
     }
 
     @Test
-    public void tryRun() {
+    void tryRun() {
         StringBuilder response = new StringBuilder();
-        Try<Void> test = Control.Try(() -> {
+        Control.Try(() -> {
             response.append("test");
         });
 
-        assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isSuccess(), equalTo(true));
-        assertThat(test.isFailure(), equalTo(false));
+        assertThat(response.toString()).isEqualTo("test");
     }
 
     @Test
-    public void tryRunSuccessGetCause() {
-        thrown.expect(UnsupportedOperationException.class);
-        thrown.expectMessage(equalTo("Cannot call getCause when Try is successful"));
-
+    void tryRunSuccessGetCause() {
         final Try<String> success = Control.Try(() -> "My String");
-        success.getCause();
+
+        assertThatThrownBy(success::getCause)
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Cannot call getCause when Try is successful");
     }
 
     @Test
-    public void tryRunAndConsume() {
+    void tryRunAndConsume() {
         StringBuilder response = new StringBuilder();
-        Try<Void> test = Control.Try(() -> {
+        Control.Try(() -> {
             response.append("test");
-        }).consume(d -> assertThat(d, is(nullValue())));
+        }).consume(d -> assertThat(d).isNull());
 
-        assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isSuccess(), equalTo(true));
-        assertThat(test.isFailure(), equalTo(false));
+        assertThat(response.toString()).isEqualTo("test");
     }
 
     @Test
-    public void tryRunAndRun() {
+    void tryRunAndRun() {
         StringBuilder response = new StringBuilder();
         Try<Void> test = Control.Try(() -> {
-                response.append("test");
-            })
-            .run(() -> response.append(" two"))
-            .recover(th -> {
-                response.append("recovered");
-                return null;
-            });
+                    response.append("test");
+                })
+                .run(() -> response.append(" two"))
+                .recover(th -> {
+                    response.append("recovered");
+                    return null;
+                });
 
-        assertThat(response.toString(), equalTo("test two"));
-        assertThat(test.isSuccess(), equalTo(true));
-        assertThat(test.isFailure(), equalTo(false));
+        assertThat(response).hasToString("test two");
+        assertThat(test.isSuccess()).isTrue();
     }
 
     @Test
-    public void tryRunAndRunException() {
+    void tryRunAndRunException() {
         StringBuilder response = new StringBuilder();
         Try<Void> test = Control.Try(() -> {
             response.append("test");
@@ -145,15 +131,15 @@ public class TryTest {
             throw new UnsupportedOperationException("Is good");
         });
 
-        assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isSuccess(), equalTo(false));
-        assertThat(test.isFailure(), equalTo(true));
-        assertThat(test.getCause(), instanceOf(UnsupportedOperationException.class));
-        assertThat(test.getCause().getMessage(), equalTo("Is good"));
+        assertThat(response).hasToString("test");
+        assertThat(test.isSuccess()).isFalse();
+        assertThat(test.getCause())
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Is good");
     }
 
     @Test
-    public void tryRunAndConsumeException() {
+    void tryRunAndConsumeException() {
         StringBuilder response = new StringBuilder();
         Try<Void> test = Control.Try(() -> {
             response.append("test");
@@ -161,44 +147,46 @@ public class TryTest {
             Objects.requireNonNull(d, "Was null");
         });
 
-        assertThat(response.toString(), equalTo("test"));
-        assertThat(test.isSuccess(), equalTo(false));
-        assertThat(test.isFailure(), equalTo(true));
-        assertThat(test.getCause(), instanceOf(NullPointerException.class));
-        assertThat(test.getCause().getMessage(), equalTo("Was null"));
+        assertThat(response).hasToString("test");
+        assertThat(test.isSuccess()).isFalse();
+        assertThat(test.getCause())
+                .isInstanceOf(NullPointerException.class)
+                .hasMessage("Was null");
     }
 
     @Test
-    public void tryRunException() {
+    void tryRunException() {
         Try<Void> test = Control.Try(() -> {
             throw new UnsupportedOperationException("Not implemented");
         });
 
-        assertThat(test.isSuccess(), equalTo(false));
-        assertThat(test.isFailure(), equalTo(true));
-        assertThat(test.getCause(), instanceOf(UnsupportedOperationException.class));
-        assertThat(test.getCause().getMessage(), equalTo("Not implemented"));
+        assertThat(test.isSuccess()).isFalse();
+        assertThat(test.isFailure()).isTrue();
+        assertThat(test.getCause())
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Not implemented");
     }
 
     @Test
-    public void tryMap() {
+    void tryMap() {
         final Try<Integer> mapped = Control.Try(() -> "My string")
                 .map(String::length);
 
-        assertThat(mapped.isFailure(), equalTo(false));
-        assertThat(mapped.get(), equalTo(9));
+        assertThat(mapped.isFailure()).isFalse();
+        assertThat(mapped.get()).isEqualTo(9);
     }
 
     @Test
-    public void tryMapException() {
+    void tryMapException() {
         final Try<Integer> mapped = Control.Try(() -> "My string")
-               .map(string -> {
-                   throw new UnsupportedOperationException("Not implemented");
-               });
+                .map(string -> {
+                    throw new UnsupportedOperationException("Not implemented");
+                });
 
-        assertThat(mapped.isFailure(), equalTo(true));
-        assertThat(mapped.getCause(), instanceOf(UnsupportedOperationException.class));
-        assertThat(mapped.getCause().getMessage(), equalTo("Not implemented"));
+        assertThat(mapped.isFailure()).isTrue();
+        assertThat(mapped.getCause())
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Not implemented");
     }
 
 }

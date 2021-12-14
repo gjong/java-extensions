@@ -1,52 +1,53 @@
 package com.jongsoft.lang.collection.support;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import com.jongsoft.lang.Collections;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.Collectors;
 
-import com.jongsoft.lang.Collections;
-import org.junit.Assert;
-import org.junit.Test;
-import com.jongsoft.lang.API;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class PipeCommandTest {
+class PipeCommandTest {
 
     @Test
-    public void consume() {
+    void consume() {
         StringBuilder consumed = new StringBuilder();
 
         new PipeCommand<>(Collections.List("text 1", "car", "plane"))
                 .map(String::length)
                 .consume(consumed::append);
 
-        Assert.assertThat(consumed.toString(), equalTo("635"));;
+        assertThat(consumed).hasToString("635");
     }
 
     @Test
-    public void pipeline() {
+    void pipeline() {
         java.util.List<String> strings = Collections.List("car", "plane", "bike")
            .pipeline()
            .reject(s -> s.length() > 4)
            .stream().collect(Collectors.toList());
 
-        Assert.assertThat(strings.size(), equalTo(2));
-        Assert.assertThat(strings, hasItems("car", "bike"));
+        assertThat(strings)
+                .hasSize(2)
+                .containsExactly("car", "bike");
     }
 
     @Test
-    public void foldLeft() {
-        assertThat(Collections.List("t", "e", "s", "t").pipeline().foldLeft("!", (x, y) -> x + y), equalTo("!test"));
+    void foldLeft() {
+        assertThat(Collections.List("t", "e", "s", "t").pipeline().foldLeft("!", (x, y) -> x + y))
+                .isEqualTo("!test");
     }
 
     @Test
-    public void foldRight() {
-        assertThat(Collections.List("t", "e", "s", "t").pipeline().foldRight("!", (x, y) -> x + y), equalTo("tset!"));
+    void foldRight() {
+        assertThat(Collections.List("t", "e", "s", "t").pipeline().foldRight("!", (x, y) -> x + y))
+                .isEqualTo("tset!");
     }
 
     @Test
-    public void reduceLeft() {
-        assertThat(Collections.List("t", "e", "s", "t").pipeline().reduceLeft((x ,y) -> x + y), equalTo("test"));
+    void reduceLeft() {
+        assertThat(Collections.List("t", "e", "s", "t").pipeline().reduceLeft((x ,y) -> x + y))
+                .isEqualTo("test");
     }
 
 }

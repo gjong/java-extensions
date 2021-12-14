@@ -1,202 +1,202 @@
 package com.jongsoft.lang.collection;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import com.jongsoft.lang.Collections;
+import com.jongsoft.lang.collection.tuple.Pair;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.jongsoft.lang.Collections;
-import org.junit.Test;
-import com.jongsoft.lang.collection.tuple.Pair;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class HashMapTest {
+class HashMapTest {
 
     @Test
-    public void empty() {
+    void empty() {
         final Map empty = Collections.Map();
 
-        assertThat(empty.size(), equalTo(0));
+        assertThat(empty).isEmpty();
     }
 
     @Test
-    public void containsKey() {
+    void containsKey() {
         Map<String, String> subject = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three");
 
-        assertThat(subject.containsKey("one"), equalTo(true));
-        assertThat(subject.containsKey("two"), equalTo(true));
-        assertThat(subject.containsKey("three"), equalTo(false));
-        assertThat(subject.containsKey(null), equalTo(false));
+        assertThat(subject.containsKey("one")).isTrue();
+        assertThat(subject.containsKey("two")).isTrue();
+        assertThat(subject.containsKey("three")).isFalse();
+        assertThat(subject.containsKey(null)).isFalse();
     }
 
     @Test
-    public void containsValue() {
+    void containsValue() {
         Map<String, String> subject = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three");
 
-        assertThat(subject.containsValue("one"), equalTo(false));
-        assertThat(subject.containsValue("two"), equalTo(true));
-        assertThat(subject.containsValue("three"), equalTo(true));
+        assertThat(subject.containsValue("one")).isFalse();
+        assertThat(subject.containsValue("two")).isTrue();
+        assertThat(subject.containsValue("three")).isTrue();
     }
 
     @Test
-    public void size() {
+    void size() {
         Map<String, String> subject = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three");
 
-        assertThat(subject.size(), equalTo(2));
+        assertThat(subject).hasSize(2);
     }
 
     @Test
-    public void remove() {
+    void remove() {
         Map<String, String> subject = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .remove("one");
 
-        assertThat(subject.size(), equalTo(1));
-        assertThat(subject.get("two"), equalTo("three"));
-        assertThat(subject.containsKey("one"), equalTo(false));
-        assertThat(subject.remove("none"), equalTo(subject));
+        assertThat(subject).hasSize(1);
+        assertThat(subject.get("two")).isEqualTo("three");
+        assertThat(subject.containsKey("one")).isFalse();
+        assertThat(subject.remove("none")).isEqualTo(subject);
     }
 
     @Test
-    public void putDuplicateKey() {
+    void putDuplicateKey() {
         Map<String, String> subject = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .put("one", "five");
 
-        assertThat(subject.size(), equalTo(2));
-        assertThat(subject.get("one"), equalTo("five"));
+        assertThat(subject).hasSize(2);
+        assertThat(subject.get("one")).isEqualTo("five");
     }
 
     @Test
-    public void get() {
+    void get() {
         Map<String, String> subject = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three");
 
-        assertThat(subject.get().getFirst(), equalTo("one"));
-        assertThat(subject.get("one"), equalTo("two"));
+        assertThat(subject.get().getFirst()).isEqualTo("one");
+        assertThat(subject.get("one")).isEqualTo("two");
     }
 
     @Test
-    public void stream() {
+    void stream() {
         List<Pair<String, String>> collected = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .stream()
                 .collect(Collectors.toList());
 
-        assertThat(collected.size(), equalTo(2));
-        assertThat(collected.get(0).getFirst(), equalTo("one"));
-        assertThat(collected.get(0).getSecond(), equalTo("two"));
-        assertThat(collected.get(1).getFirst(), equalTo("two"));
-        assertThat(collected.get(1).getSecond(), equalTo("three"));
+        assertThat(collected).hasSize(2);
+        assertThat(collected.get(0).getFirst()).isEqualTo("one");
+        assertThat(collected.get(0).getSecond()).isEqualTo("two");
+        assertThat(collected.get(1).getFirst()).isEqualTo("two");
+        assertThat(collected.get(1).getSecond()).isEqualTo("three");
     }
 
     @Test
-    public void streamValue() {
+    void streamValue() {
         List<String> collected = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .valueStream()
                 .collect(Collectors.toList());
 
-        assertThat(collected.size(), equalTo(2));
-        assertThat(collected, hasItems("two", "three"));
+        assertThat(collected)
+                .hasSize(2)
+                .containsExactly("two", "three");
     }
 
     @Test
-    public void map() {
+    void map() {
         Collection<String> collected = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .map(Pair::getSecond);
 
-        assertThat(collected.size(), equalTo(2));
-        assertThat(collected, hasItems("two", "three"));
+        assertThat(collected)
+                .hasSize(2)
+                .containsExactly("two", "three");
     }
 
     @Test
-    public void filter() {
+    void filter() {
         final Map<String, String> result = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .filter(p -> p.getSecond().length() == 3);
 
-        assertThat(result.size(), equalTo(1));
-        assertThat(result.get("one"), equalTo("two"));
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.get("one")).isEqualTo("two");
     }
 
     @Test
-    public void reject() {
+    void reject() {
         Map<String, String> result = Collections.<String, String>Map()
-               .put("one", "two")
-               .put("two", "three")
-               .reject(e -> e.getSecond().length() == 3);
+                .put("one", "two")
+                .put("two", "three")
+                .reject(e -> e.getSecond().length() == 3);
 
-        assertThat(result.size(), equalTo(1));
-        assertThat(result.get("two"), equalTo("three"));
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.get("two")).isEqualTo("three");
     }
 
     @Test
-    public void split() {
+    void split() {
         Pair<? extends Map<Integer, String>, ? extends Map<Integer, String>> split =
                 Collections.Map(1, "two")
                         .put(2, "three")
                         .put(3, "four")
                         .split(x -> x.getFirst() % 2 == 0);
 
-        assertThat(split.getFirst().size(), is(1));
-        assertThat(split.getFirst().containsKey(2), equalTo(true));
-        assertThat(split.getSecond().size(), is(2));
-        assertThat(split.getSecond().containsKey(1), equalTo(true));
-        assertThat(split.getSecond().containsKey(3), equalTo(true));
+        assertThat(split.getFirst()).hasSize(1);
+        assertThat(split.getFirst().containsKey(2)).isTrue();
+        assertThat(split.getSecond()).hasSize(2);
+        assertThat(split.getSecond().containsKey(1)).isTrue();
+        assertThat(split.getSecond().containsKey(3)).isTrue();
     }
 
     @Test
-    public void iterator() {
+    void iterator() {
         Iterator<Pair<String, String>> stringIt = Collections.Map("one", "two")
                 .put("two", "three")
                 .iterator();
 
-        assertThat(stringIt.next().getSecond(), equalTo("two"));
-        assertThat(stringIt.next().getSecond(), equalTo("three"));
-        assertThat(stringIt.hasNext(), equalTo(false));
+        assertThat(stringIt.next().getSecond()).isEqualTo("two");
+        assertThat(stringIt.next().getSecond()).isEqualTo("three");
+        assertThat(stringIt.hasNext()).isFalse();
     }
 
     @Test
-    public void toJava() {
+    void toJava() {
         java.util.Map result = Collections.<String, String>Map()
                 .put("one", "two")
                 .put("two", "three")
                 .toJava();
 
-        assertThat(result.size(), equalTo(2));
-        assertThat(result.get("one"), equalTo("two"));
-        assertThat(result.get("two"), equalTo("three"));
+        assertThat(result)
+                .hasSize(2)
+                .extractingByKey("one").isEqualTo("two");
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String result = Collections.Map()
                 .put("one", "two")
                 .put("two", "three")
                 .toString();
 
-        assertThat(result,
-                   equalTo("Map {"
-                           + System.lineSeparator()
-                           + "one : two"
-                           + System.lineSeparator()
-                           + "two : three"
-                           + System.lineSeparator()
-                           + "}"));
+        assertThat(result).isEqualTo("Map {"
+                        + System.lineSeparator()
+                        + "one : two"
+                        + System.lineSeparator()
+                        + "two : three"
+                        + System.lineSeparator()
+                        + "}");
     }
 }

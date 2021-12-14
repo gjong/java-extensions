@@ -18,35 +18,24 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
       - run:
           name: Build dependency list
-          command: mvn -B install -DskipTests dependency:go-offline
+          command: gradle dependencies
       - save_cache:
           paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
       - run:
           name: Build software
-          command: mvn -B clean package javadoc:javadoc
+          command: bash ./gradlew check
       - persist_to_workspace:
           root: ~/repo
           paths:
-            - target
+            - build
       - store_test_results:
-          path: target/surefire-reports/
-
-  publish-coverage:
-    executor: docker-builder
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: Report code coverage
-          command: mvn -B -Pcoveralls -DrepoKey=$coverageKey
+          path: build/test-results/
 
   publish-sonar:
     executor: docker-builder
@@ -57,7 +46,7 @@ jobs:
           at: ~/repo
       - run:
           name: Performing analysis
-          command: mvn -B -Psonar -Dsonar.login=$sonarKey
+          command: ./gradlew sonarqube
 
   publish-javadoc:
     executor: docker-azure
@@ -73,29 +62,6 @@ jobs:
                 --destination $azureBlob \
                 --destination-path java/language/snapshot \
                 --connection-string $azureDocString
-
-  release-dryrun:
-    # verify that the software is release-able on the master branch
-    executor: docker-builder
-    working_directory: ~/repo
-    environment:
-      MAVEN_OPTS: -Xmx1024m
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-      - run:
-          name: Setup the PGP key
-          command: |
-            openssl aes-256-cbc -pass pass:$openSslPwd -md md5 -in private-key.gpg.enc -out signing-key -d
-            gpg --batch --import signing-key
-            shred signing-key
-      - run:
-          name: Performing a dry run release
-          command: |
-            GPG_TTY=$(tty)
-            mvn -B release:prepare -DdryRun=true -P release-profile,sonar -s settings.xml -Dsonar.login=$sonarKey
 
   release:
     executor: docker-builder
@@ -179,15 +145,6 @@ workflows:
           filters:
             branches:
               only: master
-  release-dry-run:
-    triggers:
-      - schedule:
-          cron: "0 0 * * 1"
-          filters:
-            branches:
-              only: master
-    jobs:
-      - release-dryrun
   release-build:
     jobs:
       - release:

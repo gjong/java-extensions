@@ -1,0 +1,100 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "3.3"
+}
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'jacoco'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        xml.enabled true
+        xml.destination file("${buildDir}/reports/jacoco/report.xml")
+        csv.enabled false
+        html.enabled false
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "com.jongsoft.lang:language"
+        property "sonar.organization", "jongsoft"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.jacoco.reportPaths", "${buildDir}/reports/jacoco/report.xml"
+        property "sonar.exclusions", "**/*Test.java"
+    }
+}
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+publishing {
+    repositories {
+        maven {
+            def releaseRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = isReleaseVersion ? releaseRepo : snapshotRepo
+            credentials {
+                username = System.getenv('OSSRH_USERNAME')
+                password = System.getenv('OSSRH_PASSWORD')
+            }
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                groupId = 'com.jongsoft.lang'
+                artifactId = 'language'
+                name = 'Jong-Soft Java Language Extensions'
+                description = 'Java Language Extensions'
+                url = 'https://bitbucket.org/jongsoftdev/language-extension/overview'
+                from components.java
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@bitbucket.org:jongsoftdev/language-extension.git'
+                    developerConnection = 'scm:git:git@bitbucket.org:jongsoftdev/language-extension.git'
+                    url = 'https://bitbucket.org/jongsoftdev/language-extension'
+                }
+                developers {
+                    developer {
+                        id = 'gjong'
+                        name = 'Gerben Jongerius'
+                        email = 'g.jongerius@jong-soft.com'
+                    }
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation("org.assertj:assertj-core:3.21.0")
+}

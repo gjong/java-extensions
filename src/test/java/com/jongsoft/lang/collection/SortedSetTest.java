@@ -1,49 +1,43 @@
 package com.jongsoft.lang.collection;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
-import org.junit.Test;
 import com.jongsoft.lang.Collections;
+import org.junit.jupiter.api.Test;
 
-public class SortedSetTest {
+import static org.assertj.core.api.Assertions.assertThat;
+
+class SortedSetTest {
 
     @Test
-    public void add() {
+    void add() {
         Set<Integer> sortedInts = Collections.Set(Integer::compareTo, 1, 3, 6)
                 .append(2)
                 .append(5)
                 .append(2)
                 .append(4);
 
-        assertThat(sortedInts.size(), equalTo(6));
-        assertThat(sortedInts.get(0), equalTo(1));
-        assertThat(sortedInts.get(1), equalTo(2));
-        assertThat(sortedInts.get(2), equalTo(3));
-        assertThat(sortedInts.get(3), equalTo(4));
-        assertThat(sortedInts.get(4), equalTo(5));
-        assertThat(sortedInts.get(5), equalTo(6));
+        assertThat(sortedInts)
+                .hasSize(6)
+                .containsExactly(1, 2, 3, 4, 5, 6);
     }
 
     @Test
-    public void map() {
+    void map() {
         Set<Integer> ints = Collections.Set(Integer::compareTo, 1, 2, 3)
                 .map(x -> x * 2);
 
-        assertThat(ints.size(), equalTo(3));
-        assertThat(ints.get(0), equalTo(2));
-        assertThat(ints.get(1), equalTo(4));
-        assertThat(ints.get(2), equalTo(6));
+        assertThat(ints)
+                .hasSize(3)
+                .containsExactly(2, 4, 6);
     }
 
     @Test
-    public void remove() {
+    void remove() {
         Set<Integer> sortedInts = Collections.Set(Integer::compareTo, 1, 3, 6)
                 .remove(1);
 
-        assertThat(sortedInts.size(), equalTo(2));
-        assertThat(sortedInts.get(0), equalTo(1));
-        assertThat(sortedInts.get(1), equalTo(6));
+        assertThat(sortedInts)
+                .hasSize(2)
+                .containsExactly(1, 6);
     }
 
 }
