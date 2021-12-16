@@ -48,29 +48,17 @@ jobs:
           name: Performing analysis
           command: bash ./gradlew sonarqube -Dsonar.login=$sonarKey
 
-  publish-javadoc:
-    executor: docker-azure
-    working_directory: ~/repo
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: Publishing documentation Azure
-          command: |
-            az storage blob upload-batch \
-                --source ~/repo/target/site/apidocs \
-                --destination $azureBlob \
-                --destination-path java/language/snapshot \
-                --connection-string $azureDocString
-
   release:
     executor: docker-builder
     working_directory: ~/repo
     steps:
-      - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
+      - run:
+          name: Build dependency list
+          command: bash ./gradlew dependencies
       - run:
           name: Setup the PGP key
           command: |
@@ -78,49 +66,17 @@ jobs:
             gpg --batch --import signing-key
             shred signing-key
       - run:
-          name: Obtain release version
-          command: |
-            export rawV=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
-            mkdir ~/repo/target
-            echo "${rawV//[A-Z\-]/}" >> ~/repo/target/version.file
-      - run:
           name: Perform release
           command: |
-            GPG_TTY=$(tty)
-            git config --global user.email "release-agent@jong-soft.com"
-            git config --global user.name "Release Agent"
-            mvn -V -B -s settings.xml -P release-profile,sonar release:prepare release:perform -Dsonar.login=$sonarKey
+#            GPG_TTY=$(tty)
+#            git config --global user.email "release-agent@jong-soft.com"
+#            git config --global user.name "Release Agent"
+             bash ./gradlew publish
       - persist_to_workspace:
           root: ~/repo
           paths:
             - target
             - promo-site
-
-  release-javadoc:
-    executor: docker-azure
-    working_directory: ~/repo
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: Determine version
-          command: export releaseVersion=`cat ~/repo/target/version.file`
-      - run:
-          name: Publish promo site
-          command: |
-            az storage blob upload-batch \
-                --source ~/repo/promo-site \
-                --destination $azureBlob \
-                --destination-path project/language-extension \
-                --connection-string $azureDocString
-      - run:
-          name: Publishing JavaDoc Azure
-          command: |
-            az storage blob upload-batch \
-                --source ~/repo/target/site/apidocs \
-                --destination $azureBlob \
-                --destination-path java/language/$releaseVersion \
-                --connection-string $azureDocString
 
 workflows:
   version: 2
@@ -130,12 +86,6 @@ workflows:
           filters:
             branches:
               ignore: /release\/.*/
-#      - publish-javadoc:
-#          requires:
-#            - build-software
-#          filters:
-#            branches:
-#              only: master
       - publish-sonar:
           requires:
             - build-software
@@ -148,9 +98,4 @@ workflows:
           filters:
             branches:
               only: /release\/.*/
-#      - release-javadoc:
-#          requires:
-#            - release
-#          filters:
-#            branches:
-#              only: /release\/.*/
+
