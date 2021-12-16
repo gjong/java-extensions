@@ -36,6 +36,10 @@ jacocoTestReport {
 sonarqube {
     properties {
         property "sonar.projectKey", "com.jongsoft.lang:language"
+        property "sonar.projectName", "${description}"
+        property "sonar.projectVersion", "${version}"
+        property "sonar.projectDescription", "${description}"
+        property "sonar.links.homepage", "https://jdocstorage.z6.web.core.windows.net/java/language/com.jongsoft.lang/module-summary.html"
         property "sonar.organization", "jongsoft"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.jacoco.reportPaths", "${buildDir}/reports/jacoco/report.xml"
