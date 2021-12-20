@@ -23,17 +23,16 @@
  */
 package com.jongsoft.lang.collection;
 
+import com.jongsoft.lang.Collections;
+import com.jongsoft.lang.Control;
+import com.jongsoft.lang.collection.support.AbstractIterator;
+import com.jongsoft.lang.control.Optional;
+
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-import com.jongsoft.lang.API;
-import com.jongsoft.lang.Collections;
-import com.jongsoft.lang.Control;
-import com.jongsoft.lang.collection.support.AbstractIterator;
-import com.jongsoft.lang.control.Optional;
 
 /**
  * An extension on the default {@link java.util.Iterator} that adds utility operations to easily manipulate the iterator or locate elements

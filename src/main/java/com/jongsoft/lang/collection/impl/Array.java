@@ -23,7 +23,9 @@
  */
 package com.jongsoft.lang.collection.impl;
 
-import static java.lang.String.*;
+import com.jongsoft.lang.collection.*;
+import com.jongsoft.lang.collection.support.Collections;
+import com.jongsoft.lang.collection.support.PipeCommand;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -31,17 +33,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
-import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.Iterator;
-import com.jongsoft.lang.collection.List;
-import com.jongsoft.lang.collection.Map;
-import com.jongsoft.lang.collection.Pipeline;
-import com.jongsoft.lang.collection.Sequence;
-import com.jongsoft.lang.collection.Set;
-import com.jongsoft.lang.collection.support.Collections;
-import com.jongsoft.lang.collection.support.PipeCommand;
+import static java.lang.String.format;
 
 /**
  * The {@link Array} implementation of the {@link Sequence} interface provides access to an immutable collection of elements.
@@ -212,7 +205,7 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public boolean equals(final Object obj) {
         if (obj instanceof Sequence) {
             Sequence casted = (Sequence) obj;

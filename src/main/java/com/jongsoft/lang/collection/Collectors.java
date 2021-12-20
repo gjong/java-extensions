@@ -1,12 +1,11 @@
 package com.jongsoft.lang.collection;
 
+import com.jongsoft.lang.collection.impl.TailedList;
+import com.jongsoft.lang.collection.support.Collections;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collector;
-
-import com.jongsoft.lang.API;
-import com.jongsoft.lang.collection.impl.TailedList;
-import com.jongsoft.lang.collection.support.Collections;
 
 public class Collectors {
 

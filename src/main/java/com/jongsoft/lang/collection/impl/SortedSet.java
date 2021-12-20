@@ -23,14 +23,13 @@
  */
 package com.jongsoft.lang.collection.impl;
 
+import com.jongsoft.lang.Collections;
+import com.jongsoft.lang.collection.Set;
+
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import com.jongsoft.lang.API;
-import com.jongsoft.lang.Collections;
-import com.jongsoft.lang.collection.Set;
 
 public class SortedSet<T> extends AbstractSet<T> implements Set<T> {
 

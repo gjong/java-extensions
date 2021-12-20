@@ -23,6 +23,9 @@
  */
 package com.jongsoft.lang.control.impl;
 
+import com.jongsoft.lang.Control;
+import com.jongsoft.lang.control.Optional;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -31,10 +34,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import com.jongsoft.lang.API;
-import com.jongsoft.lang.Control;
-import com.jongsoft.lang.control.Optional;
 
 public class None<T> implements Optional<T> {
 

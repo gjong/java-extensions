@@ -23,16 +23,13 @@
  */
 package com.jongsoft.lang.collection.support;
 
+import com.jongsoft.lang.Collections;
+import com.jongsoft.lang.collection.Iterator;
+import com.jongsoft.lang.collection.Traversable;
+
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import com.jongsoft.lang.API;
-import com.jongsoft.lang.Collections;
-import com.jongsoft.lang.collection.Iterator;
-import com.jongsoft.lang.collection.Sequence;
-import com.jongsoft.lang.collection.Traversable;
-import com.jongsoft.lang.collection.tuple.Pair;
 
 /**
  * Provides a common implementation for the {@link Iterator} implementing the following calls as a common:

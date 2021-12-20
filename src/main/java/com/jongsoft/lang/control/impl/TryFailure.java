@@ -23,13 +23,12 @@
  */
 package com.jongsoft.lang.control.impl;
 
-import java.util.Objects;
-import java.util.function.Function;
-
-import com.jongsoft.lang.API;
 import com.jongsoft.lang.Control;
 import com.jongsoft.lang.control.Try;
 import com.jongsoft.lang.exception.NonFatalException;
+
+import java.util.Objects;
+import java.util.function.Function;
 
 public class TryFailure<T> implements Try<T> {
 

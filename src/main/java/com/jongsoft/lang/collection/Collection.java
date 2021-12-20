@@ -178,6 +178,7 @@ public interface Collection<T> extends Traversable<T> {
      * @param predicate the predicate to use
      * @return the two buckets of this operation
      */
+    @SuppressWarnings("java:S1452")
     Pair<? extends Collection<T>, ? extends Collection<T>> split(Predicate<T> predicate);
 
     /**

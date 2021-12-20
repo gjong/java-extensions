@@ -5,7 +5,10 @@ import com.jongsoft.lang.control.impl.*;
 
 import java.util.Objects;
 
+@SuppressWarnings("java:S100")
 public class Control {
+    private Control() {}
+
     /**
      * This operation will compare the {@code left} with the provided {@code right} and return
      * the corresponding equality.

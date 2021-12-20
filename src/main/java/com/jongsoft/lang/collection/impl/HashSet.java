@@ -23,16 +23,15 @@
  */
 package com.jongsoft.lang.collection.impl;
 
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import com.jongsoft.lang.API;
 import com.jongsoft.lang.Collections;
 import com.jongsoft.lang.collection.Collection;
 import com.jongsoft.lang.collection.Foldable;
 import com.jongsoft.lang.collection.Set;
+
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * This class implements the {@link Set} interface and ensures uniqueness of the elements using there {@link Object#hashCode()}.

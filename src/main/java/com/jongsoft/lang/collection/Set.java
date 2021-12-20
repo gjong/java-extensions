@@ -30,8 +30,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.jongsoft.lang.API;
-
 /**
  * The set is an extension of the {@link Collection} interface that guarantees only unique elements are contained within the set.
  * How uniqueness is guaranteed varies pending the implementing class.

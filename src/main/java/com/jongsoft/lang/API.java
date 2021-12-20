@@ -23,34 +23,17 @@
  */
 package com.jongsoft.lang;
 
-import static java.util.Arrays.*;
-
-import java.time.temporal.Temporal;
-import java.util.Comparator;
-import java.util.Objects;
-
-import com.jongsoft.lang.collection.*;
-import com.jongsoft.lang.collection.impl.Array;
-import com.jongsoft.lang.collection.impl.HashMap;
-import com.jongsoft.lang.collection.impl.HashSet;
-import com.jongsoft.lang.collection.impl.SortedSet;
-import com.jongsoft.lang.collection.impl.TreeSet;
-import com.jongsoft.lang.collection.support.AbstractIterator;
 import com.jongsoft.lang.collection.tuple.Pair;
 import com.jongsoft.lang.collection.tuple.Quadruplet;
 import com.jongsoft.lang.collection.tuple.Triplet;
-import com.jongsoft.lang.collection.tuple.Tuple;
 import com.jongsoft.lang.collection.tuple.impl.PairImpl;
 import com.jongsoft.lang.collection.tuple.impl.QuadrupletImpl;
 import com.jongsoft.lang.collection.tuple.impl.TripletImpl;
-import com.jongsoft.lang.control.*;
-import com.jongsoft.lang.control.impl.*;
-import com.jongsoft.lang.time.Range;
-import com.jongsoft.lang.time.impl.RangeImpl;
 
 /**
  * The API class allows access to the libraries interfaces and control structures.
  */
+@SuppressWarnings("java:S100")
 public final class API {
 
     private API() {

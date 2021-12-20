@@ -7,17 +7,20 @@ import com.jongsoft.lang.collection.support.AbstractIterator;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.Arrays.copyOf;
 
+@SuppressWarnings("java:S100")
 public class Collections {
+    private Collections() {}
+
     private static final Array<?> EMPTY_LIST = new Array<>(new Object[0]);
+    @SuppressWarnings("rawtypes")
     private static final HashSet EMPTY_SET = new HashSet(new Object[0]);
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private static final SortedSet EMPTY_SORTED_SET = new SortedSet(new Object[0], new EqualsComparator());
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private static final HashMap<?, ?> EMPTY_MAP = new HashMap(EMPTY_LIST);
 
     public static <T> Tree<T> Tree(String label, T rootValue) {
@@ -158,9 +161,9 @@ public class Collections {
      * @param <T>        the type of the elements
      * @return the newly generated sorted set
      */
-    @SuppressWarnings("squid:S00100")
+    @SuppressWarnings("unchecked")
     public static <T> Set<T> Set(Comparator<T> comparator, Iterable<? extends T> iterable) {
-        Set<T> set = new SortedSet<T>(Collections.<T>Iterator().toNativeArray(), comparator);
+        Set<T> set = new SortedSet<>(Collections.<T>Iterator().toNativeArray(), comparator);
         return set.union((Iterable<T>) iterable);
     }
 
@@ -235,7 +238,7 @@ public class Collections {
     public static <T> Iterator<T> Iterator(final Iterable<T> iterable) {
         Objects.requireNonNull(iterable, "iterable is null");
         return new AbstractIterator<>() {
-            java.util.Iterator<T> original = iterable.iterator();
+            transient java.util.Iterator<T> original = iterable.iterator();
 
             @Override
             public boolean hasNext() {
@@ -277,9 +280,10 @@ public class Collections {
     private static class EqualsComparator<T> implements Comparator<T> {
 
         @Override
+        @SuppressWarnings("unchecked")
         public int compare(T o1, T o2) {
-            Objects.requireNonNull(01, "cannot run compareTo on null value");
-            Objects.requireNonNull(02, "cannot run compareTo on null value");
+            Objects.requireNonNull(o1, "cannot run compareTo on null value");
+            Objects.requireNonNull(o2, "cannot run compareTo on null value");
 
             if (o1 instanceof Comparable) {
                 Comparable<T> comparable = (Comparable<T>) o1;

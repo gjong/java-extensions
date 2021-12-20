@@ -236,7 +236,7 @@ abstract class AbstractSet<T> implements Set<T> {
     protected abstract Function<Object[], Set<T>> wrapperSupplier();
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public boolean equals(final Object obj) {
         if (obj instanceof Set) {
             Set casted = (Set) obj;

@@ -173,7 +173,7 @@ public class TreeSet<T> implements Tree<T> {
         return builder.toString();
     }
 
-    private class NodeCollectionImpl<T> extends HashSet<Tree<T>> implements NodeCollection<T> {
+    private static class NodeCollectionImpl<T> extends HashSet<Tree<T>> implements NodeCollection<T> {
 
         public NodeCollectionImpl(final Object[] delegate) {
             super(delegate);
