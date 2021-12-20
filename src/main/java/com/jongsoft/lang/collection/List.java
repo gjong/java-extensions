@@ -55,6 +55,7 @@ public interface List<T> extends Collection<T> {
      * Creates a distinct list based upon the provided comparator. If a duplicate is found only the first match will
      * be included in the returned list.
      *
+     * @since 1.1.0
      * @param comparator    the comparator to use for distinct check
      * @return              the distinct list
      */
@@ -115,6 +116,7 @@ public interface List<T> extends Collection<T> {
      * Computes the median value of the set. This will only work if all elements in the set are of the
      * type {@link Number}.
      *
+     * @since 1.1.2
      * @return The median value.
      */
     default double median() {
@@ -163,6 +165,7 @@ public interface List<T> extends Collection<T> {
      * of ascending and descending order in different parts of the same input array. It is well-suited to merging two or
      * more sorted arrays: simply concatenate the arrays and sort the resulting array.
      *
+     * @since 1.1.2
      * @return the sorted set
      */
     List<T> sorted();

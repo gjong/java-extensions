@@ -9,6 +9,7 @@ import java.util.function.Predicate;
  * The ValueType class represents an immutable wrapper around a data entity. The value type
  * cannot be modified.
  *
+ * @since 1.1.0
  * @param <T>   the contained data type
  */
 public class ValueType<T> implements Value<T> {

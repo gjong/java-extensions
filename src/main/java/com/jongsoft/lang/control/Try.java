@@ -41,7 +41,7 @@ import com.jongsoft.lang.control.impl.TrySuccess;
  * </p>
  *
  * <p><strong>Example:</strong></p>
- * <pre>{@code  String result = Try<String>supply(() -> {
+ * <pre>{@code  String result = Control.<String>Try(() -> {
  *          throw new Exception("not supported");
  *        })
  *        .recover(x -> "recovered")
@@ -59,7 +59,7 @@ public interface Try<T> {
      * <p>
      * This method exists for chaining checked functions, like:
      * </p>
-     * <pre>{@code  Try.of(() -> "my success")
+     * <pre>{@code  Control.Try(() -> "my success")
      *     .andTry( str -> System.out.println(str));
      * }</pre>
      *
@@ -160,7 +160,7 @@ public interface Try<T> {
      * </p>
      *
      * <p><strong>Example:</strong></p>
-     * <pre>{@code  Try.of(() -> System.out.println("first") )
+     * <pre>{@code  Control.Try(() -> System.out.println("first") )
      *     .andTry(() -> System.out.println("second"));
      * }</pre>
      *

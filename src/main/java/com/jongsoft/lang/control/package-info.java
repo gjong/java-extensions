@@ -14,7 +14,7 @@
  *     well as supporting control operations in case no value is present.
  * </p>
  * <pre> {@code    // Sample usage of the Optional
- *     API.Option("one")
+ *     Control.Option("one")
  *          .ifPresent(System.out::println)
  *          .orElse(() -> System.out.println("No value is present");
  * }</pre>

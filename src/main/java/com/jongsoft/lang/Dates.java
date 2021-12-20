@@ -28,6 +28,7 @@ public class Dates {
      * Create a temporal range, starting from the provided {@code from} and with a size containing exactly one of the
      * provided chrono unit.
      *
+     * @since 1.1.1
      * @param from      the start of the range (inclusive)
      * @param range     the size of the range
      * @param <T>       the type of the range

@@ -50,6 +50,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
     /**
      * Returns either {@code this} if it is non empty, otherwise will return the provided {@code other}.
      *
+     * @since 1.0.0
      * @param other the alternative
      * @return this {@code Traversable} if non empty, or {@code other}
      */
@@ -58,6 +59,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
     /**
      * Returns either {@code this} if it is non empty, otherwise the provided supplier is evaluated and returned.
      *
+     * @since 1.0.0
      * @param supplier the supplier to generate the other
      * @return this (@code Traversable} if non empty, otherwise other
      */
@@ -85,6 +87,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
      * API.List("apple", "pear").sum()           // throws an exception
      * }</pre>
      *
+     * @since 1.0.0
      * @return {@code Optional(sum)}, or {@code Optional()} if no elements are present
      * @throws ClassCastException if the elements are not numeric
      */
@@ -105,6 +108,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
      * API.List("apple", "pear").min()           // = Optional("apple")
      * }</pre>
      *
+     * @since 1.1.4
      * @return the smallest value
      * @throws ClassCastException in case one or more elements does not implement the {@link Comparable} interface.
      */
@@ -116,6 +120,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
      * Compute the largest value in the set, based upon the {@link Comparable#compareTo(Object)} operation. Note
      * all elements in the set must implement this method.
      *
+     * @since 1.1.4
      * @return the maximum value
      * @throws ClassCastException in case one or more elements does not implement the {@link Comparable} interface.
      */
@@ -138,6 +143,7 @@ public interface Traversable<T> extends Value<T>, Foldable<T> {
      * API.List("apple", "pear").average()           // throws an exception
      * }</pre>
      *
+     * @since 1.0.0
      * @return {@code Optional(average), or {@code Optional()} if no elements are present}
      * @throws ClassCastException if the elements are not numeric
      */

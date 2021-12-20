@@ -174,6 +174,7 @@ public interface Collection<T> extends Traversable<T> {
      * The first bucket will contain the same as the {@link #filter(Predicate)} operation. The second bucket will
      * contain the result of the {@link #reject(Predicate)} operation.
      *
+     * @since 1.1.2
      * @param predicate the predicate to use
      * @return the two buckets of this operation
      */

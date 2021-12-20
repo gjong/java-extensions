@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 /**
  * A temporal range to contain a from until temporal entities. Where the from is inclusive and the until is exclusive.
  *
+ * @since 1.1.0
  * @param <T> the temporal type
  */
 public interface Range<T extends Temporal> {
@@ -58,6 +59,7 @@ public interface Range<T extends Temporal> {
      * Returns the range exactly before this range. If the range was created using a ChronoUnit then the window will shift
      * exactly one ChronoUnit back. If it was created using a from and until it will shift exactly the same size back.
      *
+     * @since 1.1.1
      * @return the previous window
      */
     Range<T> previous();
@@ -66,6 +68,7 @@ public interface Range<T extends Temporal> {
      * Returns the range exactly after this range. If the range was created using a ChronoUnit then the window will shift
      * exactly one ChronoUnit forward. If it was created using a from and until it will shift exactly the same size forward.
      *
+     * @since 1.1.1
      * @return the next window
      */
     Range<T> next();
