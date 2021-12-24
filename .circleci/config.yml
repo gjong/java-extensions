@@ -67,7 +67,7 @@ jobs:
             shred signing-key
       - run:
           name: Perform release
-          command: bash ./gradlew publish
+          command: bash ./gradlew publish -DossrhUsername=$OSSRH_USERNAME -DossrhPassword=$OSSRH_PASSWORD
       - persist_to_workspace:
           root: ~/repo
           paths:
