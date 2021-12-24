@@ -13,6 +13,18 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    umlDoclet
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation("org.assertj:assertj-core:3.21.0")
+
+    umlDoclet "nl.talsmasoftware:umldoclet:2.0.15"
+}
+
 java {
     withJavadocJar()
     withSourcesJar()
@@ -31,6 +43,12 @@ jacocoTestReport {
         csv.enabled false
         html.enabled false
     }
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    options.docletpath = configurations.umlDoclet.files.asType(List)
+    options.doclet = "nl.talsmasoftware.umldoclet.UMLDoclet"
 }
 
 sonarqube {
@@ -95,10 +113,4 @@ publishing {
 
 signing {
     sign publishing.publications.mavenJava
-}
-
-dependencies {
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testImplementation("org.assertj:assertj-core:3.21.0")
 }

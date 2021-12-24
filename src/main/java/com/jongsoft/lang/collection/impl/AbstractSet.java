@@ -85,6 +85,32 @@ abstract class AbstractSet<T> implements Set<T> {
     }
 
     @Override
+    public Set<T> replace(int index, T replacement) {
+        validateOutOfBounds(index);
+        Object[] clone = new Object[delegate.length];
+        System.arraycopy(delegate, 0, clone, 0, delegate.length);
+        clone[index] = replacement;
+
+        return this.wrapperSupplier().apply(clone);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Set<T> replaceIf(Predicate<T> predicate, T replacement) {
+        Objects.requireNonNull(predicate, "The predicate cannot be null for this operation.");
+
+        Object[] clone = new Object[delegate.length];
+        System.arraycopy(delegate, 0, clone, 0, delegate.length);
+        for (int index = 0; index < clone.length; index++) {
+            if (predicate.test((T) clone[index])) {
+                clone[index] = replacement;
+            }
+        }
+
+        return this.wrapperSupplier().apply(clone);
+    }
+
+    @Override
     @SuppressWarnings("Duplicates")
     public int firstIndexWhere(final Predicate<T> predicate) {
         for (int i = 0; i < size(); i++) {

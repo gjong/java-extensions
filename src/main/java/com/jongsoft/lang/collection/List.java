@@ -150,6 +150,26 @@ public interface List<T> extends Collection<T> {
     List<T> remove(int index);
 
     /**
+     * Replaces the element at index <code>index</code> with the provided replacement element.
+     *
+     * @param index         the index of the element to be replaced in this list
+     * @param replacement   the replacement to put in its place
+     * @return the updated list
+     * @throws IndexOutOfBoundsException  if {@code index} is not between the 0 and {@linkplain #size()}
+     */
+    List<T> replace(int index, T replacement);
+
+    /**
+     * Replace any element in the list that matches using the provided {@code predicate} with the provided new
+     * element.
+     *
+     * @param predicate    the predicate to validate existing elements with
+     * @param replacement  the replacement when the predicate returns true
+     * @return the updated list
+     */
+    List<T> replaceIf(Predicate<T> predicate, T replacement);
+
+    /**
      * Sorts the specified array of objects into ascending order, according to the natural ordering of its elements. All elements
      * in the array must implement the Comparable interface. Furthermore, all elements in the array must be mutually comparable
      * (that is, e1.compareTo(e2) must not throw a ClassCastException for any elements e1 and e2 in the array).

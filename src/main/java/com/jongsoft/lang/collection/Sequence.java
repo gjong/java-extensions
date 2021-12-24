@@ -119,6 +119,12 @@ public interface Sequence<T> extends List<T> {
     @Override
     Sequence<T> remove(int index);
 
+    @Override
+    Sequence<T> replace(int index, T replacement);
+
+    @Override
+    Sequence<T> replaceIf(Predicate<T> predicate, T replacement);
+
     /**
      * Removes the first element found matching the provided value. The match is done based upon the
      * {@link java.util.Objects#equals(Object, Object)} call.

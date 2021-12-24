@@ -19,15 +19,6 @@ class CollectorsTest {
     }
 
     @Test
-    void toLinkedList() {
-        List<String> result = Stream.of("one", "two", "three")
-                .collect(Collectors.toLinkedList());
-
-        assertThat(result).hasSize(3)
-                .containsExactly("one", "two", "three");
-    }
-
-    @Test
     void toSet() {
         Set<String> result = Stream.of("one", "two", "three", "two")
                 .collect(Collectors.toSet());

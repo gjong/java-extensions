@@ -1,6 +1,5 @@
 package com.jongsoft.lang.collection;
 
-import com.jongsoft.lang.collection.impl.TailedList;
 import com.jongsoft.lang.collection.support.Collections;
 
 import java.util.ArrayList;
@@ -15,10 +14,6 @@ public class Collectors {
 
     public static <T> Collector<T, ArrayList<T>, List<T>> toList() {
         return Collections.collector(com.jongsoft.lang.Collections::List);
-    }
-
-    public static <T> Collector<T, ArrayList<T>, List<T>> toLinkedList() {
-        return Collections.collector(TailedList::ofAll);
     }
 
     public static <T> Collector<T, ArrayList<T>, Set<T>> toSet() {

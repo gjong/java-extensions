@@ -176,6 +176,12 @@ public interface Set<T> extends List<T> {
     Set<T> remove(int index);
 
     @Override
+    Set<T> replace(int index, T replacement);
+
+    @Override
+    Set<T> replaceIf(Predicate<T> predicate, T replacement);
+
+    @Override
     Set<T> tail();
 
     /**

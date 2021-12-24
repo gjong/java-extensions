@@ -177,6 +177,32 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> replace(int index, T replacement) {
+        validateOutOfBounds(index);
+
+        Object[] newDelegate = new Object[delegate.length];
+        System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
+        newDelegate[index] = replacement;
+        return new Array<>(newDelegate);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Sequence<T> replaceIf(Predicate<T> predicate, T replacement) {
+        Objects.requireNonNull(predicate, "The predicate cannot be null for this operation.");
+
+        Object[] newDelegate = new Object[delegate.length];
+        System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
+        for (int index = 0; index < newDelegate.length; index++) {
+            if (predicate.test((T) newDelegate[index])) {
+                newDelegate[index] = replacement;
+            }
+        }
+
+        return new Array<>(newDelegate);
+    }
+
+    @Override
     public Sequence<T> sorted() {
         Object[] clone = Arrays.copyOf(delegate, delegate.length);
         Arrays.sort(clone);

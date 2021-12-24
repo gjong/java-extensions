@@ -426,6 +426,26 @@ class ArrayTest {
     }
 
     @Test
+    void replace() {
+        final Sequence<Integer> result = Collections.List(1, 2, 3)
+                .replace(1, 5);
+
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly(1, 5, 3);
+    }
+
+    @Test
+    void replaceIf() {
+        final Sequence<Integer> result = Collections.List(1, 2, 3)
+                .replaceIf(el -> el == 2, 5);
+
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly(1, 5, 3);
+    }
+
+    @Test
     void split() {
         Pair<? extends Sequence<Integer>, ? extends Sequence<Integer>> split =
                 Collections.List(1, 2, 3)

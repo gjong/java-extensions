@@ -92,6 +92,26 @@ class HashSetTest {
     }
 
     @Test
+    void replace() {
+        var result = Collections.Set(1, 2, 3)
+                .replace(1, 5);
+
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly(1, 5, 3);
+    }
+
+    @Test
+    void replaceIf() {
+        var result = Collections.Set(1, 2, 3)
+                .replaceIf(el -> el == 2, 5);
+
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly(1, 5, 3);
+    }
+
+    @Test
     void complementMultiple() {
         Set<Integer> result = Collections.Set(1, 2, 3, 4)
                 .complement(Collections.Set(2), Collections.Set(3));
