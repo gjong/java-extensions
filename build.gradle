@@ -61,8 +61,11 @@ sonarqube {
         property "sonar.organization", "jongsoft"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.jacoco.reportPaths", "${buildDir}/reports/jacoco/report.xml"
-        property "sonar.exclusions", "**/*Test.java"
-    }
+
+        // A hack to exclude the test sources from being analyzed further
+        property "sonar.issue.ignore.multicriteria", "e1"
+        property "sonar.issue.ignore.multicriteria.e1.resourceKey", "src/test/java/**/*"
+        property "sonar.issue.ignore.multicriteria.e1.ruleKey", "*"    }
 }
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
