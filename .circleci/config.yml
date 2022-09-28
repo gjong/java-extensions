@@ -2,7 +2,7 @@ version: 2.1
 executors:
   docker-builder:
     docker:
-      - image: circleci/openjdk:11-jdk
+      - image: cimg/openjdk:11.0
   docker-azure:
     docker:
       - image: microsoft/azure-cli
