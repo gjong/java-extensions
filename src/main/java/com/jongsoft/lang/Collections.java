@@ -13,7 +13,8 @@ import static java.util.Arrays.copyOf;
 
 @SuppressWarnings("java:S100")
 public class Collections {
-    private Collections() {}
+    private Collections() {
+    }
 
     private static final Array<?> EMPTY_LIST = new Array<>(new Object[0]);
     @SuppressWarnings("rawtypes")
@@ -135,8 +136,8 @@ public class Collections {
             return (HashSet<T>) iterable;
         }
 
-        Set<? extends T> set = new HashSet<>(Collections.<T>Iterator().toNativeArray());
-        return (Set<T>) set.union(create(toArray(iterable)));
+        Set<T> set = new HashSet<>(new Object[0]);
+        return set.union(create(toArray(iterable)));
     }
 
     /**

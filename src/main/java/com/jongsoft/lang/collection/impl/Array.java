@@ -46,14 +46,16 @@ import static java.lang.String.format;
 public class Array<T> implements Sequence<T> {
 
     private final Object[] delegate;
+    private final int length;
 
     public Array(Object[] delegate) {
         this.delegate = delegate;
+        this.length = delegate.length;
     }
 
     @Override
     public int size() {
-        return delegate.length;
+        return length;
     }
 
     @Override
@@ -127,18 +129,18 @@ public class Array<T> implements Sequence<T> {
     @Override
     public Sequence<T> union(final Iterable<T> iterable) {
         Object[] toBeAdded = com.jongsoft.lang.Collections.Iterator(iterable).toNativeArray();
-        Object[] newDelegate = new Object[delegate.length + toBeAdded.length];
-        System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
-        System.arraycopy(toBeAdded, 0, newDelegate, delegate.length, toBeAdded.length);
+        Object[] newDelegate = new Object[length + toBeAdded.length];
+        System.arraycopy(delegate, 0, newDelegate, 0, length);
+        System.arraycopy(toBeAdded, 0, newDelegate, length, toBeAdded.length);
         return new Array<>(newDelegate);
     }
 
     @Override
     public Sequence<T> insert(int index, T value) {
-        Object[] newDelegate = new Object[delegate.length + 1];
+        Object[] newDelegate = new Object[length + 1];
         System.arraycopy(delegate, 0, newDelegate, 0, index);
         newDelegate[index] = value;
-        System.arraycopy(delegate, index, newDelegate, index + 1, delegate.length - index);
+        System.arraycopy(delegate, index, newDelegate, index + 1, length - index);
         return new Array<>(newDelegate);
     }
 
@@ -158,19 +160,19 @@ public class Array<T> implements Sequence<T> {
     @SuppressWarnings("Duplicates")
     public Sequence<T> remove(int index) {
         validateOutOfBounds(index);
-        Object[] newDelegate = new Object[delegate.length - 1];
+        Object[] newDelegate = new Object[length - 1];
 
         System.arraycopy(delegate, 0, newDelegate, 0, index);
-        System.arraycopy(delegate, index  + 1, newDelegate, index, delegate.length - index - 1);
+        System.arraycopy(delegate, index  + 1, newDelegate, index, length - index - 1);
 
         return new Array<>(newDelegate);
     }
 
     @Override
     public Sequence<T> reverse() {
-        Object[] reversed = new Object[delegate.length];
-        for (int i = 0; i < delegate.length; i++) {
-            reversed[(delegate.length - 1) - i] = delegate[i];
+        Object[] reversed = new Object[length];
+        for (int i = 0; i < length; i++) {
+            reversed[(length - 1) - i] = delegate[i];
         }
 
         return new Array<>(reversed);
@@ -180,8 +182,8 @@ public class Array<T> implements Sequence<T> {
     public Sequence<T> replace(int index, T replacement) {
         validateOutOfBounds(index);
 
-        Object[] newDelegate = new Object[delegate.length];
-        System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
+        Object[] newDelegate = new Object[length];
+        System.arraycopy(delegate, 0, newDelegate, 0, length);
         newDelegate[index] = replacement;
         return new Array<>(newDelegate);
     }
@@ -191,8 +193,8 @@ public class Array<T> implements Sequence<T> {
     public Sequence<T> replaceIf(Predicate<T> predicate, T replacement) {
         Objects.requireNonNull(predicate, "The predicate cannot be null for this operation.");
 
-        Object[] newDelegate = new Object[delegate.length];
-        System.arraycopy(delegate, 0, newDelegate, 0, delegate.length);
+        Object[] newDelegate = new Object[length];
+        System.arraycopy(delegate, 0, newDelegate, 0, length);
         for (int index = 0; index < newDelegate.length; index++) {
             if (predicate.test((T) newDelegate[index])) {
                 newDelegate[index] = replacement;
@@ -204,7 +206,7 @@ public class Array<T> implements Sequence<T> {
 
     @Override
     public Sequence<T> sorted() {
-        Object[] clone = Arrays.copyOf(delegate, delegate.length);
+        Object[] clone = Arrays.copyOf(delegate, length);
         Arrays.sort(clone);
         return new Array<>(clone);
     }
@@ -212,7 +214,7 @@ public class Array<T> implements Sequence<T> {
     @Override
     @SuppressWarnings("unchecked")
     public java.util.List<T> toJava() {
-        java.util.List<T> result = new java.util.ArrayList<>(delegate.length);
+        java.util.List<T> result = new java.util.ArrayList<>(length);
         for (Object o : delegate) {
             result.add((T) o);
         }
@@ -225,8 +227,8 @@ public class Array<T> implements Sequence<T> {
     }
 
     private void validateOutOfBounds(int index) {
-        if (index >= delegate.length || index < 0) {
-            throw new IndexOutOfBoundsException(format("%s is not in the bounds of 0 and %s", index, delegate.length));
+        if (index >= length || index < 0) {
+            throw new IndexOutOfBoundsException(format("%s is not in the bounds of 0 and %s", index, length));
         }
     }
 
