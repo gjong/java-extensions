@@ -83,14 +83,8 @@ public class Control {
      */
     @SuppressWarnings("squid:S00100")
     public static Try<Void> Try(CheckedRunner runner) {
-        Objects.requireNonNull(runner, "Runner cannot be null");
-        try {
-            runner.run();
-        } catch (Exception exception) {
-            return new TryFailure<>(exception);
-        }
-
-        return new TrySuccess<>(null);
+        return new TrySuccess<Void>(null)
+                .run(runner);
     }
 
 }
