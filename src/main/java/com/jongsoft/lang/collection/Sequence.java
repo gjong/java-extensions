@@ -72,6 +72,7 @@ import java.util.function.Supplier;
  *         <tr><td>{@linkplain #union(Iterable)}</td><td>Combine this sequence of elements with the provided iterable</td></tr>
  *         <tr><td>{@linkplain #reject(Predicate)}</td><td>Create a new sequence without the rejected values matching the
  *         predicate</td></tr>
+ *         <tr><td>{@linkplain #retain(Iterable)}</td><td>Create a new sequence with only the elements in both sets</td></tr>
  *         <tr><td>{@linkplain #filter(Predicate)}</td><td>Create a new sequence with values matching the predicate</td></tr>
  *         <tr><td>{@linkplain #map(Function)}</td><td>Create a new sequence with the mapped values</td></tr>
  *         <tr><td>{@linkplain #distinct()}</td><td>Create a set with only unique elements</td></tr>
@@ -215,4 +216,7 @@ public interface Sequence<T> extends List<T> {
 
     @Override
     Sequence<T> union(Iterable<T> iterable);
+
+    @Override
+    Sequence<T> retain(Iterable<T> iterable);
 }

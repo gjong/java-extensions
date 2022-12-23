@@ -206,4 +206,19 @@ public interface List<T> extends Collection<T> {
      * @return          the new list containing a union between this and the iterable
      */
     List<T> union(Iterable<T> iterable);
+
+    /**
+     * Creates a new array containing only the elements that are contained in both {@code this} and the provided
+     * {@code iterable}.
+     *
+     * <p><strong>Example:</strong></p>
+     * <pre>{@code  // the example would be a List(1)
+     *   List<Integer> result = List(1, 2).retain(List(1, 4));
+     * }</pre>
+     *
+     * @param iterable the array to perform the operation with.
+     * @return         the new array containing only the elements in both sets.
+     * @since 1.1.7
+     */
+    List<T> retain(Iterable<T> iterable);
 }

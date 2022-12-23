@@ -148,6 +148,15 @@ class ArrayTest {
     }
 
     @Test
+    void retain() {
+        var values = Collections.List(1, 2, 3, 4)
+                .retain(Collections.List(2, 3, 8));
+
+        assertThat(values)
+                .hasSize(2)
+                .containsExactly(2, 3);
+    }
+    @Test
     void removeIntAt2() {
         Sequence<Integer> removed = Collections.List(1, 2, 3, 4, 5).remove(2);
 

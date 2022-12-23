@@ -68,6 +68,7 @@ import java.util.function.Supplier;
  *         <tr><td>{@linkplain #reject(Predicate)}</td><td>Create a new sequence without the rejected values matching the
  *         predicate</td></tr>
  *         <tr><td>{@linkplain #union(Iterable)}</td><td>Combine this sequence of elements with the provided iterable</td></tr>
+ *         <tr><td>{@linkplain #retain(Iterable)}</td><td>Create a new set with only values in both this set and the provided iterable</td></tr>
  * </tbody>
  * </table>
  * 
@@ -194,4 +195,6 @@ public interface Set<T> extends List<T> {
     @Override
     Set<T> union(Iterable<T> iterable);
 
+    @Override
+    Set<T> retain(Iterable<T> iterable);
 }

@@ -220,6 +220,12 @@ abstract class AbstractSet<T> implements Set<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public Set<T> retain(Iterable<T> iterable) {
+        return Collections.filter((Set<T>)emptySupplier().get(), iterable, this::contains);
+    }
+
+    @Override
     @SafeVarargs
     public final Set<T> intersect(final Iterable<T>...iterable) {
         if (iterable.length == 0) {

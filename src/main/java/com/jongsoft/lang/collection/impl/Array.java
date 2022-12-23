@@ -136,6 +136,11 @@ public class Array<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> retain(Iterable<T> iterable) {
+        return Collections.filter(com.jongsoft.lang.Collections.List(), iterable, this::contains);
+    }
+
+    @Override
     public Sequence<T> insert(int index, T value) {
         Object[] newDelegate = new Object[length + 1];
         System.arraycopy(delegate, 0, newDelegate, 0, index);
