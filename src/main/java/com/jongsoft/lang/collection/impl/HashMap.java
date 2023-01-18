@@ -157,7 +157,7 @@ public class HashMap<K, T> implements Map<K, T> {
 
     @Override
     public <U> U foldRight(final U start, final BiFunction<? super Pair<K, T>, ? super U, ? extends U> combiner) {
-        throw new IllegalStateException("not yet implemented");
+        return delegate.foldRight(start, combiner);
     }
 
     @Override

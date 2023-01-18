@@ -112,6 +112,15 @@ class HashSetTest {
     }
 
     @Test
+    void retain() {
+        var result = Collections.Set(1, 2, 3, 5, 4)
+                .retain(Collections.Set(2, 3, 4, 9));
+
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly(2, 3, 4);
+    }
+    @Test
     void complementMultiple() {
         Set<Integer> result = Collections.Set(1, 2, 3, 4)
                 .complement(Collections.Set(2), Collections.Set(3));

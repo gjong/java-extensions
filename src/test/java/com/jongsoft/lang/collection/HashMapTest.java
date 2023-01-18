@@ -147,6 +147,26 @@ class HashMapTest {
     }
 
     @Test
+    void foldLeft() {
+        var result = Collections.Map("one", 1)
+                .put("two", 3)
+                .foldLeft("end", (left, right) -> left + "|" + right.getFirst() + "_" + right.getSecond());
+
+        assertThat(result)
+                .isEqualTo("end|one_1|two_3");
+    }
+
+    @Test
+    void foldRight() {
+        var result = Collections.Map("one", 1)
+                .put("two", 3)
+                .foldRight("start", (left, right) -> right + "|" + left.getFirst() + "_" + left.getSecond());
+
+        assertThat(result)
+                .isEqualTo("start|one_1|two_3");
+    }
+
+    @Test
     void split() {
         Pair<? extends Map<Integer, String>, ? extends Map<Integer, String>> split =
                 Collections.Map(1, "two")
